@@ -54,7 +54,7 @@ public class UserDao {
         }
     }
     /*查询记录*/
-    public void getDeviceRecord(Data data,JSONObject json) throws JSONException, SQLException{
+    public void getUserRecord(Data data,JSONObject json) throws JSONException, SQLException{
         //构造sql语句，根据传递过来的查询条件参数
         String sql=createGetRecordSql(data);			//构造sql语句，根据传递过来的查询条件参数
         data.getParam().put("sql",sql);
@@ -119,25 +119,25 @@ public class UserDao {
     }
 
     private String createGetRecordSql(Data data) throws JSONException {
-        String sql="select * from device_file";
-        String id=data.getParam().has("id")?data.getParam().getString("id"):null;
-        if(id!=null && !id.isEmpty()) {
-            sql = sql + " where id=" + id;
+        String sql="select * from user_file";
+        String username=data.getParam().has("username")?data.getParam().getString("username"):null;
+        if(username!=null && !username.isEmpty()) {
+            sql = sql + " where username=" + username;
         }
-        String deviceId=data.getParam().has("device_id")?data.getParam().getString("device_id"):null;
-        if(deviceId!=null && !deviceId.isEmpty()){
+        String password=data.getParam().has("password")?data.getParam().getString("password"):null;
+        if(password!=null && !password.isEmpty()){
             if(sql.indexOf("where")>-1){
-                sql=sql+" and device_id like '%"+deviceId+"%'";
+                sql=sql+" and password like '%"+password+"%'";
             }else{
-                sql=sql+" where device_id like '%"+deviceId+"%'";
+                sql=sql+" where password like '%"+password+"%'";
             }
         }
-        String deviceName=data.getParam().has("device_name")?data.getParam().getString("device_name"):null;
-        if(deviceName!=null && !deviceName.isEmpty()){
+        String email=data.getParam().has("email")?data.getParam().getString("email"):null;
+        if(email!=null && !email.isEmpty()){
             if(sql.indexOf("where")>-1){
-                sql=sql+" and device_name like '%"+deviceName+"%'";
+                sql=sql+" and email like '%"+email+"%'";
             }else{
-                sql=sql+" where device_name like '%"+deviceName+"%'";
+                sql=sql+" where email like '%"+email+"%'";
             }
         }
         return sql;

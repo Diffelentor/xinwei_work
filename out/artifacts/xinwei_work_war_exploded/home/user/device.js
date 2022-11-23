@@ -1,5 +1,5 @@
-var module="device";
-var sub="file";
+var module="user";
+var sub="center";
 /*================================================================================*/
 jQuery(document).ready(function() {
 	// initiate layout and plugins
@@ -15,7 +15,7 @@ var Page = function() {
 	/*----------------------------------------入口函数  开始----------------------------------------*/
 	var initPageControl=function(){
 		pageId=$("#page_id").val();
-		if(pageId=="device_list"){
+		if(pageId=="user_list"){
 			initDeviceList();
 		}
 		if(pageId=="device_add"){
@@ -81,10 +81,10 @@ var Page = function() {
 	};
 
 	var initDeviceRecordView=function(){
-		var id=getUrlParam("id");
+		var username=getUrlParam("username");
 		var data={};
-		data.action="get_device_record";
-		data.id=id;
+		data.action="get_user_record";
+		data.username=username;
 		$.post("../../"+module+"_"+sub+"_servlet_action",data,function(json){
 			console.log(JSON.stringify(json));
 			if(json.result_code==0){
@@ -145,11 +145,12 @@ var Page = function() {
 	};
 	var getDeviceRecordList=function(){
 		var data={}
-		data.id=$('#record_query_setup #id').val();
-		data.device_id=$('#record_query_setup #device_id').val();
-		data.device_name=$('#record_query_setup #device_name').val();
+		data.username=$('#record_query_setup #username').val();
+		data.password=$('#record_query_setup #password').val();
+		data.email=$('#record_query_setup #email').val();
+        data.is_manager=$('#record_query_setup #is_manager').val();
 		resultlist=[];
-		$.post("../../"+module+"_"+sub+"_servlet_action?action=get_device_record",data,function(json){
+		$.post("../../"+module+"_"+sub+"_servlet_action?action=get_user_record",data,function(json){
 			console.log(JSON.stringify(json));
 			if(json.result_code==0){
 				var list=json.aaData;
@@ -159,17 +160,20 @@ var Page = function() {
 						var record=list[i];
 						html=html+"		                                <tr class=\"active\">";
 						html=html+"                                        <td>";
-						html=html+"                                            "+i;
+						html=html+"                                            "+record.username;
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
-						html=html+"                                            "+record.device_id;
+						html=html+"                                            "+record.password;
 						html=html+"                                        </td>";
-						html=html+"                                        <td>";
-						html=html+"                                            "+record.device_name;
-						html=html+"                                        </td>";
+                        html=html+"                                        <td>";
+                        html=html+"                                            "+record.email;
+                        html=html+"                                        </td>";
+                        html=html+"                                        <td>";
+                        html=html+"                                            "+record.is_manager;
+                        html=html+"                                        </td>";
 						html=html+"                                        <td>";
 						resultlist.push(record);
-						html=html+"                                            <a href=\"javascript:Page.onModifyRecord("+record.id+")\">【修改记录】</a><a href=\"javascript:Page.onDeleteRecord("+record.id+")\">【删除记录】</a>";
+						html=html+"                                            <a href=\"javascript:Page.onModifyRecord("+record.name+")\">【修改记录】</a><a href=\"javascript:Page.onDeleteRecord("+record.name+")\">【删除记录】</a>";
 						html=html+"                                        </td>";
 						html=html+"                                    </tr>";
 

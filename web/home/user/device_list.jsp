@@ -49,12 +49,12 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
 <!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
 <body class="page-header-fixed page-quick-sidebar-over-content ">
-
+<%@include file="../../home/frame/frame_header.jsp"%>
 <div class="clearfix">
 </div>
 <!-- BEGIN CONTAINER -->
 <div class="page-container">
-
+    <%@include file="../../home/frame/frame_left_sidebar.jsp"%>
     <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
         <div class="page-content">
@@ -104,13 +104,13 @@ License: You must have a valid license purchased only from themeforest(the above
                 </div>
             </div>
             <!-- END PAGE HEADER-->
-            <input type="hidden" id="page_id" name="page_id" value="device_list">
+            <input type="hidden" id="page_id" name="page_id" value="user_list">
             <!-- BEGIN PAGE CONTENT-->
             <div class="row">
                 <div class="col-md-6">
-                    <button type="button" class="btn btn-primary" id="add_button" name="add_button">添加设备</button>
-                    <button type="button" class="btn btn-primary" id="query_button" name="query_button">查询设备</button>
-                    <button type="button" class="btn btn-primary" id="export_button" name="export_button">导出设备</button>
+                    <button type="button" class="btn btn-primary" id="add_button" name="add_button">添加用户</button>
+                    <button type="button" class="btn btn-primary" id="query_button" name="query_button">查询用户</button>
+                    <button type="button" class="btn btn-primary" id="export_button" name="export_button">导出用户</button>
                 </div>
             </div>
             <div class="row">
@@ -119,27 +119,27 @@ License: You must have a valid license purchased only from themeforest(the above
                             <form class="form-horizontal" role="form">
                                 <div class="form-body">
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">记录ID</label>
+                                        <label class="col-md-3 control-label">用户名</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" placeholder="Enter text" id="id" name="id">
+                                            <input type="text" class="form-control" placeholder="Enter text" id="username" name="username">
                                             <span class="help-block">
-											请填写要查找的记录ID </span>
+											请填写要查找的用户名 </span>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">设备编号</label>
+                                        <label class="col-md-3 control-label">用户密码</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" placeholder="Enter text" id="device_id" name="device_id">
+                                            <input type="text" class="form-control" placeholder="Enter text" id="password" name="password">
                                             <span class="help-block">
-											请填写要查找的设备编号 </span>
+											请填写要查找的用户密码 </span>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">设备名称</label>
+                                        <label class="col-md-3 control-label">用户邮箱</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" placeholder="Enter text" id="device_name" name="device_name">
+                                            <input type="text" class="form-control" placeholder="Enter text" id="email" name="email">
                                             <span class="help-block">
-											请填写要查找的设备名称 </span>
+											请填写要查找的用户邮箱 </span>
                                         </div>
                                     </div>
                                 </div>
@@ -147,58 +147,58 @@ License: You must have a valid license purchased only from themeforest(the above
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <button type="button" class="btn btn-primary" id="datatable_button" name="datatable_button">切换到DataTable</button>
-                    <button type="button" class="btn btn-primary" id="table_button" name="table_button">切换到自定义Table</button>
-                    <button type="button" class="btn btn-primary" id="bar_button" name="bar_button">切换到大横条</button>
-                </div>
-            </div>
-            <div class="row display-none" id="bar_tab">
-                <div class="col-md-6">
-                    <div id="record_bar_div">
-                    <div class="media">
-                        <a href="javascript:;" class="pull-left">
-                            <img alt="" src="../../assets/admin/pages/media/blog/7.jpg" class="media-object" style="width:50px;height:50px;border-radius: 50% !important;">
-                        </a>
-                        <div class="media-body">
-                            <h4 class="media-heading">Media heading <span>
-											2 days ago / <a href="javascript:;">
-											Reply </a>
-											</span>
-                            </h4>
-                            <p>
-                                Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-                            </p>
-                        </div>
-                    </div>
-                    <hr>
-                    </div>
-                </div>
-            </div>
-            <div class="row" id="datatable_tab">
-                <div class="col-md-6">
-                    <table class="table table-striped table-bordered table-hover datatable" id="record_list">
-                        <thead>
-                        <tr>
-                            <th class="table-checkbox"><input type="checkbox" class="group-checkable" data-set="#record_list .checkboxes" /></th>
-                            <th>设备ID</th>
-                            <th>设备名称</th>
-                            <th>创建人</th>
-                            <th>创建时间</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-            <div class="row display-none" id="table_tab">
-                <div class="col-md-6">
+<%--            <div class="row">--%>
+<%--                <div class="col-md-6">--%>
+<%--                    <button type="button" class="btn btn-primary" id="datatable_button" name="datatable_button">切换到DataTable</button>--%>
+<%--                    <button type="button" class="btn btn-primary" id="table_button" name="table_button">切换到自定义Table</button>--%>
+<%--                    <button type="button" class="btn btn-primary" id="bar_button" name="bar_button">切换到大横条</button>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="row display-none" id="bar_tab">--%>
+<%--                <div class="col-md-6">--%>
+<%--                    <div id="record_bar_div">--%>
+<%--                    <div class="media">--%>
+<%--                        <a href="javascript:;" class="pull-left">--%>
+<%--                            <img alt="" src="../../assets/admin/pages/media/blog/7.jpg" class="media-object" style="width:50px;height:50px;border-radius: 50% !important;">--%>
+<%--                        </a>--%>
+<%--                        <div class="media-body">--%>
+<%--                            <h4 class="media-heading">Media heading <span>--%>
+<%--											2 days ago / <a href="javascript:;">--%>
+<%--											Reply </a>--%>
+<%--											</span>--%>
+<%--                            </h4>--%>
+<%--                            <p>--%>
+<%--                                Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.--%>
+<%--                            </p>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                    <hr>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="row" id="datatable_tab">--%>
+<%--                <div class="col-md-6">--%>
+<%--                    <table class="table table-striped table-bordered table-hover datatable" id="record_list">--%>
+<%--                        <thead>--%>
+<%--                        <tr>--%>
+<%--                            <th class="table-checkbox"><input type="checkbox" class="group-checkable" data-set="#record_list .checkboxes" /></th>--%>
+<%--                            <th>设备ID</th>--%>
+<%--                            <th>设备名称</th>--%>
+<%--                            <th>创建人</th>--%>
+<%--                            <th>创建时间</th>--%>
+<%--                            <th>操作</th>--%>
+<%--                        </tr>--%>
+<%--                        </thead>--%>
+<%--                    </table>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+            <div class="row display" id="table_tab">
+                <div class="col-md-12">
                     <!-- BEGIN SAMPLE TABLE PORTLET-->
                     <div class="portlet box blue">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-comments"></i>设备数据表
+                                <i class="fa fa-comments"></i>用户数据表
                             </div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse">
@@ -217,35 +217,38 @@ License: You must have a valid license purchased only from themeforest(the above
                                     <thead>
                                     <tr>
                                         <th>
-                                            Class Name
+                                            Username
                                         </th>
                                         <th>
-                                            Column
+                                            password
                                         </th>
                                         <th>
-                                            Column
+                                            email
                                         </th>
                                         <th>
-                                            Column
+                                            is_manager
+                                        </th>
+                                        <th>
+                                            modify
                                         </th>
                                     </tr>
                                     </thead>
                                     <tbody id="record_table_content_div" name="record_table_content_div">
-                                    <tr class="active">
+                                    <tr class=\"active\">
                                         <td>
-                                            1
+                                            aaaaa
                                         </td>
                                         <td>
-                                            active
+                                            12345
                                         </td>
                                         <td>
-                                            Column heading
+                                            12345@qq.com
                                         </td>
                                         <td>
-                                            Column heading
+                                            Yes
                                         </td>
                                         <td>
-                                            Column heading
+                                         <a href="javascript:Page.onModifyRecord(record.id)">【修改】</a><a href="javascript:Page.onDeleteRecord(record.id)">【删除】</a>
                                         </td>
                                     </tr>
 

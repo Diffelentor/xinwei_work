@@ -47,10 +47,10 @@ public class ServletAction extends HttpServlet {
 			resultMsg="传递过来的action是NULL";
 		}else{
 			//这几个常规增删改查功能
-			if (action.equals("get_device_record")) {
+			if (action.equals("get_user_record")) {
 				actionOk=true;
 				try {
-					getDeviceRecord(request, response, json);
+					getUserRecord(request, response, json);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -150,10 +150,10 @@ public class ServletAction extends HttpServlet {
 	}
 	/*========================================公共函数 结束========================================*/
 	/*========================================CRUD业务函数 开始========================================*/
-	private void getDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
-		DeviceDao dao=new DeviceDao();
+	private void getUserRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
+		UserDao dao=new UserDao();
 		Data data=getPageParameters(request,response,json);
-		dao.getDeviceRecord(data,json);
+		dao.getUserRecord(data,json);
 	}
 	private void modifyDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
 		DeviceDao dao=new DeviceDao();
