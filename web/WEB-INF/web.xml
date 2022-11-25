@@ -30,4 +30,14 @@
 	</servlet-mapping>
 	<!-- ================  login end =================           -->
 
+	<!-- ================  trade begin =================           -->
+	<servlet>
+		<servlet-name>futures_file_servlet_action</servlet-name>
+		<servlet-class>futures.file.ServletAction</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>futures_file_servlet_action</servlet-name>
+		<url-pattern>/futures_file_servlet_action</url-pattern>
+	</servlet-mapping>
+	<!-- ================  trade end =================           -->
 </web-app>
