@@ -70,6 +70,7 @@ var Page = function() {
 		$('#remake_button').click(function() {onRemake();});
 		$('#query_button').click(function() {initFuturesDataRecordDatatable();});
 		$('#export_button').click(function() {onExportRecord();});
+		$('#finish_download_button').click(function() {onFinishDownload();});
 	}
 	var initDeviceRecordView=function(){
 		var id=getUrlParam("id");
@@ -303,6 +304,9 @@ var Page = function() {
 				alert("[onExportRecord]与后端交互错误！"+json.result_smg);
 			}
 		})
+	}
+	var onFinishDownload=function () {
+		$("#futures_download_div").modal("hide");
 	}
 	//Page return 开始
 	return {
