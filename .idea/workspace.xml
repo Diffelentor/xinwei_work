@@ -7,17 +7,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0e737417-d683-477d-b475-40ab9878205e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/futures/dao/DeviceDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/futures/dao/DeviceDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/home/frame/frame_left_sidebar.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/home/frame/frame_left_sidebar.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/maintain/trade/HistoryOrder.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/maintain/trade/HistoryOrder.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/maintain/trade/commonHistoryOrder.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/maintain/trade/commonHistoryOrder.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/maintain/trade/control.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/maintain/trade/control.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/maintain/trade/futuresData.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/maintain/trade/futuresData.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/maintain/trade/manageFuturesData.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/maintain/trade/manageFuturesData.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/maintain/trade/manageHistoryOrder.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/maintain/trade/manageHistoryOrder.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/maintain/trade/myPosition.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/maintain/trade/myPosition.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/WEB-INF/classes/futures/dao/DeviceDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/WEB-INF/classes/futures/dao/DeviceDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/home/frame/frame_left_sidebar.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/home/frame/frame_left_sidebar.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/maintain/trade/HistoryOrder.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/maintain/trade/HistoryOrder.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/maintain/trade/commonHistoryOrder.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/maintain/trade/commonHistoryOrder.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/maintain/trade/control.js" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/maintain/trade/control.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/maintain/trade/futuresData.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/maintain/trade/futuresData.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/maintain/trade/manageFuturesData.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/maintain/trade/manageFuturesData.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/maintain/trade/manageHistoryOrder.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/maintain/trade/manageHistoryOrder.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/maintain/trade/myPosition.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/xinwei_work_war_exploded/maintain/trade/myPosition.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/xinwei_work/futures/dao/DeviceDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/xinwei_work/futures/dao/DeviceDao.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,12 +184,24 @@
       <workItem from="1669209681360" duration="686000" />
       <workItem from="1669369301819" duration="1116000" />
       <workItem from="1669371246775" duration="133000" />
-      <workItem from="1669383757520" duration="4761000" />
+      <workItem from="1669383757520" duration="5025000" />
     </task>
+    <task id="LOCAL-00001" summary="wgr">
+      <created>1669388757438</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1669388757438</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="wgr" />
+    <option name="LAST_COMMIT_MESSAGE" value="wgr" />
   </component>
   <component name="WindowStateProjectService">
     <state x="186" y="62" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1669386280425">
@@ -201,10 +213,10 @@
       <screen x="0" y="0" width="1437" height="810" />
     </state>
     <state x="450" y="160" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.0.1437.810@0.0.1437.810" timestamp="1667994872854" />
-    <state x="330" y="6" key="CommitChangelistDialog2" timestamp="1669388751534">
+    <state x="330" y="6" key="CommitChangelistDialog2" timestamp="1669388855971">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="330" y="6" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1669388751533" />
+    <state x="330" y="6" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1669388855971" />
     <state width="1269" height="337" key="GridCell.Tab.0.bottom" timestamp="1669388391828">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -265,6 +277,10 @@
     </state>
     <state width="955" height="206" key="GridCell.Tab.2.right/0.0.1437.810@0.0.1437.810" timestamp="1669207793985" />
     <state width="1269" height="337" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1669388391828" />
+    <state x="481" y="123" key="RollbackChangesDialog" timestamp="1669388850380">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="481" y="123" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1669388850380" />
     <state x="214" y="0" key="SettingsEditor" timestamp="1669369950823">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

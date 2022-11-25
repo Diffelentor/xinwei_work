@@ -14,8 +14,8 @@ var Page = function() {
 	/*----------------------------------------入口函数  开始----------------------------------------*/
 	var initPageControl=function(){
 		pageId=$("#page_id").val();
-		if(pageId=="my_have"){
-			initMyHaveDeviceList();
+		if(pageId=="futures_data"){
+			initFuturesDataList();
 		}
 		if(pageId=="device_add"){
 			initDeviceAdd();
@@ -23,9 +23,7 @@ var Page = function() {
 		if(pageId=="device_modify"){
 			initDeviceModify();
 		}
-		if(pageId=="futures_data"){
-			initFuturesDataList();
-		}
+
 
 	};
 	/*----------------------------------------入口函数  结束----------------------------------------*/
@@ -69,7 +67,8 @@ var Page = function() {
 		$('#modify_button').click(function() {submitModifyRecord();});
 	}
 	var initFuturesDataControlEvent=function () {
-
+		$('#remake_button').click(function() {onRemake();});
+		$('#query_button').click(function() {initFuturesDataRecordDatatable();});
 	}
 	var initDeviceRecordView=function(){
 		var id=getUrlParam("id");
@@ -173,17 +172,19 @@ var Page = function() {
 		window.location.href="commonHistoryOrder.jsp";
 	}
 	var initFuturesDataRecordDatatable=function () {
-		// resultList=[];
-		// //将之前的表删除掉，这样再次获取的时候就不会有warning了
-		// if ($.fn.dataTable.isDataTable('#record_list'))
-		// {
-		// 	console.log("=====================")
-		// 	// 获取这个表
-		// 	_table = $('#record_list').DataTable();
-		// 	// 把这个表销毁掉
-		// 	_table.destroy();
-		// }
-
+		resultList=[];
+		//将之前的表删除掉，这样再次获取的时候就不会有warning了
+		if ($.fn.dataTable.isDataTable('#record_list'))
+		{
+			console.log("=====================")
+			// 获取这个表
+			_table = $('#record_list').DataTable();
+			// 把这个表销毁掉
+			_table.destroy();
+		}
+		var data={};
+		data.id=$("#record_query_setup #futures_number").val();
+		data.name=$("#record_query_setup #futures_name").val();
 		$('.datatable').dataTable( {
 			"paging":true,
 			"searching":false,
@@ -266,7 +267,7 @@ var Page = function() {
 			"aLengthMenu": [[5,10,15,20,25,40,50,-1],[5,10,15,20,25,40,50,"所有记录"]],
 			"fnDrawCallback": function(){$(".checkboxes").uniform();$(".group-checkable").uniform();},
 			//"sAjaxSource": "get_record.jsp"
-			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_futures_record"
+			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_futures_record&id="+data.id+"&name="+data.name
 		});
 		$('.datatable').find('.group-checkable').change(function () {
 			var set = jQuery(this).attr("data-set");
@@ -286,6 +287,9 @@ var Page = function() {
 			$(this).parents('tr').toggleClass("active");
 		});
 	};
+	var onRemake=function () {
+		window.location.reload();
+	}
 	//Page return 开始
 	return {
 		init: function() {

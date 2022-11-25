@@ -51,6 +51,11 @@
                             <i class="icon-basket"></i>
                             用户持仓</a>
                     </li>
+                    <li>
+                        <a href="ecommerce_orders.html">
+                            <i class="icon-tag"></i>
+                            历史记录</a>
+                    </li>
                 </ul>
             </li>
             <li>
@@ -61,12 +66,12 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a href="layout_horizontal_sidebar_menu.html">
+                        <a href="../../maintain/trade/futuresData.jsp">
                             期货数据</a>
                     </li>
                     <li>
                         <a href="index_horizontal_menu.html">
-                            历史信息</a>
+                            期货管理</a>
                     </li>
                 </ul>
             </li>

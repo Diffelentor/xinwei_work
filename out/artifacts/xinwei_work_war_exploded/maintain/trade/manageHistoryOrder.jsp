@@ -17,17 +17,7 @@
     <meta content="" name="author"/>
 
     <%@include file="../../home/frame/frame_style.jsp"%>
-    <link rel="stylesheet" type="text/css" href="../../assets/global/plugins/select2/select2.css"/>
-    <link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css"/>
-    <link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css"/>
-    <link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
-    <!-- END PAGE LEVEL STYLES -->
-    <!-- BEGIN THEME STYLES -->
-    <link href="../../assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
-    <link href="../../assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
-    <link href="../../assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
-    <link id="style_color" href="../../assets/admin/layout/css/themes/darkblue.css" rel="stylesheet" type="text/css"/>
-    <link href="../../assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="dataTables/dataTables.bootstrap.css"/>
     <!-- END THEME STYLES -->
 
     <link rel="shortcut icon" href="../device/favicon.ico"/>
@@ -203,21 +193,7 @@
 
 <%@include file="../../home/frame/frame_javascript.jsp"%>
 <%--本页专用的--%>
-<script type="text/javascript" src="../device/jquery.dataTables.min.js"></script>
-<!-- BEGIN PAGE LEVEL PLUGINS -->
-<script type="text/javascript" src="../../assets/global/plugins/select2/select2.min.js"></script>
-<script type="text/javascript" src="../../assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="../../assets/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
-<script type="text/javascript" src="../../assets/global/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js"></script>
-<script type="text/javascript" src="../../assets/global/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js"></script>
-<script type="text/javascript" src="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
-<!-- END PAGE LEVEL PLUGINS -->
-<!-- BEGIN PAGE LEVEL SCRIPTS -->
-<script src="../../assets/global/scripts/metronic.js" type="text/javascript"></script>
-<script src="../../assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
-<script src="../../assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
-<script src="../../assets/admin/layout/scripts/demo.js" type="text/javascript"></script>
-<script src="../../assets/admin/pages/scripts/table-advanced.js"></script>
+<script type="text/javascript" src="dataTables/jquery.dataTables.min.js"></script>
 <script src="control.js"></script>
 </body>
 <!-- END BODY -->

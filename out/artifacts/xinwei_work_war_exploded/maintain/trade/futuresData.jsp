@@ -56,7 +56,7 @@
             <!--页面开始=======================================================-->
             <!--设置页面ID-->
             <input type="hidden" id="page_id" name="page_id" value="futures_data">
-            <div class="row">
+            <div class="row" id="record_query_setup">
                 <div class="form-group">
                     <label class="control-label col-sm-1" style="font-size: 18px">期货代号</label>
                     <div class="col-md-2">
@@ -67,7 +67,7 @@
                         <input id="futures_name" type="text" class="form-control" value="" placeholder="请输入期货名称"/>
                     </div>
                     <div class="col-md-2">
-                        <button type="button"   class="btn blue" id="search_button" name="search_button">
+                        <button type="button"   class="btn blue" id="query_button" name="query_button">
                             <i class="fa fa-search"></i>搜索</button>
                         <button type="button"   class="btn default" id="remake_button" name="remake_button">
                             <i class="fa fa-refresh"></i>重置</button>
