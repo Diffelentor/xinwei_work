@@ -84,10 +84,10 @@ public class DeviceDao {
 		String resultMsg = "ok";
 		int resultCode = 0;
 		List jsonList = new ArrayList();
+		List jsonName=new ArrayList();
 		/*--------------------获取变量 完毕--------------------*/
 		/*--------------------数据操作 开始--------------------*/
 		Db queryDb = new Db("futures");
-//		进行连接数据库
 		String sql=data.getParam().getString("sql");
 		showDebug("[queryRecord]构造的SQL语句是：" + sql);
 		try {
@@ -102,6 +102,11 @@ public class DeviceDao {
 				jsonList.add(map);
 			}
 			rs.close();
+			//加表头信息
+			for(int i=0;i<rsmd.getColumnCount();i++){
+				String columnLabel=rsmd.getColumnLabel(i+1);
+				jsonName.add(columnLabel);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			showDebug("[queryRecord]查询数据库出现错误：" + sql);
@@ -112,6 +117,7 @@ public class DeviceDao {
 		/*--------------------数据操作 结束--------------------*/
 		/*--------------------返回数据 开始--------------------*/
 		json.put("aaData",jsonList);
+		json.put("aaFieldName",jsonName);
 		json.put("result_msg",resultMsg);															//如果发生错误就设置成"error"等
 		json.put("result_code",resultCode);														//返回0表示正常，不等于0就表示有错误产生，错误代码
 		/*--------------------返回数据 结束--------------------*/

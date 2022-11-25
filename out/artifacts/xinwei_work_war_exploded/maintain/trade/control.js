@@ -69,6 +69,7 @@ var Page = function() {
 	var initFuturesDataControlEvent=function () {
 		$('#remake_button').click(function() {onRemake();});
 		$('#query_button').click(function() {initFuturesDataRecordDatatable();});
+		$('#export_button').click(function() {onExportRecord();});
 	}
 	var initDeviceRecordView=function(){
 		var id=getUrlParam("id");
@@ -289,6 +290,19 @@ var Page = function() {
 	};
 	var onRemake=function () {
 		window.location.reload();
+	}
+	var onExportRecord=function () {
+		var url="../../"+module+"_"+sub+"_servlet_action";
+		var data={"action":"export_device_record"};
+		$.post(url,data,function (json) {
+			if (json.result_code==0){
+				console.log(JSON.stringify(json));
+				$("#futures_download_div #download_url").attr("href","javascript:window.open('"+json.download_url+"')");	//window.open是打开一个新的页面进行跳转，但是这里没有显现出来
+				$("#futures_download_div").modal("show");
+			}else{
+				alert("[onExportRecord]与后端交互错误！"+json.result_smg);
+			}
+		})
 	}
 	//Page return 开始
 	return {

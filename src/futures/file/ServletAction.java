@@ -4,6 +4,7 @@ package futures.file;
  * 增删改查看导印统功能的实现
  */
 
+import futures.file.MyExcel;
 import futures.dao.Data;
 import futures.dao.DeviceDao;
 import org.json.JSONException;
@@ -14,6 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -84,6 +88,14 @@ public class ServletAction extends HttpServlet {
                 actionOk=true;
                 try {
                     getFuturesRecord(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("export_device_record")) {
+                actionOk=true;
+                try {
+                    exportDeviceRecord(request, response, json);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -167,5 +179,48 @@ public class ServletAction extends HttpServlet {
         DeviceDao dao=new DeviceDao();
         Data data=getPageParameters(request,response,json);
         dao.getDeviceRecord(data,json);
+    }
+    private void exportDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
+        DeviceDao dao=new DeviceDao();
+        Data data=getPageParameters(request,response,json);
+        dao.getDeviceRecord(data,json);
+        getExportDeviceRecordToFile(json, data);
+        getExportDeviceRecordToTxt(json, data);
+        getExportDeviceRecordToExcel(json, data);
+        getExportDeviceRecordToPdf(json, data);
+    }
+
+    private void getExportDeviceRecordToPdf(JSONObject json, Data data) {
+
+    }
+
+    private void getExportDeviceRecordToTxt(JSONObject json, Data data) {
+
+    }
+
+    private void getExportDeviceRecordToFile(JSONObject json, Data data) throws JSONException {
+        String jsonStr=json.toString();
+        File jsonFile = new File("C:\\testUpload\\export_device.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
+        json.put("download_url","/upload/maintain/device/export_device.rar");
+        showDebug("准备下载");
+        try{
+            if(!jsonFile.exists()){
+                jsonFile.createNewFile();
+            }
+            FileWriter fileWriter=new FileWriter(jsonFile.getAbsoluteFile());
+            BufferedWriter bw=new BufferedWriter(fileWriter);
+            bw.write(jsonStr);
+            bw.close();
+            showDebug("完成下载");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    //需要四个jar包的引入
+    private void getExportDeviceRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
+        MyExcel me=new MyExcel("C:\\testUpload\\export_device.xls");
+        json.put("download_url","/upload/maintain/device/export_device.xls");
+        json.put("file_path","C:\\testUpload\\export_device.xls");
+        me.exportData(data,json);
     }
 }

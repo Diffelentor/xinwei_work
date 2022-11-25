@@ -75,10 +75,11 @@
 
                 </div>
             </div>
+            <br>
             <div class="row">
                 <div class="col-md-10 ">
                     <%--                    如果不将type类型定义为buton的话会被默认为submit类型--%>
-                    <button type="button"  class="btn btn-circle btn-lg default" id="datatable_button" name="datatable_button">
+                    <button type="button"  class="btn btn-circle btn-lg default" id="export_button" name="export_button">
                         <i class="fa fa-cloud-download"></i> 导出</button>
                     <button type="button" class="btn btn-circle btn-lg blue" id="table_button" name="table_button">
                         <i class="icon-bar-chart"></i> 统计</button>
@@ -90,6 +91,7 @@
                         <i class="fa fa-refresh"></i></button>
                 </div>
             </div>
+            <br>
             <div class="row" id="datatable_tab">
                 <div class="col-md-12 ">
                     <table class="table table-striped table-bordered table-hover datatable" id="record_list">
@@ -152,3 +154,4 @@
 </body>
 <!-- END BODY -->
 </html>
+<%@include file="futures_download_div.jsp"%>
