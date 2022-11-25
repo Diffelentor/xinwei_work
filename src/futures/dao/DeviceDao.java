@@ -120,8 +120,17 @@ public class DeviceDao {
 	private String createGetRecordSql(Data data) throws JSONException {
 		String sql="select * from futures";
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
-		if(id!=null)
-			sql=sql+" where id="+id;
+		if(id!=null && !id.isEmpty())
+			sql=sql+" where futures_id='"+id+"'";
+		String futuresName=data.getParam().has("name")?data.getParam().getString("name"):null;
+		if(futuresName!=null && !futuresName.isEmpty()){
+			if(sql.indexOf("where")>-1){
+				sql=sql+" and futures_name like '%"+futuresName+"%'";
+			}else{
+				sql=sql+" where futures_name like '%"+futuresName+"%'";
+			}
+		}
+		showDebug("==========+++++++++++++++=============="+sql);
 		return sql;
 	}
 }
