@@ -23,6 +23,9 @@ var Page = function() {
 		if(pageId=="device_modify"){
 			initDeviceModify();
 		}
+		if(pageId=="futures_list_print_table"){
+			initFuturesPrintTable();
+		}
 	};
 	/*----------------------------------------入口函数  结束----------------------------------------*/
 	var columnsData=undefined;
@@ -40,6 +43,9 @@ var Page = function() {
 		initDeviceModifyControlEvent();
 		initDeviceRecordView();
 	}
+	var initFuturesPrintTable=function () {
+		initFuturesListPrintTableRecord()
+	}
 	/*------------------------------针对各个页面的入口 结束------------------------------*/
 	var getUrlParam=function(name){
 		//获取url中的参数
@@ -55,6 +61,8 @@ var Page = function() {
 		$('#futures_modify_div #submit_button').click(function() {onModifyDivSubmit();});
 		$('#query_button').click(function() {initManageFuturesDataRecordDatatable();});
 		$('#remake_button').click(function() {onRemake();});
+		$('#export_button').click(function() {onExportRecord();});
+		$('#table_print_button').click(function() {onTablePrint();});
 	}
 	var initDeviceAddControlEvent=function(){
 		$("#help_button").click(function() {help();});
@@ -412,6 +420,85 @@ var Page = function() {
 		}
 
 	};
+	var onExportRecord=function () {
+		var url="../../"+module+"_"+sub+"_servlet_action";
+		var data={"action":"export_futures_record"};
+		$.post(url,data,function (json) {
+			if (json.result_code==0){
+				console.log(JSON.stringify(json));
+				$("#futures_download_div #download_url").attr("href","javascript:window.open('"+json.download_url+"')");	//window.open是打开一个新的页面进行跳转，但是这里没有显现出来
+				$("#futures_download_div").modal("show");
+			}else{
+				alert("[onExportRecord]与后端交互错误！"+json.result_smg);
+			}
+		})
+	};
+
+	//打印事件，跳转到别的页面
+	var onTablePrint=function () {
+		window.location.href="futures_list_print_table.jsp";
+	};
+	//在这个页面进行显示
+	var initFuturesListPrintTableRecord=function () {
+		$("#page_sidebar_wrapper").hide();
+		$("#page_header").hide();
+		$("#page_footer").hide();
+		$("#page-content").attr("style","margin-left:0px");
+		$(".page-container").attr("style","margin-left:0px");
+		$(".page-container").attr("style","margin-top:0px");
+		// $(".page-container").attr("style","margin-bottom:0px"); 注意事项：top与bottom不能同时存在
+		$.post("../../"+module+"_"+sub+"_servlet_action?action=get_futures_record",function(json){
+			console.log(JSON.stringify(json));
+			if(json.result_code==0){
+				var list=json.aaData;
+				var html="";
+				if(list!=undefined && list.length>0){
+					for(var i=0;i<list.length;i++){
+						var record=list[i];
+						var change="";
+						var amplitude="";
+						if(record.price_right_now!="" && record.price_yesterday!="") {
+							change = (record.price_right_now - 0) - (record.price_yesterday - 0);
+							change = Math.round(change * 100) / 100;
+							amplitude=(record.price_right_now-record.price_yesterday)/record.price_yesterday;
+							amplitude=Math.round(amplitude*100000)/100000;
+							amplitude=amplitude+'%';
+						}
+						html=html+"                           <tr class=\"active\">";
+						html=html+"                                        <td>";
+						html=html+"                                            "+record.futures_id;
+						html=html+"                                        </td>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+record.futures_name;
+						html=html+"                                        </td>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+record.price_today_begin;
+						html=html+"                                        </td>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+record.price_yesterday;
+						html=html+"                                        </td>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+record.price_right_now;
+						html=html+"                                        </td>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+record.price_high;
+						html=html+"                                        </td>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+record.price_low;
+						html=html+"                                        </td>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+change;
+						html=html+"                                        </td>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+amplitude;
+						html=html+"                                        </td>";
+						html=html+"                                    </tr>";
+					}
+				}
+				$("#record_table_content_div").html(html);
+			}
+		})
+	}
 	//Page return 开始
 	return {
 		init: function() {

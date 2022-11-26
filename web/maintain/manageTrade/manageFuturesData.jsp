@@ -87,11 +87,11 @@
                                     </span> 删除</button>
                     <button type="button"  class="btn btn-circle btn-lg red-pink" id="datatable_button" name="datatable_button">
                         <i class="fa fa-pencil"></i> 修改</button>
-                    <button type="button"  class="btn btn-circle btn-lg default" id="datatable_button" name="datatable_button">
+                    <button type="button"  class="btn btn-circle btn-lg default" id="export_button" name="export_button">
                         <i class="fa fa-cloud-download"></i> 导出</button>
                     <button type="button" class="btn btn-circle btn-lg blue" id="table_button" name="table_button">
                         <i class="icon-bar-chart"></i> 统计</button>
-                    <button type="button" class="btn btn-circle btn-lg green" id="bar_button" name="bar_button">
+                    <button type="button" class="btn btn-circle btn-lg green" id="table_print_button" name="table_print_button">
                         <i class="fa fa-print"></i> 打印</button>
                 </div>
                 <div class="col-md-2">
@@ -161,3 +161,4 @@
 </html>
 <%@include file="futures_add_div.jsp"%>
 <%@include file="futures_modify_div.jsp"%>
+<%@include file="futures_download_div.jsp"%>

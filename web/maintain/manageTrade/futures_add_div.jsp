@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--添加页面的小窗，被包含在manageFuturesData.jsp里，默认隐藏--%>
 <div class="modal fade draggable-modal" id="futures_add_div" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
