@@ -100,6 +100,14 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+            if (action.equals("add_futures_record")) {
+                actionOk=true;
+                try {
+                    addFuturesRecord(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             try {
                 responseBack(request,response,json);
             } catch (JSONException e) {
@@ -179,6 +187,11 @@ public class ServletAction extends HttpServlet {
         DeviceDao dao=new DeviceDao();
         Data data=getPageParameters(request,response,json);
         dao.getDeviceRecord(data,json);
+    }
+    private void addFuturesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        DeviceDao dao=new DeviceDao();
+        Data data=getPageParameters(request,response,json);
+        dao.addDeviceRecord(data,json);
     }
     private void exportDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
         DeviceDao dao=new DeviceDao();

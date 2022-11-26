@@ -19,7 +19,7 @@
     <%@include file="../../home/frame/frame_style.jsp"%>
     <link rel="stylesheet" type="text/css" href="dataTables/dataTables.bootstrap.css"/>
 
-    <link rel="shortcut icon" href="./dataTables/favicon.ico"/>
+    <link rel="shortcut icon" href="../dataTables/favicon.ico"/>
 </head>
 <body class="page-header-fixed page-quick-sidebar-over-content ">
 <%@include file="../../home/frame/frame_header.jsp"%>
@@ -60,11 +60,11 @@
                 <div class="form-group">
                     <label class="control-label col-sm-1" style="font-size: 18px">期货代号</label>
                     <div class="col-md-2">
-                        <input id="futures_number" type="text" class="form-control" value="" placeholder="请输入期货代号"/>
+                        <input id="id" type="text" class="form-control" value="" placeholder="请输入期货代号"/>
                     </div>
                     <label class="control-label col-sm-1" style="font-size: 18px">期货名称</label>
                     <div class="col-md-2">
-                        <input id="futures_name" type="text" class="form-control" value="" placeholder="请输入期货名称"/>
+                        <input id="name" type="text" class="form-control" value="" placeholder="请输入期货名称"/>
                     </div>
                     <div class="col-md-2">
                         <button type="button"   class="btn blue" id="query_button" name="query_button">
@@ -148,9 +148,9 @@
 
 <%@include file="../../home/frame/frame_javascript.jsp"%>
 <%--本页专用的--%>
-<script type="text/javascript" src="dataTables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../dataTables/jquery.dataTables.min.js"></script>
 
-<script src="control.js"></script>
+<script src="futuresData.js"></script>
 </body>
 <!-- END BODY -->
 </html>

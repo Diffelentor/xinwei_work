@@ -70,7 +70,7 @@
                             期货数据</a>
                     </li>
                     <li>
-                        <a href="index_horizontal_menu.html">
+                        <a href="../../maintain/manageTrade/manageFuturesData.jsp">
                             期货管理</a>
                     </li>
                 </ul>

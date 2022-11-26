@@ -14,8 +14,8 @@ var Page = function() {
 	/*----------------------------------------入口函数  开始----------------------------------------*/
 	var initPageControl=function(){
 		pageId=$("#page_id").val();
-		if(pageId=="futures_data"){
-			initFuturesDataList();
+		if(pageId=="manage_futures_data"){
+			initManageFuturesDataList();
 		}
 		if(pageId=="device_add"){
 			initDeviceAdd();
@@ -23,17 +23,15 @@ var Page = function() {
 		if(pageId=="device_modify"){
 			initDeviceModify();
 		}
-
-
 	};
 	/*----------------------------------------入口函数  结束----------------------------------------*/
 	var columnsData=undefined;
 	var recordResult=undefined;
 	/*----------------------------------------业务函数  开始----------------------------------------*/
 	/*------------------------------针对各个页面的入口  开始------------------------------*/
-	var initMyHaveDeviceList=function(){
-		initDeviceListControlEvent();
-		//initDeviceRecordList();
+	var initManageFuturesDataList=function(){
+		initManageFuturesDataListControlEvent();
+		initManageFuturesDataRecordDatatable();
 	}
 	var initDeviceAdd=function(){
 		initDeviceAddControlEvent();
@@ -42,10 +40,6 @@ var Page = function() {
 		initDeviceModifyControlEvent();
 		initDeviceRecordView();
 	}
-	var initFuturesDataList=function () {
-		initFuturesDataControlEvent();
-		initFuturesDataRecordDatatable();
-	}
 	/*------------------------------针对各个页面的入口 结束------------------------------*/
 	var getUrlParam=function(name){
 		//获取url中的参数
@@ -53,10 +47,12 @@ var Page = function() {
 		var r = window.location.search.substr(1).match(reg);  //匹配目标参数
 		if (r != null) return decodeURI(r[2]); return null; //返回参数值，如果是中文传递，就用decodeURI解决乱码，否则用unescape
 	}
-	var initDeviceListControlEvent=function(){
+	var initManageFuturesDataListControlEvent=function(){
 		$("#help_button").click(function() {help();});
 		$('#add_button').click(function() {onAddRecord();});
-		$('#history_button').click(function() {onHistoryRecord();});
+		$('#futures_add_div #submit_button').click(function() {onAddDivSubmit();});
+		$('#query_button').click(function() {initManageFuturesDataRecordDatatable();});
+		$('#remake_button').click(function() {onRemake();});
 	}
 	var initDeviceAddControlEvent=function(){
 		$("#help_button").click(function() {help();});
@@ -65,12 +61,6 @@ var Page = function() {
 	var initDeviceModifyControlEvent=function(){
 		$("#help_button").click(function() {help();});
 		$('#modify_button').click(function() {submitModifyRecord();});
-	}
-	var initFuturesDataControlEvent=function () {
-		$('#remake_button').click(function() {onRemake();});
-		$('#query_button').click(function() {initFuturesDataRecordDatatable();});
-		$('#export_button').click(function() {onExportRecord();});
-		$('#finish_download_button').click(function() {onFinishDownload();});
 	}
 	var initDeviceRecordView=function(){
 		var id=getUrlParam("id");
@@ -92,7 +82,7 @@ var Page = function() {
 		})
 	}
 	var onAddRecord=function(){
-		window.location.href="device_add.jsp";
+		$("#futures_add_div").modal("show");
 	}
 	var submitAddRecord=function(){
 		var url="device_file_servlet_action";
@@ -169,12 +159,11 @@ var Page = function() {
 	};
 	var onModifyRecord=function(id){
 		window.location.href="device_modify.jsp?id="+id;
-	}
-	var onHistoryRecord=function () {
-		window.location.href="commonHistoryOrder.jsp";
-	}
-	var initFuturesDataRecordDatatable=function () {
-		resultList=[];
+	};
+	var onRemake=function () {
+		window.location.reload();
+	};
+	var initManageFuturesDataRecordDatatable=function () {
 		//将之前的表删除掉，这样再次获取的时候就不会有warning了
 		if ($.fn.dataTable.isDataTable('#record_list'))
 		{
@@ -185,8 +174,8 @@ var Page = function() {
 			_table.destroy();
 		}
 		var data={};
-		data.id=$("#record_query_setup #futures_number").val();
-		data.name=$("#record_query_setup #futures_name").val();
+		data.id=$("#record_query_setup #id").val();
+		data.name=$("#record_query_setup #name").val();
 		$('.datatable').dataTable( {
 			"paging":true,
 			"searching":false,
@@ -212,7 +201,7 @@ var Page = function() {
 			},
 			//注意事项：在html里定义了几列这里就几列，参数是full
 			"aoColumns": [{"mRender": function(data, type, full) {
-					sReturn = '<input type="checkbox" class="checkboxes" value="'+full.id+'"/>';
+					sReturn = '<input type="checkbox" class="checkboxes" value="'+full.futures_id+'"/>';
 					return sReturn;
 				},"orderable": false
 			},{
@@ -252,17 +241,36 @@ var Page = function() {
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					sReturn = '<div>'+full.price_low+'</div>';
+					if(full.price_right_now!="" && full.price_yesterday!=""){
+						var change=(full.price_right_now-0)-(full.price_yesterday-0);
+						change=Math.round(change*100)/100;
+						if(change>0){
+							sReturn = '<div class="font-red">'+change+'</div>';
+						}else {
+							sReturn = '<div class="font-green">'+change+'</div>';
+						}
+					}
+
 					return sReturn;
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					sReturn = '<div>'+full.price_low+'</div>';
+					if(full.price_right_now!="" && full.price_yesterday!=""){
+						var amplitude=(full.price_right_now-full.price_yesterday)/full.price_yesterday;
+						amplitude=Math.round(amplitude*100000)/100000;
+						if(amplitude>0){
+							sReturn = '<div class="font-red">'+amplitude+'%</div>';
+						}else {
+							sReturn = '<div class="font-green">'+amplitude+'%</div>';
+						}
+					}
+
 					return sReturn;
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					sReturn = '<div><a href="javascript:Page.onModifyRecord('+full.id+')">【买入】</a><a href="javascript:Page.onDeleteRecord('+full.id+')">【k线图】</div>';
+					sReturn = '<div><a href="javascript:Page.onModifyRecord('+full.id+')"><i class="fa fa-pencil"></i> 修改</a><a href="javascript:Page.onDeleteRecord('+full.id+')"><span class="glyphicon glyphicon-remove-sign">\n' +
+						'                                    </span> 删除</div>';
 					return sReturn;
 				},"orderable": false
 			}],
@@ -289,24 +297,32 @@ var Page = function() {
 			$(this).parents('tr').toggleClass("active");
 		});
 	};
-	var onRemake=function () {
-		window.location.reload();
+	var onAddDivSubmit=function () {
+		submitAddRecordDiv();
 	}
-	var onExportRecord=function () {
-		var url="../../"+module+"_"+sub+"_servlet_action";
-		var data={"action":"export_device_record"};
-		$.post(url,data,function (json) {
-			if (json.result_code==0){
-				console.log(JSON.stringify(json));
-				$("#futures_download_div #download_url").attr("href","javascript:window.open('"+json.download_url+"')");	//window.open是打开一个新的页面进行跳转，但是这里没有显现出来
-				$("#futures_download_div").modal("show");
-			}else{
-				alert("[onExportRecord]与后端交互错误！"+json.result_smg);
+	var submitAddRecordDiv=function () {
+		if(confirm("您确定要添加该记录吗？")){;
+			var url="../../"+module+"_"+sub+"_servlet_action";
+			var data={};
+			data.action="add_futures_record";
+			data.id=$("#futures_add_div #id").val();
+			if(data.id==""){
+				alert("代号不能为空");
+				return;
 			}
-		})
-	}
-	var onFinishDownload=function () {
-		$("#futures_download_div").modal("hide");
+			data.name=$("#futures_add_div #name").val();
+			data.price_today_begin=$("#futures_add_div #price_today_begin").val();
+			data.price_yesterday=$("#futures_add_div #price_yesterday").val();
+			data.price_right_now=$("#futures_add_div #price_right_now").val();
+			data.price_high=$("#futures_add_div #price_high").val();
+			data.price_low=$("#futures_add_div #price_low").val();
+			$.post(url,data,function(json){
+				if(json.result_code==0){
+					alert("已经完成设备添加。");
+					window.location.reload();
+				}
+			});
+		}
 	}
 	//Page return 开始
 	return {

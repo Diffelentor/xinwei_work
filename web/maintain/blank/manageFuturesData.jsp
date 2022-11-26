@@ -17,10 +17,10 @@
     <meta content="" name="author"/>
 
     <%@include file="../../home/frame/frame_style.jsp"%>
-    <link rel="stylesheet" type="text/css" href="dataTables/dataTables.bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../dataTables/dataTables.bootstrap.css"/>
     <!-- END THEME STYLES -->
 
-    <link rel="shortcut icon" href="../device/favicon.ico"/>
+    <link rel="shortcut icon" href="../dataTables/favicon.ico"/>
 </head>
 <body class="page-header-fixed page-quick-sidebar-over-content ">
 <%@include file="../../home/frame/frame_header.jsp"%>
@@ -34,7 +34,7 @@
         <div class="page-content">
             <%@include file="../../home/frame/frame_page_header.jsp"%>
             <h3 class="page-title">
-                我的持仓
+                期货管理
             </h3>
             <div class="page-bar">
                 <ul class="page-breadcrumb">
@@ -44,11 +44,11 @@
                         <i class="fa fa-angle-right"></i>
                     </li>
                     <li>
-                        <a href="#">持仓管理</a>
+                        <a href="#">金融信息</a>
                         <i class="fa fa-angle-right"></i>
                     </li>
                     <li>
-                        <a href="#">我的持仓</a>
+                        <a href="#">期货管理</a>
                     </li>
                 </ul>
             </div>
@@ -56,8 +56,8 @@
             <!-- BEGIN PAGE CONTENT-->
             <!--页面开始=======================================================-->
             <!--设置页面ID-->
-            <input type="hidden" id="page_id" name="page_id" value="futures_data">
-            <div class="row">
+            <input type="hidden" id="page_id" name="page_id" value="manage_futures_data">
+            <div class="row" id="record_query_setup">
                 <div class="form-group">
                     <label class="control-label col-sm-1" style="font-size: 18px">期货代号</label>
                     <div class="col-md-2">
@@ -66,10 +66,6 @@
                     <label class="control-label col-sm-1" style="font-size: 18px">期货名称</label>
                     <div class="col-md-2">
                         <input id="futures_name" type="text" class="form-control" value="" placeholder="请输入期货名称"/>
-                    </div>
-                    <label class="control-label col-sm-1" style="font-size: 18px">账户</label>
-                    <div class="col-md-2">
-                        <input id="futures_user" type="text" class="form-control" value="" placeholder="请输入账户"/>
                     </div>
                     <div class="col-md-2">
                         <button type="button"   class="btn blue" id="search_button" name="search_button">
@@ -80,31 +76,36 @@
 
                 </div>
             </div>
-            <div class="portlet box green-haze">
-                <div class="portlet-body">
-
-                    <br>
-                    <br>
-<%--                    按钮--%>
-                    <div class="row">
-                        <div class="col-md-10 ">
-                            <%--                    如果不将type类型定义为buton的话会被默认为submit类型--%>
-                            <button type="button"  class="btn btn-circle btn-lg default" id="datatable_button" name="datatable_button">
-                                <i class="fa fa-cloud-download"></i> 导出</button>
-                            <button type="button" class="btn btn-circle btn-lg blue" id="table_button" name="table_button">
-                                <i class="icon-bar-chart"></i> 统计</button>
-                            <button type="button" class="btn btn-circle btn-lg green" id="bar_button" name="bar_button">
-                                <i class="fa fa-print"></i> 打印</button>
-                        </div>
-                        <div class="col-md-2">
-                            <button type="button" style="float: right"  class="btn btn-lg default" id="history_button" name="history_button">
-                                 历史记录</button>
-                        </div>
-                    </div>
-                    <br>
-                    <table class="table table-striped table-bordered table-hover" id="sample_5">
+            <br>
+            <div class="row">
+                <div class="col-md-10 ">
+                    <%--                    如果不将type类型定义为buton的话会被默认为submit类型--%>
+                    <button type="button"  class="btn btn-circle btn-lg yellow-crusta" id="datatable_button" name="datatable_button">
+                        <i class="fa fa-plus"></i> 新增</button>
+                    <button type="button"  class="btn btn-circle btn-lg yellow-crusta" id="datatable_button" name="datatable_button">
+                                <span class="glyphicon glyphicon-remove-sign">
+                                    </span> 删除</button>
+                    <button type="button"  class="btn btn-circle btn-lg red-pink" id="datatable_button" name="datatable_button">
+                        <i class="fa fa-pencil"></i> 修改</button>
+                    <button type="button"  class="btn btn-circle btn-lg default" id="datatable_button" name="datatable_button">
+                        <i class="fa fa-cloud-download"></i> 导出</button>
+                    <button type="button" class="btn btn-circle btn-lg blue" id="table_button" name="table_button">
+                        <i class="icon-bar-chart"></i> 统计</button>
+                    <button type="button" class="btn btn-circle btn-lg green" id="bar_button" name="bar_button">
+                        <i class="fa fa-print"></i> 打印</button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" style="float: right"  class="btn default" id="refresh_button" name="history_button">
+                        <i class="fa fa-refresh"></i></button>
+                </div>
+            </div>
+            <br>
+            <div class="row" id="datatable_tab">
+                <div class="col-md-12 ">
+                    <table class="table table-striped table-bordered table-hover datatable" id="record_list">
                         <thead>
-                        <tr class="sorting">
+                        <tr>
+                            <th class="table-checkbox"><input type="checkbox" class="group-checkable" data-set="#record_list .checkboxes" /></th>
                             <th>
                                 期货代号
                             </th>
@@ -112,61 +113,31 @@
                                 期货名称
                             </th>
                             <th>
-                                期货类型
-                            </th>
-                            <th>
-                                价格
+                                开盘价
                             </th>
                             <th >
-                                数量
+                                昨结算
                             </th>
                             <th>
-                                账户
+                                最新价
                             </th>
                             <th>
-                                交易方向
+                                最高价
                             </th>
                             <th>
-                                操作日期
+                                最低价
+                            </th>
+                            <th>
+                                价格变化
+                            </th>
+                            <th>
+                                涨跌幅
                             </th>
                             <th>
                                 操作
                             </th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                XAG
-                            </td>
-                            <td>
-                                伦敦银（现货白银）
-                            </td>
-                            <td>
-                                金属
-                            </td>
-                            <td>
-                                24.37
-                            </td>
-                            <td>
-                                100
-                            </td>
-                            <td>
-                                43
-                            </td>
-                            <td>
-                                开仓
-                            </td>
-                            <td>
-                                2022-10-21 18:32:20
-                            </td>
-                            <td>
-                                <a href="javascript:Page.onModifyRecord('+full.id+')">卖出</a>
-                            </td>
-                        </tr>
-
-
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -183,9 +154,8 @@
 
 <%@include file="../../home/frame/frame_javascript.jsp"%>
 <%--本页专用的--%>
-<script type="text/javascript" src="dataTables/jquery.dataTables.min.js"></script>
-<script src="futuresData.js"></script>
-<%--菜单栏的操作--%>
+<script type="text/javascript" src="../dataTables/jquery.dataTables.min.js"></script>
+<script src="manageFuturesData.js"></script>
 </body>
 <!-- END BODY -->
 </html>

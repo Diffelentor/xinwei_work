@@ -184,7 +184,7 @@
 <%@include file="../../home/frame/frame_javascript.jsp"%>
 <%--本页专用的--%>
 <script type="text/javascript" src="dataTables/jquery.dataTables.min.js"></script>
-<script src="control.js"></script>
+<script src="futuresData.js"></script>
 <%--菜单栏的操作--%>
 </body>
 <!-- END BODY -->

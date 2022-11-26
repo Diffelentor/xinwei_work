@@ -169,7 +169,7 @@
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 <script type="text/javascript" src="dataTables/jquery.dataTables.min.js"></script>
 
-<script src="control.js"></script>
+<script src="futuresData.js"></script>
 </body>
 <!-- END BODY -->
 </html>

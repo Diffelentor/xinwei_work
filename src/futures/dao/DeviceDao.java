@@ -16,12 +16,26 @@ public class DeviceDao {
 	/*添加记录*/
 	public void addDeviceRecord(Data data, JSONObject json) throws JSONException, SQLException {
 		//构造sql语句，根据传递过来的条件参数
-		String deviceId=data.getParam().has("device_id")?data.getParam().getString("device_id"):null;
-		String deviceName=data.getParam().has("device_name")?data.getParam().getString("device_name"):null;
-		if(deviceId!=null && deviceName!=null){
-			String sql="insert into device_file(device_id,device_name)";
-			sql=sql+" values('"+deviceId+"'";
-			sql=sql+" ,'"+deviceName+"')";
+		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
+		String name=data.getParam().has("name")?data.getParam().getString("name"):null;
+		String price_today_begin=data.getParam().has("price_today_begin")?data.getParam().getString("price_today_begin"):null;
+		String price_yesterday=data.getParam().has("price_yesterday")?data.getParam().getString("price_yesterday"):null;
+		String price_right_now=data.getParam().has("name")?data.getParam().getString("price_right_now"):null;
+		String price_high=data.getParam().has("name")?data.getParam().getString("price_high"):null;
+		String price_low=data.getParam().has("name")?data.getParam().getString("price_low"):null;
+		String slect_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
+		String date = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
+		if(id!=null && name!=null && price_today_begin!=null && price_yesterday!=null && price_right_now!=null && price_high!=null && price_low!=null){
+			String sql="insert into futures(futures_id,futures_name,price_today_begin,price_yesterday,price_right_now,price_high,price_low,select_time,date)";
+			sql=sql+" values('"+id+"'";
+			sql=sql+",'"+name+"'";
+			sql=sql+",'"+price_today_begin+"'";
+			sql=sql+",'"+price_yesterday+"'";
+			sql=sql+",'"+price_right_now+"'";
+			sql=sql+",'"+price_high+"'";
+			sql=sql+",'"+price_low+"'";
+			sql=sql+",'"+slect_time+"'";
+			sql=sql+" ,'"+date+"')";
 			data.getParam().put("sql",sql);
 			updateRecord(data,json);
 		}
