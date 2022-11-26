@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="modal fade draggable-modal" id="futures_add_div" tabindex="-1" role="basic" aria-hidden="true">
+<div class="modal fade draggable-modal" id="futures_modify_div" tabindex="-1" role="basic" aria-hidden="true">
+
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,6 +14,7 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">*代号</label>
                                 <div class="col-md-9">
+                                    <input type="hidden" id="id" name="id" value="">
                                     <input type="text" class="form-control" placeholder="请填写代号" id="futures_id" name="futures_id">
                                     <span class="help-block font-red">
 											代号不能为空</span>
@@ -61,7 +63,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn blue" id="submit_button" name="submit_button">确认添加</button>
+                <button type="button" class="btn blue" id="submit_button" name="submit_button">确认修改</button>
             </div>
         </div>
         <!-- /.modal-content -->

@@ -60,21 +60,23 @@
                 <div class="form-group">
                     <label class="control-label col-sm-1" style="font-size: 18px">期货代号</label>
                     <div class="col-md-2">
-                        <input id="id" type="text" class="form-control" value="" placeholder="请输入期货代号"/>
+                        <input id="futures_id" type="text" class="form-control" value="" placeholder="请输入期货代号"/>
                     </div>
                     <label class="control-label col-sm-1" style="font-size: 18px">期货名称</label>
                     <div class="col-md-2">
-                        <input id="name" type="text" class="form-control" value="" placeholder="请输入期货名称"/>
+                        <input id="futures_name" type="text" class="form-control" value="" placeholder="请输入期货名称"/>
                     </div>
                     <div class="col-md-2">
                         <button type="button"   class="btn blue" id="query_button" name="query_button">
-                            <i class="fa fa-search"></i>搜索</button>
+                        <i class="fa fa-search"></i>搜索</button>
                         <button type="button"   class="btn default" id="remake_button" name="remake_button">
                             <i class="fa fa-refresh"></i>重置</button>
                     </div>
 
                 </div>
             </div>
+            <br>
+
             <br>
             <div class="row">
                 <div class="col-md-10 ">
@@ -87,8 +89,16 @@
                         <i class="fa fa-print"></i> 打印</button>
                 </div>
                 <div class="col-md-2">
-                    <button type="button" style="float: right"  class="btn default" id="refresh_button" name="history_button">
+                    <button type="button" style="float: right"  class="btn default" id="refresh_button" name="refresh_button">
                         <i class="fa fa-refresh"></i></button>
+                </div>
+                <div style="float:right;">
+                    <button type="button"   class="btn green" id="show_futures" name="show_futures">
+                        <i class="fa fa-search"></i>期货</button>
+                    <button type="button"   class="btn green" id="show_stock" name="show_stock">
+                        <i class="fa fa-search"></i>股票</button>
+                    <button type="button"   class="btn green" id="show_exchange" name="show_exchange">
+                        <i class="fa fa-search"></i>汇率</button>
                 </div>
             </div>
             <br>

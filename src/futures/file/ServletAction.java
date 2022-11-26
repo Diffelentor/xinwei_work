@@ -92,7 +92,7 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
-            if (action.equals("export_device_record")) {
+            if (action.equals("export_futures_record")) {
                 actionOk=true;
                 try {
                     exportDeviceRecord(request, response, json);
@@ -104,6 +104,22 @@ public class ServletAction extends HttpServlet {
                 actionOk=true;
                 try {
                     addFuturesRecord(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("delete_futures_record")) {
+                actionOk=true;
+                try {
+                    deleteFuturesRecord(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("modify_futures_record")) {
+                actionOk=true;
+                try {
+                    modifyFuturesRecord(request, response, json);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -192,6 +208,16 @@ public class ServletAction extends HttpServlet {
         DeviceDao dao=new DeviceDao();
         Data data=getPageParameters(request,response,json);
         dao.addDeviceRecord(data,json);
+    }
+    private void deleteFuturesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        DeviceDao dao=new DeviceDao();
+        Data data=getPageParameters(request,response,json);
+        dao.deleteDeviceRecord(data,json);
+    }
+    private void modifyFuturesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        DeviceDao dao=new DeviceDao();
+        Data data=getPageParameters(request,response,json);
+        dao.modifyDeviceRecord(data,json);
     }
     private void exportDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
         DeviceDao dao=new DeviceDao();

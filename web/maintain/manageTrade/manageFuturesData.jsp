@@ -61,11 +61,11 @@
                 <div class="form-group">
                     <label class="control-label col-sm-1" style="font-size: 18px">期货代号</label>
                     <div class="col-md-2">
-                        <input id="id" type="text" class="form-control" value="" placeholder="请输入期货代号"/>
+                        <input id="futures_id" type="text" class="form-control" value="" placeholder="请输入期货代号"/>
                     </div>
                     <label class="control-label col-sm-1" style="font-size: 18px">期货名称</label>
                     <div class="col-md-2">
-                        <input id="name" type="text" class="form-control" value="" placeholder="请输入期货名称"/>
+                        <input id="futures_name" type="text" class="form-control" value="" placeholder="请输入期货名称"/>
                     </div>
                     <div class="col-md-2">
                         <button type="button"   class="btn blue" id="query_button" name="query_button">
@@ -160,3 +160,4 @@
 <!-- END BODY -->
 </html>
 <%@include file="futures_add_div.jsp"%>
+<%@include file="futures_modify_div.jsp"%>

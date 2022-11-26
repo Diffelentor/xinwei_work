@@ -71,6 +71,7 @@ var Page = function() {
 		$('#query_button').click(function() {initFuturesDataRecordDatatable();});
 		$('#export_button').click(function() {onExportRecord();});
 		$('#finish_download_button').click(function() {onFinishDownload();});
+		$('#refresh_button').click(function() {onRemake();});
 	}
 	var initDeviceRecordView=function(){
 		var id=getUrlParam("id");
@@ -184,8 +185,8 @@ var Page = function() {
 			_table.destroy();
 		}
 		var data={};
-		data.id=$("#record_query_setup #id").val();
-		data.name=$("#record_query_setup #name").val();
+		data.futures_id=$("#record_query_setup #futures_id").val();
+		data.futures_name=$("#record_query_setup #futures_name").val();
 		$('.datatable').dataTable( {
 			"paging":true,
 			"searching":false,
@@ -290,7 +291,7 @@ var Page = function() {
 			"aLengthMenu": [[5,10,15,20,25,40,50,-1],[5,10,15,20,25,40,50,"所有记录"]],
 			"fnDrawCallback": function(){$(".checkboxes").uniform();$(".group-checkable").uniform();},
 			//"sAjaxSource": "get_record.jsp"
-			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_futures_record&id="+data.id+"&name="+data.name
+			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_futures_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name
 		});
 		$('.datatable').find('.group-checkable').change(function () {
 			var set = jQuery(this).attr("data-set");
@@ -315,7 +316,7 @@ var Page = function() {
 	}
 	var onExportRecord=function () {
 		var url="../../"+module+"_"+sub+"_servlet_action";
-		var data={"action":"export_device_record"};
+		var data={"action":"export_futures_record"};
 		$.post(url,data,function (json) {
 			if (json.result_code==0){
 				console.log(JSON.stringify(json));

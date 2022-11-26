@@ -16,25 +16,25 @@ public class DeviceDao {
 	/*添加记录*/
 	public void addDeviceRecord(Data data, JSONObject json) throws JSONException, SQLException {
 		//构造sql语句，根据传递过来的条件参数
-		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
-		String name=data.getParam().has("name")?data.getParam().getString("name"):null;
+		String futures_id=data.getParam().has("futures_id")?data.getParam().getString("futures_id"):null;
+		String futures_name=data.getParam().has("futures_name")?data.getParam().getString("futures_name"):null;
 		String price_today_begin=data.getParam().has("price_today_begin")?data.getParam().getString("price_today_begin"):null;
 		String price_yesterday=data.getParam().has("price_yesterday")?data.getParam().getString("price_yesterday"):null;
-		String price_right_now=data.getParam().has("name")?data.getParam().getString("price_right_now"):null;
-		String price_high=data.getParam().has("name")?data.getParam().getString("price_high"):null;
-		String price_low=data.getParam().has("name")?data.getParam().getString("price_low"):null;
-		String slect_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
+		String price_right_now=data.getParam().has("price_right_now")?data.getParam().getString("price_right_now"):null;
+		String price_high=data.getParam().has("price_high")?data.getParam().getString("price_high"):null;
+		String price_low=data.getParam().has("price_low")?data.getParam().getString("price_low"):null;
+		String select_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
 		String date = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
-		if(id!=null && name!=null && price_today_begin!=null && price_yesterday!=null && price_right_now!=null && price_high!=null && price_low!=null){
+		if(futures_id!=null && futures_name!=null && price_today_begin!=null && price_yesterday!=null && price_right_now!=null && price_high!=null && price_low!=null){
 			String sql="insert into futures(futures_id,futures_name,price_today_begin,price_yesterday,price_right_now,price_high,price_low,select_time,date)";
-			sql=sql+" values('"+id+"'";
-			sql=sql+",'"+name+"'";
+			sql=sql+" values('"+futures_id+"'";
+			sql=sql+",'"+futures_name+"'";
 			sql=sql+",'"+price_today_begin+"'";
 			sql=sql+",'"+price_yesterday+"'";
 			sql=sql+",'"+price_right_now+"'";
 			sql=sql+",'"+price_high+"'";
 			sql=sql+",'"+price_low+"'";
-			sql=sql+",'"+slect_time+"'";
+			sql=sql+",'"+select_time+"'";
 			sql=sql+" ,'"+date+"')";
 			data.getParam().put("sql",sql);
 			updateRecord(data,json);
@@ -45,7 +45,7 @@ public class DeviceDao {
 		//构造sql语句，根据传递过来的条件参数
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
 		if(id!=null){
-			String sql="delete from device_file where id="+data.getParam().getString("id");
+			String sql="delete from futures where id="+data.getParam().getString("id");
 			data.getParam().put("sql",sql);
 			updateRecord(data,json);
 		}
@@ -54,16 +54,31 @@ public class DeviceDao {
 	public void modifyDeviceRecord(Data data, JSONObject json) throws JSONException, SQLException{
 		//构造sql语句，根据传递过来的条件参数
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
-		String deviceId=data.getParam().has("device_id")?data.getParam().getString("device_id"):null;
-		String deviceName=data.getParam().has("device_name")?data.getParam().getString("device_name"):null;
+		String futures_id=data.getParam().has("futures_id")?data.getParam().getString("futures_id"):null;
+		String futures_name=data.getParam().has("futures_name")?data.getParam().getString("futures_name"):null;
+		String price_today_begin=data.getParam().has("price_today_begin")?data.getParam().getString("price_today_begin"):null;
+		String price_yesterday=data.getParam().has("price_yesterday")?data.getParam().getString("price_yesterday"):null;
+		String price_right_now=data.getParam().has("price_right_now")?data.getParam().getString("price_right_now"):null;
+		String price_high=data.getParam().has("price_high")?data.getParam().getString("price_high"):null;
+		String price_low=data.getParam().has("price_low")?data.getParam().getString("price_low"):null;
+		String select_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
+		String date = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
 		if(id!=null){
-			String sql="update device_file";
-			sql=sql+" set device_id='"+deviceId+"'";
-			sql=sql+" ,device_name='"+deviceName+"'";
+			String sql="update futures";
+			sql=sql+" set futures_id='"+futures_id+"'";
+			sql=sql+" ,futures_name='"+futures_name+"'";
+			sql=sql+" ,price_today_begin='"+price_today_begin+"'";
+			sql=sql+" ,price_yesterday='"+price_yesterday+"'";
+			sql=sql+" ,price_right_now='"+price_right_now+"'";
+			sql=sql+" ,price_high='"+price_high+"'";
+			sql=sql+" ,price_low='"+price_low+"'";
+			sql=sql+" ,select_time='"+select_time+"'";
+			sql=sql+" ,date='"+date+"'";
 			sql=sql+" where id="+id;
 			data.getParam().put("sql",sql);
 			updateRecord(data,json);
 		}
+
 	}
 	/*查询记录*/
 	public void getDeviceRecord(Data data, JSONObject json) throws JSONException, SQLException{
@@ -140,9 +155,18 @@ public class DeviceDao {
 	private String createGetRecordSql(Data data) throws JSONException {
 		String sql="select * from futures";
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
-		if(id!=null && !id.isEmpty())
-			sql=sql+" where futures_id='"+id+"'";
-		String futuresName=data.getParam().has("name")?data.getParam().getString("name"):null;
+		if(id!=null && !id.isEmpty()){
+			sql=sql+" where id="+id;
+		}
+		String futuresId=data.getParam().has("futures_id")?data.getParam().getString("futures_id"):null;
+		if(futuresId!=null && !futuresId.isEmpty()) {
+			if (sql.indexOf("where") > -1) {
+				sql = sql + " and futures_id='" + futuresId + "'";
+			} else {
+				sql = sql + " where futures_id='" + futuresId + "'";
+			}
+		}
+		String futuresName=data.getParam().has("futures_name")?data.getParam().getString("futures_name"):null;
 		if(futuresName!=null && !futuresName.isEmpty()){
 			if(sql.indexOf("where")>-1){
 				sql=sql+" and futures_name like '%"+futuresName+"%'";
@@ -150,7 +174,6 @@ public class DeviceDao {
 				sql=sql+" where futures_name like '%"+futuresName+"%'";
 			}
 		}
-		showDebug("==========+++++++++++++++=============="+sql);
 		return sql;
 	}
 }
