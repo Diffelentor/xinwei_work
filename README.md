@@ -23,4 +23,4 @@ web/home/user 用户管理界面
 ## wgr部分
 src/futures 交易部分的servlet
 
-web/maintain/trade 交易部分tt
+web/maintain/trade 交易部分
