@@ -340,7 +340,6 @@ var Page = function() {
 
 	//打印事件，跳转到别的页面
 	var onTablePrint=function () {
-		alert("asd");
 		window.location.href="futures_list_print_table.jsp";
 	};
 	var initFuturesListPrintTableRecord=function () {
