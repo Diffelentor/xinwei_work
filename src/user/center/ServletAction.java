@@ -179,8 +179,13 @@ public class ServletAction extends HttpServlet {
 		showDebug("收到了数据:"+data.getParam().getString("password"));
 		dao.login(data,json);
 		HttpSession session = request.getSession();
-		JSONArray aaData=json.getJSONArray("aaData");
+		String strJson=json.toString();
+		JSONObject aa = new JSONObject(strJson);
+		showDebug("============="+aa.toString());
+		JSONArray aaData=aa.getJSONArray("aaData");
+		showDebug("============="+aaData.toString());
 		JSONObject aData=aaData.getJSONObject(0);
+		showDebug("============="+json.toString());
 //		String username=aData.getString("username");
 //		session.setAttribute();
 		showDebug("session保存的数据是:"+aaData);
