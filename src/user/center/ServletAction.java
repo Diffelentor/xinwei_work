@@ -6,6 +6,7 @@ package user.center;
 
 import device.dao.Data;
 import device.dao.DeviceDao;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import user.dao.UserDao;
@@ -177,6 +178,12 @@ public class ServletAction extends HttpServlet {
 		showDebug("收到了数据:"+data.getParam().getString("username"));
 		showDebug("收到了数据:"+data.getParam().getString("password"));
 		dao.login(data,json);
+		HttpSession session = request.getSession();
+		JSONArray aaData=json.getJSONArray("aaData");
+		JSONObject aData=aaData.getJSONObject(0);
+//		String username=aData.getString("username");
+//		session.setAttribute();
+		showDebug("session保存的数据是:"+aaData);
 		if(json.getInt("result_code")==0){
 			json.put("redirect_url","home/main/index.jsp");
 		}else{

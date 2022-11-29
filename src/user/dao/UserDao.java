@@ -155,13 +155,22 @@ public class UserDao {
         showDebug("[login]构造的SQL语句是："+sql);
         try{
             ResultSet rs=queryDb.executeQuery(sql);
-            ResultSetMetaData rsmd=rs.getMetaData();
-            int fieldCount=rsmd.getColumnCount();
             if(!rs.next()){
                 resultCode=10;
                 resultMsg="登陆失败，请核对用户名及密码！";
             }
             rs.close();
+            ResultSet rs1=queryDb.executeQuery(sql);
+            ResultSetMetaData rsmd=rs1.getMetaData();
+            int fieldCount=rsmd.getColumnCount();
+            while (rs1.next()) {
+                Map map = new HashMap();
+                for (int i = 0; i < fieldCount; i++) {
+                    map.put(rsmd.getColumnName(i + 1), rs1.getString(rsmd.getColumnName(i + 1)));
+                }
+                jsonList.add(map);
+            }
+            rs1.close();
         } catch (SQLException e) {
             e.printStackTrace();
             showDebug("[queryRecord]查询数据库实现错误："+sql);
