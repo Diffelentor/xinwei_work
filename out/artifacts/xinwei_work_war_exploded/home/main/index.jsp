@@ -2245,7 +2245,6 @@ License: You must have a valid license purchased only from themeforest(the above
     });
     var Page = function() {
         var initPageControl=function(){
-            initSession();
             pageId=$("#page_id").val();
             if(pageId=="dash_board"){
                 initDeviceList();
@@ -2269,16 +2268,6 @@ License: You must have a valid license purchased only from themeforest(the above
                             //$("#device_name").html(record.device_name);
                         }
                     }
-                }
-            })
-        };
-        var initSession=function(){
-            var data={};
-            data.action="getsession";
-            $.post("../../user_center_servlet_action",data,function(json){
-                console.log(JSON.stringify(json));
-                if(json.result_code==0){
-                    $("#username").html(json.username);
                 }
             })
         };
