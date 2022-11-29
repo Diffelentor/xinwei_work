@@ -48,6 +48,14 @@ public class ServletAction extends HttpServlet {
 			resultMsg="传递过来的action是NULL";
 		}else{
 			//这几个常规增删改查功能
+            if (action.equals("getsession")) {
+                actionOk=true;
+                try {
+                    getsession(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 			if (action.equals("get_user_record")) {
 				actionOk=true;
 				try {
@@ -171,6 +179,14 @@ public class ServletAction extends HttpServlet {
 		Data data=getPageParameters(request,response,json);
 		dao.addDeviceRecord(data,json);
 	}
+    private void getsession(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
+        HttpSession session = request.getSession();
+        String is_manager=(String)session.getAttribute("is_manager");
+        String username=(String)session.getAttribute("username");
+        json.put("username",username);
+        json.put("is_manager",is_manager);
+        json.put("result_code",0);
+    }
 	/*========================================CRUD业务函数 结束========================================*/
 	private void login(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
 		UserDao dao=new UserDao();
@@ -181,14 +197,14 @@ public class ServletAction extends HttpServlet {
 		HttpSession session = request.getSession();
 		String strJson=json.toString();
 		JSONObject aa = new JSONObject(strJson);
-		showDebug("============="+aa.toString());
 		JSONArray aaData=aa.getJSONArray("aaData");
-		showDebug("============="+aaData.toString());
 		JSONObject aData=aaData.getJSONObject(0);
-		showDebug("============="+json.toString());
-//		String username=aData.getString("username");
-//		session.setAttribute();
-		showDebug("session保存的数据是:"+aaData);
+		String username=aData.getString("username");
+        String is_manager=aData.getString("is_manager");
+		session.setAttribute("username",username);
+        session.setAttribute("is_manager",is_manager);
+		showDebug("session.username=:"+username);
+        showDebug("session.is_manager=:"+is_manager);
 		if(json.getInt("result_code")==0){
 			json.put("redirect_url","home/main/index.jsp");
 		}else{

@@ -329,7 +329,7 @@
                 <li class="dropdown dropdown-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <img alt="" class="img-circle" src="../../assets/admin/layout/img/avatar3_small.jpg"/>
-                        <span class="username username-hide-on-mobile">
+                        <span class="username username-hide-on-mobile" id="username" name="username">
 					Nick </span>
                         <i class="fa fa-angle-down"></i>
                     </a>
