@@ -1,6 +1,10 @@
 # xinwei_work
 **每个人在web文件夹下建立自己的工作目录**
 
+新增功能：js使用$("#const_username")和$("#const_is_manager")即可获得登陆名和是否为管理员权限
+
+上传前删除out文件夹
+
 把自己的每个界面写入该文档
 
 每次工作前先pull
@@ -13,7 +17,6 @@ web/assets 模板
 
 ## zht部分
 
-新增功能：js使用$("#const_username")和$("#const_is_manager")即可获得登陆名和是否为管理员权限
 
 src/user 用户管理系统的servlet
 
