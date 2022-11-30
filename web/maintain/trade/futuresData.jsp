@@ -81,12 +81,10 @@
             <div class="row">
                 <div class="col-md-10 ">
                     <%--                    如果不将type类型定义为buton的话会被默认为submit类型--%>
-                    <button type="button"  class="btn btn-circle btn-lg default" id="export_button" name="export_button">
-                        <i class="fa fa-cloud-download"></i> 导出</button>
-                    <button type="button" class="btn btn-circle btn-lg blue" id="table_button" name="table_button">
-                        <i class="icon-bar-chart"></i> 统计</button>
                     <button type="button" class="btn btn-circle btn-lg green" id="table_print_button" name="table_print_button">
                         <i class="fa fa-print"></i> 打印</button>
+                    <button type="button"   class="btn btn-circle btn-lg blue" id="return_button" name="return_button" onclick="javascript:history.back(-1)">
+                        <i class="fa fa-refresh"></i>返回</button>
                 </div>
                 <div class="col-md-2">
                     <button type="button" style="float: right"  class="btn default" id="refresh_button" name="refresh_button">
@@ -95,7 +93,7 @@
                 <div style="float:right;">
                     <button type="button"   class="btn green" id="show_futures" name="show_futures">
                         <i class="fa fa-search"></i>期货</button>
-                    <button type="button"   class="btn green" id="show_stock" name="show_stock">
+                    <button type="button"   class="btn green" id="show_shares" name="show_shares">
                         <i class="fa fa-search"></i>股票</button>
                     <button type="button"   class="btn green" id="show_exchange" name="show_exchange">
                         <i class="fa fa-search"></i>汇率</button>
@@ -164,4 +162,4 @@
 </body>
 <!-- END BODY -->
 </html>
-<%@include file="futures_download_div.jsp"%>
+

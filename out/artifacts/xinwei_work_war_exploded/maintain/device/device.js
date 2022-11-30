@@ -352,7 +352,7 @@ var Page = function() {
 			var url="../../device_file_servlet_action";
 			var data={};
 			data.action="modify_device_record";
-			data.id=$("#record_modify_div #id").val();;
+			data.id=$("#record_modify_div #id").val();
 			data.device_id=$("#record_modify_div #device_id").val();
 			data.device_name=$("#record_modify_div #device_name").val();
 			$.post(url,data,function(json){

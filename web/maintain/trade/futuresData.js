@@ -26,8 +26,9 @@ var Page = function() {
 		if(pageId=="futures_list_print_table"){
 			initFuturesPrintTable();
 		}
-
-
+		if (pageId == "futures_kline") {
+			initFuturesKline();
+		}
 	};
 	/*----------------------------------------入口函数  结束----------------------------------------*/
 	var columnsData=undefined;
@@ -52,6 +53,9 @@ var Page = function() {
 	var initFuturesPrintTable=function () {
 		initFuturesListPrintTableRecord()
 	}
+	var initFuturesKline = function (){
+		initFuturesKlinePage();
+	}
 	/*------------------------------针对各个页面的入口 结束------------------------------*/
 	var getUrlParam=function(name){
 		//获取url中的参数
@@ -73,12 +77,23 @@ var Page = function() {
 		$('#modify_button').click(function() {submitModifyRecord();});
 	}
 	var initFuturesDataControlEvent=function () {
+<<<<<<< Updated upstream
 		$('#remake_button').click(function() {onRemake();});	//重置按钮
 		$('#query_button').click(function() {initFuturesDataRecordDatatable();});	//查询按钮
 		$('#export_button').click(function() {onExportRecord();});	//导出按钮
 		$('#finish_download_button').click(function() {onFinishDownload();});	//导出完毕按钮
 		$('#refresh_button').click(function() {onRemake();});	//另一个刷新按钮
 		$('#table_print_button').click(function() {onTablePrint();});	//打印按钮
+=======
+		$('#remake_button').click(function() {onRemake();});
+		$('#query_button').click(function() {initFuturesDataRecordDatatable();});
+		$('#export_button').click(function() {onExportRecord();});
+		$('#finish_download_button').click(function() {onFinishDownload();});
+		$('#refresh_button').click(function() {onRemake();});
+		$('#table_print_button').click(function() {onTablePrint();});
+		$('#show_shares').click(function(){toSharePage();});
+		$('#show_exchange').click(function(){toExchangePage();});
+>>>>>>> Stashed changes
 	}
 	var initDeviceRecordView=function(){
 		var id=getUrlParam("id");
@@ -174,6 +189,9 @@ var Page = function() {
 				})
 			}
 		}
+	};
+	var on_show_kline = function (futures_id) {
+		window.location.href = "futures_show_kline.jsp?futures_id=" + futures_id;
 	};
 	var onModifyRecord=function(id){
 		window.location.href="device_modify.jsp?id="+id;
@@ -277,7 +295,7 @@ var Page = function() {
 				"mRender": function(data, type, full) {
 					if(full.price_right_now!="" && full.price_yesterday!=""){
 						var amplitude=(full.price_right_now-full.price_yesterday)/full.price_yesterday;
-						amplitude=Math.round(amplitude*100000)/100000;
+						amplitude=Math.round(amplitude*100000)/1000;
 						if(amplitude>0){
 							sReturn = '<div class="font-red">'+amplitude+'%</div>';
 						}else {
@@ -291,13 +309,13 @@ var Page = function() {
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					sReturn = '<div><a href="javascript:Page.onModifyRecord('+full.id+')">【买入】</a><a href="javascript:Page.onDeleteRecord('+full.id+')">【k线图】</div>';
+					futures_id = full.futures_id;
+					sReturn = '<div><a href="javascript:Page.onModifyRecord('+full.id+')">【买入】</a><a href="#" onclick="Page.onShowKline(\'' + futures_id + '\')">【k线图】</div>';
 					return sReturn;
 				},"orderable": false
 			}],
 			"aLengthMenu": [[5,10,15,20,25,40,50,-1],[5,10,15,20,25,40,50,"所有记录"]],
 			"fnDrawCallback": function(){$(".checkboxes").uniform();$(".group-checkable").uniform();},
-			//"sAjaxSource": "get_record.jsp"
 			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_futures_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name
 		});
 		$('.datatable').find('.group-checkable').change(function () {
@@ -342,6 +360,269 @@ var Page = function() {
 	var onTablePrint=function () {
 		window.location.href="futures_list_print_table.jsp";
 	};
+
+	var toSharePage = function (){
+		window.location.href="../../share/shares/sharesData.jsp";
+	};
+
+	var toExchangePage = function (){
+		window.location.href="../../share/exchanges/exchangesData.jsp";
+	};
+
+	var initFuturesKlinePage = function () {
+		$("#page_sidebar_wrapper").hide();
+		$("#page_header").hide();
+		$("#page_footer").hide();
+		$("#page-content").attr("style", "margin-left:0px");
+		$(".page-container").attr("style", "margin-left:0px");
+		$(".page-container").attr("style", "margin-top:0px");
+		var futures_id = getUrlParam("futures_id");
+		$("#kline_shares_id").val(futures_id);
+		console.log(futures_id)
+
+		$.post("../../" + module + "_" + sub + "_servlet_action?action=get_kline&futures_id=" + futures_id, function (json) {
+			//console.log(JSON.stringify(json));
+			var data = [];
+			if (json.result_code == 0) {
+				var list = json.aaData;
+				if (list != undefined && list.length > 0) {
+					for (var i = 0; i < list.length; i++) {
+						var item = list[i];
+						var open = parseFloat(item.price_today_begin);
+						var close = parseFloat(item.price_right_now);
+						var lowest = parseFloat(item.price_low);
+						var highest = parseFloat(item.price_high);
+						var date = item.date;
+						date = date.replace("-", "/");
+						var temp = [];
+						temp.push(date, open, close, lowest, highest)
+						data.push(temp)
+					}
+				}
+			}
+			/*配置echarts*/
+			const upColor = '#ec0000';
+			const upBorderColor = '#8A0000';
+			const downColor = '#00da3c';
+			const downBorderColor = '#008F28';
+			// Each item: open，close，lowest，highest
+			const data0 = splitData(data);
+
+			function splitData(rawData) {
+				const categoryData = [];
+				const values = [];
+				for (var i = 0; i < rawData.length; i++) {
+					categoryData.push(rawData[i].splice(0, 1)[0]);
+					values.push(rawData[i]);
+				}
+				return {
+					categoryData: categoryData,
+					values: values
+				};
+			}
+
+			function calculateMA(dayCount) {
+				var result = [];
+				for (var i = 0, len = data0.values.length; i < len; i++) {
+					if (i < dayCount) {
+						result.push('-');
+						continue;
+					}
+					var sum = 0;
+					for (var j = 0; j < dayCount; j++) {
+						sum += +data0.values[i - j][1];
+					}
+					result.push(sum / dayCount);
+				}
+				return result;
+			}
+
+			var option = {
+				title: {
+					text: futures_id,
+					left: 0
+				},
+				tooltip: {
+					trigger: 'axis',
+					axisPointer: {
+						type: 'cross'
+					}
+				},
+				legend: {
+					data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30']
+				},
+				grid: {
+					left: '10%',
+					right: '10%',
+					bottom: '15%'
+				},
+				xAxis: {
+					type: 'category',
+					data: data0.categoryData,
+					boundaryGap: false,
+					axisLine: {onZero: false},
+					splitLine: {show: false},
+					min: 'dataMin',
+					max: 'dataMax'
+				},
+				yAxis: {
+					scale: true,
+					splitArea: {
+						show: true
+					}
+				},
+				dataZoom: [
+					{
+						type: 'inside',
+						start: 50,
+						end: 100
+					},
+					{
+						show: true,
+						type: 'slider',
+						top: '90%',
+						start: 50,
+						end: 100
+					}
+				],
+				series: [
+					{
+						name: '日K',
+						type: 'candlestick',
+						data: data0.values,
+						itemStyle: {
+							color: upColor,
+							color0: downColor,
+							borderColor: upBorderColor,
+							borderColor0: downBorderColor
+						},
+						markPoint: {
+							label: {
+								formatter: function (param) {
+									return param != null ? Math.round(param.value) + '' : '';
+								}
+							},
+							data: [
+								{
+									name: 'Mark',
+									coord: ['2013/5/31', 2300],
+									value: 2300,
+									itemStyle: {
+										color: 'rgb(41,60,85)'
+									}
+								},
+								{
+									name: 'highest value',
+									type: 'max',
+									valueDim: 'highest'
+								},
+								{
+									name: 'lowest value',
+									type: 'min',
+									valueDim: 'lowest'
+								},
+								{
+									name: 'average value on close',
+									type: 'average',
+									valueDim: 'close'
+								}
+							],
+							tooltip: {
+								formatter: function (param) {
+									return param.name + '<br>' + (param.data.coord || '');
+								}
+							}
+						},
+						markLine: {
+							symbol: ['none', 'none'],
+							data: [
+								[
+									{
+										name: 'from lowest to highest',
+										type: 'min',
+										valueDim: 'lowest',
+										symbol: 'circle',
+										symbolSize: 10,
+										label: {
+											show: false
+										},
+										emphasis: {
+											label: {
+												show: false
+											}
+										}
+									},
+									{
+										type: 'max',
+										valueDim: 'highest',
+										symbol: 'circle',
+										symbolSize: 10,
+										label: {
+											show: false
+										},
+										emphasis: {
+											label: {
+												show: false
+											}
+										}
+									}
+								],
+								{
+									name: 'min line on close',
+									type: 'min',
+									valueDim: 'close'
+								},
+								{
+									name: 'max line on close',
+									type: 'max',
+									valueDim: 'close'
+								}
+							]
+						}
+					},
+					{
+						name: 'MA5',
+						type: 'line',
+						data: calculateMA(5),
+						smooth: true,
+						lineStyle: {
+							opacity: 0.5
+						}
+					},
+					{
+						name: 'MA10',
+						type: 'line',
+						data: calculateMA(10),
+						smooth: true,
+						lineStyle: {
+							opacity: 0.5
+						}
+					},
+					{
+						name: 'MA20',
+						type: 'line',
+						data: calculateMA(20),
+						smooth: true,
+						lineStyle: {
+							opacity: 0.5
+						}
+					},
+					{
+						name: 'MA30',
+						type: 'line',
+						data: calculateMA(30),
+						smooth: true,
+						lineStyle: {
+							opacity: 0.5
+						}
+					}
+				]
+			};
+			var chartDom = document.getElementById('echarts');
+			var myChart = echarts.init(chartDom);
+			myChart.setOption(option);
+		})
+	}
 	var initFuturesListPrintTableRecord=function () {
 		$("#page_sidebar_wrapper").hide();
 		$("#page_header").hide();
@@ -408,8 +689,8 @@ var Page = function() {
 		init: function() {
 			initPageControl();
 		},
-		onDeleteRecord:function(id){
-			onDeleteRecord(id);
+		onShowKline: function (futures_id) {
+			on_show_kline(futures_id);
 		},
 		onModifyRecord:function(id){
 			onModifyRecord(id);

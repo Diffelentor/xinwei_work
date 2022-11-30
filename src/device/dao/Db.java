@@ -28,7 +28,9 @@ public class Db {
 		// 然后链接数据库，开始操作数据表
 		try {
 			//这里要注意改成自己的数据库的名称、账号、密码
-			String connStr="jdbc:mysql://localhost:3306/"+dbName+"?user=root&password=20020626tT&useUnicode=true&characterEncoding=UTF-8";
+			String user = "root";
+			String password = "drb20020320";
+			String connStr="jdbc:mysql://localhost:3306/"+dbName+"?user="+user+"&password="+password+"&useUnicode=true&characterEncoding=UTF-8";
 			showDebug("准备getConnection，connection是："+connStr);
 			connection = DriverManager.getConnection(connStr);
 			showDebug("准备statement，connection是："+connStr);
