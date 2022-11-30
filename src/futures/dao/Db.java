@@ -19,17 +19,19 @@ public class Db {
 		} catch (ClassNotFoundException classnotfoundexception) {
 			classnotfoundexception.printStackTrace();
 		}
-		showDebug("加载了JDBC驱动");
+		//showDebug("加载了JDBC驱动");
 
 		// 然后链接数据库，开始操作数据表
 		try {
 			//这里要注意改成自己的数据库的名称、账号、密码
-			String connStr="jdbc:mysql://localhost:3306/"+dbName+"?user=root&password=123456&useUnicode=true&characterEncoding=UTF-8";
-			showDebug("准备getConnection，connection是："+connStr);
+			String user = "root";
+			String password = "drb20020320";
+			String connStr="jdbc:mysql://localhost:3306/"+dbName+"?user="+user+"&password="+password+"&useUnicode=true&characterEncoding=UTF-8";
+			//showDebug("准备getConnection，connection是："+connStr);
 			connection = DriverManager.getConnection(connStr);
-			showDebug("准备statement，connection是："+connStr);
+			//showDebug("准备statement，connection是："+connStr);
 			statement = connection.createStatement();
-			showDebug("已经链接上数据库！");
+			//showDebug("已经链接上数据库！");
 		} catch (SQLException sqlexception) {
 			sqlexception.printStackTrace();
 		}
@@ -60,7 +62,7 @@ public class Db {
 		try {
 			statement.close();
 			connection.close();
-			showDebug("操作数据完毕，关闭了数据库！");
+			//showDebug("操作数据完毕，关闭了数据库！");
 		} catch (SQLException sqlexception) {
 			sqlexception.printStackTrace();
 		}

@@ -4,9 +4,8 @@ package futures.file;
  * 增删改查看导印统功能的实现
  */
 
-import futures.file.MyExcel;
 import futures.dao.Data;
-import futures.dao.DeviceDao;
+import futures.dao.FuturesDao;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,45 +44,10 @@ public class ServletAction extends HttpServlet {
         int resultCode=0;
         String resultMsg="ok";
         JSONObject json=new JSONObject();
-        showDebug("[processAction]收到的action是："+action);
+        //showDebug("[processAction]收到的action是："+action);
         if (action == null){
             resultMsg="传递过来的action是NULL";
         }else{
-            //这几个常规增删改查功能
-            if (action.equals("get_device_record")) {
-                actionOk=true;
-                try {
-                    getDeviceRecord(request, response, json);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            if (action.equals("add_device_record")) {
-                actionOk=true;
-                try {
-                    addDeviceRecord(request, response, json);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            if (action.equals("modify_device_record")) {
-                actionOk=true;
-                try {
-                    modifyDeviceRecord(request, response, json);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            if (action.equals("delete_device_record")) {
-                actionOk=true;
-                try {
-                    deleteDeviceRecord(request, response, json);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
             if (action.equals("get_futures_record")) {
                 actionOk=true;
                 try {
@@ -95,7 +59,7 @@ public class ServletAction extends HttpServlet {
             if (action.equals("export_futures_record")) {
                 actionOk=true;
                 try {
-                    exportDeviceRecord(request, response, json);
+                    exportFuturesRecord(request, response, json);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -124,6 +88,14 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+            if (action.equals("get_kline")) {
+                actionOk=true;
+                try {
+                    getFuturesKline(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             try {
                 responseBack(request,response,json);
             } catch (JSONException e) {
@@ -131,23 +103,24 @@ public class ServletAction extends HttpServlet {
             }
         }
     }
+
     /*========================================函数分流 结束========================================*/
     /*========================================公共函数 开始========================================*/
     private Data getPageParameters(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException {
         Data data=new Data();
         HttpSession session = request.getSession();
         /*----------------------------------------获取所有表单信息 开始----------------------------------------*/
-        showDebug("[getPageParameters]----------------------------------------获取所有表单信息 开始----------------------------------------");
+        //showDebug("[getPageParameters]----------------------------------------获取所有表单信息 开始----------------------------------------");
         JSONObject param=data.getParam();
         Enumeration requestNames=request.getParameterNames();
         for(Enumeration e=requestNames;e.hasMoreElements();){
             String thisName=e.nextElement().toString();
             String thisValue=request.getParameter(thisName);
-            showDebug("[getPageParameters]"+thisName+"="+thisValue);
+            //showDebug("[getPageParameters]"+thisName+"="+thisValue);
             param.put(thisName, thisValue);
         }
-        showDebug("[getPageParameters]data的Param="+data.getParam().toString());
-        showDebug("[getPageParameters]----------------------------------------获取所有表单信息 完毕----------------------------------------");
+        //showDebug("[getPageParameters]data的Param="+data.getParam().toString());
+        //showDebug("[getPageParameters]----------------------------------------获取所有表单信息 完毕----------------------------------------");
         /*----------------------------------------获取所有表单信息 完毕----------------------------------------*/
         return data;
     }
@@ -176,53 +149,36 @@ public class ServletAction extends HttpServlet {
         }
     }
     /*========================================公共函数 结束========================================*/
-    /*========================================CRUD业务函数 开始========================================*/
-    private void getDeviceRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
-        DeviceDao dao=new DeviceDao();
-        Data data=getPageParameters(request,response,json);
-        dao.getDeviceRecord(data,json);
-    }
-    private void modifyDeviceRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
-        DeviceDao dao=new DeviceDao();
-        Data data=getPageParameters(request,response,json);
-        dao.modifyDeviceRecord(data,json);
-    }
-    private void deleteDeviceRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
-        DeviceDao dao=new DeviceDao();
-        Data data=getPageParameters(request,response,json);
-        dao.deleteDeviceRecord(data,json);
-    }
-    private void addDeviceRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
-        DeviceDao dao=new DeviceDao();
-        Data data=getPageParameters(request,response,json);
-        dao.addDeviceRecord(data,json);
-    }
-    /*========================================CRUD业务函数 结束========================================*/
-
     private void getFuturesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
-        DeviceDao dao=new DeviceDao();
+        FuturesDao dao=new FuturesDao();
         Data data=getPageParameters(request,response,json);
-        dao.getDeviceRecord(data,json);
+        dao.getFuturesRecord(data,json);
     }
     private void addFuturesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
-        DeviceDao dao=new DeviceDao();
+        FuturesDao dao=new FuturesDao();
         Data data=getPageParameters(request,response,json);
-        dao.addDeviceRecord(data,json);
+        dao.addFuturesRecord(data,json);
     }
     private void deleteFuturesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
-        DeviceDao dao=new DeviceDao();
+        FuturesDao dao=new FuturesDao();
         Data data=getPageParameters(request,response,json);
-        dao.deleteDeviceRecord(data,json);
+        dao.deleteFuturesRecord(data,json);
     }
     private void modifyFuturesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
-        DeviceDao dao=new DeviceDao();
+        FuturesDao dao=new FuturesDao();
         Data data=getPageParameters(request,response,json);
-        dao.modifyDeviceRecord(data,json);
+        dao.modifyFuturesRecord(data,json);
     }
-    private void exportDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
-        DeviceDao dao=new DeviceDao();
+    private void getFuturesKline(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        FuturesDao dao=new FuturesDao();
         Data data=getPageParameters(request,response,json);
-        dao.getDeviceRecord(data,json);
+        dao.getFutureskline(data,json);
+    }
+
+    private void exportFuturesRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
+        FuturesDao dao=new FuturesDao();
+        Data data=getPageParameters(request,response,json);
+        dao.getFuturesRecord(data,json);
         getExportDeviceRecordToFile(json, data);
         getExportDeviceRecordToTxt(json, data);
         getExportDeviceRecordToExcel(json, data);
@@ -241,7 +197,7 @@ public class ServletAction extends HttpServlet {
         String jsonStr=json.toString();
         File jsonFile = new File("C:\\testUpload\\export_device.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
         json.put("download_url","/upload/maintain/device/export_device.rar");
-        showDebug("准备下载");
+        //showDebug("准备下载");
         try{
             if(!jsonFile.exists()){
                 jsonFile.createNewFile();
@@ -250,7 +206,7 @@ public class ServletAction extends HttpServlet {
             BufferedWriter bw=new BufferedWriter(fileWriter);
             bw.write(jsonStr);
             bw.close();
-            showDebug("完成下载");
+            //showDebug("完成下载");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -11,16 +11,6 @@
         </webroots>
       </configuration>
     </facet>
-    <facet type="web" name="Web2">
-      <configuration>
-        <descriptors>
-          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" />
-        </descriptors>
-        <webroots>
-          <root url="file://$MODULE_DIR$/web" relative="/" />
-        </webroots>
-      </configuration>
-    </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
@@ -38,5 +28,15 @@
     <orderEntry type="library" scope="PROVIDED" name="Tomcat 8.5.66" level="application_server_libraries" />
     <orderEntry type="library" name="lib2" level="project" />
     <orderEntry type="library" name="commons-logging-1.1" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../Tomcat 9.0/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/../../Tomcat 9.0/lib" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>

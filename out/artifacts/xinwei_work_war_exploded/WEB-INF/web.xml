@@ -39,5 +39,31 @@
 		<servlet-name>futures_file_servlet_action</servlet-name>
 		<url-pattern>/futures_file_servlet_action</url-pattern>
 	</servlet-mapping>
-	<!-- ================  trade end =================           -->
+
+	<servlet>
+		<servlet-name>shares_file_servlet_action</servlet-name>
+		<servlet-class>shares.file.ServletAction</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>shares_file_servlet_action</servlet-name>
+		<url-pattern>/shares_file_servlet_action</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>exchanges_file_servlet_action</servlet-name>
+		<servlet-class>exchanges.file.ServletAction</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>exchanges_file_servlet_action</servlet-name>
+		<url-pattern>/exchanges_file_servlet_action</url-pattern>
+	</servlet-mapping>
+	<!-- ================  trade end =================       -->
+	<listener>
+		<listener-class>shares.dao.GetSharesData</listener-class>
+	</listener>
+	<listener>
+		<listener-class>futures.dao.GetFuturesData</listener-class>
+	</listener>
+	<listener>
+		<listener-class>exchanges.dao.GetExchangesData</listener-class>
+	</listener>
 </web-app>

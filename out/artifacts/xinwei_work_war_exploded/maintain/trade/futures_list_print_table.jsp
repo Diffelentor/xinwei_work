@@ -34,7 +34,7 @@
         <div class="page-content" id="page-content">
             <%@include file="../../home/frame/frame_page_header.jsp"%>
             <h3 class="page-title">
-                期货管理
+                期货数据
             </h3>
             <div class="page-bar">
                 <ul class="page-breadcrumb">
@@ -63,7 +63,7 @@
                     <div class="portlet">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-bell-o"></i>Advance Table
+                                <i class="fa fa-bell-o"></i>期货数据表
                             </div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse">
@@ -74,6 +74,8 @@
                                 </a>
                                 <a href="javascript:;" class="remove">
                                 </a>
+                                <button type="button"   class="btn green" id="return_button" name="return_button" onclick="javascript:history.back(-1)">
+                                    <i class="fa fa-refresh"></i>返回</button>
                             </div>
                         </div>
                         <div class="portlet-body">
