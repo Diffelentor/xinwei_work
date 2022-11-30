@@ -59,7 +59,7 @@
             <input type="hidden" id="page_id" name="page_id" value="futures_list_print_table">
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <!-- BEGIN SAMPLE TABLE PORTLET-->
                     <div class="portlet">
                         <div class="portlet-title">

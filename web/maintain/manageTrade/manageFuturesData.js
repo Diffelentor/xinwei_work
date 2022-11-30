@@ -496,6 +496,7 @@ var Page = function() {
 					}
 				}
 				$("#print_table_content_div").html(html);
+				window.print();		//因为这个JQ封装的的这个post是以异步的方式进行执行，所以要在这里调用这个接口，不然打印的是html没有修改后的东西。
 			}
 		})
 	}

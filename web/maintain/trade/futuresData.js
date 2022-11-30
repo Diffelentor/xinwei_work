@@ -399,6 +399,7 @@ var Page = function() {
 					}
 				}
 				$("#print_table_content_div").html(html);
+				window.print();
 			}
 		})
 	}
