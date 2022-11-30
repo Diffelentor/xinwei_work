@@ -4,8 +4,7 @@ package user.center;
  * 增删改查看导印统功能的实现
  */
 
-import device.dao.Data;
-import device.dao.DeviceDao;
+import user.dao.Data;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,32 +63,32 @@ public class ServletAction extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-			if (action.equals("add_device_record")) {
-				actionOk=true;
-				try {
-					addDeviceRecord(request, response, json);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			if (action.equals("modify_device_record")) {
-				actionOk=true;
-				try {
-					modifyDeviceRecord(request, response, json);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			if (action.equals("delete_device_record")) {
-				actionOk=true;
-				try {
-					deleteDeviceRecord(request, response, json);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+//			if (action.equals("add_device_record")) {
+//				actionOk=true;
+//				try {
+//					addDeviceRecord(request, response, json);
+//				} catch (JSONException e) {
+//					e.printStackTrace();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//			if (action.equals("modify_device_record")) {
+//				actionOk=true;
+//				try {
+//					modifyDeviceRecord(request, response, json);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//			if (action.equals("delete_device_record")) {
+//				actionOk=true;
+//				try {
+//					deleteDeviceRecord(request, response, json);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
 			if (action.equals("login")) {
 				actionOk=true;
 				try {
@@ -164,21 +163,21 @@ public class ServletAction extends HttpServlet {
 		Data data=getPageParameters(request,response,json);
 		dao.getUserRecord(data,json);
 	}
-	private void modifyDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
-		DeviceDao dao=new DeviceDao();
-		Data data=getPageParameters(request,response,json);
-		dao.modifyDeviceRecord(data,json);
-	}
-	private void deleteDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
-		DeviceDao dao=new DeviceDao();
-		Data data=getPageParameters(request,response,json);
-		dao.deleteDeviceRecord(data,json);
-	}
-	private void addDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
-		DeviceDao dao=new DeviceDao();
-		Data data=getPageParameters(request,response,json);
-		dao.addDeviceRecord(data,json);
-	}
+//	private void modifyDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
+//		DeviceDao dao=new DeviceDao();
+//		Data data=getPageParameters(request,response,json);
+//		dao.modifyDeviceRecord(data,json);
+//	}
+//	private void deleteDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
+//		DeviceDao dao=new DeviceDao();
+//		Data data=getPageParameters(request,response,json);
+//		dao.deleteDeviceRecord(data,json);
+//	}
+//	private void addDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
+//		DeviceDao dao=new DeviceDao();
+//		Data data=getPageParameters(request,response,json);
+//		dao.addDeviceRecord(data,json);
+//	}
     private void getsession(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
         HttpSession session = request.getSession();
         String is_manager=(String)session.getAttribute("is_manager");
