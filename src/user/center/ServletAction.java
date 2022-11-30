@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.Enumeration;
 
 public class ServletAction extends HttpServlet {
-	String module="device";
+	String module="user";
 	String sub="file";
 	public void showDebug(String msg){
 		System.out.println("["+(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date())+"]["+module+"/"+sub+"/ServletAction]"+msg);
@@ -63,32 +63,32 @@ public class ServletAction extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-//			if (action.equals("add_device_record")) {
-//				actionOk=true;
-//				try {
-//					addDeviceRecord(request, response, json);
-//				} catch (JSONException e) {
-//					e.printStackTrace();
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//			if (action.equals("modify_device_record")) {
-//				actionOk=true;
-//				try {
-//					modifyDeviceRecord(request, response, json);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//			if (action.equals("delete_device_record")) {
-//				actionOk=true;
-//				try {
-//					deleteDeviceRecord(request, response, json);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
+			if (action.equals("add_user_record")) {
+				actionOk=true;
+				try {
+					addUserRecord(request, response, json);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (action.equals("modify_user_record")) {
+				actionOk=true;
+				try {
+					modifyUserRecord(request, response, json);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (action.equals("delete_user_record")) {
+				actionOk=true;
+				try {
+					deleteUserRecord(request, response, json);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 			if (action.equals("login")) {
 				actionOk=true;
 				try {
@@ -163,21 +163,21 @@ public class ServletAction extends HttpServlet {
 		Data data=getPageParameters(request,response,json);
 		dao.getUserRecord(data,json);
 	}
-//	private void modifyDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
-//		DeviceDao dao=new DeviceDao();
-//		Data data=getPageParameters(request,response,json);
-//		dao.modifyDeviceRecord(data,json);
-//	}
-//	private void deleteDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
-//		DeviceDao dao=new DeviceDao();
-//		Data data=getPageParameters(request,response,json);
-//		dao.deleteDeviceRecord(data,json);
-//	}
-//	private void addDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
-//		DeviceDao dao=new DeviceDao();
-//		Data data=getPageParameters(request,response,json);
-//		dao.addDeviceRecord(data,json);
-//	}
+	private void modifyUserRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
+		UserDao dao=new UserDao();
+		Data data=getPageParameters(request,response,json);
+		dao.modifyUserRecord(data,json);
+	}
+	private void deleteUserRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
+		UserDao dao=new UserDao();
+		Data data=getPageParameters(request,response,json);
+		dao.deleteUserRecord(data,json);
+	}
+	private void addUserRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
+		UserDao dao=new UserDao();
+		Data data=getPageParameters(request,response,json);
+		dao.addUserRecord(data,json);
+	}
     private void getsession(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
         HttpSession session = request.getSession();
         String is_manager=(String)session.getAttribute("is_manager");

@@ -306,7 +306,7 @@ var Page = function() {
 			},{
 				"mRender": function(data, type, full) {
 					//注意事项：这里比较奇怪，要想跳转则里面的数据必须都是int（现在的发现是只要有string就不会执行函数）
-					sReturn = '<div><a href="javascript:Page.onModifyRecord('+full.id+')"><i class="fa fa-pencil"></i> 修改</a><a href="javascript:Page.onDeleteRecord('+full.id+')"><span class="glyphicon glyphicon-remove-sign">\n' +
+					sReturn = '<div><a href="javascript:Page.onModifyRecord(\''+full.futures_id+'\')"><i class="fa fa-pencil"></i> 修改</a><a href="javascript:Page.onDeleteRecord('+full.id+')"><span class="glyphicon glyphicon-remove-sign">\n' +
 						'</span> 删除</div>';
 					return sReturn;
 				},"orderable": false
@@ -509,6 +509,7 @@ var Page = function() {
 			onDeleteRecord(id);
 		},
 		onModifyRecord:function(id){
+			alert(2);
 			onModifyRecord(id);
 		}
 	}
