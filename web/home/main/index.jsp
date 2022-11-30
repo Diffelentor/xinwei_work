@@ -2235,6 +2235,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
 <%@include file="../../home/frame/frame_javascript.jsp"%>
 <script type="text/javascript" src="jquery.dataTables.min.js"></script>
+<script src="index.js" type="text/javascript"></script>
 <%--<script>--%>
 <%--    jQuery(document).ready(function() {--%>
 <%--        Metronic.init(); // init metronic core componets--%>
