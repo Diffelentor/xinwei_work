@@ -73,12 +73,12 @@ var Page = function() {
 		$('#modify_button').click(function() {submitModifyRecord();});
 	}
 	var initFuturesDataControlEvent=function () {
-		$('#remake_button').click(function() {onRemake();});
-		$('#query_button').click(function() {initFuturesDataRecordDatatable();});
-		$('#export_button').click(function() {onExportRecord();});
-		$('#finish_download_button').click(function() {onFinishDownload();});
-		$('#refresh_button').click(function() {onRemake();});
-		$('#table_print_button').click(function() {onTablePrint();});
+		$('#remake_button').click(function() {onRemake();});	//重置按钮
+		$('#query_button').click(function() {initFuturesDataRecordDatatable();});	//查询按钮
+		$('#export_button').click(function() {onExportRecord();});	//导出按钮
+		$('#finish_download_button').click(function() {onFinishDownload();});	//导出完毕按钮
+		$('#refresh_button').click(function() {onRemake();});	//另一个刷新按钮
+		$('#table_print_button').click(function() {onTablePrint();});	//打印按钮
 	}
 	var initDeviceRecordView=function(){
 		var id=getUrlParam("id");

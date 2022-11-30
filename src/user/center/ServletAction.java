@@ -48,7 +48,7 @@ public class ServletAction extends HttpServlet {
 			resultMsg="传递过来的action是NULL";
 		}else{
 			//这几个常规增删改查功能
-            if (action.equals("getsession")) {
+            if (action.equals("get_session")) {
                 actionOk=true;
                 try {
                     getsession(request, response, json);
@@ -183,8 +183,12 @@ public class ServletAction extends HttpServlet {
         HttpSession session = request.getSession();
         String is_manager=(String)session.getAttribute("is_manager");
         String username=(String)session.getAttribute("username");
+		String email=(String)session.getAttribute("email");
+		String password=(String)session.getAttribute("password");
         json.put("username",username);
         json.put("is_manager",is_manager);
+		json.put("email",email);
+		json.put("password",password);
         json.put("result_code",0);
     }
 	/*========================================CRUD业务函数 结束========================================*/
@@ -201,10 +205,15 @@ public class ServletAction extends HttpServlet {
 		JSONObject aData=aaData.getJSONObject(0);
 		String username=aData.getString("username");
         String is_manager=aData.getString("is_manager");
+		String email=aData.getString("email");
+		String password=aData.getString("password");
 		session.setAttribute("username",username);
         session.setAttribute("is_manager",is_manager);
+		session.setAttribute("password",password);
+		session.setAttribute("email",email);
 		showDebug("session.username=:"+username);
-        showDebug("session.is_manager=:"+is_manager);
+        showDebug("session.password=:"+password);
+		showDebug("session.email=:"+email);
 		if(json.getInt("result_code")==0){
 			json.put("redirect_url","home/main/index.jsp");
 		}else{

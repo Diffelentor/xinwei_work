@@ -329,8 +329,14 @@
                 <li class="dropdown dropdown-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <img alt="" class="img-circle" src="../../assets/admin/layout/img/avatar3_small.jpg"/>
-                        <span class="username username-hide-on-mobile">
+                        <span class="username username-hide-on-mobile" id="const_username" name="const_username">
 					Nick </span>
+                        <span hidden="hidden" id="const_is_manager" name="const_is_manager">
+					No </span>
+                        <span  hidden="hidden" class="username username-hide-on-mobile" id="const_password" name="const_password">
+					 </span>
+                        <span  hidden="hidden" sclass="username username-hide-on-mobile" id="const_email" name="const_email">
+					 </span>
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-default">
@@ -381,4 +387,3 @@
     </div>
     <!-- END HEADER INNER -->
 </div>
-<!-- END HEADER -->

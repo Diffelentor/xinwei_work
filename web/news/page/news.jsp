@@ -216,7 +216,7 @@
 </div>
 </div>
 <%@include file="../../home/frame/frame_footer.jsp"%>
-<%@include file="frame_javascript.jsp"%>
+<%@include file="../../home/frame/frame_javascript.jsp"%>
 
 <script src="news_list.js" type="text/javascript"></script>
 

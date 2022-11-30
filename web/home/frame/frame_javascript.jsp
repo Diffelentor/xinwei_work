@@ -28,3 +28,4 @@
 <script src="../../assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
 <script src="../../assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
 <script src="../../assets/admin/layout/scripts/demo.js" type="text/javascript"></script>
+<script src="../../home/frame/get_session.js" type="text/javascript"></script>
