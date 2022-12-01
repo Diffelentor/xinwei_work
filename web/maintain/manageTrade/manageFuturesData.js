@@ -306,7 +306,7 @@ var Page = function() {
 			},{
 				"mRender": function(data, type, full) {
 					//注意事项：这里比较奇怪，要想跳转则里面的数据必须都是int（现在的发现是只要有string就不会执行函数）
-					sReturn = '<div><a href="javascript:Page.onModifyRecord('+full.futures_id+')"><i class="fa fa-pencil"></i> 修改</a><a href="javascript:Page.onDeleteRecord('+full.id+')"><span class="glyphicon glyphicon-remove-sign">\n' +
+					sReturn = '<div><a href="javascript:Page.onModifyRecord('+full.id+')"><i class="fa fa-pencil"></i> 修改</a><a href="javascript:Page.onDeleteRecord('+full.id+')"><span class="glyphicon glyphicon-remove-sign">\n' +
 						'</span> 删除</div>';
 					return sReturn;
 				},"orderable": false
@@ -340,16 +340,20 @@ var Page = function() {
 		submitAddRecordDiv();
 	};
 	var submitAddRecordDiv=function () {
+		var testBlank = $("#futures_add_div #futures_id").val();
+		if(testBlank==""){
+			$("#futures_add_div #reminder").modal("show");	//与.show作用相同，都可以达到显示或隐藏的目的
+			alert("代号不能为空");
+			return;
+		}else {
+			$("#futures_modify_div #reminder").hide();
+		}
 		if(confirm("您确定要添加该记录吗？")){;
 			var url="../../"+module+"_"+sub+"_servlet_action";
 			var data={};
 			data.action="add_futures_record";
 			//获取填写在该页面的数据准备传向后端
 			data.futures_id=$("#futures_add_div #futures_id").val();
-			if(data.futures_id==""){
-				alert("代号不能为空");
-				return;
-			}
 			data.futures_name=$("#futures_add_div #futures_name").val();
 			data.price_today_begin=$("#futures_add_div #price_today_begin").val();
 			data.price_yesterday=$("#futures_add_div #price_yesterday").val();
@@ -377,16 +381,20 @@ var Page = function() {
 		submitModifyRecordDiv();
 	};
 	var submitModifyRecordDiv=function () {
+		var testBlank = $("#futures_modify_div #futures_id").val();
+		if(testBlank==""){
+			$("#futures_modify_div #reminder").show();
+			alert("代号不能为空");
+			return;
+		}else {
+			$("#futures_modify_div #reminder").hide();
+		}
 		if(confirm("您确定要修改该记录吗？")){;
 			var url="../../"+module+"_"+sub+"_servlet_action";
 			var data={};
 			data.action="modify_futures_record";
 			//获取填写在该页面的数据准备传向后端
 			data.futures_id=$("#futures_modify_div #futures_id").val();
-			if(data.futures_id==""){
-				alert("代号不能为空");
-				return;
-			}
 			data.id=$("#futures_modify_div #id").val();
 			data.futures_name=$("#futures_modify_div #futures_name").val();
 			data.price_today_begin=$("#futures_modify_div #price_today_begin").val();
@@ -404,7 +412,7 @@ var Page = function() {
 			$.post(url,data,function(json){
 				if(json.result_code==0){
 					alert("已经完成设备修改。");
-					window.location.reload();
+					window.location.reload();	//刷新当前页面
 				}
 			});
 		}

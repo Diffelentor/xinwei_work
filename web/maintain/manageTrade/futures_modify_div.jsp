@@ -17,7 +17,7 @@
                                 <div class="col-md-9">
                                     <input type="hidden" id="id" name="id" value="">
                                     <input type="text" class="form-control" placeholder="请填写代号" id="futures_id" name="futures_id">
-                                    <span class="help-block font-red">
+                                    <span class="help-block font-red display-none" id="reminder">
 											代号不能为空</span>
                                 </div>
                             </div>
