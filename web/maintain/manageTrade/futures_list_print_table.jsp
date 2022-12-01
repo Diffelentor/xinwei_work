@@ -64,7 +64,7 @@
                     <div class="portlet">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-bell-o"></i>Advance Table
+                                <i class="fa fa-bell-o"></i>期货数据
                             </div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse">

@@ -83,7 +83,7 @@
                     <%--                    如果不将type类型定义为buton的话会被默认为submit类型--%>
                     <button type="button"  class="btn btn-circle btn-lg default" id="export_button" name="export_button">
                         <i class="fa fa-cloud-download"></i> 导出</button>
-                    <button type="button" class="btn btn-circle btn-lg blue" id="table_button" name="table_button">
+                    <button type="button" class="btn btn-circle btn-lg blue" id="statistic_button" name="statistic_button">
                         <i class="icon-bar-chart"></i> 统计</button>
                     <button type="button" class="btn btn-circle btn-lg green" id="table_print_button" name="table_print_button">
                         <i class="fa fa-print"></i> 打印</button>

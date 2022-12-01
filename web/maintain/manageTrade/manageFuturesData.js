@@ -26,10 +26,14 @@ var Page = function() {
 		if(pageId=="futures_list_print_table"){
 			initFuturesPrintTable();
 		}
+		if(pageId=="futures_statistic"){
+			initFuturesStatistic();
+		}
 	};
 	/*----------------------------------------入口函数  结束----------------------------------------*/
 	var columnsData=undefined;
 	var recordResult=undefined;
+	var chartData=[];
 	/*----------------------------------------业务函数  开始----------------------------------------*/
 	/*------------------------------针对各个页面的入口  开始------------------------------*/
 	var initManageFuturesDataList=function(){
@@ -45,7 +49,13 @@ var Page = function() {
 	}
 	var initFuturesPrintTable=function () {
 		initFuturesListPrintTableRecord()
-	}
+	};
+	var initFuturesStatistic=function () {
+		$.ajaxSettings.async = false;	//禁止异步方式，否则第一个函数还没执行完就会执行第二个了
+		initFuturesStatisticRecord();
+		$.ajaxSettings.async = true;
+		initBarChart();
+	};
 	/*------------------------------针对各个页面的入口 结束------------------------------*/
 	var getUrlParam=function(name){
 		//获取url中的参数
@@ -56,13 +66,14 @@ var Page = function() {
 	//按钮事件
 	var initManageFuturesDataListControlEvent=function(){
 		$("#help_button").click(function() {help();});
-		$('#add_button').click(function() {onAddRecord();});
-		$('#futures_add_div #submit_button').click(function() {onAddDivSubmit();});
-		$('#futures_modify_div #submit_button').click(function() {onModifyDivSubmit();});
-		$('#query_button').click(function() {initManageFuturesDataRecordDatatable();});
-		$('#remake_button').click(function() {onRemake();});
-		$('#export_button').click(function() {onExportRecord();});
-		$('#table_print_button').click(function() {onTablePrint();});
+		$('#add_button').click(function() {onAddRecord();});		//添加按钮
+		$('#futures_add_div #submit_button').click(function() {onAddDivSubmit();});			//添加弹窗的提交按钮
+		$('#futures_modify_div #submit_button').click(function() {onModifyDivSubmit();});	//修改弹窗的提交按钮
+		$('#query_button').click(function() {initManageFuturesDataRecordDatatable();});		//查找按钮
+		$('#remake_button').click(function() {onRemake();});				//重置按钮
+		$('#export_button').click(function() {onExportRecord();});			//导出按钮
+		$('#table_print_button').click(function() {onTablePrint();});		//打印按钮
+		$('#statistic_button').click(function() {onStatisticRecord();});	//统计按钮
 	}
 	var initDeviceAddControlEvent=function(){
 		$("#help_button").click(function() {help();});
@@ -292,8 +303,8 @@ var Page = function() {
 			},{
 				"mRender": function(data, type, full) {
 					if(full.price_right_now!="" && full.price_yesterday!=""){
-						var amplitude=(full.price_right_now-full.price_yesterday)/full.price_yesterday;
-						amplitude=Math.round(amplitude*100000)/100000;
+						var amplitude=(full.price_right_now-full.price_yesterday)/full.price_yesterday*100;
+						amplitude=Math.round(amplitude*1000)/1000;
 						if(amplitude>0){
 							sReturn = '<div class="font-red">'+amplitude+'%</div>';
 						}else {
@@ -469,8 +480,8 @@ var Page = function() {
 						if(record.price_right_now!="" && record.price_yesterday!="") {
 							change = (record.price_right_now - 0) - (record.price_yesterday - 0);
 							change = Math.round(change * 100) / 100;
-							amplitude=(record.price_right_now-record.price_yesterday)/record.price_yesterday;
-							amplitude=Math.round(amplitude*100000)/100000;
+							amplitude=(record.price_right_now-record.price_yesterday)/record.price_yesterday*100;
+							amplitude=Math.round(amplitude*1000)/1000;
 							amplitude=amplitude+'%';
 						}
 						html=html+"                          	 		<tr>";
@@ -505,9 +516,97 @@ var Page = function() {
 					}
 				}
 				$("#print_table_content_div").html(html);
-				window.print();		//因为这个JQ封装的的这个post是以异步的方式进行执行，所以要在这里调用这个接口，不然打印的是html没有修改后的东西。
+				//window.print();		//因为这个JQ封装的的这个post是以异步的方式进行执行，所以要在这里调用这个接口，不然打印的是html没有修改后的东西。
 			}
 		})
+	};
+
+	//统计功能的实现
+	//这里进行跳转，统计图显示在另一个页面中
+	var onStatisticRecord=function () {
+		window.location.href="futures_statistic.jsp";
+	};
+	//当页面跳转后执行的，访问后端的数据，获取的东西是每个小时断和对应时间段的记录的数目，注意chartData是一个全局变量，在判断完page之后继续定义
+	var initFuturesStatisticRecord=function () {
+		var url = "../../"+module+"_"+sub+"_servlet_action";
+		var data={"action":"get_amplitude_by_futuresId"};
+		$.post(url,data,function (json) {
+			var html="";
+			if(json.result_code == 0){
+				console.log(JSON.stringify(json));
+				var list = json.aaData;
+				if(list!=undefined && list.length>0){
+					changeResultDataToChartData(list,chartData);
+					console.log(JSON.stringify(chartData));
+				}
+			}else {
+				alert("[initDeviceStatisticRecord]与后端交互错误！"+json.result_smg);
+			}
+		})
+	};
+	//将数据塞到chartData里，这个模板限定的用chartData这个变量
+	var changeResultDataToChartData=function (list,chartData) {
+		for(var i = 0; i < list.length; i++){
+			//year是横坐标，incom是横条的纵坐标，expenses是折线的纵坐标
+			var json = {"year":list[i].futures_id,"income":list[i].amplitude,"expenses":list[i].amplitude};
+			chartData.push(json);
+		}
+	};
+	//初始化那个统计表，必须要但不知道具体原理的东西
+	var initBarChart=function () {
+		var chart = AmCharts.makeChart("chart_1", {
+			"type": "serial",
+			"theme": "light",
+			"pathToImages": Metronic.getGlobalPluginsPath() + "amcharts/amcharts/images/",
+			"autoMargins": false,
+			"marginLeft": 30,
+			"marginRight": 8,
+			"marginTop": 10,
+			"marginBottom": 26,
+
+			"fontFamily": 'Open Sans',
+			"color":    '#888',
+
+			"dataProvider": chartData,
+			"valueAxes": [{
+				"axisAlpha": 0,
+				"position": "left"
+			}],
+			"startDuration": 1,
+			"graphs": [{
+				"alphaField": "alpha",
+				"balloonText": "<span style='font-size:13px;'>[[title]] in [[category]]:<b>[[value]]</b> [[additional]]</span>",
+				"dashLengthField": "dashLengthColumn",
+				"fillAlphas": 1,
+				"title": "Income",
+				"type": "column",
+				"valueField": "income"
+			}, {
+				"balloonText": "<span style='font-size:13px;'>[[title]] in [[category]]:<b>[[value]]</b> [[additional]]</span>",
+				"bullet": "round",
+				"dashLengthField": "dashLengthLine",
+				"lineThickness": 3,
+				"bulletSize": 7,
+				"bulletBorderAlpha": 1,
+				"bulletColor": "#FFFFFF",
+				"useLineColorForBulletBorder": true,
+				"bulletBorderThickness": 3,
+				"fillAlphas": 0,
+				"lineAlpha": 1,
+				"title": "Expenses",
+				"valueField": "expenses"
+			}],
+			"categoryField": "year",
+			"categoryAxis": {
+				"gridPosition": "start",
+				"axisAlpha": 0,
+				"tickLength": 0
+			}
+		});
+
+		$('#chart_1').closest('.portlet').find('.fullscreen').click(function() {
+			chart.invalidateSize();
+		});
 	}
 	//Page return 开始
 	return {

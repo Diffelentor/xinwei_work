@@ -124,6 +124,14 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+            if (action.equals("get_amplitude_by_futuresId")) {
+                actionOk=true;
+                try {
+                    getAmplitudeByFuturesId(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             try {
                 responseBack(request,response,json);
             } catch (JSONException e) {
@@ -198,7 +206,7 @@ public class ServletAction extends HttpServlet {
         dao.addDeviceRecord(data,json);
     }
     /*========================================CRUD业务函数 结束========================================*/
-
+    /*========================================期货CRUD业务函数 开始========================================*/
     private void getFuturesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
         DeviceDao dao=new DeviceDao();
         Data data=getPageParameters(request,response,json);
@@ -219,6 +227,16 @@ public class ServletAction extends HttpServlet {
         Data data=getPageParameters(request,response,json);
         dao.modifyDeviceRecord(data,json);
     }
+    /*========================================期货CRUD业务函数 结束========================================*/
+
+    /*========================================查询统计相关数据========================================*/
+    private void getAmplitudeByFuturesId(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
+        DeviceDao dao=new DeviceDao();
+        Data data=getPageParameters(request,response,json);//转换一下数据
+        dao.getAmplitudeByFuturesId(data,json);
+    }
+
+    /*========================================导出功能========================================*/
     private void exportDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
         DeviceDao dao=new DeviceDao();
         Data data=getPageParameters(request,response,json);
