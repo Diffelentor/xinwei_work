@@ -18,12 +18,16 @@ public class UserDao {
     /*添加记录*/
     public void addUserRecord(Data data, JSONObject json) throws JSONException, SQLException {
         //构造sql语句，根据传递过来的条件参数
-        String userId=data.getParam().has("user_id")?data.getParam().getString("user_id"):null;
-        String userName=data.getParam().has("user_name")?data.getParam().getString("user_name"):null;
-        if(userId!=null && userName!=null){
-            String sql="insert into user_file(user_id,user_name)";
-            sql=sql+" values('"+userId+"'";
-            sql=sql+" ,'"+userName+"')";
+        String username=data.getParam().has("username")?data.getParam().getString("username"):null;
+        String password=data.getParam().has("password")?data.getParam().getString("password"):null;
+        String email=data.getParam().has("email")?data.getParam().getString("email"):null;
+        String identity=data.getParam().has("identity")?data.getParam().getString("identity"):null;
+        if(username!=null && password!=null && email!=null && identity!=null){
+            String sql="insert into user_file(username,password,email,identity)";
+            sql=sql+" values('"+username+"'";
+            sql=sql+" ,'"+password+"'";
+            sql=sql+" ,'"+email+"'";
+            sql=sql+" ,'"+identity+"')";
             data.getParam().put("sql",sql);
             updateRecord(data,json);
         }
@@ -42,12 +46,16 @@ public class UserDao {
     public void modifyUserRecord(Data data,JSONObject json) throws JSONException, SQLException{
         //构造sql语句，根据传递过来的条件参数
         String id=data.getParam().has("id")?data.getParam().getString("id"):null;
-        String userId=data.getParam().has("user_id")?data.getParam().getString("user_id"):null;
-        String userName=data.getParam().has("user_name")?data.getParam().getString("user_name"):null;
+        String username=data.getParam().has("username")?data.getParam().getString("username"):null;
+        String password=data.getParam().has("password")?data.getParam().getString("password"):null;
+        String email=data.getParam().has("email")?data.getParam().getString("email"):null;
+        String identity=data.getParam().has("identity")?data.getParam().getString("identity"):null;
         if(id!=null){
             String sql="update user_file";
-            sql=sql+" set user_id='"+userId+"'";
-            sql=sql+" ,user_name='"+userName+"'";
+            sql=sql+" set username='"+username+"'";
+            sql=sql+" ,password='"+password+"'";
+            sql=sql+" ,email='"+email+"'";
+            sql=sql+" ,identity='"+identity+"'";
             sql=sql+" where id="+id;
             data.getParam().put("sql",sql);
             updateRecord(data,json);
@@ -120,16 +128,24 @@ public class UserDao {
 
     private String createGetRecordSql(Data data) throws JSONException {
         String sql="select * from user_file";
-        String username=data.getParam().has("username")?data.getParam().getString("username"):null;
-        if(username!=null && !username.isEmpty()) {
-            sql = sql + " where username=" + username;
+        String id=data.getParam().has("id")?data.getParam().getString("id"):null;
+        if(id!=null && !id.isEmpty()) {
+            sql = sql + " where id=" + id;
         }
-        String password=data.getParam().has("password")?data.getParam().getString("password"):null;
-        if(password!=null && !password.isEmpty()){
+        String username=data.getParam().has("username")?data.getParam().getString("username"):null;
+        if(username!=null && !username.isEmpty()){
             if(sql.indexOf("where")>-1){
-                sql=sql+" and password like '%"+password+"%'";
+                sql=sql+" and username like '%"+username+"%'";
             }else{
-                sql=sql+" where password like '%"+password+"%'";
+                sql=sql+" where username like '%"+username+"%'";
+            }
+        }
+        String identity=data.getParam().has("identity")?data.getParam().getString("identity"):null;
+        if(identity!=null && !identity.isEmpty()){
+            if(sql.indexOf("where")>-1){
+                sql=sql+" and identity like '%"+identity+"%'";
+            }else{
+                sql=sql+" where identity like '%"+identity+"%'";
             }
         }
         String email=data.getParam().has("email")?data.getParam().getString("email"):null;

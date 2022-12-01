@@ -117,6 +117,7 @@ public class ServletAction extends HttpServlet {
 	private Data getPageParameters(HttpServletRequest request,HttpServletResponse response,JSONObject json) throws JSONException{
 		Data data=new Data();
 		HttpSession session = request.getSession();
+		showDebug("这里是user/center/servlet");
 		/*----------------------------------------获取所有表单信息 开始----------------------------------------*/
 		showDebug("[getPageParameters]----------------------------------------获取所有表单信息 开始----------------------------------------");
 		JSONObject param=data.getParam();
@@ -180,12 +181,12 @@ public class ServletAction extends HttpServlet {
 	}
     private void getsession(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
         HttpSession session = request.getSession();
-        String is_manager=(String)session.getAttribute("is_manager");
+        String identity=(String)session.getAttribute("identity");
         String username=(String)session.getAttribute("username");
 		String email=(String)session.getAttribute("email");
 		String password=(String)session.getAttribute("password");
         json.put("username",username);
-        json.put("is_manager",is_manager);
+        json.put("identity",identity);
 		json.put("email",email);
 		json.put("password",password);
         json.put("result_code",0);
@@ -203,11 +204,11 @@ public class ServletAction extends HttpServlet {
 		JSONArray aaData=aa.getJSONArray("aaData");
 		JSONObject aData=aaData.getJSONObject(0);
 		String username=aData.getString("username");
-        String is_manager=aData.getString("is_manager");
+        String identity=aData.getString("identity");
 		String email=aData.getString("email");
 		String password=aData.getString("password");
 		session.setAttribute("username",username);
-        session.setAttribute("is_manager",is_manager);
+        session.setAttribute("identity",identity);
 		session.setAttribute("password",password);
 		session.setAttribute("email",email);
 		showDebug("session.username=:"+username);

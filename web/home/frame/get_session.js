@@ -9,6 +9,9 @@ var Get_Session = function() {
             console.log(JSON.stringify(json));
             if(json.result_code==0){
                 $("#const_username").html(json.username);
+                $("#const_password").html(json.password);
+                $("#const_email").html(json.email);
+                $("#const_identity").html(json.identity);
             }
         })
     };

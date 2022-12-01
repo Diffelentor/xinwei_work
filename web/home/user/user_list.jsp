@@ -104,7 +104,6 @@ License: You must have a valid license purchased only from themeforest(the above
                 </div>
             </div>
             <!-- END PAGE HEADER-->
-            <input type="hidden" id="page_id" name="page_id" value="user_list">
             <!-- BEGIN PAGE CONTENT-->
             <div class="row">
                 <div class="col-md-6">
@@ -127,13 +126,13 @@ License: You must have a valid license purchased only from themeforest(the above
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">用户密码</label>
-                                        <div class="col-md-9">
-                                            <input type="text" class="form-control" placeholder="Enter text" id="password" name="password">
-                                            <span class="help-block">
-											请填写要查找的用户密码 </span>
-                                        </div>
+                                    <label class="col-md-3 control-label">用户身份</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="Enter text" id="identity" name="identity">
+                                        <span class="help-block">
+											请填写要查找的用户身份 </span>
                                     </div>
+                                </div>
                                     <div class="form-group">
                                         <label class="col-md-3 control-label">用户邮箱</label>
                                         <div class="col-md-9">
@@ -176,91 +175,91 @@ License: You must have a valid license purchased only from themeforest(the above
 <%--                    </div>--%>
 <%--                </div>--%>
 <%--            </div>--%>
-<%--            <div class="row" id="datatable_tab">--%>
-<%--                <div class="col-md-6">--%>
-<%--                    <table class="table table-striped table-bordered table-hover datatable" id="record_list">--%>
-<%--                        <thead>--%>
-<%--                        <tr>--%>
-<%--                            <th class="table-checkbox"><input type="checkbox" class="group-checkable" data-set="#record_list .checkboxes" /></th>--%>
-<%--                            <th>设备ID</th>--%>
-<%--                            <th>设备名称</th>--%>
-<%--                            <th>创建人</th>--%>
-<%--                            <th>创建时间</th>--%>
-<%--                            <th>操作</th>--%>
-<%--                        </tr>--%>
-<%--                        </thead>--%>
-<%--                    </table>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-            <div class="row display" id="table_tab">
+            <div class="row" id="datatable_tab">
                 <div class="col-md-12">
-                    <!-- BEGIN SAMPLE TABLE PORTLET-->
-                    <div class="portlet box blue">
-                        <div class="portlet-title">
-                            <div class="caption">
-                                <i class="fa fa-comments"></i>用户数据表
-                            </div>
-                            <div class="tools">
-                                <a href="javascript:;" class="collapse">
-                                </a>
-                                <a href="#portlet-config" data-toggle="modal" class="config">
-                                </a>
-                                <a href="javascript:;" class="reload">
-                                </a>
-                                <a href="javascript:;" class="remove">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="portlet-body">
-                            <div class="table-scrollable">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            Username
-                                        </th>
-                                        <th>
-                                            password
-                                        </th>
-                                        <th>
-                                            email
-                                        </th>
-                                        <th>
-                                            is_manager
-                                        </th>
-                                        <th>
-                                            modify
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="record_table_content_div" name="record_table_content_div">
-                                    <tr class=\"active\">
-                                        <td>
-                                            aaaaa
-                                        </td>
-                                        <td>
-                                            12345
-                                        </td>
-                                        <td>
-                                            12345@qq.com
-                                        </td>
-                                        <td>
-                                            Yes
-                                        </td>
-                                        <td>
-                                         <a href="javascript:Page.onModifyRecord(record.id)">【修改】</a><a href="javascript:Page.onDeleteRecord(record.id)">【删除】</a>
-                                        </td>
-                                    </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END SAMPLE TABLE PORTLET-->
+                    <table class="table table-striped table-bordered table-hover datatable" id="user_record_list">
+                        <thead>
+                        <tr>
+                            <th class="table-checkbox"><input type="checkbox" class="group-checkable" data-set="#record_list .checkboxes" /></th>
+                            <th>用户名</th>
+                            <th>用户密码</th>
+                            <th>用户邮箱</th>
+                            <th>用户身份</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                    </table>
                 </div>
-
             </div>
+<%--            <div class="row display" id="table_tab">--%>
+<%--                <div class="col-md-12">--%>
+<%--                    <!-- BEGIN SAMPLE TABLE PORTLET-->--%>
+<%--                    <div class="portlet box blue">--%>
+<%--                        <div class="portlet-title">--%>
+<%--                            <div class="caption">--%>
+<%--                                <i class="fa fa-comments"></i>用户数据表--%>
+<%--                            </div>--%>
+<%--                            <div class="tools">--%>
+<%--                                <a href="javascript:;" class="collapse">--%>
+<%--                                </a>--%>
+<%--                                <a href="#portlet-config" data-toggle="modal" class="config">--%>
+<%--                                </a>--%>
+<%--                                <a href="javascript:;" class="reload">--%>
+<%--                                </a>--%>
+<%--                                <a href="javascript:;" class="remove">--%>
+<%--                                </a>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <div class="portlet-body">--%>
+<%--                            <div class="table-scrollable">--%>
+<%--                                <table class="table table-bordered table-hover">--%>
+<%--                                    <thead>--%>
+<%--                                    <tr>--%>
+<%--                                        <th>--%>
+<%--                                            Username--%>
+<%--                                        </th>--%>
+<%--                                        <th>--%>
+<%--                                            password--%>
+<%--                                        </th>--%>
+<%--                                        <th>--%>
+<%--                                            email--%>
+<%--                                        </th>--%>
+<%--                                        <th>--%>
+<%--                                            is_manager--%>
+<%--                                        </th>--%>
+<%--                                        <th>--%>
+<%--                                            modify--%>
+<%--                                        </th>--%>
+<%--                                    </tr>--%>
+<%--                                    </thead>--%>
+<%--                                    <tbody id="record_table_content_div" name="record_table_content_div">--%>
+<%--                                    <tr class=\"active\">--%>
+<%--                                        <td>--%>
+<%--                                            aaaaa--%>
+<%--                                        </td>--%>
+<%--                                        <td>--%>
+<%--                                            12345--%>
+<%--                                        </td>--%>
+<%--                                        <td>--%>
+<%--                                            12345@qq.com--%>
+<%--                                        </td>--%>
+<%--                                        <td>--%>
+<%--                                            Yes--%>
+<%--                                        </td>--%>
+<%--                                        <td>--%>
+<%--                                         <a href="javascript:Page.onModifyRecord(record.id)">【修改】</a><a href="javascript:Page.onDeleteRecord(record.id)">【删除】</a>--%>
+<%--                                        </td>--%>
+<%--                                    </tr>--%>
+
+<%--                                    </tbody>--%>
+<%--                                </table>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                    <!-- END SAMPLE TABLE PORTLET-->--%>
+<%--                </div>--%>
+
+<%--            </div>--%>
 
             <!-- END PAGE CONTENT-->
         </div>

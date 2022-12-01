@@ -11,28 +11,48 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">设备信息添加</h4>
+                <h4 class="modal-title">用户信息添加</h4>
             </div>
             <div class="modal-body">
                 <div class="portlet-body form">
                     <form class="form-horizontal" role="form">
                         <div class="form-body">
                             <div class="form-group">
-                                <label class="col-md-3 control-label">设备编号</label>
+                                <label class="col-md-3 control-label">用户名</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" placeholder="Enter text" id="device_id" name="device_id">
+                                    <input type="text" class="form-control" placeholder="Enter text" id="username" name="username">
                                     <span class="help-block">
-											请填写要修改的设备编号 </span>
+											请填写要添加的用户名 </span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-body">
                             <div class="form-group">
-                                <label class="col-md-3 control-label">设备名称</label>
+                                <label class="col-md-3 control-label">用户密码</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" placeholder="Enter text" id="device_name" name="device_name">
+                                    <input type="text" class="form-control" placeholder="Enter text" id="password" name="password">
                                     <span class="help-block">
-											请填写要修改的设备名称 </span>
+											请填写要添加的用户密码 </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">用户邮箱</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" placeholder="Enter text" id="email" name="email">
+                                    <span class="help-block">
+											请填写要添加的用户邮箱 </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">用户身份</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" placeholder="Enter text" id="identity" name="identity">
+                                    <span class="help-block">
+											请填写要添加的用户身份 </span>
                                 </div>
                             </div>
                         </div>
