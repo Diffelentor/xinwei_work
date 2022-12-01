@@ -4,17 +4,20 @@ package user.center;
  * 增删改查看导印统功能的实现
  */
 
-import user.dao.Data;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import user.dao.UserDao;
+import user.dao.Data;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -101,6 +104,14 @@ public class ServletAction extends HttpServlet {
 				actionOk=true;
 				try {
 					register(request, response, json);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (action.equals("export_user_record")) {
+				actionOk=true;
+				try {
+					exportUserRecord(request, response, json);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -233,5 +244,47 @@ public class ServletAction extends HttpServlet {
 		}else{
 			json.put("redirect_url","home/main/register_error.jsp");
 		}
+	}
+	private void exportUserRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
+		UserDao dao=new UserDao();
+		Data data=getPageParameters(request,response,json);
+		dao.getUserRecord(data,json);
+//		getExportUserRecordToFile(json, data);
+//		getExportUserRecordToTxt(json, data);
+		getExportUserRecordToExcel(json, data);
+//		getExportUserRecordToPdf(json, data);
+	}
+	private void getExportUserRecordToPdf(JSONObject json, Data data) {
+
+	}
+
+	private void getExportUserRecordToTxt(JSONObject json, Data data) {
+
+	}
+
+	private void getExportUserRecordToFile(JSONObject json, Data data) throws JSONException {
+		String jsonStr=json.toString();
+		File jsonFile = new File("C:\\testUpload\\export_device.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
+		json.put("download_url","/upload/maintain/device/export_device.rar");
+		showDebug("准备下载");
+		try{
+			if(!jsonFile.exists()){
+				jsonFile.createNewFile();
+			}
+			FileWriter fileWriter=new FileWriter(jsonFile.getAbsoluteFile());
+			BufferedWriter bw=new BufferedWriter(fileWriter);
+			bw.write(jsonStr);
+			bw.close();
+			showDebug("完成下载");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	//需要四个jar包的引入
+	private void getExportUserRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
+		MyExcel me=new MyExcel("C:\\testUpload\\user_list.xls");
+		json.put("download_url","/upload/home/user/user_list.xls");
+		json.put("file_path","C:\\testUpload\\user_list.xls");
+		me.exportData(data,json);
 	}
 }

@@ -12,9 +12,16 @@ jQuery(document).ready(function() {
 /* ================================================================================ */
 //关于页面的控件生成等操作都放在Page里
 var Page = function() {
+
 	/*----------------------------------------入口函数  开始----------------------------------------*/
 	var initPageControl=function(){
-		initUserList();
+		pageId=$("#page_id").val();
+		if(pageId=="user_list"){
+			initUserList();
+		}
+		if(pageId=="user_view"){
+			initUserView();
+		}
 	};
 	/*----------------------------------------入口函数  结束----------------------------------------*/
 	var columnsData=undefined;
@@ -25,6 +32,10 @@ var Page = function() {
 		initUserListControlEvent();
 		initUserRecordList();
 	};
+	var initUserView=function(){
+		initUserViewControlEvent();
+		initUserRecordView();
+	}
 	/*------------------------------针对各个页面的入口 结束------------------------------*/
 	var getUrlParam=function(name){
 		//获取url中的参数
@@ -40,21 +51,25 @@ var Page = function() {
 		$('#query_button').click(function() {onQueryRecord();});
 		$('#export_button').click(function() {onExportRecord();});
 	};
+	var initUserViewControlEvent=function(){
+		$("#return_button").click(function() {returnback();});
+	};
 
 	var initUserRecordView=function(){
+		var id=getUrlParam("id");
 		var data={};
 		data.action="get_user_record";
+		data.id=id;
 		$.post("../../"+module+"_"+sub+"_servlet_action",data,function(json){
 			console.log(JSON.stringify(json));
 			if(json.result_code==0){
 				var list=json.aaData;
-				if(list!=undefined && list.length>0){
-					for(var i=0;i<list.length;i++){
-						var record=list[i];
-						$("#user_id").val(record.user_id);
-						$("#user_name").val(record.user_name);
-					}
-				}
+				var record = json.aaData;
+				record=record[0];
+				$("#user_view_div #username").val(record.username);
+				$("#user_view_div #password").val(record.password);
+				$("#user_view_div #email").val(record.email);
+				$("#user_view_div #identity").val(record.identity);
 			}
 		})
 	};
@@ -62,37 +77,6 @@ var Page = function() {
 		$('#record_add_div').modal("show");
 		//window.location.href="user_add.jsp";
 	};
-	var submitAddRecord=function(){
-		var url="user_file_servlet_action";
-		var data={};
-		data.action="add_user_record";
-		data.user_id=$("#user_id").val();
-		data.user_name=$("#user_name").val();
-		$.post(url,data,function(json){
-			if(json.result_code==0){
-				alert("已经完成设备添加。");
-				window.location.href="user_list.jsp";
-			}
-		});
-	};
-	var submitModifyRecord=function(){
-		if(confirm("您确定要修改该记录吗？")){
-			var id=getUrlParam("id");
-			var url="user_file_servlet_action";
-			var data={};
-			data.action="modify_user_record";
-			data.id=id;
-			data.user_id=$("#user_id").val();
-			data.user_name=$("#user_name").val();
-			$.post(url,data,function(json){
-				if(json.result_code==0){
-					alert("已经完成设备修改。");
-					window.location.href="user_list.jsp";
-				}
-			});
-		}
-	};
-
 
 	var initUserRecordList=function(){
 		getUserRecordDatatable();
@@ -100,50 +84,10 @@ var Page = function() {
 	var initUserMobileRecord=function(){
 		getUserMobileRecord();
 	};
-	// var getUserRecordList=function(){
-	// 	var data={}
-	// 	data.username=$('#record_query_setup #username').val();
-	// 	data.password=$('#record_query_setup #password').val();
-	// 	data.email=$('#record_query_setup #email').val();
-    //     data.identity=$('#record_query_setup #identity').val();
-	// 	resultlist=[];
-	// 	$.post("../../"+module+"_"+sub+"_servlet_action?action=get_user_record",data,function(json){
-	// 		console.log(JSON.stringify(json));
-	// 		if(json.result_code==0){
-	// 			var list=json.aaData;
-	// 			var html="";
-	// 			if(list!=undefined && list.length>0){
-	// 				for(var i=0;i<list.length;i++){
-	// 					var record=list[i];
-	// 					html=html+"		                                <tr class=\"active\">";
-	// 					html=html+"                                        <td>";
-	// 					html=html+"                                            "+record.username;
-	// 					html=html+"                                        </td>";
-	// 					html=html+"                                        <td>";
-	// 					html=html+"                                            "+record.password;
-	// 					html=html+"                                        </td>";
-    //                     html=html+"                                        <td>";
-    //                     html=html+"                                            "+record.email;
-    //                     html=html+"                                        </td>";
-    //                     html=html+"                                        <td>";
-    //                     html=html+"                                            "+record.identity;
-    //                     html=html+"                                        </td>";
-	// 					html=html+"                                        <td>";
-	// 					resultlist.push(record);
-	// 					html=html+"                                            <a href=\"javascript:Page.onModifyRecord("+record.name+")\">【修改记录】</a><a href=\"javascript:Page.onDeleteRecord("+record.name+")\">【删除记录】</a>";
-	// 					html=html+"                                        </td>";
-	// 					html=html+"                                    </tr>";
-	//
-	// 				}
-	// 			}
-	// 			$("#record_table_content_div").html(html);
-	// 		}
-	// 	})
-	// };
 	var onDeleteRecord = function(id){
 		if(confirm("您确定要删除这条记录吗？")){
 			if(id>-1){
-				var url="../../user_file_servlet_action";
+				var url="../../"+module+"_"+sub+"_servlet_action";
 				var data={};
 				data.action="delete_user_record";
 				data.id=id;
@@ -246,13 +190,6 @@ var Page = function() {
 		});
 	};
 
-	var onDataTableTab=function() {
-
-		$("#datatable_tab").show();
-		$("#table_tab").hide();
-		$("#bar_tab").hide();
-		console.log("onDataTableTab");
-	};
 
 	var onModifyDivSubmit=function(){
 		$("#record_modify_div").modal("hide");
@@ -315,7 +252,7 @@ var Page = function() {
 	};
 
 	var onExportRecord=function () {
-		var url="../../user_file_servlet_action";
+		var url="../../"+module+"_"+sub+"_servlet_action";
 		var data={"action":"export_user_record"};
 		$.post(url,data,function(json){
 			if(json.result_code==0){

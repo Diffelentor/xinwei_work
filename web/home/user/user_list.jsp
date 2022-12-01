@@ -68,40 +68,15 @@ License: You must have a valid license purchased only from themeforest(the above
                 <ul class="page-breadcrumb">
                     <li>
                         <i class="fa fa-home"></i>
-                        <a href="index.html">Home</a>
+                        <a href="../main/index.jsp">首页</a>
                         <i class="fa fa-angle-right"></i>
                     </li>
                     <li>
-                        <a href="#">Data Tables</a>
+                        <a href="user_list.jsp">用户信息</a>
                         <i class="fa fa-angle-right"></i>
-                    </li>
-                    <li>
-                        <a href="#">Basic Datatables</a>
                     </li>
                 </ul>
-                <div class="page-toolbar">
-                    <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
-                            Actions <i class="fa fa-angle-down"></i>
-                        </button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                            <li>
-                                <a href="#">Action</a>
-                            </li>
-                            <li>
-                                <a href="#">Another action</a>
-                            </li>
-                            <li>
-                                <a href="#">Something else here</a>
-                            </li>
-                            <li class="divider">
-                            </li>
-                            <li>
-                                <a href="#">Separated link</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+
             </div>
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
@@ -267,6 +242,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- END CONTENT -->
 
 </div>
+<input type="hidden" id="page_id" name="page_id" value="user_list">
 <!-- END CONTAINER -->
 <!-- BEGIN FOOTER -->
 <%@include file="../../home/frame/frame_footer.jsp"%>
