@@ -291,6 +291,7 @@ var Page = function() {
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
+					//如果要传不是数字类型的字符串需要加引号这个才会跳转，还有一点这里加引号需要转义，且转义的是单引号
 					sReturn = '<div><a href="javascript:Page.onModifyRecord('+full.id+')">【买入】</a><a href="javascript:Page.onDeleteRecord('+full.id+')">【k线图】</div>';
 					return sReturn;
 				},"orderable": false
@@ -321,6 +322,8 @@ var Page = function() {
 	var onRemake=function () {
 		window.location.reload();
 	}
+
+	//导出事件
 	var onExportRecord=function () {
 		var url="../../"+module+"_"+sub+"_servlet_action";
 		var data={"action":"export_futures_record"};

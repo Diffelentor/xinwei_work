@@ -60,7 +60,7 @@
             <li>
                 <a href="javascript:;">
                     <i class="icon-rocket"></i>
-                    <span class="title">股票信息</span>
+                    <span class="title">金融信息</span>
                     <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu">
