@@ -49,13 +49,15 @@ public class UserDao {
         String username=data.getParam().has("username")?data.getParam().getString("username"):null;
         String password=data.getParam().has("password")?data.getParam().getString("password"):null;
         String email=data.getParam().has("email")?data.getParam().getString("email"):null;
-        String identity=data.getParam().has("identity")?data.getParam().getString("identity"):null;
+        String identity=data.getParam().has("identity")?data.getParam().getString("identity"):"普通用户";
+        int balance=data.getParam().has("balance")?data.getParam().getInt("balance"):0;
         if(id!=null){
             String sql="update user_file";
             sql=sql+" set username='"+username+"'";
             sql=sql+" ,password='"+password+"'";
             sql=sql+" ,email='"+email+"'";
             sql=sql+" ,identity='"+identity+"'";
+            sql=sql+" ,balance="+balance;
             sql=sql+" where id="+id;
             data.getParam().put("sql",sql);
             updateRecord(data,json);

@@ -57,6 +57,14 @@
 											请填写要修改的用户身份 </span>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">用户余额</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" placeholder="Enter text" id="balance" name="balance">
+                                    <span class="help-block">
+											请填写要修改的用户余额 </span>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
