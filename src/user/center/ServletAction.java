@@ -192,11 +192,13 @@ public class ServletAction extends HttpServlet {
 	}
     private void getsession(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
         HttpSession session = request.getSession();
+		String id=(String)session.getAttribute("id");
         String identity=(String)session.getAttribute("identity");
         String username=(String)session.getAttribute("username");
 		String email=(String)session.getAttribute("email");
 		String password=(String)session.getAttribute("password");
-        json.put("username",username);
+        json.put("id",id);
+		json.put("username",username);
         json.put("identity",identity);
 		json.put("email",email);
 		json.put("password",password);
@@ -214,14 +216,17 @@ public class ServletAction extends HttpServlet {
 		JSONObject aa = new JSONObject(strJson);
 		JSONArray aaData=aa.getJSONArray("aaData");
 		JSONObject aData=aaData.getJSONObject(0);
+		String id=aData.getString("id");
 		String username=aData.getString("username");
         String identity=aData.getString("identity");
 		String email=aData.getString("email");
 		String password=aData.getString("password");
+		session.setAttribute("id",id);
 		session.setAttribute("username",username);
         session.setAttribute("identity",identity);
 		session.setAttribute("password",password);
 		session.setAttribute("email",email);
+		showDebug("session.id=:"+id);
 		showDebug("session.username=:"+username);
         showDebug("session.password=:"+password);
 		showDebug("session.email=:"+email);

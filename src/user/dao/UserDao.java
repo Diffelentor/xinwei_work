@@ -50,7 +50,7 @@ public class UserDao {
         String password=data.getParam().has("password")?data.getParam().getString("password"):null;
         String email=data.getParam().has("email")?data.getParam().getString("email"):null;
         String identity=data.getParam().has("identity")?data.getParam().getString("identity"):"普通用户";
-        int balance=data.getParam().has("balance")?data.getParam().getInt("balance"):0;
+        String balance=data.getParam().has("balance")?data.getParam().getString("balance"):null;
         if(id!=null){
             String sql="update user_file";
             sql=sql+" set username='"+username+"'";
