@@ -46,14 +46,14 @@
                             用户信息</a>
                     </li>
                     <li>
-                        <a href="ecommerce_orders.html">
-                            <i class="icon-basket"></i>
-                            用户持仓</a>
+                        <a href="../../home/user/user_profile.jsp">
+                            <i class="icon-tag"></i>
+                            个人空间</a>
                     </li>
                     <li>
                         <a href="ecommerce_orders.html">
-                            <i class="icon-tag"></i>
-                            历史记录</a>
+                            <i class="icon-basket"></i>
+                            用户持仓</a>
                     </li>
                 </ul>
             </li>

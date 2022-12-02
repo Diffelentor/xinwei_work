@@ -15,13 +15,7 @@ var Page = function() {
 
 	/*----------------------------------------入口函数  开始----------------------------------------*/
 	var initPageControl=function(){
-		pageId=$("#page_id").val();
-		if(pageId=="user_list"){
-			initUserList();
-		}
-		if(pageId=="user_view"){
-			initUserView();
-		}
+		initUserList();
 	};
 	/*----------------------------------------入口函数  结束----------------------------------------*/
 	var columnsData=undefined;
@@ -32,10 +26,6 @@ var Page = function() {
 		initUserListControlEvent();
 		initUserRecordList();
 	};
-	var initUserView=function(){
-		initUserViewControlEvent();
-		initUserRecordView();
-	}
 	/*------------------------------针对各个页面的入口 结束------------------------------*/
 	var getUrlParam=function(name){
 		//获取url中的参数
@@ -53,28 +43,7 @@ var Page = function() {
 		$('#remake_button').click(function() {onRemake();});
 		$('#refresh_button').click(function() {onRemake();});	//另一个刷新按钮
 	};
-	var initUserViewControlEvent=function(){
-		$("#return_button").click(function() {returnback();});
-	};
 
-	var initUserRecordView=function(){
-		var id=getUrlParam("id");
-		var data={};
-		data.action="get_user_record";
-		data.id=id;
-		$.post("../../"+module+"_"+sub+"_servlet_action",data,function(json){
-			console.log(JSON.stringify(json));
-			if(json.result_code==0){
-				var list=json.aaData;
-				var record = json.aaData;
-				record=record[0];
-				$("#user_view_div #username").val(record.username);
-				$("#user_view_div #password").val(record.password);
-				$("#user_view_div #email").val(record.email);
-				$("#user_view_div #identity").val(record.identity);
-			}
-		})
-	};
 	var onRemake=function () {
 		window.location.reload();
 	};
@@ -250,7 +219,7 @@ var Page = function() {
 	};
 
 	var onViewRecord=function(id){
-		window.location.href="user_view.jsp?id="+id;
+		window.location.href="user_profile.jsp?id="+id;
 	};
 
 	var returnback=function(){
