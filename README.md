@@ -27,6 +27,10 @@ web/home/main 首页和登陆界面
 web/home/user 用户管理界面
 
 ## wgr部分
+
+
 src/futures 交易部分的servlet
 
 web/maintain/trade 交易部分
+
+web/maintain/manageTrade 交易管理部分
