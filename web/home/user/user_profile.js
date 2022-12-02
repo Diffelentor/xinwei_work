@@ -48,6 +48,7 @@ var Page = function() {
     var initUserProfileControlEvent=function(){
         $('#submit_button').click(function() {onModifySubmit();});
         $('#pay_button').click(function() {onPaySubmit();});
+        $('#pay_submit_button').click(function() {paySubmit();});
     };
 
     var initUserRecordProfile=function(){
@@ -92,25 +93,36 @@ var Page = function() {
         }
     };
     var onPaySubmit=function(id){
-        if(confirm("您确定要修改用户信息吗？")){
-            var url="../../"+module+"_"+sub+"_servlet_action";
-            var data={};
-            data.action="modify_user_record";
-            data.id=$("#id").val();
-            data.username=$("#username").val();
-            data.password=$("#password").val();
-            data.email=$("#email").val();
-            data.identity=$("#identity").val();
-            data.balance=$("#balance").val();
-            $.post(url,data,function(json){
-                if(json.result_code==0){
-                    alert("已经完成设备修改。");
-                    window.location.reload();
-                }
-            });
-        }
+        $("#user_pay_div").modal("show");
     };
 
+    var paySubmit=function(id){
+        if(confirm("您确定要充值吗？")){
+            if($("#pay_password").val()==$("#password").val()){
+                var url="../../"+module+"_"+sub+"_servlet_action";
+                var data={};
+                data.action="modify_user_record";
+                data.id=$("#id").val();
+                data.username=$("#username").val();
+                data.password=$("#password").val();
+                data.email=$("#email").val();
+                data.identity=$("#identity").val();
+                data.balance=Number($("#balance").val())+Number($("#pay_money").val());
+                console.log(data);
+                $.post(url,data,function(json){
+                    if(json.result_code==0){
+                        alert("已经完成充值。");
+                        $("#record_modify_div").modal("hide");
+                        window.location.reload();
+                    }
+                });
+            }
+            else{
+                alert("密码错误。");
+            }
+        }
+
+    };
     //Page return 开始
     return {
         init: function() {

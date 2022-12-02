@@ -271,3 +271,4 @@
 </body>
 <!-- END BODY -->
 </html>
+<%@include file="user_pay_div.jsp"%>
