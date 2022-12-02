@@ -116,6 +116,37 @@ public class GetExchangesData implements ServletContextListener{
             sql += " and date='" + date + "'";
         }
         updateDb.executeUpdate(sql);
+
+        /*total表*/
+        String sql_total = "";
+        count = 0;
+        String check_if_exist_total = "select count(*) as total from total where id = '" + exchange_id +"' and date = '" + date +"'";
+        try{
+            ResultSet rs = updateDb.executeQuery(check_if_exist_total);
+            while(rs.next()){
+                count = (rs.getInt(1));
+                //System.out.println("是否存在验证完成！");
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        /*第一次录入则插入记录*/
+        if (count == 0){
+            sql_total = "insert into total(id,name,price_pre,price_today_begin,price_right_now,price_high,price_low,select_time,date,type)";
+            sql_total += " values('" + exchange_id + "'" + " ,'" + name + "'" + " ,'" + price_today_begin + "'" + " ,'" + price_yesterday + "'" + " ,'" + price_right_now + "'" + " ,'" + price_high + "'" + " ,'" + price_low + "'" + " ,'" + time + "'" +" ,'" + date +"' ,'2')";
+        }
+        /*非第一次则修改记录*/
+        else{
+            sql_total = "update total set price_today_begin='"+price_today_begin+"'";
+            sql_total += " ,price_pre='"+price_yesterday+"'";
+            sql_total += " ,price_right_now='"+price_right_now+"'";
+            sql_total += " ,price_high='"+price_high+"'";
+            sql_total += " ,price_low='"+price_low+"'";
+            sql_total += " ,select_time='"+time+"'";
+            sql_total += " where id='"+ exchange_id +"'";
+            sql_total += " and date='" + date + "'";
+        }
+        updateDb.executeUpdate(sql_total);
         updateDb.close();
     }
 }
