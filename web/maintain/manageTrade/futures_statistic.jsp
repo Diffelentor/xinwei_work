@@ -49,6 +49,10 @@
             <!--设置页面ID-->
             <input type="hidden" id="page_id" name="page_id" value="futures_statistic">
             <div class="row">
+                <button class="btn btn-lg" id="return_button"><i class="icon-arrow-left"></i></button>
+            </div>
+
+            <div class="row">
                 <div class="col-md-12">
                     <!-- BEGIN CHART PORTLET-->
                     <div class="portlet light bordered">

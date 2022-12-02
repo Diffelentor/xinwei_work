@@ -52,6 +52,7 @@ var Page = function() {
 		initFuturesListPrintTableRecord()
 	};
 	var initFuturesStatistic=function () {
+		initFuturesStatisticControlEvent();
 		$.ajaxSettings.async = false;	//禁止异步方式，否则第一个函数还没执行完就会执行第二个了
 		initFuturesStatisticRecord();
 		$.ajaxSettings.async = true;
@@ -80,6 +81,9 @@ var Page = function() {
 		$('#refresh_button').click(function() {onRemake();});	//另一个刷新按钮
 		$('#table_print_button').click(function() {onTablePrint();});	//打印按钮
 		$('#statistic_button').click(function() {onStatisticRecord();});	//统计按钮
+	};
+	var initFuturesStatisticControlEvent=function () {
+		$('#return_button').click(function() {returnBack();});
 	}
 	var initDeviceRecordView=function(){
 		var id=getUrlParam("id");
@@ -492,6 +496,10 @@ var Page = function() {
 		$('#chart_1').closest('.portlet').find('.fullscreen').click(function() {
 			chart.invalidateSize();
 		});
+	};
+	//统计页面返回按钮的事件
+	var returnBack=function () {
+		history.go(-1);
 	}
 	//Page return 开始
 	return {

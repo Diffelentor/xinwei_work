@@ -51,6 +51,7 @@ var Page = function() {
 		initFuturesListPrintTableRecord()
 	};
 	var initFuturesStatistic=function () {
+		initManageFuturesStatisticControlEvent();
 		$.ajaxSettings.async = false;	//禁止异步方式，否则第一个函数还没执行完就会执行第二个了
 		initFuturesStatisticRecord();
 		$.ajaxSettings.async = true;
@@ -82,6 +83,9 @@ var Page = function() {
 	var initDeviceModifyControlEvent=function(){
 		$("#help_button").click(function() {help();});
 		$('#modify_button').click(function() {submitModifyRecord();});
+	};
+	var initManageFuturesStatisticControlEvent=function () {
+		$('#return_button').click(function() {returnBack();});
 	}
 	var initDeviceRecordView=function(){
 		var id=getUrlParam("id");
@@ -174,7 +178,7 @@ var Page = function() {
 			$.post(url,data,function(json){
 				if(json.result_code==0){
 					alert("已经完成设备修改。");
-					window.location.reload();
+					initManageFuturesDataRecordDatatable();
 				}
 			})
 
@@ -223,6 +227,7 @@ var Page = function() {
 		var data={};
 		data.futures_id=$("#record_query_setup #futures_id").val();
 		data.futures_name=$("#record_query_setup #futures_name").val();
+		data.order_by = "";		//"date desc";
 		$('.datatable').dataTable( {
 			"paging":true,
 			"searching":false,
@@ -326,7 +331,7 @@ var Page = function() {
 			"aLengthMenu": [[5,10,15,20,25,40,50,-1],[5,10,15,20,25,40,50,"所有记录"]],
 			"fnDrawCallback": function(){$(".checkboxes").uniform();$(".group-checkable").uniform();},
 			//像后端发送请求，附带的数据是为查询时候用的，起初这俩数据都是空值，不造成影响
-			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_futures_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name
+			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_futures_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name+"&order_by="+data.order_by
 		});
 		$('.datatable').find('.group-checkable').change(function () {
 			var set = jQuery(this).attr("data-set");
@@ -382,7 +387,8 @@ var Page = function() {
 			$.post(url,data,function(json){
 				if(json.result_code==0){
 					alert("已经完成设备添加。");
-					window.location.reload();
+					$("#futures_add_div").modal("hide");
+					initManageFuturesDataRecordDatatable();
 				}
 			});
 		}
@@ -424,7 +430,8 @@ var Page = function() {
 			$.post(url,data,function(json){
 				if(json.result_code==0){
 					alert("已经完成设备修改。");
-					window.location.reload();	//刷新当前页面
+					$("#futures_modify_div").modal("hide");
+					initManageFuturesDataRecordDatatable();
 				}
 			});
 		}
@@ -607,6 +614,10 @@ var Page = function() {
 		$('#chart_1').closest('.portlet').find('.fullscreen').click(function() {
 			chart.invalidateSize();
 		});
+	}
+	//统计页面返回按钮的事件
+	var returnBack=function () {
+		history.go(-1);
 	}
 	//Page return 开始
 	return {

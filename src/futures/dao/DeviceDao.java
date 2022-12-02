@@ -174,6 +174,10 @@ public class DeviceDao {
 				sql=sql+" where futures_name like '%"+futuresName+"%'";
 			}
 		}
+		String orderBy=data.getParam().has("order_by")?data.getParam().getString("order_by"):null;
+		if(orderBy!=null && !orderBy.isEmpty()){
+			sql=sql+" order by "+orderBy;
+		}
 		return sql;
 	}
 
