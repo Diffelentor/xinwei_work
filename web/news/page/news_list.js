@@ -168,7 +168,7 @@ var Page = function () {
     var initCommentView=function () {
         var id=window.location.href.split("?")[1].split("=")[1];
         var data = {};
-        var Identity = $("#const_identity").text();
+        var Identity = $("#const_identity1").val();
         $.post("../../news_file_servlet_action?action=get_news_comment&id="+id,data,function (json) {
             console.log(JSON.stringify(json));
             if(json.result_code == 0){
@@ -273,8 +273,7 @@ var Page = function () {
         var data={};
         data.commentId = commentID;
         data.action="add_comment_reply";
-        var Name = $("#const_username");
-        data.reply_name = Name.text();
+        data.reply_name = $("#const_username1").val();
         //data.reply_name=$("#reply_name").val();
         data.reply_content=$("#reply_content").val();
         $.post(url,data,function(json){
@@ -296,10 +295,9 @@ var Page = function () {
         data.action="add_news_comment";
         data.news_id=id;
         //data.user_name=$("#comment_add_div #user_name").val();
-        var Name = $("#const_username");
-        console.log("这是获取到的用户名："+Name.text());
-        data.user_name = Name.text();
+        data.user_name =$("#const_username1").val();
         data.news_comments=$("#comment_add_div #comment_detail").val();
+        console.log(data);
         $.post(url,data,function(json){
             if(json.result_code==0){
                 alert("发表评论成功！");
