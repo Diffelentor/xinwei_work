@@ -21,7 +21,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
-< lang="en">
+<html lang="en">
 <!--<![endif]-->
 <!-- BEGIN HEAD -->
 <head>
@@ -73,7 +73,6 @@ License: You must have a valid license purchased only from themeforest(the above
                     </li>
                     <li>
                         <a href="user_list.jsp">用户信息</a>
-                        <i class="fa fa-angle-right"></i>
                     </li>
                 </ul>
 
@@ -81,39 +80,30 @@ License: You must have a valid license purchased only from themeforest(the above
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
             <div class="row">
-                <div class="col-md-6">
-                    <button type="button" class="btn btn-primary" id="add_button" name="add_button">添加用户</button>
-                    <button type="button" class="btn btn-primary" id="query_button" name="query_button">查询用户</button>
-                    <button type="button" class="btn btn-primary" id="export_button" name="export_button">导出用户</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="portlet-body form" id="record_query_setup" name="record_query_setup">
                             <form class="form-horizontal" role="form">
                                 <div class="form-body">
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">用户名</label>
-                                        <div class="col-md-9">
-                                            <input type="text" class="form-control" placeholder="Enter text" id="username" name="username">
-                                            <span class="help-block">
-											请填写要查找的用户名 </span>
+                                        <label class="col-md-1 control-label">用户名</label>
+                                        <div class="col-md-2">
+                                            <input type="text" class="form-control" placeholder="请输入用户名" id="username" name="username">
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                    <label class="col-md-3 control-label">用户身份</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control" placeholder="Enter text" id="identity" name="identity">
-                                        <span class="help-block">
-											请填写要查找的用户身份 </span>
-                                    </div>
-                                </div>
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label">用户邮箱</label>
-                                        <div class="col-md-9">
-                                            <input type="text" class="form-control" placeholder="Enter text" id="email" name="email">
-                                            <span class="help-block">
-											请填写要查找的用户邮箱 </span>
+                                        <label class="col-md-1 control-label">用户身份</label>
+                                        <div class="col-md-2">
+                                            <input type="text" class="form-control" placeholder="请输入用户身份 text" id="identity" name="identity">
+                                        </div>
+                                        <label class="col-md-1 control-label">用户邮箱</label>
+                                        <div class="col-md-2">
+                                            <input type="text" class="form-control" placeholder="请输入用户邮箱 text" id="email" name="email">
+                                        </div>
+                                        <div class="col-md-1">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button"   class="btn blue" id="query_button" name="query_button">
+                                                <i class="fa fa-search"></i>搜索</button>
+                                            <button type="button"   class="btn default" id="remake_button" name="remake_button">
+                                                <i class="fa fa-refresh"></i>重置</button>
                                         </div>
                                     </div>
                                 </div>
@@ -121,6 +111,20 @@ License: You must have a valid license purchased only from themeforest(the above
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-10 ">
+                    <%--                    如果不将type类型定义为buton的话会被默认为submit类型--%>
+                    <button type="button"  class="btn btn-circle btn-lg yellow-crusta" id="add_button" name="add_button">
+                        <i class="fa fa-plus"></i> 新增</button>
+                    <button type="button"  class="btn btn-circle btn-lg default" id="export_button" name="export_button">
+                        <i class="fa fa-cloud-download"></i> 导出</button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" style="float: right"  class="btn default" id="refresh_button" name="refresh_button">
+                        <i class="fa fa-refresh"></i></button>
+                </div>
+            </div>
+            <br>
 <%--            <div class="row">--%>
 <%--                <div class="col-md-6">--%>
 <%--                    <button type="button" class="btn btn-primary" id="datatable_button" name="datatable_button">切换到DataTable</button>--%>
@@ -160,6 +164,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             <th>用户密码</th>
                             <th>用户邮箱</th>
                             <th>用户身份</th>
+                            <th>用户余额</th>
                             <th>操作</th>
                         </tr>
                         </thead>

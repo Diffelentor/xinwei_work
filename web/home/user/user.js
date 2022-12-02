@@ -50,6 +50,8 @@ var Page = function() {
 		$('#record_add_div #submit_button').click(function() {onAddDivSubmit();});
 		$('#query_button').click(function() {onQueryRecord();});
 		$('#export_button').click(function() {onExportRecord();});
+		$('#remake_button').click(function() {onRemake();});
+		$('#refresh_button').click(function() {onRemake();});	//另一个刷新按钮
 	};
 	var initUserViewControlEvent=function(){
 		$("#return_button").click(function() {returnback();});
@@ -72,6 +74,9 @@ var Page = function() {
 				$("#user_view_div #identity").val(record.identity);
 			}
 		})
+	};
+	var onRemake=function () {
+		window.location.reload();
 	};
 	var onAddRecord=function(){
 		$('#record_add_div').modal("show");
@@ -114,6 +119,7 @@ var Page = function() {
 				$("#record_modify_div #password").val(record.password);
 				$("#record_modify_div #email").val(record.email);
 				$("#record_modify_div #identity").val(record.identity);
+				$("#record_modify_div #balance").val(record.balance);
 				$("#record_modify_div").modal("show");
 			}
 		})
@@ -163,7 +169,10 @@ var Page = function() {
 					sReturn = '<div> '+full.identity+'</div>';
 					return sReturn;
 				},"orderable": false},{"mRender": function(data, type, full) {
-					sReturn = '<div><a href=\"javascript:Page.onModifyRecord('+full.id+')\">【修改】</a><a href=\"javascript:Page.onDeleteRecord('+full.id+')\">【删除】</a><a href=\"javascript:Page.onViewRecord('+full.id+')\">【查看记录】</a></div>';
+					sReturn = '<div> '+full.balance+'</div>';
+					return sReturn;
+				},"orderable": false},{"mRender": function(data, type, full) {
+					sReturn = '<div><a href=\"javascript:Page.onModifyRecord('+full.id+')\"><i class="fa fa-edit"></i>修改</a>&nbsp&nbsp&nbsp<a href=\"javascript:Page.onDeleteRecord('+full.id+')\"><i class="fa fa-times"></i>删除</a>&nbsp&nbsp&nbsp<a href=\"javascript:Page.onViewRecord('+full.id+')\"><i class="fa fa-user"></i>个人信息</a></div>';
 					return sReturn;
 				},"orderable": false}],
 			"aLengthMenu": [[5,10,15,20,25,40,50,-1],[5,10,15,20,25,40,50,"所有记录"]],
@@ -212,6 +221,7 @@ var Page = function() {
 			data.password=$("#record_modify_div #password").val();
 			data.email=$("#record_modify_div #email").val();
 			data.identity=$("#record_modify_div #identity").val();
+			data.balance=$("#record_modify_div #balance").val();
 			$.post(url,data,function(json){
 				if(json.result_code==0){
 					alert("已经完成设备修改。");
