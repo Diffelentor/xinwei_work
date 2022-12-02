@@ -19,7 +19,7 @@ public class newsDao {
     //将爬取的新闻信息导入数据库
     public void addNewsRecord(JSONArray jsonArray) throws JSONException {
 
-        Db updateDb = new Db("news");
+        Db updateDb = new Db("test");
 
         for(int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -49,7 +49,7 @@ public class newsDao {
     public void addNewsComments(Data data, JSONObject json) throws JSONException {
         String resultMsg = "发表评论成功！";
         int resultCode = 0;
-        Db updateDb = new Db("news");
+        Db updateDb = new Db("test");
 
         int news_id = data.getParam().has("news_id")?data.getParam().getInt("news_id"):0;
         String Name = data.getParam().has("user_name")?data.getParam().getString("user_name"):null;
@@ -108,7 +108,7 @@ public class newsDao {
 
         String sql = "select * from news_info where id="+id;
         showDebug("[queryRecord]构造的SQL语句是：" + sql);
-        Db queryDb = new Db("news");
+        Db queryDb = new Db("test");
         try{
             ResultSet rs = queryDb.executeQuery(sql);
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -151,7 +151,7 @@ public class newsDao {
         List jsonList = new ArrayList();
         /*--------------------获取变量 完毕--------------------*/
         /*--------------------数据操作 开始--------------------*/
-        Db queryDb = new Db("news");
+        Db queryDb = new Db("test");
         String sql=data.getParam().getString("sql");
         showDebug("[queryRecord]构造的SQL语句是：" + sql);
         try {
@@ -184,10 +184,6 @@ public class newsDao {
     private String createGetRecordSql(Data data, int module) throws JSONException {
         String sql = "select id,news_ID,title,time,news_url from news_info where module="+module;
 
-//        String id = data.getParam().has("id")?data.getParam().getString("id"):null;
-//        if(id!=null && !id.isEmpty())
-//            sql = sql + " where id="+id;
-
         String KeyWords=data.getParam().has("keywords")?data.getParam().getString("keywords"):null;
         if(KeyWords!=null && !KeyWords.isEmpty()){
             if(sql.indexOf("where")>-1){
@@ -196,7 +192,6 @@ public class newsDao {
                 sql=sql+" where title like '%"+KeyWords+"%'";
             }
         }
-
         sql = sql+" order by id desc";
         return sql;
     }

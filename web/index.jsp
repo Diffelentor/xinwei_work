@@ -6,5 +6,8 @@
 =======
 	//response.sendRedirect("home/main/login.jsp");
 	response.sendRedirect("home/main/login.jsp");
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 %>

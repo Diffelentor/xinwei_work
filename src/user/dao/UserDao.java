@@ -1,7 +1,7 @@
 package user.dao;
 
-import device.dao.Data;
-import device.dao.Db;
+import user.dao.Data;
+import user.dao.Db;
 import org.json.JSONException;
 import org.json.JSONObject;
 

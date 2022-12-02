@@ -60,11 +60,19 @@
                 <div class="form-group">
                     <label class="control-label col-sm-1" style="font-size: 18px">外汇代号</label>
                     <div class="col-md-2">
+<<<<<<< Updated upstream
                         <input id="exchanges_id" type="text" class="form-control" value="" placeholder="请输入期货代号"/>
                     </div>
                     <label class="control-label col-sm-1" style="font-size: 18px">外汇名称</label>
                     <div class="col-md-2">
                         <input id="exchanges_name" type="text" class="form-control" value="" placeholder="请输入期货名称"/>
+=======
+                        <input id="exchanges_id" type="text" class="form-control" value="" placeholder="请输入外汇代号"/>
+                    </div>
+                    <label class="control-label col-sm-1" style="font-size: 18px">外汇名称</label>
+                    <div class="col-md-2">
+                        <input id="exchanges_name" type="text" class="form-control" value="" placeholder="请输入外汇名称"/>
+>>>>>>> Stashed changes
                     </div>
                     <div class="col-md-2">
                         <button type="button"   class="btn blue" id="query_button" name="query_button">
@@ -76,6 +84,7 @@
                 </div>
             </div>
             <br>
+<<<<<<< Updated upstream
 
             <br>
             <div class="row">
@@ -97,6 +106,29 @@
                         <i class="fa fa-search"></i>股票</button>
                     <button type="button"   class="btn green" id="show_exchange" name="show_exchange">
                         <i class="fa fa-search"></i>汇率</button>
+=======
+            <div class="row">
+                <div class="col-md-12">
+                    <%--                    如果不将type类型定义为buton的话会被默认为submit类型--%>
+                    <button type="button"  class="btn btn-circle btn-lg yellow-crusta" id="add_button" name="add_button">
+                        <i class="fa fa-plus"></i> 新增</button>
+                    <button type="button"  class="btn btn-circle btn-lg default" id="export_button" name="export_button">
+                        <i class="fa fa-cloud-download"></i> 导出</button>
+                    <button type="button" class="btn btn-circle btn-lg blue" id="table_button" name="table_button">
+                        <i class="icon-bar-chart"></i> 统计</button>
+                    <button type="button" class="btn btn-circle btn-lg green" id="table_print_button" name="table_print_button">
+                        <i class="fa fa-print"></i> 打印</button>
+                    <div style="float:right;">
+                        <button type="button" style="float: right"  class="btn default" id="refresh_button" name="history_button">
+                            <i class="fa fa-refresh"></i></button>
+                        <button type="button"   class="btn green" id="show_futures" name="show_futures">
+                            <i class="fa fa-search"></i>期货</button>
+                        <button type="button"   class="btn green" id="show_shares" name="show_shares">
+                            <i class="fa fa-search"></i>股票</button>
+                        <button type="button"   class="btn green" id="show_exchange" name="show_exchange">
+                            <i class="fa fa-search"></i>外汇</button>
+                    </div>
+>>>>>>> Stashed changes
                 </div>
             </div>
             <br>
@@ -157,6 +189,12 @@
 <%@include file="../../home/frame/frame_javascript.jsp"%>
 <%--本页专用的--%>
 <script type="text/javascript" src="../dataTables/jquery.dataTables.min.js"></script>
+<<<<<<< Updated upstream
+=======
+<%@include file="../../share/exchanges/exchanges_download_div.jsp"%>
+<%@include file="../../share/exchanges/exchanges_add_div.jsp"%>
+<%@include file="../../share/exchanges/exchanges_modify_div.jsp"%>
+>>>>>>> Stashed changes
 
 <script src="exchangesData.js"></script>
 </body>

@@ -174,6 +174,7 @@ public class ServletAction extends HttpServlet {
         SharesDao dao=new SharesDao();
         Data data=getPageParameters(request,response,json);
         dao.getSharesRecord(data,json);
+<<<<<<< Updated upstream
         getExportDeviceRecordToFile(json, data);
         getExportDeviceRecordToTxt(json, data);
         getExportDeviceRecordToExcel(json, data);
@@ -192,6 +193,19 @@ public class ServletAction extends HttpServlet {
         String jsonStr=json.toString();
         File jsonFile = new File("C:\\testUpload\\export_device.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
         json.put("download_url","/upload/maintain/device/export_device.rar");
+=======
+        getExportSharesRecordToFile(json, data);
+        getExportSharesRecordToExcel(json, data);
+    }
+
+    private void getExportSharesRecordToFile(JSONObject json, Data data) throws JSONException {
+        String download_url = "/output/shares/export_shares.rar";
+        String file_path = "C:\\Tools\\output\\shares\\export_shares.rar";
+
+        String jsonStr=json.toString();
+        File jsonFile = new File(file_path);		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
+        json.put("download_rar_url",download_url);
+>>>>>>> Stashed changes
         showDebug("准备下载");
         try{
             if(!jsonFile.exists()){
@@ -207,10 +221,20 @@ public class ServletAction extends HttpServlet {
         }
     }
     //需要四个jar包的引入
+<<<<<<< Updated upstream
     private void getExportDeviceRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
         MyExcel me=new MyExcel("C:\\testUpload\\export_device.xls");
         json.put("download_url","/upload/maintain/device/export_device.xls");
         json.put("file_path","C:\\testUpload\\export_device.xls");
+=======
+    private void getExportSharesRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
+        String download_url = "/output/export_shares.xls";
+        String file_path = "C:\\Tools\\output\\export_shares.xls";
+
+        MyExcel me=new MyExcel(file_path);
+        json.put("download_xls_url",download_url);
+        json.put("file_path",file_path);
+>>>>>>> Stashed changes
         me.exportData(data,json);
     }
 }

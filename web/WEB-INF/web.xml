@@ -66,4 +66,17 @@
 	<listener>
 		<listener-class>exchanges.dao.GetExchangesData</listener-class>
 	</listener>
+<<<<<<< Updated upstream
+=======
+	<!-- ================  news begin =================       -->
+	<servlet>
+		<servlet-name>news_file_servlet_action</servlet-name>
+		<servlet-class>news.file.ServletAction</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>news_file_servlet_action</servlet-name>
+		<url-pattern>/news_file_servlet_action</url-pattern>
+	</servlet-mapping>
+	<!-- ================  news end =================       -->
+>>>>>>> Stashed changes
 </web-app>

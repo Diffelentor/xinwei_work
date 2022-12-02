@@ -63,6 +63,9 @@ var Page = function() {
 		$('#remake_button').click(function() {onRemake();});
 		$('#export_button').click(function() {onExportRecord();});
 		$('#table_print_button').click(function() {onTablePrint();});
+		$('#show_shares').click(function(){toSharePage();});
+		$('#show_exchange').click(function(){toExchangePage();});
+		$('#refresh_button').click(function() {onRemake();});
 	}
 	var initDeviceAddControlEvent=function(){
 		$("#help_button").click(function() {help();});
@@ -72,101 +75,54 @@ var Page = function() {
 		$("#help_button").click(function() {help();});
 		$('#modify_button').click(function() {submitModifyRecord();});
 	}
-	var initDeviceRecordView=function(){
-		var id=getUrlParam("id");
-		var data={};
-		data.action="get_device_record";
-		data.id=id;
-		$.post(module+"_"+sub+"_servlet_action",data,function(json){
-			console.log(JSON.stringify(json));
-			if(json.result_code==0){
-				var list=json.aaData;
-				if(list!=undefined && list.length>0){
-					for(var i=0;i<list.length;i++){
-						var record=list[i];
-						$("#device_id").val(record.device_id);
-						$("#device_name").val(record.device_name);
-					}
-				}
-			}
-		})
-	}
+	//测试字符串是不是数字形式(不进行输入的话也是可以通过测试的)
+	var testNumber=function (num) {
+		var numberFormat =/^[+-]?\d*(\.\d*)?(e[+-]?\d+)?$/;
+		if(numberFormat.test(num)){
+			return true;
+		}else{
+			return false;
+		}
+
+	};
+
 	var onAddRecord=function(){
 		$("#futures_add_div").modal("show");
 	}
-	var submitAddRecord=function(){
-		var url="device_file_servlet_action";
-		var data={};
-		data.action="add_device_record";
-		data.device_id=$("#device_id").val();
-		data.device_name=$("#device_name").val();
-		$.post(url,data,function(json){
-			if(json.result_code==0){
-				alert("已经完成设备添加。");
-				window.location.href="device_list.jsp";
-			}
-		});
-	}
-	var submitModifyRecord=function(){
-		if(confirm("您确定要修改该记录吗？")){
-			var id=getUrlParam("id");
-			var url="device_file_servlet_action";
-			var data={};
-			data.action="modify_device_record";
-			data.id=id;
-			data.device_id=$("#device_id").val();
-			data.device_name=$("#device_name").val();
-			$.post(url,data,function(json){
-				if(json.result_code==0){
-					alert("已经完成设备修改。");
-					window.location.href="device_list.jsp";
-				}
-			});
-		}
-	}
-
-	
-	var initDeviceRecordList=function(){
-		getDeviceRecordList();
-	}
-	var initDeviceMobileRecord=function(){
-		getDeviceMobileRecord();
-	}
-	var getDeviceRecordList=function(){
-		$.post(module+"_"+sub+"_servlet_action?action=get_device_record",function(json){
-			console.log(JSON.stringify(json));
-			if(json.result_code==0){
-				var list=json.aaData;
-				var html="";
-				if(list!=undefined && list.length>0){
-					for(var i=0;i<list.length;i++){
-						var record=list[i];
-						html=html+"<div>序号："+i+"<div>";
-						html=html+"<div>设备ID："+record.device_id+"<div>";
-						html=html+"<div>设备名称："+record.device_name+"<div>";
-						html=html+"<div><a href=\"javascript:Page.onModifyRecord("+record.id+")\">【修改记录】</a><a href=\"javascript:Page.onDeleteRecord("+record.id+")\">【删除记录】</a><div>";
-						html=html+"<p>";
-					}
-				}
-				$("#record_list_div").html(html);
-			}
-		})
-	}
-
-	//删除操作
-	var onDeleteRecord = function(id){
-		if(confirm("您确定要删除这条记录吗？")){
+	//在添加页面确认添加之后的事件
+	var onAddDivSubmit=function () {
+		submitAddRecordDiv();
+	};
+	var submitAddRecordDiv=function () {
+		if(confirm("您确定要添加该记录吗？")){
 			var url="../../"+module+"_"+sub+"_servlet_action";
 			var data={};
-			data.action="delete_futures_record";
-			data.id=id;
+			data.action="add_futures_record";
+			//获取填写在该页面的数据准备传向后端
+			data.futures_id=$("#futures_add_div #futures_id").val();
+			if(data.futures_id==""){
+				alert("代号不能为空");
+				return;
+			}
+			data.futures_name=$("#futures_add_div #futures_name").val();
+			data.price_today_begin=$("#futures_add_div #price_today_begin").val();
+			data.price_yesterday=$("#futures_add_div #price_yesterday").val();
+			data.price_right_now=$("#futures_add_div #price_right_now").val();
+			data.price_high=$("#futures_add_div #price_high").val();
+			data.price_low=$("#futures_add_div #price_low").val();
+			//测试输入的是否为数字形式
+			if(testNumber(data.price_today_begin) && testNumber(data.price_yesterday) && testNumber(data.price_right_now) && testNumber(data.price_high) && testNumber(data.price_low)){
+
+			}else {
+				alert("输入的数据不和规范");
+				return;
+			}
 			$.post(url,data,function(json){
 				if(json.result_code==0){
-					alert("已经完成设备修改。");
+					alert("已经完成期货记录添加！");
 					window.location.reload();
 				}
-			})
-
+			});
 		}
 	};
 
@@ -193,6 +149,51 @@ var Page = function() {
 			}
 		})
 	};
+	//在修改界面确认修改后进行的事件
+	var onModifyDivSubmit=function () {
+		submitModifyRecordDiv();
+	};
+	var submitModifyRecordDiv=function () {
+		if(confirm("您确定要修改该记录吗？")){;
+			var url="../../"+module+"_"+sub+"_servlet_action";
+			var data={};
+			data.action="modify_futures_record";
+			//获取填写在该页面的数据准备传向后端
+			data.futures_id=$("#futures_modify_div #futures_id").val();
+			if(data.futures_id==""){
+				alert("代号不能为空");
+				return;
+			}
+			data.id=$("#futures_modify_div #id").val();
+			data.futures_name=$("#futures_modify_div #futures_name").val();
+			data.price_today_begin=$("#futures_modify_div #price_today_begin").val();
+			data.price_yesterday=$("#futures_modify_div #price_yesterday").val();
+			data.price_right_now=$("#futures_modify_div #price_right_now").val();
+			data.price_high=$("#futures_modify_div #price_high").val();
+			data.price_low=$("#futures_modify_div #price_low").val();
+			//测试输入的是否为数字形式
+			if(testNumber(data.price_today_begin) && testNumber(data.price_yesterday) && testNumber(data.price_right_now) && testNumber(data.price_high) && testNumber(data.price_low)){
+
+			}else {
+				alert("输入的数据不和规范");
+				return;
+			}
+			$.post(url,data,function(json){
+				if(json.result_code==0){
+					alert("已经完成期货记录修改！");
+					window.location.reload();
+				}
+			});
+		}
+	};
+
+	var toSharePage = function (){
+		window.location.href="../../share/shares/sharesData_admin.jsp";
+	};
+	var toExchangePage = function (){
+		window.location.href="../../share/exchanges/exchangesData_admin.jsp";
+	};
+
 	var onRemake=function () {
 		window.location.reload();
 	};
@@ -293,7 +294,7 @@ var Page = function() {
 				"mRender": function(data, type, full) {
 					if(full.price_right_now!="" && full.price_yesterday!=""){
 						var amplitude=(full.price_right_now-full.price_yesterday)/full.price_yesterday;
-						amplitude=Math.round(amplitude*100000)/100000;
+						amplitude=Math.round(amplitude*100000)/1000;
 						if(amplitude>0){
 							sReturn = '<div class="font-red">'+amplitude+'%</div>';
 						}else {
@@ -335,98 +336,14 @@ var Page = function() {
 		});
 	};
 
-	//在添加页面确认添加之后的事件
-	var onAddDivSubmit=function () {
-		submitAddRecordDiv();
-	};
-	var submitAddRecordDiv=function () {
-		if(confirm("您确定要添加该记录吗？")){;
-			var url="../../"+module+"_"+sub+"_servlet_action";
-			var data={};
-			data.action="add_futures_record";
-			//获取填写在该页面的数据准备传向后端
-			data.futures_id=$("#futures_add_div #futures_id").val();
-			if(data.futures_id==""){
-				alert("代号不能为空");
-				return;
-			}
-			data.futures_name=$("#futures_add_div #futures_name").val();
-			data.price_today_begin=$("#futures_add_div #price_today_begin").val();
-			data.price_yesterday=$("#futures_add_div #price_yesterday").val();
-			data.price_right_now=$("#futures_add_div #price_right_now").val();
-			data.price_high=$("#futures_add_div #price_high").val();
-			data.price_low=$("#futures_add_div #price_low").val();
-			//测试输入的是否为数字形式
-			if(testNumber(data.price_today_begin) && testNumber(data.price_yesterday) && testNumber(data.price_right_now) && testNumber(data.price_high) && testNumber(data.price_low)){
-
-			}else {
-				alert("输入的数据不和规范");
-				return;
-			}
-			$.post(url,data,function(json){
-				if(json.result_code==0){
-					alert("已经完成设备添加。");
-					window.location.reload();
-				}
-			});
-		}
-	};
-
-	//在修改界面确认修改后进行的事件
-	var onModifyDivSubmit=function () {
-		submitModifyRecordDiv();
-	};
-	var submitModifyRecordDiv=function () {
-		if(confirm("您确定要修改该记录吗？")){;
-			var url="../../"+module+"_"+sub+"_servlet_action";
-			var data={};
-			data.action="modify_futures_record";
-			//获取填写在该页面的数据准备传向后端
-			data.futures_id=$("#futures_modify_div #futures_id").val();
-			if(data.futures_id==""){
-				alert("代号不能为空");
-				return;
-			}
-			data.id=$("#futures_modify_div #id").val();
-			data.futures_name=$("#futures_modify_div #futures_name").val();
-			data.price_today_begin=$("#futures_modify_div #price_today_begin").val();
-			data.price_yesterday=$("#futures_modify_div #price_yesterday").val();
-			data.price_right_now=$("#futures_modify_div #price_right_now").val();
-			data.price_high=$("#futures_modify_div #price_high").val();
-			data.price_low=$("#futures_modify_div #price_low").val();
-			//测试输入的是否为数字形式
-			if(testNumber(data.price_today_begin) && testNumber(data.price_yesterday) && testNumber(data.price_right_now) && testNumber(data.price_high) && testNumber(data.price_low)){
-
-			}else {
-				alert("输入的数据不和规范");
-				return;
-			}
-			$.post(url,data,function(json){
-				if(json.result_code==0){
-					alert("已经完成设备修改。");
-					window.location.reload();
-				}
-			});
-		}
-	};
-
-	//测试字符串是不是数字形式(不进行输入的话也是可以通过测试的)
-	var testNumber=function (num) {
-		var numberFormat =/^[+-]?\d*(\.\d*)?(e[+-]?\d+)?$/;
-		if(numberFormat.test(num)){
-			return true;
-		}else{
-			return false;
-		}
-
-	};
 	var onExportRecord=function () {
 		var url="../../"+module+"_"+sub+"_servlet_action";
 		var data={"action":"export_futures_record"};
 		$.post(url,data,function (json) {
 			if (json.result_code==0){
-				console.log(JSON.stringify(json));
-				$("#futures_download_div #download_url").attr("href","javascript:window.open('"+json.download_url+"')");	//window.open是打开一个新的页面进行跳转，但是这里没有显现出来
+				//console.log(JSON.stringify(json));
+				$("#futures_download_div #download_futures_rar_url").attr("href","javascript:window.open('"+json.download_rar_url+ "')");
+				$("#futures_download_div #download_futures_xls_url").attr("href","javascript:window.open('"+json.download_xls_url+ "')");
 				$("#futures_download_div").modal("show");
 			}else{
 				alert("[onExportRecord]与后端交互错误！"+json.result_smg);
@@ -461,7 +378,7 @@ var Page = function() {
 							change = (record.price_right_now - 0) - (record.price_yesterday - 0);
 							change = Math.round(change * 100) / 100;
 							amplitude=(record.price_right_now-record.price_yesterday)/record.price_yesterday;
-							amplitude=Math.round(amplitude*100000)/100000;
+							amplitude=Math.round(amplitude*100000)/1000;
 							amplitude=amplitude+'%';
 						}
 						html=html+"                          	 		<tr>";
@@ -496,7 +413,11 @@ var Page = function() {
 					}
 				}
 				$("#print_table_content_div").html(html);
+<<<<<<< Updated upstream
 				window.print();		//因为这个JQ封装的的这个post是以异步的方式进行执行，所以要在这里调用这个接口，不然打印的是html没有修改后的东西。
+=======
+				window.print();
+>>>>>>> Stashed changes
 			}
 		})
 	}

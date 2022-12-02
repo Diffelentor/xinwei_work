@@ -13,7 +13,9 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">下载链接</label>
                                 <div class="col-md-9">
-                                    <span><a href="" id="download_url" name="download_url">点击下载</a></span>
+                                    <span><a href="" id="download_futures_rar_url" name="download_rar_url">点击下载rar</a></span>
+                                    <br>
+                                    <span><a href="" id="download_futures_xls_url" name="download_xls_url">点击下载xls</a></span>
                                 </div>
                             </div>
                         </div>
@@ -22,7 +24,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn blue" id="finish_download_button" data-dismiss="modal">下载完毕</button>
+                <button type="button" class="btn blue" id="finish_download_button">下载完毕</button>
             </div>
         </div>
         <!-- /.modal-content -->

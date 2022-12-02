@@ -13,7 +13,13 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">下载链接</label>
                                 <div class="col-md-9">
+<<<<<<< Updated upstream
                                     <span><a href="" id="download_url" name="download_url">点击下载</a></span>
+=======
+                                    <span><a href="" id="download_shares_rar_url" name="download_rar_url">点击下载rar</a></span>
+                                    <br>
+                                    <span><a href="" id="download_shares_xls_url" name="download_xls_url">点击下载xls</a></span>
+>>>>>>> Stashed changes
                                 </div>
                             </div>
                         </div>

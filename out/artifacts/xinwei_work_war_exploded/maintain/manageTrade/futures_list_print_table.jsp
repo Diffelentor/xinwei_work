@@ -59,12 +59,12 @@
             <input type="hidden" id="page_id" name="page_id" value="futures_list_print_table">
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <!-- BEGIN SAMPLE TABLE PORTLET-->
                     <div class="portlet">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-bell-o"></i>Advance Table
+                                <i class="fa fa-bell-o"></i>期货数据表
                             </div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse">
@@ -75,6 +75,8 @@
                                 </a>
                                 <a href="javascript:;" class="remove">
                                 </a>
+                                <button type="button"   class="btn green" id="return_button" name="return_button" onclick="javascript:history.back(-1)">
+                                    <i class="fa fa-refresh"></i>返回</button>
                             </div>
                         </div>
                         <div class="portlet-body">
@@ -155,6 +157,6 @@
 </body>
 <!-- END BODY -->
 </html>
-<%@include file="futures_add_div.jsp"%>
-<%@include file="futures_modify_div.jsp"%>
-<%@include file="futures_download_div.jsp"%>
+<%@include file="../../maintain/manageTrade/futures_add_div.jsp"%>
+<%@include file="../../maintain/manageTrade/futures_modify_div.jsp"%>
+<%@include file="../../maintain/manageTrade/futures_download_div.jsp"%>

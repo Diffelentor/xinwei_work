@@ -78,6 +78,7 @@ var Page = function() {
 	}
 	var initFuturesDataControlEvent=function () {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 		$('#remake_button').click(function() {onRemake();});	//重置按钮
 		$('#query_button').click(function() {initFuturesDataRecordDatatable();});	//查询按钮
 		$('#export_button').click(function() {onExportRecord();});	//导出按钮
@@ -85,6 +86,14 @@ var Page = function() {
 		$('#refresh_button').click(function() {onRemake();});	//另一个刷新按钮
 		$('#table_print_button').click(function() {onTablePrint();});	//打印按钮
 =======
+=======
+		$('#remake_button').click(function() {onRemake();});	//重置按钮
+		$('#query_button').click(function() {initFuturesDataRecordDatatable();});	//查询按钮
+		$('#export_futures_button').click(function() {onExportRecord();});	//导出按钮
+		$('#finish_download_button').click(function() {onFinishDownload();});	//导出完毕按钮
+		$('#refresh_button').click(function() {onRemake();});	//另一个刷新按钮
+		$('#table_print_button').click(function() {onTablePrint();});	//打印按钮
+>>>>>>> Stashed changes
 		$('#remake_button').click(function() {onRemake();});
 		$('#query_button').click(function() {initFuturesDataRecordDatatable();});
 		$('#export_button').click(function() {onExportRecord();});
@@ -93,6 +102,9 @@ var Page = function() {
 		$('#table_print_button').click(function() {onTablePrint();});
 		$('#show_shares').click(function(){toSharePage();});
 		$('#show_exchange').click(function(){toExchangePage();});
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 	}
 	var initDeviceRecordView=function(){
@@ -344,8 +356,9 @@ var Page = function() {
 		var data={"action":"export_futures_record"};
 		$.post(url,data,function (json) {
 			if (json.result_code==0){
-				console.log(JSON.stringify(json));
-				$("#futures_download_div #download_url").attr("href","javascript:window.open('"+json.download_url+"')");	//window.open是打开一个新的页面进行跳转，但是这里没有显现出来
+				//console.log(JSON.stringify(json));
+				$("#futures_download_div #download_futures_rar_url").attr("href","javascript:window.open('"+json.download_rar_url+ "')");
+				$("#futures_download_div #download_futures_xls_url").attr("href","javascript:window.open('"+json.download_xls_url+ "')");
 				$("#futures_download_div").modal("show");
 			}else{
 				alert("[onExportRecord]与后端交互错误！"+json.result_smg);
@@ -645,7 +658,7 @@ var Page = function() {
 							change = (record.price_right_now - 0) - (record.price_yesterday - 0);
 							change = Math.round(change * 100) / 100;
 							amplitude=(record.price_right_now-record.price_yesterday)/record.price_yesterday;
-							amplitude=Math.round(amplitude*100000)/100000;
+							amplitude=Math.round(amplitude*100000)/1000;
 							amplitude=amplitude+'%';
 						}
 						html=html+"                          	 		<tr>";

@@ -143,7 +143,6 @@ public class ServletAction extends HttpServlet {
         newsDao dao = new newsDao();
         Data data=getPageParameters(request,response,json);
         dao.getZXRDRecord(data,json);
-        //System.out.println("getNewsRecord里输出的："+json);
     }
 
     private void getCJXWRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException {

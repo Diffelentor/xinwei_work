@@ -168,4 +168,4 @@
 
 <input type="hidden" id="page_id" name="page_id" value="content_view">
 </html>
-<%@include file="add_reply_div.jsp"%>
+<%@include file="../../news/page/add_reply_div.jsp"%>

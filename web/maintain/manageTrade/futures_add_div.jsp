@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">设备信息修改</h4>
+                <h4 class="modal-title">期货记录增加</h4>
             </div>
             <div class="modal-body">
                 <div class="portlet-body form">
@@ -15,8 +15,9 @@
                                 <label class="col-md-3 control-label">*代号</label>
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" placeholder="请填写代号" id="futures_id" name="futures_id">
-                                    <span class="help-block font-red">
+                                    <span class="help-block font-red display-none" id="reminder">
 											代号不能为空</span>
+                                </div>
                                 </div>
                             </div>
                             <div class="form-group">

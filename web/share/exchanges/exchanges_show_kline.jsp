@@ -64,13 +64,21 @@
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="fa fa-bell-o"></i>K线图
+<<<<<<< Updated upstream
                                 <button type="button"   class="btn green" id="return_button" name="return_button" onclick="javascript:history.back(-1)">
                                     <i class="fa fa-refresh"></i>返回</button>
+=======
+>>>>>>> Stashed changes
                             </div>
                         </div>
                     <!-- END SAMPLE TABLE PORTLET-->
                     </div>
                 </div>
+<<<<<<< Updated upstream
+=======
+                <button type="button" style="position: relative; left: 30%" class="btn green" id="return_button" name="return_button" onclick="javascript:history.back(-1)">
+                    <i class="fa fa-refresh"></i>返回</button>
+>>>>>>> Stashed changes
             </div>
             <!--页面结束=======================================================-->
             <!-- END PAGE CONTENT-->

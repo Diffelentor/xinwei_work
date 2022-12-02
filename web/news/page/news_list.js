@@ -139,7 +139,7 @@ var Page = function () {
     }
 
     var onViewRecord=function (id) {
-        window.location.href="news_content.jsp?id="+id;
+        window.location.href = "news_content.jsp?id="+id;
     };
 
     var initContentView=function () {

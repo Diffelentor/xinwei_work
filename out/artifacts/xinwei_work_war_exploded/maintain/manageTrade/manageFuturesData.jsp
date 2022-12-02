@@ -78,25 +78,26 @@
             </div>
             <br>
             <div class="row">
-                <div class="col-md-10 ">
+                <div class="col-md-12">
                     <%--                    如果不将type类型定义为buton的话会被默认为submit类型--%>
                     <button type="button"  class="btn btn-circle btn-lg yellow-crusta" id="add_button" name="add_button">
                         <i class="fa fa-plus"></i> 新增</button>
-                    <button type="button"  class="btn btn-circle btn-lg yellow-crusta" id="datatable_button" name="datatable_button">
-                                <span class="glyphicon glyphicon-remove-sign">
-                                    </span> 删除</button>
-                    <button type="button"  class="btn btn-circle btn-lg red-pink" id="datatable_button" name="datatable_button">
-                        <i class="fa fa-pencil"></i> 修改</button>
                     <button type="button"  class="btn btn-circle btn-lg default" id="export_button" name="export_button">
                         <i class="fa fa-cloud-download"></i> 导出</button>
                     <button type="button" class="btn btn-circle btn-lg blue" id="table_button" name="table_button">
                         <i class="icon-bar-chart"></i> 统计</button>
                     <button type="button" class="btn btn-circle btn-lg green" id="table_print_button" name="table_print_button">
                         <i class="fa fa-print"></i> 打印</button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" style="float: right"  class="btn default" id="refresh_button" name="history_button">
-                        <i class="fa fa-refresh"></i></button>
+                    <div style="float:right;">
+                        <button type="button" style="float: right"  class="btn default" id="refresh_button" name="history_button">
+                            <i class="fa fa-refresh"></i></button>
+                        <button type="button"   class="btn green" id="show_futures" name="show_futures">
+                            <i class="fa fa-search"></i>期货</button>
+                        <button type="button"   class="btn green" id="show_shares" name="show_shares">
+                            <i class="fa fa-search"></i>股票</button>
+                        <button type="button"   class="btn green" id="show_exchange" name="show_exchange">
+                            <i class="fa fa-search"></i>外汇</button>
+                    </div>
                 </div>
             </div>
             <br>
@@ -159,6 +160,6 @@
 </body>
 <!-- END BODY -->
 </html>
-<%@include file="futures_add_div.jsp"%>
-<%@include file="futures_modify_div.jsp"%>
-<%@include file="futures_download_div.jsp"%>
+<%@include file="../../maintain/manageTrade/futures_add_div.jsp"%>
+<%@include file="../../maintain/manageTrade/futures_modify_div.jsp"%>
+<%@include file="../../maintain/manageTrade/futures_download_div.jsp"%>

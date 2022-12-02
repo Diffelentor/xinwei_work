@@ -171,6 +171,7 @@ public class ServletAction extends HttpServlet {
     }
     private void getFuturesKline(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
         FuturesDao dao=new FuturesDao();
+<<<<<<< Updated upstream
         Data data=getPageParameters(request,response,json);
         dao.getFutureskline(data,json);
     }
@@ -183,20 +184,32 @@ public class ServletAction extends HttpServlet {
         getExportDeviceRecordToTxt(json, data);
         getExportDeviceRecordToExcel(json, data);
         getExportDeviceRecordToPdf(json, data);
+=======
+        Data data=getPageParameters(request,response,json);
+        dao.getFutureskline(data,json);
+>>>>>>> Stashed changes
     }
 
-    private void getExportDeviceRecordToPdf(JSONObject json, Data data) {
-
+    private void exportFuturesRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
+        FuturesDao dao=new FuturesDao();
+        Data data=getPageParameters(request,response,json);
+        dao.getFuturesRecord(data,json);
+        getExportFuturesRecordToFile(json, data);
+        getExportFuturesRecordToExcel(json, data);
     }
 
-    private void getExportDeviceRecordToTxt(JSONObject json, Data data) {
+    private void getExportFuturesRecordToFile(JSONObject json, Data data) throws JSONException {
+        String download_url = "/output/futures/export_futures.rar";
+        String file_path = "C:\\Tools\\output\\futures\\export_futures.rar";
 
-    }
-
-    private void getExportDeviceRecordToFile(JSONObject json, Data data) throws JSONException {
         String jsonStr=json.toString();
+<<<<<<< Updated upstream
         File jsonFile = new File("C:\\testUpload\\export_device.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
         json.put("download_url","/upload/maintain/device/export_device.rar");
+=======
+        File jsonFile = new File(file_path);		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
+        json.put("download_rar_url",download_url);
+>>>>>>> Stashed changes
         //showDebug("准备下载");
         try{
             if(!jsonFile.exists()){
@@ -212,10 +225,13 @@ public class ServletAction extends HttpServlet {
         }
     }
     //需要四个jar包的引入
-    private void getExportDeviceRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
-        MyExcel me=new MyExcel("C:\\testUpload\\export_device.xls");
-        json.put("download_url","/upload/maintain/device/export_device.xls");
-        json.put("file_path","C:\\testUpload\\export_device.xls");
+    private void getExportFuturesRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
+        String download_url = "/output/futures/export_futures.xls";
+        String file_path = "C:\\Tools\\output\\futures\\export_futures.xls";
+
+        MyExcel me=new MyExcel(file_path);
+        json.put("download_xls_url",download_url);
+        json.put("file_path",file_path);
         me.exportData(data,json);
     }
 }

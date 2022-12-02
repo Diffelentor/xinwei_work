@@ -52,6 +52,17 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+<<<<<<< Updated upstream
+=======
+            if (action.equals("add_exchanges_record")) {
+                actionOk=true;
+                try {
+                    addExchangesRecord(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+>>>>>>> Stashed changes
             if (action.equals("export_exchanges_record")) {
                 actionOk=true;
                 try {
@@ -75,6 +86,16 @@ public class ServletAction extends HttpServlet {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+<<<<<<< Updated upstream
+=======
+            }if (action.equals("get_amplitude_by_exchangesId")) {
+                actionOk=true;
+                try {
+                    getAmplitudeByExchangesId(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+>>>>>>> Stashed changes
             }
             if (action.equals("get_kline")) {
                 actionOk=true;
@@ -91,7 +112,10 @@ public class ServletAction extends HttpServlet {
             }
         }
     }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     /*========================================函数分流 结束========================================*/
     /*========================================公共函数 开始========================================*/
     private Data getPageParameters(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException {
@@ -142,7 +166,15 @@ public class ServletAction extends HttpServlet {
         Data data=getPageParameters(request,response,json);
         dao.getExchangesRecord(data,json);
     }
+<<<<<<< Updated upstream
 
+=======
+    private void addExchangesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        ExchangesDao dao=new ExchangesDao();
+        Data data=getPageParameters(request,response,json);
+        dao.addExchangesRecord(data,json);
+    }
+>>>>>>> Stashed changes
     private void deleteExchangesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
         ExchangesDao dao=new ExchangesDao();
         Data data=getPageParameters(request,response,json);
@@ -153,6 +185,14 @@ public class ServletAction extends HttpServlet {
         Data data=getPageParameters(request,response,json);
         dao.modifyExchangesRecord(data,json);
     }
+<<<<<<< Updated upstream
+=======
+    private void getAmplitudeByExchangesId(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
+        ExchangesDao dao=new ExchangesDao();
+        Data data=getPageParameters(request,response,json);//转换一下数据
+        dao.getAmplitudeByExchangesId(data,json);
+    }
+>>>>>>> Stashed changes
     private void getExchangesKline(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
         ExchangesDao dao=new ExchangesDao();
         Data data=getPageParameters(request,response,json);
@@ -162,6 +202,7 @@ public class ServletAction extends HttpServlet {
         ExchangesDao dao=new ExchangesDao();
         Data data=getPageParameters(request,response,json);
         dao.getExchangesRecord(data,json);
+<<<<<<< Updated upstream
         getExportDeviceRecordToFile(json, data);
         getExportDeviceRecordToTxt(json, data);
         getExportDeviceRecordToExcel(json, data);
@@ -180,6 +221,19 @@ public class ServletAction extends HttpServlet {
         String jsonStr=json.toString();
         File jsonFile = new File("C:\\testUpload\\export_device.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
         json.put("download_url","/upload/maintain/device/export_device.rar");
+=======
+        getExportExchangesRecordToFile(json, data);
+        getExportExchangesRecordToExcel(json, data);
+    }
+
+    private void getExportExchangesRecordToFile(JSONObject json, Data data) throws JSONException {
+        String download_url = "/output/exchanges/export_exchanges.rar";
+        String file_path = "C:\\Tools\\output\\exchanges\\export_exchanges.rar";
+
+        String jsonStr=json.toString();
+        File jsonFile = new File(file_path);		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
+        json.put("download_rar_url",download_url);
+>>>>>>> Stashed changes
         showDebug("准备下载");
         try{
             if(!jsonFile.exists()){
@@ -195,10 +249,20 @@ public class ServletAction extends HttpServlet {
         }
     }
     //需要四个jar包的引入
+<<<<<<< Updated upstream
     private void getExportDeviceRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
         MyExcel me=new MyExcel("C:\\testUpload\\export_device.xls");
         json.put("download_url","/upload/maintain/device/export_device.xls");
         json.put("file_path","C:\\testUpload\\export_device.xls");
+=======
+    private void getExportExchangesRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
+        String download_url = "/output/exchanges/export_exchanges.xls";
+        String file_path = "C:\\Tools\\output\\exchanges\\export_exchanges.xls";
+
+        MyExcel me=new MyExcel(file_path);
+        json.put("download_xls_url",download_url);
+        json.put("file_path",file_path);
+>>>>>>> Stashed changes
         me.exportData(data,json);
     }
 }

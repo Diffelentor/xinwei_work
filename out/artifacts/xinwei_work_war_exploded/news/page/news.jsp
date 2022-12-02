@@ -217,7 +217,11 @@
 </div>
 <%@include file="../../home/frame/frame_footer.jsp"%>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <%@include file="../../home/frame/frame_javascript.jsp"%>
+=======
+<%@include file="frame_javascript.jsp"%>
+>>>>>>> Stashed changes
 =======
 <%@include file="frame_javascript.jsp"%>
 >>>>>>> Stashed changes

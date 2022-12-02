@@ -28,10 +28,9 @@
             </li>
             <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
             <li class="start">
-                <a href="javascript:;">
+                <a href="../../home/main/index.jsp">
                     <i class="icon-home"></i>
                     <span class="title">首页</span>
-                    <span class="arrow "></span>
                 </a>
             </li>
             <li>
@@ -42,7 +41,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a href="ecommerce_index.html">
+                        <a href="../../home/user/user_list.jsp">
                             <i class="icon-home"></i>
                             用户信息</a>
                     </li>
@@ -76,24 +75,21 @@
                 </ul>
             </li>
             <li>
-                <a href="javascript:;">
+                <a href="../../news/page/news.jsp">
                     <i class="icon-diamond"></i>
                     <span class="title">新闻</span>
-                    <span class="arrow "></span>
                 </a>
             </li>
             <li>
                 <a href="javascript:;">
                     <i class="icon-bubble"></i>
                     <span class="title">天气</span>
-                    <span class="arrow "></span>
                 </a>
             </li>
             <li>
                 <a href="javascript:;">
                     <i class="icon-settings"></i>
-                    <span class="title">代办事项</span>
-                    <span class="arrow "></span>
+                    <span class="title">待办事项</span>
                 </a>
             </li>
         </ul>
