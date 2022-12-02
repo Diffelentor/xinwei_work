@@ -335,6 +335,9 @@
                         <input type="hidden" id="const_username1" name="const_username1" value="游客"/>
                         <input type="hidden" id="const_identity1" name="const_identity1" value="普通用户"/>
                         <input type="hidden" id="const_id1" name="const_id1" value=""/>
+                        <input type="hidden" id="const_balance1" name="const_balance1" value="0"/>
+                        <input type="hidden" id="const_password1" name="conconst_password1st_id1" value=""/>
+                        <input type="hidden" id="const_email1" name="const_email1" value=""/>
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-default">

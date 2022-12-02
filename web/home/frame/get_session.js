@@ -12,6 +12,9 @@ var Get_Session = function() {
                 $("#const_username1").val(json.username);
                 $("#const_identity1").val(json.identity);
                 $("#const_id1").val(json.id);
+                $("#const_balance1").val(json.balance);
+                $("#const_password1").val(json.password);
+                $("#const_email1").val(json.email);
                 console.log(JSON.stringify(json));
             }
         })

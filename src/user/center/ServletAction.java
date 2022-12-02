@@ -197,11 +197,13 @@ public class ServletAction extends HttpServlet {
         String username=(String)session.getAttribute("username");
 		String email=(String)session.getAttribute("email");
 		String password=(String)session.getAttribute("password");
+		String balance=(String)session.getAttribute("balance");
         json.put("id",id);
 		json.put("username",username);
         json.put("identity",identity);
 		json.put("email",email);
 		json.put("password",password);
+		json.put("balance",balance);
         json.put("result_code",0);
     }
 	/*========================================CRUD业务函数 结束========================================*/
@@ -221,11 +223,13 @@ public class ServletAction extends HttpServlet {
         String identity=aData.getString("identity");
 		String email=aData.getString("email");
 		String password=aData.getString("password");
+		String balance=aData.getString("balance");
 		session.setAttribute("id",id);
 		session.setAttribute("username",username);
         session.setAttribute("identity",identity);
 		session.setAttribute("password",password);
 		session.setAttribute("email",email);
+		session.setAttribute("balance",balance);
 		showDebug("session.id=:"+id);
 		showDebug("session.username=:"+username);
         showDebug("session.password=:"+password);
