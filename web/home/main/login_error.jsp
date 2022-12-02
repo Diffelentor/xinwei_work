@@ -75,7 +75,7 @@ License: You must have a valid license purchased only from themeforest(the above
     </div>
     <div class="row">
         <div class="col-md-6 coming-soon-content">
-            <h1>Coming Soon!</h1>
+            <h1>3S后跳转。。。</h1>
             <p>
                 At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi vehicula sem ut volutpat. Ut non libero magna fusce condimentum eleifend enim a feugiat.
             </p>
@@ -181,6 +181,14 @@ License: You must have a valid license purchased only from themeforest(the above
             duration: 10000
         });
     });
+
+</script>
+
+<script type="text/javascript">
+    function jump(){
+        window.location.replace('../../home/main/login.jsp');
+    }
+    setTimeout(jump,3000);
 </script>
 <!-- END JAVASCRIPTS -->
 </body>

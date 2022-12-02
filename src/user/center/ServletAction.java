@@ -213,31 +213,31 @@ public class ServletAction extends HttpServlet {
 		showDebug("收到了数据:"+data.getParam().getString("username"));
 		showDebug("收到了数据:"+data.getParam().getString("password"));
 		dao.login(data,json);
-		HttpSession session = request.getSession();
-		String strJson=json.toString();
-		JSONObject aa = new JSONObject(strJson);
-		JSONArray aaData=aa.getJSONArray("aaData");
-		JSONObject aData=aaData.getJSONObject(0);
-		String id=aData.getString("id");
-		String username=aData.getString("username");
-        String identity=aData.getString("identity");
-		String email=aData.getString("email");
-		String password=aData.getString("password");
-		String balance=aData.getString("balance");
-		session.setAttribute("id",id);
-		session.setAttribute("username",username);
-        session.setAttribute("identity",identity);
-		session.setAttribute("password",password);
-		session.setAttribute("email",email);
-		session.setAttribute("balance",balance);
-		showDebug("session.id=:"+id);
-		showDebug("session.username=:"+username);
-        showDebug("session.password=:"+password);
-		showDebug("session.email=:"+email);
 		if(json.getInt("result_code")==0){
+			HttpSession session = request.getSession();
+			String strJson=json.toString();
+			JSONObject aa = new JSONObject(strJson);
+			JSONArray aaData=aa.getJSONArray("aaData");
+			JSONObject aData=aaData.getJSONObject(0);
+			String id=aData.getString("id");
+			String username=aData.getString("username");
+			String identity=aData.getString("identity");
+			String email=aData.getString("email");
+			String password=aData.getString("password");
+			String balance=aData.getString("balance");
+			session.setAttribute("id",id);
+			session.setAttribute("username",username);
+			session.setAttribute("identity",identity);
+			session.setAttribute("password",password);
+			session.setAttribute("email",email);
+			session.setAttribute("balance",balance);
+			showDebug("session.id=:"+id);
+			showDebug("session.username=:"+username);
+			showDebug("session.password=:"+password);
+			showDebug("session.email=:"+email);
 			json.put("redirect_url","home/main/index.jsp");
 		}else{
-			json.put("redirect_url","home/login_error.jsp");
+			json.put("redirect_url","home/main/login_error.jsp");
 		}
 	}
 	private void register
