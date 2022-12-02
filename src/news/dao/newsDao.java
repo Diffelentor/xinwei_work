@@ -76,6 +76,54 @@ public class newsDao {
         json.put("result_code",resultCode);
     }
 
+    //回复评论实现
+    public void addCommentReply(Data data, JSONObject json) throws JSONException {
+        String resultMsg = "回复评论成功！";
+        int resultCode = 0;
+        Db updateDb = new Db("test");
+
+        int comment_id = data.getParam().has("commentId")?data.getParam().getInt("commentId"):0;
+        String user_name = data.getParam().has("reply_name")?data.getParam().getString("reply_name"):null;
+        String reply_content = data.getParam().has("reply_content")?data.getParam().getString("reply_content"):null;
+        //String Time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String Time = simpleDateFormat.format(new Date());
+        System.out.println("comment_id:"+comment_id+"user_name:"+user_name+"contents:"+reply_content);
+
+        if (comment_id!=0 && user_name!=null && reply_content!=null){
+            String sql = "insert into comment_reply(reply_id,name,reply,time)";
+            sql = sql+"values('"+comment_id+"'";
+            sql = sql +" ,'"+user_name+"'";
+            sql = sql +" ,'"+reply_content+"'";
+            sql = sql +" ,'"+Time+"')";
+            showDebug("[addCommentReply]构造的sql语句:"+sql);
+            updateDb.executeUpdate(sql);
+        }else {
+            resultMsg = "发表回复失败";
+            resultCode = 10;
+        }
+        updateDb.close();
+
+        json.put("result_msg",resultMsg);
+        json.put("result_code",resultCode);
+    }
+
+    //删除评论
+    public void deleteNewsComment(Data data, JSONObject json) throws JSONException, SQLException {
+        int id = data.getParam().has("commentID")?data.getParam().getInt("commentID"):0;
+        if(id != 0){
+            System.out.println("获取到的comment_id不为空！！！");
+            //先删除评论的回复
+            String sql = "delete from comment_reply where reply_id="+id;
+            data.getParam().put("sql",sql);
+            updateRecord(data,json);
+
+            //再删除该条评论
+            String sql1 = "delete from news_comments where id="+id;
+            data.getParam().put("sql",sql1);
+            updateRecord(data,json);
+        }
+    }
 
     //查询新闻记录
     public void getZXRDRecord(Data data, JSONObject json) throws JSONException {
@@ -142,6 +190,12 @@ public class newsDao {
         String sql = createGetCommentSql(data);
         data.getParam().put("sql",sql);
         queryRecord(data,json);
+
+        String reply_sql = createGetReplySql(data);
+        if (reply_sql!=null && !reply_sql.isEmpty()){
+            data.getParam().put("sql",reply_sql);
+            queryReply(data,json);
+        }
     }
 
     private void queryRecord(Data data, JSONObject json) throws JSONException {
@@ -181,6 +235,63 @@ public class newsDao {
         /*--------------------返回数据 结束--------------------*/
     }
 
+    private void queryReply(Data data, JSONObject json) throws JSONException {
+        /*--------------------获取变量 开始--------------------*/
+        String resultMsg1 = "ok";
+        int resultCode1 = 0;
+        List jsonList = new ArrayList();
+        /*--------------------获取变量 完毕--------------------*/
+        /*--------------------数据操作 开始--------------------*/
+        Db queryDb = new Db("test");
+        String sql=data.getParam().getString("sql");
+        showDebug("[queryRecord]构造的SQL语句是：" + sql);
+        try {
+            ResultSet rs = queryDb.executeQuery(sql);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int fieldCount = rsmd.getColumnCount();
+            while (rs.next()) {
+                Map map = new HashMap();
+                for (int i = 0; i < fieldCount; i++) {
+                    map.put(rsmd.getColumnName(i + 1), rs.getString(rsmd.getColumnName(i + 1)));
+                }
+                jsonList.add(map);
+            }
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showDebug("[queryRecord]查询数据库出现错误：" + sql);
+            resultCode1 = 10;
+            resultMsg1 = "查询数据库出现错误！" + e.getMessage();
+        }
+        queryDb.close();
+        /*--------------------数据操作 结束--------------------*/
+        /*--------------------返回数据 开始--------------------*/
+        System.out.println("获取的评论回复："+jsonList);
+        json.put("bbData",jsonList);
+        json.put("result_msg1",resultMsg1);															//如果发生错误就设置成"error"等
+        json.put("result_code1",resultCode1);														//返回0表示正常，不等于0就表示有错误产生，错误代码
+        /*--------------------返回数据 结束--------------------*/
+    }
+
+    private void updateRecord(Data data, JSONObject json) throws JSONException, SQLException{
+        /*--------------------获取变量 开始--------------------*/
+        JSONObject param=data.getParam();
+        int resultCode=0;
+        String resultMsg="ok";
+        /*--------------------获取变量 完毕--------------------*/
+        /*--------------------数据操作 开始--------------------*/
+        Db updateDb = new Db("test");
+        String sql=data.getParam().getString("sql");
+        showDebug("[updateRecord]"+sql);
+        updateDb.executeUpdate(sql);
+        updateDb.close();
+        /*--------------------数据操作 结束--------------------*/
+        /*--------------------返回数据 开始--------------------*/
+        json.put("result_msg",resultMsg);															//如果发生错误就设置成"error"等
+        json.put("result_code",resultCode);														//返回0表示正常，不等于0就表示有错误产生，错误代码
+        /*--------------------返回数据 结束--------------------*/
+    }
+
     private String createGetRecordSql(Data data, int module) throws JSONException {
         String sql = "select id,news_ID,title,time,news_url from news_info where module="+module;
 
@@ -206,6 +317,17 @@ public class newsDao {
         String id = data.getParam().has("id")?data.getParam().getString("id"):null;
         if(id!=null && !id.isEmpty())
             sql = sql + " where news_id="+id;
+
+        return sql;
+    }
+
+    private String createGetReplySql(Data data) throws JSONException {
+        String sql = "";
+        int id = data.getParam().has("id")?data.getParam().getInt("id"):0;
+        if(id!=0) {
+            sql  =sql+"select * from comment_reply where reply_id in (";
+            sql = sql+" select id from news_comments where news_id="+id+" )";
+        }
 
         return sql;
     }

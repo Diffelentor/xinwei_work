@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -82,6 +83,23 @@ public class ServletAction extends HttpServlet {
                 actionOk = true;
                 try {
                     addNewsComment(request,response,json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("add_comment_reply")){
+                actionOk = true;
+                try{
+                    addCommentReply(request,response,json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (action.equals("delete_news_comment")){
+                actionOk = true;
+                try{
+                    deleteNewsComment(request,response,json);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -177,5 +195,17 @@ public class ServletAction extends HttpServlet {
         newsDao dao = new newsDao();
         Data data = getPageParameters(request,response,json);
         dao.addNewsComments(data,json);
+    }
+
+    private void addCommentReply(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException {
+        newsDao dao = new newsDao();
+        Data data = getPageParameters(request,response,json);
+        dao.addCommentReply(data,json);
+    }
+
+    private void deleteNewsComment(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        newsDao dao = new newsDao();
+        Data data = getPageParameters(request,response,json);
+        dao.deleteNewsComment(data,json);
     }
 }

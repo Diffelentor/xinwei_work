@@ -11,21 +11,46 @@
     <title>发表文章</title>
     <%@include file="frame_style.jsp"%>
 </head>
-<body>
+<body class="page-header-fixed page-quick-sidebar-over-content ">
+
+<%@include file="../../home/frame/frame_header.jsp"%>
+<div class="clearfix">
+</div>
+
+<div class="page-container">
+    <%@include file="../../home/frame/frame_left_sidebar.jsp"%>
+
+    <div class="page-content-wrapper">
+        <div class="page-content">
+            <%@include file="../../home/frame/frame_page_header.jsp"%>
+            <h3 class="page-title">
+                导入新闻
+            </h3>
+
+            <!--  返回首页  -->
+            <div class="page-bar" >
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a href="../../index.jsp">首页</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a href="news.jsp">返回</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a href="#">News View</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 返回首页结束 -->
 <div>
     <div class="portlet light bg-inverse">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="icon-equalizer font-red-sunglo"></i>
-                <span class="caption-subject font-red-sunglo bold uppercase">编辑您要发表的新闻</span>
-                <span class="caption-helper">以下为必填内容</span>
-            </div>
-
-        </div>
         <div class="portlet-body form">
             <!-- BEGIN FORM-->
             <form action="#" class="form-horizontal">
-                <div class="form-body">
+                <div class="form-body" style="margin-left: -200px">
                     <div class="form-group">
                         <label class="col-md-3 control-label">作者<span class="required">
 													* </span>
@@ -70,9 +95,14 @@
         </div>
     </div>
 </div>
-
+        </div>
+    </div>
+</div>
 
 <%@include file="frame_javascript.jsp"%>
+<%@include file="../../home/frame/frame_footer.jsp"%>
+<%@include file="frame_javascript.jsp"%>
 
+<script src="news_list.js" type="text/javascript"></script>
 </body>
 </html>

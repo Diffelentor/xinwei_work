@@ -36,12 +36,13 @@ var Page = function () {
         $('#gjxw_button').click(function() {onGJXWTab();});
         $('#cjxw_button').click(function() {onCJXWTab();});
         $("#search_button").click(function () {onSearchRecord();});
-        $('#comment_reply_div #submit_button').click(function() {onAddDivSubmit();});
 
     }
 
     var initNewsCommentControlEvent=function (){
         $("#comment_submit").click(function () {onSubmitComment();});
+        $("#comment_reply_div #submit_button").click(function() {onAddDivSubmit();});
+
     }
 
 
@@ -167,14 +168,17 @@ var Page = function () {
     var initCommentView=function () {
         var id=window.location.href.split("?")[1].split("=")[1];
         var data = {};
+        var Identity = $("#const_identity").text();
         $.post("../../news_file_servlet_action?action=get_news_comment&id="+id,data,function (json) {
             console.log(JSON.stringify(json));
             if(json.result_code == 0){
                 var list = json.aaData;
+                var list2 = json.bbData;
                 var html ="";
                 if(list!=undefined && list.length>0){
                     for (var i = 0; i < list.length; i++){
                         var record = list[i];
+                        html=html+"            <hr style='background-color: black !important;'>";
                         html=html+"			 	<br>";
                         html=html+"			 	<!-- Nested media object -->";
                         html=html+"            <div class=\"media\">";
@@ -188,6 +192,9 @@ var Page = function () {
                         // html=html+"                    <h4 class=\"media-heading\">发布时间 <span>";
                         html=html+"											"+record.submit_time+" / <a href=\"javascript:Page.onCommentReply("+record.id+");\">";
                         html=html+"											回复 </a>";
+                        if(Identity == '管理员'){
+                            html=html+"                       <a href=\"javascript:Page.onDeleteComment("+record.id+")\">删除</a>";
+                        }
                         // html=html+"											</span>";
                         // html=html+"                    </h4>";
                         html=html+"	                            <h4>";
@@ -195,7 +202,33 @@ var Page = function () {
                         html=html+"	                            </h4>";                        html=html+"                </div>";
                         html=html+"            </div>";
                         html=html+"            <!--end media-->";
-                        html=html+"            <hr>";
+                        if (json.result_code1 == 0){
+                            if(list2!=undefined && list2.length>0){
+                                for(var j = 0; j < list2.length; j++){
+                                    var reply  =list2[j];
+                                    console.log("显示评论的回复！");
+                                    if (reply.reply_id == record.id){
+                                        //html=html+"			 	<br>";
+                                        html=html+"			 	<!-- 显示评论回复的内容 -->";
+                                        html=html+"            <div class=\"media\" style=\"margin-left: 80px \">";
+                                        html=html+"                <a href=\"javascript:;\" class=\"pull-left\">";
+                                        html=html+"                    <img alt=\"\" src=\"../../assets/admin/pages/media/users/avatar80_1.jpg\" class=\"media-object\" style=\"width: 50px; height: 50px; border-radius: 50% !important;\">";
+                                        html=html+"                </a>";
+                                        html=html+"                <div class=\"media-body\">";
+                                        html=html+"                    <p style='font-size: medium'>";
+                                        html=html+"                        "+reply.name;
+                                        html=html+"                    </p>";
+                                        //html=html+"											"+reply.time;
+                                        html=html+"	                            <h6>";
+                                        html=html+"	                                "+reply.reply+"&nbsp &nbsp &nbsp &nbsp &nbsp"+reply.time;
+                                        html=html+"	                            </h6>";                        html=html+"                </div>";
+                                        html=html+"            </div>";
+                                        html=html+"            <!--end media-->";
+                                        html=html+"            <hr>";
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -207,8 +240,27 @@ var Page = function () {
         })
     }
 
+    var commentID;
     var onCommentReply=function (id) {
+        commentID = id;
         $("#comment_reply_div").modal("show");
+    };
+    var onDeleteComment=function (id) {
+        var url = "../../news_file_servlet_action";
+        var data = {};
+        data.action = "delete_news_comment";
+        data.commentID = id;
+        $.post(url,data,function(json){
+            console.log(JSON.stringify(json));
+            if(json.result_code == 0){
+                alert("已经删除评论！");
+                window.location.reload();
+            }
+            else {
+                alert("删除评论失败！");
+                window.location.reload();
+            }
+        });
     };
 
     var onAddDivSubmit=function () {
@@ -219,8 +271,11 @@ var Page = function () {
     var submitAddReplyDiv=function(){
         var url="../../news_file_servlet_action";
         var data={};
+        data.commentId = commentID;
         data.action="add_comment_reply";
-        data.reply_name=$("#reply_name").val();
+        var Name = $("#const_username");
+        data.reply_name = Name.text();
+        //data.reply_name=$("#reply_name").val();
         data.reply_content=$("#reply_content").val();
         $.post(url,data,function(json){
             if(json.result_code==0){
@@ -240,14 +295,19 @@ var Page = function () {
         var data={};
         data.action="add_news_comment";
         data.news_id=id;
-        data.user_name=$("#comment_add_div #user_name").val();
+        //data.user_name=$("#comment_add_div #user_name").val();
+        var Name = $("#const_username");
+        console.log("这是获取到的用户名："+Name.text());
+        data.user_name = Name.text();
         data.news_comments=$("#comment_add_div #comment_detail").val();
         $.post(url,data,function(json){
             if(json.result_code==0){
                 alert("发表评论成功！");
                 window.location.reload();
+                //window.location.href="news_content.jsp?id="+id;
             }else {
                 alert("发表评论失败！");
+                //window.location.href="news_content.jsp?id="+id;
             }
         });
     }
@@ -282,6 +342,9 @@ var Page = function () {
         },
         onCommentReply:function (id) {
             onCommentReply(id);
+        },
+        onDeleteComment:function (id) {
+            onDeleteComment(id);
         }
     }
 }();

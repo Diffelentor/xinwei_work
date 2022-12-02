@@ -42,7 +42,7 @@
     <ul class="page-breadcrumb">
         <li>
             <i class="fa fa-home"></i>
-            <a href="../../index.jsp">首页</a>
+            <a href="../../home/main/index.jsp">首页</a>
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
@@ -216,7 +216,7 @@
 </div>
 </div>
 <%@include file="../../home/frame/frame_footer.jsp"%>
-<%@include file="../../home/frame/frame_javascript.jsp"%>
+<%@include file="frame_javascript.jsp"%>
 
 <script src="news_list.js" type="text/javascript"></script>
 

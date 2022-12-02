@@ -30,7 +30,7 @@
     <ul class="page-breadcrumb">
         <li>
             <i class="fa fa-home"></i>
-            <a href="../../index.jsp">首页</a>
+            <a href="../../home/main/index.jsp">首页</a>
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
@@ -59,7 +59,7 @@
                                     <ul class="list-inline blog-tags">
                                         <li>
                                             <i class="fa fa-tags"></i>
-                                            <label>文章作者名字</label>
+                                            <label></label>
                                         </li>
                                     </ul>
                                 </div>
@@ -74,7 +74,7 @@
                                         <li>
                                             <i class="fa fa-comments"></i>
                                             <a href="javascript:;">
-                                                38 Comments </a>
+                                                </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -98,13 +98,13 @@
                             <div class="post-comment" id="comment_add_div" name="comment_add_div">
                                 <h3>发表评论</h3>
                                 <form role="form" action="#">
-                                    <div class="form-group">
+                                <!--    <div class="form-group">
                                         <label class="control-label">用户名<span class="required">
 													* </span>
                                         </label>
                                         <input type="text" class="form-control" id="user_name" name="user_name">
                                     </div>
-
+-->
                                     <div class="form-group">
                                         <label class="control-label">评论内容<span class="required">
 													* </span>

@@ -329,9 +329,7 @@
                 <li class="dropdown dropdown-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <img alt="" class="img-circle" src="../../assets/admin/layout/img/avatar3_small.jpg"/>
-                        <span class="username username-hide-on-mobile" id="const_username" name="const_username" >
-                            游客
-					 </span>
+                        <span class="username username-hide-on-mobile" id="const_username" name="const_username" >游客</span>
                         <input type="hidden" id="const_username1" name="const_username1" value="游客"/>
                         <input type="hidden" id="const_identity1" name="const_identity1" value="普通用户"/>
                         <input type="hidden" id="const_id1" name="const_id1" value=""/>

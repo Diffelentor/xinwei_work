@@ -49,4 +49,17 @@
 		<servlet-name>news_file_servlet_action</servlet-name>
 		<url-pattern>/news_file_servlet_action</url-pattern>
 	</servlet-mapping>
+
+	<!-- ===========用来爬取财经新闻开始=============-->
+    	<!-- 链接： http://localhost:8080/news_getdata_servlet_action?action=get_news_data-->
+    	<servlet>
+        	<servlet-name>news_getdata_servlet_action</servlet-name>
+        	<servlet-class>news.getdata.ServletAction</servlet-class>
+    	</servlet>
+    	<servlet-mapping>
+        	<servlet-name>news_getdata_servlet_action</servlet-name>
+        	<url-pattern>/news_getdata_servlet_action</url-pattern>
+    	</servlet-mapping>
+    	<!-- ===========用来爬取财经新闻结束=============-->
+
 </web-app>
