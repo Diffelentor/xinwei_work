@@ -12,7 +12,7 @@
                     <form class="form-horizontal" role="form">
                         <div class="form-body">
                             <div class="form-group">
-                                <label class="col-md-3 control-label">*代号</label>
+                                <label class="col-md-3 control-label">*期货代号</label>
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" placeholder="请填写代号" id="futures_id" name="futures_id">
                                     <span class="help-block font-red display-none" id="reminder">
@@ -20,9 +20,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label">名称</label>
+                                <label class="col-md-3 control-label">期货名称</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" placeholder="请填写名称" id="futures_name" name="futures_name">
+                                    <input type="text" class="form-control" placeholder="请填写期货名称" id="futures_name" name="futures_name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">类型</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" placeholder="请填写    类型" id="type" name="type">
                                 </div>
                             </div>
                             <div class="form-group">

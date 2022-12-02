@@ -95,7 +95,7 @@
                         <i class="fa fa-print"></i> 打印</button>
                 </div>
                 <div class="col-md-2">
-                    <button type="button" style="float: right"  class="btn default" id="refresh_button" name="history_button">
+                    <button type="button" style="float: right"  class="btn default" id="refresh_button" name="refresh_button">
                         <i class="fa fa-refresh"></i></button>
                 </div>
             </div>
@@ -111,6 +111,9 @@
                             </th>
                             <th>
                                 期货名称
+                            </th>
+                            <th>
+                                类型
                             </th>
                             <th>
                                 开盘价

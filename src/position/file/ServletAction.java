@@ -1,12 +1,11 @@
-package futures.file;
+package position.file;
 /*
  * 待完成：用MVC模式分开DB和Action操作
  * 增删改查看导印统功能的实现
  */
 
-import futures.file.MyExcel;
-import futures.dao.Data;
-import futures.dao.DeviceDao;
+import position.dao.Data;
+import position.dao.DeviceDao;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,7 +24,7 @@ import java.util.Date;
 import java.util.Enumeration;
 
 public class ServletAction extends HttpServlet {
-    String module="futures";
+    String module="position";
     String sub="file";
     public void showDebug(String msg){
         System.out.println("["+(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date())+"]["+module+"/"+sub+"/ServletAction]"+msg);
@@ -100,10 +99,10 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
-            if (action.equals("add_futures_record")) {
+            if (action.equals("add_position_record")) {
                 actionOk=true;
                 try {
-                    addFuturesRecord(request, response, json);
+                    addPositionRecord(request, response, json);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -212,7 +211,7 @@ public class ServletAction extends HttpServlet {
         Data data=getPageParameters(request,response,json);
         dao.getDeviceRecord(data,json);
     }
-    private void addFuturesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+    private void addPositionRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
         DeviceDao dao=new DeviceDao();
         Data data=getPageParameters(request,response,json);
         dao.addDeviceRecord(data,json);

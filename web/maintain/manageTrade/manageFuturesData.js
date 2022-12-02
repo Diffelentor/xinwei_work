@@ -72,14 +72,15 @@ var Page = function() {
 		$('#futures_modify_div #submit_button').click(function() {onModifyDivSubmit();});	//修改弹窗的提交按钮
 		$('#query_button').click(function() {initManageFuturesDataRecordDatatable();});		//查找按钮
 		$('#remake_button').click(function() {onRemake();});				//重置按钮
+		$('#refresh_button').click(function() {onRemake();});				//刷新按钮
 		$('#export_button').click(function() {onExportRecord();});			//导出按钮
 		$('#table_print_button').click(function() {onTablePrint();});		//打印按钮
 		$('#statistic_button').click(function() {onStatisticRecord();});	//统计按钮
-	}
+	};
 	var initDeviceAddControlEvent=function(){
 		$("#help_button").click(function() {help();});
 		$('#add_button').click(function() {submitAddRecord();});
-	}
+	};
 	var initDeviceModifyControlEvent=function(){
 		$("#help_button").click(function() {help();});
 		$('#modify_button').click(function() {submitModifyRecord();});
@@ -199,6 +200,7 @@ var Page = function() {
 				$("#futures_modify_div #id").val(record.id);
 				$("#futures_modify_div #futures_id").val(record.futures_id);
 				$("#futures_modify_div #futures_name").val(record.futures_name);
+				$("#futures_modify_div #type").val(record.type);
 				$("#futures_modify_div #price_today_begin").val(record.price_today_begin);
 				$("#futures_modify_div #price_yesterday").val(record.price_yesterday);
 				$("#futures_modify_div #price_right_now").val(record.price_right_now);
@@ -264,6 +266,11 @@ var Page = function() {
 			},{
 				"mRender": function(data, type, full) {
 					sReturn = '<div>'+full.futures_name+'</div>';
+					return sReturn;
+				},"orderable": false
+			},{
+				"mRender": function(data, type, full) {
+					sReturn = '<div>'+full.type+'</div>';
 					return sReturn;
 				},"orderable": false
 			},{
@@ -360,7 +367,6 @@ var Page = function() {
 		var testBlank = $("#futures_add_div #futures_id").val();
 		if(testBlank==""){
 			$("#futures_add_div #reminder").modal("show");	//与.show作用相同，都可以达到显示或隐藏的目的
-			alert("代号不能为空");
 			return;
 		}else {
 			$("#futures_modify_div #reminder").hide();
@@ -372,6 +378,7 @@ var Page = function() {
 			//获取填写在该页面的数据准备传向后端
 			data.futures_id=$("#futures_add_div #futures_id").val();
 			data.futures_name=$("#futures_add_div #futures_name").val();
+			data.type=$("#futures_add_div #type").val();
 			data.price_today_begin=$("#futures_add_div #price_today_begin").val();
 			data.price_yesterday=$("#futures_add_div #price_yesterday").val();
 			data.price_right_now=$("#futures_add_div #price_right_now").val();
@@ -412,9 +419,10 @@ var Page = function() {
 			var data={};
 			data.action="modify_futures_record";
 			//获取填写在该页面的数据准备传向后端
-			data.futures_id=$("#futures_modify_div #futures_id").val();
 			data.id=$("#futures_modify_div #id").val();
+			data.futures_id=$("#futures_modify_div #futures_id").val();
 			data.futures_name=$("#futures_modify_div #futures_name").val();
+			data.type=$("#futures_modify_div #type").val();
 			data.price_today_begin=$("#futures_modify_div #price_today_begin").val();
 			data.price_yesterday=$("#futures_modify_div #price_yesterday").val();
 			data.price_right_now=$("#futures_modify_div #price_right_now").val();
@@ -445,7 +453,6 @@ var Page = function() {
 		}else{
 			return false;
 		}
-
 	};
 	var onExportRecord=function () {
 		var url="../../"+module+"_"+sub+"_servlet_action";
@@ -497,6 +504,9 @@ var Page = function() {
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
 						html=html+"                                            "+record.futures_name;
+						html=html+"                                        </td>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+record.type;
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
 						html=html+"                                            "+record.price_today_begin;
@@ -555,7 +565,7 @@ var Page = function() {
 	var changeResultDataToChartData=function (list,chartData) {
 		for(var i = 0; i < list.length; i++){
 			//year是横坐标，incom是横条的纵坐标，expenses是折线的纵坐标
-			var json = {"year":list[i].futures_id,"income":list[i].amplitude,"expenses":list[i].amplitude};
+			var json = {"year":list[i].futures_name,"income":list[i].amplitude,"expenses":list[i].amplitude};
 			chartData.push(json);
 		}
 	};

@@ -1,4 +1,4 @@
-package futures.dao;
+package position.dao;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,25 +19,17 @@ public class DeviceDao {
 		String futures_id=data.getParam().has("futures_id")?data.getParam().getString("futures_id"):null;
 		String futures_name=data.getParam().has("futures_name")?data.getParam().getString("futures_name"):null;
 		String type=data.getParam().has("type")?data.getParam().getString("type"):null;
-		String price_today_begin=data.getParam().has("price_today_begin")?data.getParam().getString("price_today_begin"):null;
-		String price_yesterday=data.getParam().has("price_yesterday")?data.getParam().getString("price_yesterday"):null;
-		String price_right_now=data.getParam().has("price_right_now")?data.getParam().getString("price_right_now"):null;
-		String price_high=data.getParam().has("price_high")?data.getParam().getString("price_high"):null;
-		String price_low=data.getParam().has("price_low")?data.getParam().getString("price_low"):null;
+		String amount=data.getParam().has("amount")?data.getParam().getString("amount"):null;
+		String user_name=data.getParam().has("user_name")?data.getParam().getString("user_name"):null;
 		String select_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
-		String date = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
-		if(futures_id!=null && futures_name!=null && type!=null && price_today_begin!=null && price_yesterday!=null && price_right_now!=null && price_high!=null && price_low!=null){
-			String sql="insert into total(futures_id,futures_name,type,price_today_begin,price_yesterday,price_right_now,price_high,price_low,select_time,date)";
+		if(futures_id!=null && futures_name!=null && type!=null && amount!=null && user_name!=null){
+			String sql="insert into my_position(futures_id,futures_name,type,amount,user_name,select_time)";
 			sql=sql+" values('"+futures_id+"'";
 			sql=sql+",'"+futures_name+"'";
 			sql=sql+",'"+type+"'";
-			sql=sql+",'"+price_today_begin+"'";
-			sql=sql+",'"+price_yesterday+"'";
-			sql=sql+",'"+price_right_now+"'";
-			sql=sql+",'"+price_high+"'";
-			sql=sql+",'"+price_low+"'";
-			sql=sql+",'"+select_time+"'";
-			sql=sql+" ,'"+date+"')";
+			sql=sql+",'"+amount+"'";
+			sql=sql+",'"+user_name+"'";
+			sql=sql+" ,'"+select_time+"')";
 			data.getParam().put("sql",sql);
 			updateRecord(data,json);
 		}

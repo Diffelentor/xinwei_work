@@ -115,6 +115,9 @@
                                 期货名称
                             </th>
                             <th>
+                                类型
+                            </th>
+                            <th>
                                 开盘价
                             </th>
                             <th >
@@ -165,3 +168,4 @@
 <!-- END BODY -->
 </html>
 <%@include file="futures_download_div.jsp"%>
+<%@include file="buy_div.jsp"%>

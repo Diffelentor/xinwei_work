@@ -41,11 +41,23 @@
 	</servlet-mapping>
 	<!-- ================  trade end =================           -->
 
+	<!-- ================  position begin =================           -->
+	<servlet>
+		<servlet-name>position_file_servlet_action</servlet-name>
+		<servlet-class>position.file.ServletAction</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>position_file_servlet_action</servlet-name>
+		<url-pattern>/position_file_servlet_action</url-pattern>
+	</servlet-mapping>
+	<!-- ================  position end =================           -->
+
 	<servlet>
 		<servlet-name>news_file_servlet_action</servlet-name>
 		<servlet-class>news.file.ServletAction</servlet-class>
 	</servlet>
-	<servlet-mapping>
+
+    <servlet-mapping>
 		<servlet-name>news_file_servlet_action</servlet-name>
 		<url-pattern>/news_file_servlet_action</url-pattern>
 	</servlet-mapping>
