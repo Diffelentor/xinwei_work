@@ -132,8 +132,12 @@
                                 交易时间
                             </th>
                             <th>
+                                收益
+                            </th>
+                            <th>
                                 操作
                             </th>
+
                         </tr>
                         </thead>
                     </table>
@@ -161,4 +165,4 @@
 <!-- END BODY -->
 </html>
 <%@include file="position_download_div.jsp"%>
-<%--<%@include file="buy_div.jsp"%>--%>
+<%@include file="sale_div.jsp"%>

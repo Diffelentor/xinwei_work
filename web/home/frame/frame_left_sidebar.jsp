@@ -58,7 +58,7 @@
                     <li>
                         <a href="../../maintain/historyAdministrator/historyAd.jsp">
                             <i class="icon-wallet"></i>
-                            我的持仓</a>
+                            历史记录</a>
                     </li>
                 </ul>
             </li>

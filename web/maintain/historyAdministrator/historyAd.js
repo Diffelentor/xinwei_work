@@ -1,4 +1,4 @@
-var module="futures";
+var module="position";
 var sub="file";
 /*================================================================================*/
 jQuery(document).ready(function() {
@@ -14,8 +14,8 @@ var Page = function() {
 	/*----------------------------------------入口函数  开始----------------------------------------*/
 	var initPageControl=function(){
 		pageId=$("#page_id").val();
-		if(pageId=="manage_futures_data"){
-			initManageFuturesDataList();
+		if(pageId=="history_administrator"){
+			initHistoryAdDataList();
 		}
 		if(pageId=="device_add"){
 			initDeviceAdd();
@@ -23,11 +23,11 @@ var Page = function() {
 		if(pageId=="device_modify"){
 			initDeviceModify();
 		}
-		if(pageId=="futures_list_print_table"){
-			initFuturesPrintTable();
+		if(pageId=="history_ad_list_print_table"){
+			initHistoryAdPrintTable();
 		}
-		if(pageId=="futures_statistic"){
-			initFuturesStatistic();
+		if(pageId=="history_ad_statistic"){
+			initHistoryAdStatistic();
 		}
 	};
 	/*----------------------------------------入口函数  结束----------------------------------------*/
@@ -36,9 +36,9 @@ var Page = function() {
 	var chartData=[];
 	/*----------------------------------------业务函数  开始----------------------------------------*/
 	/*------------------------------针对各个页面的入口  开始------------------------------*/
-	var initManageFuturesDataList=function(){
+	var initHistoryAdDataList=function(){
 		initManageFuturesDataListControlEvent();
-		initManageFuturesDataRecordDatatable();
+		initHistoryAdDataRecordDatatable();
 	}
 	var initDeviceAdd=function(){
 		initDeviceAddControlEvent();
@@ -47,13 +47,13 @@ var Page = function() {
 		initDeviceModifyControlEvent();
 		initDeviceRecordView();
 	}
-	var initFuturesPrintTable=function () {
-		initFuturesListPrintTableRecord()
+	var initHistoryAdPrintTable=function () {
+		initHistoryAdListPrintTableRecord()
 	};
-	var initFuturesStatistic=function () {
-		initManageFuturesStatisticControlEvent();
+	var initHistoryAdStatistic=function () {
+		initHistoryAdStatisticControlEvent();
 		$.ajaxSettings.async = false;	//禁止异步方式，否则第一个函数还没执行完就会执行第二个了
-		initFuturesStatisticRecord();
+		initHistoryAdStatisticRecord();
 		$.ajaxSettings.async = true;
 		initBarChart();
 	};
@@ -68,14 +68,17 @@ var Page = function() {
 	var initManageFuturesDataListControlEvent=function(){
 		$("#help_button").click(function() {help();});
 		$('#add_button').click(function() {onAddRecord();});		//添加按钮
-		$('#futures_add_div #submit_button').click(function() {onAddDivSubmit();});			//添加弹窗的提交按钮
-		$('#futures_modify_div #submit_button').click(function() {onModifyDivSubmit();});	//修改弹窗的提交按钮
-		$('#query_button').click(function() {initManageFuturesDataRecordDatatable();});		//查找按钮
+		$('#history_ad_add_div #submit').click(function() {onAddDivSubmit();});	//添加弹窗的提交按钮
+		$('#history_ad_add_div #cancel').click(function() {onAddDivCancel();});	//添加弹出的取消按钮
+		$('#history_ad_modify_div #submit').click(function() {onModifyDivSubmit();});	//修改弹窗的提交按钮
+		$('#history_ad_modify_div #cancel').click(function() {onModifyDivCancel();});	//添加弹出的取消按钮
+		$('#query_button').click(function() {initHistoryAdDataRecordDatatable();});		//查找按钮
 		$('#remake_button').click(function() {onRemake();});				//重置按钮
 		$('#refresh_button').click(function() {onRemake();});				//刷新按钮
 		$('#export_button').click(function() {onExportRecord();});			//导出按钮
 		$('#table_print_button').click(function() {onTablePrint();});		//打印按钮
 		$('#statistic_button').click(function() {onStatisticRecord();});	//统计按钮
+
 	};
 	var initDeviceAddControlEvent=function(){
 		$("#help_button").click(function() {help();});
@@ -85,7 +88,7 @@ var Page = function() {
 		$("#help_button").click(function() {help();});
 		$('#modify_button').click(function() {submitModifyRecord();});
 	};
-	var initManageFuturesStatisticControlEvent=function () {
+	var initHistoryAdStatisticControlEvent=function () {
 		$('#return_button').click(function() {returnBack();});
 	}
 	var initDeviceRecordView=function(){
@@ -106,9 +109,6 @@ var Page = function() {
 				}
 			}
 		})
-	}
-	var onAddRecord=function(){
-		$("#futures_add_div").modal("show");
 	}
 	var submitAddRecord=function(){
 		var url="device_file_servlet_action";
@@ -174,12 +174,12 @@ var Page = function() {
 		if(confirm("您确定要删除这条记录吗？")){
 			var url="../../"+module+"_"+sub+"_servlet_action";
 			var data={};
-			data.action="delete_futures_record";
+			data.action="delete_history_ad_record";
 			data.id=id;
 			$.post(url,data,function(json){
 				if(json.result_code==0){
 					alert("已经完成设备修改。");
-					initManageFuturesDataRecordDatatable();
+					initHistoryAdDataRecordDatatable();
 				}
 			})
 
@@ -190,23 +190,23 @@ var Page = function() {
 	var onModifyRecord=function(id){
 		var url="../../"+module+"_"+sub+"_servlet_action?id="+id;
 		var data={};
-		data.action="get_futures_record";
+		data.action="get_history_administrator_record";
 		data.id=id;
 		$.post(url,data,function(json){
 			console.log(JSON.stringify(json));
 			if(json.result_code==0) {
 				var record = json.aaData;
 				record=record[0];
-				$("#futures_modify_div #id").val(record.id);
-				$("#futures_modify_div #futures_id").val(record.futures_id);
-				$("#futures_modify_div #futures_name").val(record.futures_name);
-				$("#futures_modify_div #type").val(record.type);
-				$("#futures_modify_div #price_today_begin").val(record.price_today_begin);
-				$("#futures_modify_div #price_yesterday").val(record.price_yesterday);
-				$("#futures_modify_div #price_right_now").val(record.price_right_now);
-				$("#futures_modify_div #price_high").val(record.price_high);
-				$("#futures_modify_div #price_low").val(record.price_low);
-				$("#futures_modify_div").modal("show");
+				$("#history_ad_modify_div #id").val(id);
+				$("#history_ad_modify_div #user_name").val(record.user_name);
+				$("#history_ad_modify_div #futures_id").val(record.futures_id);
+				$("#history_ad_modify_div #futures_name").val(record.futures_name);
+				$("#history_ad_modify_div #type").val(record.type);
+				$("#history_ad_modify_div #price_bought").val(record.price_bought);
+				$("#history_ad_modify_div #amount").val(record.amount);
+				$("#history_ad_modify_div #forward").val(record.forward);
+				$("#history_ad_modify_div #price_sale").val(record.price_sale);
+				$("#history_ad_modify_div").modal("show");
 			}
 		})
 	};
@@ -215,7 +215,7 @@ var Page = function() {
 	};
 
 	//datatable的显示，显示全部或输入查询条件的查询结果
-	var initManageFuturesDataRecordDatatable=function () {
+	var initHistoryAdDataRecordDatatable=function () {
 		//将之前的表删除掉，这样再次获取的时候就不会有warning了
 		if ($.fn.dataTable.isDataTable('#record_list'))
 		{
@@ -229,6 +229,7 @@ var Page = function() {
 		var data={};
 		data.futures_id=$("#record_query_setup #futures_id").val();
 		data.futures_name=$("#record_query_setup #futures_name").val();
+		data.user_name=$("#record_query_setup #user_name").val();
 		data.order_by = "";		//"date desc";
 		$('.datatable').dataTable( {
 			"paging":true,
@@ -254,8 +255,9 @@ var Page = function() {
 				}
 			},
 			//注意事项：在html里定义了几列这里就几列，参数是full
-			"aoColumns": [{"mRender": function(data, type, full) {
-					sReturn = '<input type="checkbox" class="checkboxes" value="'+full.id+'"/>';
+			"aoColumns": [{
+				"mRender": function(data, type, full) {
+					sReturn = '<div>'+full.user_name+'</div>';
 					return sReturn;
 				},"orderable": false
 			},{
@@ -275,12 +277,7 @@ var Page = function() {
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					sReturn = '<div>'+full.price_today_begin+'</div>';
-					return sReturn;
-				},"orderable": false
-			},{
-				"mRender": function(data, type, full) {
-					sReturn = '<div>'+full.price_yesterday+'</div>';
+					sReturn = '<div>'+full.price_bought+'</div>';
 					return sReturn;
 				},"orderable": false
 			},{
@@ -290,40 +287,48 @@ var Page = function() {
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					sReturn = '<div>'+full.price_high+'</div>';
+					sReturn = '<div>'+full.amount+'</div>';
 					return sReturn;
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					sReturn = '<div>'+full.price_low+'</div>';
+					sReturn = '<div>'+full.forward+'</div>';
 					return sReturn;
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					if(full.price_right_now!="" && full.price_yesterday!=""){
-						var change=(full.price_right_now-0)-(full.price_yesterday-0);
-						change=Math.round(change*100)/100;
-						if(change>0){
-							sReturn = '<div class="font-red">'+change+'</div>';
+					sReturn = '<div>'+full.select_time+'</div>';
+					return sReturn;
+				},"orderable": false
+			},{
+				"mRender": function(data, type, full) {
+					if(full.forward == '开仓'){
+						sReturn = '<div>未被卖出</div>';
+					}else {
+						sReturn = '<div>'+full.price_sale+'</div>';
+					}
+					return sReturn;
+				},"orderable": false
+			},{
+				"mRender": function(data, type, full) {
+					if(full.forward == '开仓'){
+						var earning = (full.price_right_now-full.price_bought)*full.amount;
+						earning=Math.round(earning*100)/100;
+						if(earning >= 0){
+							sReturn = '<div class="font-red">'+earning+'</div>';
 						}else {
-							sReturn = '<div class="font-green">'+change+'</div>';
+							sReturn = '<div class="font-green">'+earning+'</div>';
+						}
+
+					}else {
+						var earning = (full.price_sale-full.price_bought)*full.amount
+						earning=Math.round(earning*100)/100;
+						if(earning >= 0){
+							sReturn = '<div class="font-red">'+earning+'</div>';
+						}else {
+							sReturn = '<div class="font-green">'+earning+'</div>';
 						}
 					}
-
-					return sReturn;
-				},"orderable": false
-			},{
-				"mRender": function(data, type, full) {
-					if(full.price_right_now!="" && full.price_yesterday!=""){
-						var amplitude=(full.price_right_now-full.price_yesterday)/full.price_yesterday*100;
-						amplitude=Math.round(amplitude*1000)/1000;
-						if(amplitude>0){
-							sReturn = '<div class="font-red">'+amplitude+'%</div>';
-						}else {
-							sReturn = '<div class="font-green">'+amplitude+'%</div>';
-						}
-					}
-
 					return sReturn;
 				},"orderable": false
 			},{
@@ -338,7 +343,7 @@ var Page = function() {
 			"aLengthMenu": [[5,10,15,20,25,40,50,-1],[5,10,15,20,25,40,50,"所有记录"]],
 			"fnDrawCallback": function(){$(".checkboxes").uniform();$(".group-checkable").uniform();},
 			//像后端发送请求，附带的数据是为查询时候用的，起初这俩数据都是空值，不造成影响
-			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_futures_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name+"&order_by="+data.order_by
+			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_history_administrator_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name+"&user_name="+data.user_name+"&order_by="+data.order_by
 		});
 		$('.datatable').find('.group-checkable').change(function () {
 			var set = jQuery(this).attr("data-set");
@@ -359,33 +364,37 @@ var Page = function() {
 		});
 	};
 
+	var onAddRecord=function(){
+		$("#history_ad_add_div").modal("show");
+	}
 	//在添加页面确认添加之后的事件
 	var onAddDivSubmit=function () {
 		submitAddRecordDiv();
 	};
-	var submitAddRecordDiv=function () {
-		var testBlank = $("#futures_add_div #futures_id").val();
+	var onAddDivSubmit=function () {
+		var testBlank = $("#history_ad_add_div #user_name").val();
 		if(testBlank==""){
-			$("#futures_add_div #reminder").modal("show");	//与.show作用相同，都可以达到显示或隐藏的目的
+			$("#history_ad_add_div #reminder").show();	//与.show作用相同，都可以达到显示或隐藏的目的
+			alert("用户名不能为空");
 			return;
 		}else {
-			$("#futures_modify_div #reminder").hide();
+			$("#history_ad_add_div #reminder").hide();
 		}
 		if(confirm("您确定要添加该记录吗？")){;
 			var url="../../"+module+"_"+sub+"_servlet_action";
 			var data={};
-			data.action="add_futures_record";
+			data.action="add_history_ad_record";
 			//获取填写在该页面的数据准备传向后端
-			data.futures_id=$("#futures_add_div #futures_id").val();
-			data.futures_name=$("#futures_add_div #futures_name").val();
-			data.type=$("#futures_add_div #type").val();
-			data.price_today_begin=$("#futures_add_div #price_today_begin").val();
-			data.price_yesterday=$("#futures_add_div #price_yesterday").val();
-			data.price_right_now=$("#futures_add_div #price_right_now").val();
-			data.price_high=$("#futures_add_div #price_high").val();
-			data.price_low=$("#futures_add_div #price_low").val();
+			data.user_name=$("#history_ad_add_div #user_name").val();
+			data.futures_id=$("#history_ad_add_div #futures_id").val();
+			data.futures_name=$("#history_ad_add_div #futures_name").val();
+			data.type=$("#history_ad_add_div #type").val();
+			data.price_bought=$("#history_ad_add_div #price_bought").val();
+			data.amount=$("#history_ad_add_div #amount").val();
+			data.forward=$("#history_ad_add_div #forward").val();
+			data.price_sale=$("#history_ad_add_div #price_sale").val();
 			//测试输入的是否为数字形式
-			if(testNumber(data.price_today_begin) && testNumber(data.price_yesterday) && testNumber(data.price_right_now) && testNumber(data.price_high) && testNumber(data.price_low)){
+			if(testNumber(data.price_bought) && testNumber(data.amount) && testNumber(data.price_sale)){
 
 			}else {
 				alert("输入的数据不和规范");
@@ -394,11 +403,15 @@ var Page = function() {
 			$.post(url,data,function(json){
 				if(json.result_code==0){
 					alert("已经完成设备添加。");
-					$("#futures_add_div").modal("hide");
-					initManageFuturesDataRecordDatatable();
+					$("#history_ad_add_div").modal("hide");
+					initHistoryAdDataRecordDatatable();
 				}
 			});
 		}
+	};
+	var onAddDivCancel=function () {
+		//这里只能用.modal("hide"),有.hide效果不够
+		$("#history_ad_add_div").modal("hide");
 	};
 
 	//在修改界面确认修改后进行的事件
@@ -406,30 +419,31 @@ var Page = function() {
 		submitModifyRecordDiv();
 	};
 	var submitModifyRecordDiv=function () {
-		var testBlank = $("#futures_modify_div #futures_id").val();
+		var testBlank = $("#history_ad_modify_div #user_name").val();
 		if(testBlank==""){
-			$("#futures_modify_div #reminder").show();
-			alert("代号不能为空");
+			$("#history_ad_modify_div #reminder").show();	//与.show作用相同，都可以达到显示或隐藏的目的
+			alert("用户名不能为空");
 			return;
 		}else {
-			$("#futures_modify_div #reminder").hide();
+			$("#history_ad_modify_div #reminder").hide();
 		}
+
 		if(confirm("您确定要修改该记录吗？")){;
 			var url="../../"+module+"_"+sub+"_servlet_action";
 			var data={};
-			data.action="modify_futures_record";
+			data.action="modify_history_ad_record";
 			//获取填写在该页面的数据准备传向后端
-			data.id=$("#futures_modify_div #id").val();
-			data.futures_id=$("#futures_modify_div #futures_id").val();
-			data.futures_name=$("#futures_modify_div #futures_name").val();
-			data.type=$("#futures_modify_div #type").val();
-			data.price_today_begin=$("#futures_modify_div #price_today_begin").val();
-			data.price_yesterday=$("#futures_modify_div #price_yesterday").val();
-			data.price_right_now=$("#futures_modify_div #price_right_now").val();
-			data.price_high=$("#futures_modify_div #price_high").val();
-			data.price_low=$("#futures_modify_div #price_low").val();
+			data.id=$("#history_ad_modify_div #id").val();
+			data.user_name=$("#history_ad_modify_div #user_name").val();
+			data.futures_id=$("#history_ad_modify_div #futures_id").val();
+			data.futures_name=$("#history_ad_modify_div #futures_name").val();
+			data.type=$("#history_ad_modify_div #type").val();
+			data.price_bought=$("#history_ad_modify_div #price_bought").val();
+			data.amount=$("#history_ad_modify_div #amount").val();
+			data.forward=$("#history_ad_modify_div #forward").val();
+			data.price_sale=$("#history_ad_modify_div #price_sale").val();
 			//测试输入的是否为数字形式
-			if(testNumber(data.price_today_begin) && testNumber(data.price_yesterday) && testNumber(data.price_right_now) && testNumber(data.price_high) && testNumber(data.price_low)){
+			if(testNumber(data.price_bought) && testNumber(data.amount) && testNumber(data.price_sale)){
 
 			}else {
 				alert("输入的数据不和规范");
@@ -438,11 +452,14 @@ var Page = function() {
 			$.post(url,data,function(json){
 				if(json.result_code==0){
 					alert("已经完成设备修改。");
-					$("#futures_modify_div").modal("hide");
-					initManageFuturesDataRecordDatatable();
+					$("#history_ad_modify_div").modal("hide");
+					initHistoryAdDataRecordDatatable();
 				}
 			});
 		}
+	};
+	var onModifyDivCancel=function () {
+		$("#history_ad_modify_div").modal("hide");
 	};
 
 	//测试字符串是不是数字形式(不进行输入的话也是可以通过测试的)
@@ -451,17 +468,23 @@ var Page = function() {
 		if(numberFormat.test(num)){
 			return true;
 		}else{
-			return false;
+			if(num == ""){
+				return true
+			}else {
+				return false;
+			}
+
 		}
 	};
 	var onExportRecord=function () {
 		var url="../../"+module+"_"+sub+"_servlet_action";
-		var data={"action":"export_futures_record"};
+		var data={"action":"export_history_administrator_record"};
 		$.post(url,data,function (json) {
 			if (json.result_code==0){
 				console.log(JSON.stringify(json));
-				$("#futures_download_div #download_url").attr("href","javascript:window.open('"+json.download_url+"')");	//window.open是打开一个新的页面进行跳转，但是这里没有显现出来
-				$("#futures_download_div").modal("show");
+				$("#history_ad_download_div #download_url1").attr("href","javascript:window.open('"+json.download_url1+"')");	//window.open是打开一个新的页面进行跳转，但是这里没有显现出来
+				$("#history_ad_download_div #download_url2").attr("href","javascript:window.open('"+json.download_url2+"')");
+				$("#history_ad_download_div").modal("show");
 			}else{
 				alert("[onExportRecord]与后端交互错误！"+json.result_smg);
 			}
@@ -470,10 +493,10 @@ var Page = function() {
 
 	//打印事件，跳转到别的页面
 	var onTablePrint=function () {
-		window.location.href="futures_list_print_table.jsp";
+		window.location.href="history_ad_list_print_table.jsp";
 	};
 	//在这个页面进行显示
-	var initFuturesListPrintTableRecord=function () {
+	var initHistoryAdListPrintTableRecord=function () {
 		$("#page_sidebar_wrapper").hide();
 		$("#page_header").hide();
 		$("#page_footer").hide();
@@ -481,24 +504,33 @@ var Page = function() {
 		$(".page-container").attr("style","margin-left:0px");
 		$(".page-container").attr("style","margin-top:0px");
 		// $(".page-container").attr("style","margin-bottom:0px"); 注意事项：top与bottom不能同时存在
-		$.post("../../"+module+"_"+sub+"_servlet_action?action=get_futures_record",function(json){
+		$.post("../../"+module+"_"+sub+"_servlet_action?action=get_history_administrator_record",function(json){
 			console.log(JSON.stringify(json));
 			if(json.result_code==0){
 				var list=json.aaData;
 				var html="";
+				var price_sale = "";
+				var earning = "";
 				if(list!=undefined && list.length>0){
 					for(var i=0;i<list.length;i++){
 						var record=list[i];
-						var change="";
-						var amplitude="";
-						if(record.price_right_now!="" && record.price_yesterday!="") {
-							change = (record.price_right_now - 0) - (record.price_yesterday - 0);
-							change = Math.round(change * 100) / 100;
-							amplitude=(record.price_right_now-record.price_yesterday)/record.price_yesterday*100;
-							amplitude=Math.round(amplitude*1000)/1000;
-							amplitude=amplitude+'%';
+						if(record.forward == '开仓'){
+							price_sale="未被卖出"
+						}else {
+							price_sale=record.price_sale;
 						}
+						if(record.forward == '开仓'){
+							var earning = (record.price_right_now-record.price_bought)*record.amount;
+							earning=Math.round(earning*100)/100;
+						}else {
+							var earning = (record.price_sale-record.price_bought)*record.amount
+							earning=Math.round(earning*100)/100;
+						}
+
 						html=html+"                          	 		<tr>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+record.user_name;
+						html=html+"                                        </td>";
 						html=html+"                                        <td>";
 						html=html+"                                            "+record.futures_id;
 						html=html+"                                        </td>";
@@ -509,25 +541,25 @@ var Page = function() {
 						html=html+"                                            "+record.type;
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
-						html=html+"                                            "+record.price_today_begin;
-						html=html+"                                        </td>";
-						html=html+"                                        <td>";
-						html=html+"                                            "+record.price_yesterday;
+						html=html+"                                            "+record.price_bought;
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
 						html=html+"                                            "+record.price_right_now;
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
-						html=html+"                                            "+record.price_high;
+						html=html+"                                            "+record.amount;
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
-						html=html+"                                            "+record.price_low;
+						html=html+"                                            "+record.forward;
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
-						html=html+"                                            "+change;
+						html=html+"                                            "+record.select_time;
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
-						html=html+"                                            "+amplitude;
+						html=html+"                                            "+price_sale;
+						html=html+"                                        </td>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+earning;
 						html=html+"                                        </td>";
 						html=html+"                                    </tr>";
 					}
@@ -541,12 +573,12 @@ var Page = function() {
 	//统计功能的实现
 	//这里进行跳转，统计图显示在另一个页面中
 	var onStatisticRecord=function () {
-		window.location.href="futures_statistic.jsp";
+		window.location.href="history_ad_statistic.jsp";
 	};
 	//当页面跳转后执行的，访问后端的数据，获取的东西是每个小时断和对应时间段的记录的数目，注意chartData是一个全局变量，在判断完page之后继续定义
-	var initFuturesStatisticRecord=function () {
+	var initHistoryAdStatisticRecord=function () {
 		var url = "../../"+module+"_"+sub+"_servlet_action";
-		var data={"action":"get_amplitude_by_futuresId"};
+		var data={"action":"get_history_ad_amplitude_by_futuresId"};
 		$.post(url,data,function (json) {
 			var html="";
 			if(json.result_code == 0){
@@ -565,7 +597,7 @@ var Page = function() {
 	var changeResultDataToChartData=function (list,chartData) {
 		for(var i = 0; i < list.length; i++){
 			//year是横坐标，incom是横条的纵坐标，expenses是折线的纵坐标
-			var json = {"year":list[i].futures_name,"income":list[i].amplitude,"expenses":list[i].amplitude};
+			var json = {"year":list[i].futures_name,"income":list[i].earning,"expenses":list[i].earning};
 			chartData.push(json);
 		}
 	};

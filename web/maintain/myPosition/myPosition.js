@@ -81,8 +81,8 @@ var Page = function() {
 		$('#refresh_button').click(function() {onRemake();});	//另一个刷新按钮
 		$('#table_print_button').click(function() {onTablePrint();});	//打印按钮
 		$('#statistic_button').click(function() {onStatisticRecord();});	//统计按钮
-		$('#buy_div #submit').click(function() {onBuyDivSubmit();});	//购买弹窗的提交按钮
-		$('#buy_div #cancel').click(function() {onBuyDivCancel();});	//购买弹出的取消按钮
+		$('#sale_div #submit').click(function() {onSaleDivSubmit();});	//购买弹窗的提交按钮
+		$('#sale_div #cancel').click(function() {onSaleDivCancel();});	//购买弹出的取消按钮
 	};
 	var initPositionStatisticControlEvent=function () {
 		$('#return_button').click(function() {returnBack();});
@@ -265,8 +265,19 @@ var Page = function() {
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
+					var earning = (full.price_right_now-full.price_bought)*full.amount;
+					earning=Math.round(earning*100)/100;
+					if(earning >= 0){
+						sReturn = '<div class="font-red">'+earning+'</div>';
+					}else {
+						sReturn = '<div class="font-green">'+earning+'</div>';
+					}
+					return sReturn;
+				},"orderable": false
+			},{
+				"mRender": function(data, type, full) {
 					//如果要传不是数字类型的字符串需要加引号这个才会跳转，还有一点这里加引号需要转义，且转义的是单引号
-					sReturn = '<div><a href="javascript:Page.buyFutures('+full.id+')">【卖出】</a></div>';
+					sReturn = '<div><a href="javascript:Page.saleFutures('+full.id+')">【卖出】</a></div>';
 					return sReturn;
 				},"orderable": false
 			}],
@@ -337,6 +348,8 @@ var Page = function() {
 				if(list!=undefined && list.length>0){
 					for(var i=0;i<list.length;i++){
 						var record=list[i];
+						var earning = (record.price_right_now-record.price_bought)*record.amount;
+						earning=Math.round(earning*100)/100;
 						html=html+"                          	 		<tr>";
 						html=html+"                                        <td>";
 						html=html+"                                            "+record.futures_id;
@@ -362,6 +375,9 @@ var Page = function() {
 						html=html+"                                        <td>";
 						html=html+"                                            "+record.select_time;
 						html=html+"                                        </td>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+earning;
+						html=html+"                                        </td>";
 						html=html+"                                    </tr>";
 					}
 				}
@@ -381,7 +397,7 @@ var Page = function() {
 		var url = "../../"+module+"_"+sub+"_servlet_action";
 		//其实不管是用data传参还是将要传递的参数放到url里，后端操作过程没有区别
 		var user_name = sessionStorage.getItem("username");
-		var data={"action":"get_amplitude_by_futuresId","user_name":user_name};
+		var data={"action":"get_position_amplitude_by_futuresId","user_name":user_name};
 		$.post(url,data,function (json) {
 			var html="";
 			if(json.result_code == 0){
@@ -400,7 +416,7 @@ var Page = function() {
 	var changeResultDataToChartData=function (list,chartData) {
 		for(var i = 0; i < list.length; i++){
 			//year是横坐标，incom是横条的纵坐标，expenses是折线的纵坐标
-			var json = {"year":list[i].futures_name,"income":list[i].earnings,"expenses":list[i].earnings};
+			var json = {"year":list[i].futures_name,"income":list[i].earning,"expenses":list[i].earning};
 			chartData.push(json);
 		}
 	};
@@ -464,75 +480,135 @@ var Page = function() {
 	var returnBack=function () {
 		history.go(-1);
 	};
-	var buyFutures=function (id) {
+
+	//显示买入的出那个后
+	var saleFutures=function (id) {
 		var url="../../"+module+"_"+sub+"_servlet_action?id="+id;
 		var data={};
-		data.action="get_futures_record";
+		data.action="get_position_record";
 		data.id=id;
 		$.post(url,data,function(json){
 			console.log(JSON.stringify(json));
 			if(json.result_code==0) {
 				var record = json.aaData;
 				record=record[0];
-				$("#buy_div #futures_id").val(record.futures_id);
-				$("#buy_div #futures_name").val(record.futures_name);
-				$("#buy_div #type").val(record.type);
-				$("#buy_div #price_right_now").val(record.price_right_now);
-				$("#buy_div").modal("show");
+				$("#sale_div #id").val(record.id);
+				$("#sale_div #futures_id").val(record.futures_id);
+				$("#sale_div #futures_name").val(record.futures_name);
+				$("#sale_div #type").val(record.type);
+				$("#sale_div #price_bought").val(record.price_bought);
+				$("#sale_div #price_right_now").val(record.price_right_now);
+				$("#sale_div #amount").val(record.amount);
+				$("#sale_div").modal("show");
 			}
 		})
 	};
 
 	//买入弹窗的按钮事件,将买入期货相关信息存到my_position数据库并且减少用户余额
-	var onBuyDivSubmit=function () {
-		if (!(/(^[1-9]\d*$)/.test($("#buy_div #amount").val()))) {
+	var onSaleDivSubmit=function () {
+		if (!(/(^[1-9]\d*$)/.test($("#sale_div #sale_amount").val()))) {
 			$("#reminder").modal("show");
+			alert("数量应该为正整数");
 			return;
 		}else {
 			$("#reminder").modal("hide");
 		}
-		var balance = sessionStorage.getItem("balance");
-		if($("#buy_div #amount").val()*$("#buy_div #price_right_now").val()>balance){
-			alert("您账户的余额不足");
+		if($("#sale_div #sale_amount").val()>$("#sale_div #amount").val()){
+			alert("要卖出的数量大于这个订单含有的的数量");
 			return;
 		}
-		if(confirm("您确定要买入'"+$("#buy_div #futures_name").val()+"'吗？")){
+		if($("#sale_div #sale_amount").val()==$("#sale_div #amount").val()){
+			if(confirm("您确定要卖出'"+$("#sale_div #futures_name").val()+"'吗？")){
 
-			var url="../../user_center_servlet_action";
-			var data={};
-			data.action="modify_user_record";
-			data.id=sessionStorage.getItem("id");
-			data.username=sessionStorage.getItem("username");
-			data.password=sessionStorage.getItem("password");
-			data.email=sessionStorage.getItem("email");
-			data.identity=sessionStorage.getItem("identity");
-			data.balance=sessionStorage.getItem("balance") - $("#buy_div #amount").val()*$("#buy_div #price_right_now").val();
-			$.post(url,data,function(json){
-				if(json.result_code==0){
-				}
-			});
+				var url="../../user_center_servlet_action";
+				var data={};
+				data.action="modify_user_record";
+				data.id=sessionStorage.getItem("id");
+				data.username=sessionStorage.getItem("username");
+				data.password=sessionStorage.getItem("password");
+				data.email=sessionStorage.getItem("email");
+				data.identity=sessionStorage.getItem("identity");
+				alert(sessionStorage.getItem("balance"));
+				alert($("#sale_div #sale_amount").val()*$("#sale_div #price_right_now").val());
+				data.balance=(sessionStorage.getItem("balance")-0) + $("#sale_div #sale_amount").val()*$("#sale_div #price_right_now").val();
+				alert(data.balance);
+				$.post(url,data,function(json){
+					if(json.result_code==0){
+					}
+				});
 
-			var url="../../position_file_servlet_action";
-			var data={};
-			data.action="add_position_record";
-			//获取填写在该页面的数据准备传向后端
-			data.futures_id=$("#buy_div #futures_id").val();
-			data.futures_name=$("#buy_div #futures_name").val();
-			data.type=$("#buy_div #type").val();
-			data.amount=$("#buy_div #amount").val();
-			data.user_name=sessionStorage.getItem("username");
-			data.state="买入";
-			$.post(url,data,function(json){
-				if(json.result_code==0){
-					alert("买入成功！");
-					$("#buy_div").modal("hide");
-					window.location.reload();
-				}
-			});
+				var url="../../"+module+"_"+sub+"_servlet_action";
+				var data={};
+				data.action="sale_futures_all";
+				//获取填写在该页面的数据准备传向后端
+				data.id=$("#sale_div #id").val();
+				data.price_sale=$("#sale_div #price_right_now").val();
+				data.forward="平仓";
+
+				$.post(url,data,function(json){
+					if(json.result_code==0){
+						alert("卖出成功！");
+						$("#sale_div").modal("hide");
+						window.location.reload();
+					}
+				});
+			}
+		}else {
+			if(confirm("您确定要卖出'"+$("#sale_div #futures_name").val()+"'吗？")){
+				//修改余额
+				var url="../../user_center_servlet_action";
+				var data={};
+				data.action="modify_user_record";
+				data.id=sessionStorage.getItem("id");
+				data.username=sessionStorage.getItem("username");
+				data.password=sessionStorage.getItem("password");
+				data.email=sessionStorage.getItem("email");
+				data.identity=sessionStorage.getItem("identity");
+				data.balance=(sessionStorage.getItem("balance")-0) + $("#sale_div #sale_amount").val()*$("#sale_div #price_right_now").val();
+				$.post(url,data,function(json){
+					if(json.result_code==0){
+					}
+				});
+				//增加平仓记录
+				var url="../../"+module+"_"+sub+"_servlet_action";
+				var data={};
+				data.action="sale_futures_part_add";
+				//获取填写在该页面的数据准备传向后端
+				data.user_name=sessionStorage.getItem("username");
+				data.futures_id=$("#sale_div #futures_id").val();
+				data.futures_name=$("#sale_div #futures_name").val();
+				data.type=$("#sale_div #type").val();
+				data.price_bought=$("#sale_div #price_bought").val();
+				data.amount=$("#sale_div #sale_amount").val();
+				data.forward="平仓";
+				data.price_sale=$("#sale_div #price_right_now").val();
+				$.post(url,data,function(json){
+					if(json.result_code==0){
+						alert("卖出成功！");
+						$("#sale_div").modal("hide");
+					}
+				});
+
+				var url="../../"+module+"_"+sub+"_servlet_action";
+				var data={};
+				data.action="sale_futures_part_modify";
+				//获取填写在该页面的数据准备传向后端
+				data.id=$("#sale_div #id").val();
+				data.amount=$("#sale_div #amount").val()-$("#sale_div #sale_amount").val();
+
+				$.post(url,data,function(json){
+					if(json.result_code==0){
+						alert("卖出成功！");
+						$("#sale_div").modal("hide");
+						window.location.reload();
+					}
+				});
+			}
 		}
+
 	};
-	var onBuyDivCancel=function () {
-		$("#buy_div").modal("hide");
+	var onSaleDivCancel=function () {
+		$("#sale_div").modal("hide");
 	};
 	//Page return 开始
 	return {
@@ -545,8 +621,8 @@ var Page = function() {
 		onModifyRecord:function(id){
 			onModifyRecord(id);
 		},
-		buyFutures:function (id) {
-			buyFutures(id);
+		saleFutures:function (id) {
+			saleFutures(id);
 		}
 	}
 }();//Page

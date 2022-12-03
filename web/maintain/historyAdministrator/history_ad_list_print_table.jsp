@@ -38,14 +38,14 @@
             <!-- BEGIN PAGE CONTENT-->
             <!--页面开始=======================================================-->
             <!--设置页面ID-->
-            <input type="hidden" id="page_id" name="page_id" value="position_list_print_table">
+            <input type="hidden" id="page_id" name="page_id" value="history_ad_list_print_table">
             <div class="row">
                 <div class="col-md-12">
                     <!-- BEGIN SAMPLE TABLE PORTLET-->
                     <div class="portlet">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-bell-o"></i>持仓数据
+                                <i class="fa fa-bell-o"></i>历史记录
                             </div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse">
@@ -63,6 +63,9 @@
                                 <table class="table table-striped table-bordered table-advance table-hover">
                                     <thead>
                                     <tr>
+                                        <th >
+                                            用户名
+                                        </th>
                                         <th>
                                             期货代号
                                         </th>
@@ -86,6 +89,9 @@
                                         </th>
                                         <th>
                                             交易时间
+                                        </th>
+                                        <th>
+                                            卖出时价格
                                         </th>
                                         <th>
                                             收益
@@ -132,7 +138,7 @@
 <%@include file="../../home/frame/frame_javascript.jsp"%>
 <%--本页专用的--%>
 <script type="text/javascript" src="../dataTables/jquery.dataTables.min.js"></script>
-<script src="myPosition.js"></script>
+<script src="historyAd.js"></script>
 </body>
 <!-- END BODY -->
 </html>

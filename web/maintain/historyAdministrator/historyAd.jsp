@@ -34,7 +34,7 @@
         <div class="page-content">
             <%@include file="../../home/frame/frame_page_header.jsp"%>
             <h3 class="page-title">
-                期货管理
+                历史记录
             </h3>
             <div class="page-bar">
                 <ul class="page-breadcrumb">
@@ -44,11 +44,11 @@
                         <i class="fa fa-angle-right"></i>
                     </li>
                     <li>
-                        <a href="#">金融信息</a>
+                        <a href="#">用户管理</a>
                         <i class="fa fa-angle-right"></i>
                     </li>
                     <li>
-                        <a href="#">期货管理</a>
+                        <a href="#">历史记录</a>
                     </li>
                 </ul>
             </div>
@@ -56,7 +56,7 @@
             <!-- BEGIN PAGE CONTENT-->
             <!--页面开始=======================================================-->
             <!--设置页面ID-->
-            <input type="hidden" id="page_id" name="page_id" value="manage_futures_data">
+            <input type="hidden" id="page_id" name="page_id" value="history_administrator">
             <div class="row" id="record_query_setup">
                 <div class="form-group">
                     <label class="control-label col-sm-1" style="font-size: 18px">期货代号</label>
@@ -66,6 +66,10 @@
                     <label class="control-label col-sm-1" style="font-size: 18px">期货名称</label>
                     <div class="col-md-2">
                         <input id="futures_name" type="text" class="form-control" value="" placeholder="请输入期货名称"/>
+                    </div>
+                    <label class="control-label col-sm-1" style="font-size: 18px">用户名称</label>
+                    <div class="col-md-2">
+                        <input id="user_name" type="text" class="form-control" value="" placeholder="请输入用户名称"/>
                     </div>
                     <div class="col-md-2">
                         <button type="button"   class="btn blue" id="query_button" name="query_button">
@@ -105,7 +109,9 @@
                     <table class="table table-striped table-bordered table-hover datatable" id="record_list">
                         <thead>
                         <tr>
-                            <th class="table-checkbox"><input type="checkbox" class="group-checkable" data-set="#record_list .checkboxes" /></th>
+                            <th >
+                                用户名
+                            </th>
                             <th>
                                 期货代号
                             </th>
@@ -116,25 +122,25 @@
                                 类型
                             </th>
                             <th>
-                                开盘价
+                                买入时价格
+                            </th>
+                            <th>
+                                实时价格
                             </th>
                             <th >
-                                昨结算
+                                数量
                             </th>
                             <th>
-                                最新价
+                                交易方向
                             </th>
                             <th>
-                                最高价
+                                交易时间
                             </th>
                             <th>
-                                最低价
+                                卖出时价格
                             </th>
                             <th>
-                                价格变化
-                            </th>
-                            <th>
-                                涨跌幅
+                                收益
                             </th>
                             <th>
                                 操作
@@ -158,10 +164,10 @@
 <%@include file="../../home/frame/frame_javascript.jsp"%>
 <%--本页专用的--%>
 <script type="text/javascript" src="../dataTables/jquery.dataTables.min.js"></script>
-<script src="manageFuturesData.js"></script>
+<script src="historyAd.js"></script>
 </body>
 <!-- END BODY -->
 </html>
-<%@include file="futures_add_div.jsp"%>
-<%@include file="futures_modify_div.jsp"%>
-<%@include file="futures_download_div.jsp"%>
+<%@include file="history_ad_add_div.jsp"%>
+<%@include file="history_ad_modify_div.jsp"%>
+<%@include file="history_ad_download_div.jsp"%>

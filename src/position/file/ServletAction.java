@@ -99,6 +99,14 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+            if (action.equals("export_history_administrator_record")) {
+                actionOk=true;
+                try {
+                    exportHistoryAdministratorRecord(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             if (action.equals("add_position_record")) {
                 actionOk=true;
                 try {
@@ -123,10 +131,74 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
-            if (action.equals("get_amplitude_by_futuresId")) {
+            if (action.equals("get_position_amplitude_by_futuresId")) {
                 actionOk=true;
                 try {
                     getAmplitudeByFuturesId(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("get_history_ad_amplitude_by_futuresId")) {
+                actionOk=true;
+                try {
+                    getHistoryAdAmplitudeByFuturesId(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("get_history_administrator_record")) {
+                actionOk=true;
+                try {
+                    getHistoryAdministratorRecord(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("add_history_ad_record")) {
+                actionOk=true;
+                try {
+                    addHistoryAdRecord(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("delete_history_ad_record")) {
+                actionOk=true;
+                try {
+                    deleteHistoryAdRecord(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("modify_history_ad_record")) {
+                actionOk=true;
+                try {
+                    modifyHistoryAdRecord(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("sale_futures_all")) {
+                actionOk=true;
+                try {
+                    modifySaleFuturesAll(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("sale_futures_part_add")) {
+                actionOk=true;
+                try {
+                    addSaleFuturePart(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("sale_futures_part_modify")) {
+                actionOk=true;
+                try {
+                    moddifySaleFuturesPart(request, response, json);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -205,28 +277,63 @@ public class ServletAction extends HttpServlet {
         dao.addDeviceRecord(data,json);
     }
     /*========================================CRUD业务函数 结束========================================*/
-    /*========================================期货CRUD业务函数 开始========================================*/
+    /*========================================CRUD业务函数 开始========================================*/
     private void getPositionRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
         DeviceDao dao=new DeviceDao();
         Data data=getPageParameters(request,response,json);
         dao.getDeviceRecord(data,json);
+    }
+    private void getHistoryAdministratorRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        DeviceDao dao=new DeviceDao();
+        Data data=getPageParameters(request,response,json);
+        dao.getHistoryAdministratorRecord(data,json);
     }
     private void addPositionRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
         DeviceDao dao=new DeviceDao();
         Data data=getPageParameters(request,response,json);
         dao.addDeviceRecord(data,json);
     }
+    private void addHistoryAdRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        DeviceDao dao=new DeviceDao();
+        Data data=getPageParameters(request,response,json);
+        dao.addHistoryAdRecord(data,json);
+    }
+    private void addSaleFuturePart(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        DeviceDao dao=new DeviceDao();
+        Data data=getPageParameters(request,response,json);
+        dao.addHistoryAdRecord(data,json);
+    }
     private void deleteFuturesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
         DeviceDao dao=new DeviceDao();
         Data data=getPageParameters(request,response,json);
         dao.deleteDeviceRecord(data,json);
+    }
+    private void deleteHistoryAdRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        DeviceDao dao=new DeviceDao();
+        Data data=getPageParameters(request,response,json);
+        dao.deleteHistoryAdRecord(data,json);
     }
     private void modifyFuturesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
         DeviceDao dao=new DeviceDao();
         Data data=getPageParameters(request,response,json);
         dao.modifyDeviceRecord(data,json);
     }
-    /*========================================期货CRUD业务函数 结束========================================*/
+    private void modifyHistoryAdRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        DeviceDao dao=new DeviceDao();
+        Data data=getPageParameters(request,response,json);
+        dao.modifyHistoryAdRecord(data,json);
+    }
+    private void moddifySaleFuturesPart(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        DeviceDao dao=new DeviceDao();
+        Data data=getPageParameters(request,response,json);
+        dao.moddifySaleFuturesPart(data,json);
+    }
+    private void modifySaleFuturesAll(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        DeviceDao dao=new DeviceDao();
+        Data data=getPageParameters(request,response,json);
+        dao.modifySaleFuturesAll(data,json);
+    }
+    /*========================================CRUD业务函数 结束========================================*/
 
     /*========================================查询统计相关数据========================================*/
     private void getAmplitudeByFuturesId(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
@@ -234,8 +341,14 @@ public class ServletAction extends HttpServlet {
         Data data=getPageParameters(request,response,json);//转换一下数据
         dao.getAmplitudeByFuturesId(data,json);
     }
+    private void getHistoryAdAmplitudeByFuturesId(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
+        DeviceDao dao=new DeviceDao();
+        Data data=getPageParameters(request,response,json);//转换一下数据
+        dao.getHistoryAdAmplitudeByFuturesId(data,json);
+    }
 
     /*========================================导出功能========================================*/
+    //持仓导出功能
     private void exportPositionRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
         DeviceDao dao=new DeviceDao();
         Data data=getPageParameters(request,response,json);
@@ -245,19 +358,41 @@ public class ServletAction extends HttpServlet {
         getExportDeviceRecordToExcel(json, data);
         getExportDeviceRecordToPdf(json, data);
     }
+    //管理员历史记录导出功能
+    private void exportHistoryAdministratorRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
+        DeviceDao dao=new DeviceDao();
+        Data data=getPageParameters(request,response,json);
+        dao.exportHistoryAdministratorRecord(data,json);
+        getExportHistoryAdRecordToFile(json, data);
+        getExportHistoryAdRecordToExcel(json, data);
+    }
 
     private void getExportDeviceRecordToPdf(JSONObject json, Data data) {
-
     }
-
     private void getExportDeviceRecordToTxt(JSONObject json, Data data) {
-
     }
-
+    private void getExportHistoryAdRecordToFile(JSONObject json, Data data) throws JSONException {
+        String jsonStr=json.toString();
+        File jsonFile = new File("C:\\testUpload\\historyAdministratorData.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
+        json.put("download_url1","/upload/maintain/device/historyAdministratorData.rar");
+        showDebug("准备下载");
+        try{
+            if(!jsonFile.exists()){
+                jsonFile.createNewFile();
+            }
+            FileWriter fileWriter=new FileWriter(jsonFile.getAbsoluteFile());
+            BufferedWriter bw=new BufferedWriter(fileWriter);
+            bw.write(jsonStr);
+            bw.close();
+            showDebug("完成下载");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private void getExportDeviceRecordToFile(JSONObject json, Data data) throws JSONException {
         String jsonStr=json.toString();
         File jsonFile = new File("C:\\testUpload\\PositionData.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
-        json.put("download_url","/upload/maintain/device/PositionData.rar");
+        json.put("download_url1","/upload/maintain/device/PositionData.rar");
         showDebug("准备下载");
         try{
             if(!jsonFile.exists()){
@@ -273,9 +408,15 @@ public class ServletAction extends HttpServlet {
         }
     }
     //需要四个jar包的引入
+    private void getExportHistoryAdRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
+        MyExcel me=new MyExcel("C:\\testUpload\\historyAdministratorData.xls");
+        json.put("download_url2","/upload/maintain/device/historyAdministratorData.xls");
+        json.put("file_path","C:\\testUpload\\historyAdministratorData.xls");
+        me.exportData(data,json);
+    }
     private void getExportDeviceRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
         MyExcel me=new MyExcel("C:\\testUpload\\PositionData.xls");
-        json.put("download_url","/upload/maintain/device/PositionData.xls");
+        json.put("download_url2","/upload/maintain/device/PositionData.xls");
         json.put("file_path","C:\\testUpload\\PositionData.xls");
         me.exportData(data,json);
     }
