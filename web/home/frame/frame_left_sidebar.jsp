@@ -55,6 +55,11 @@
                             <i class="icon-basket"></i>
                             我的持仓</a>
                     </li>
+                    <li>
+                        <a href="../../maintain/historyAdministrator/historyAd.jsp">
+                            <i class="icon-wallet"></i>
+                            我的持仓</a>
+                    </li>
                 </ul>
             </li>
             <li>

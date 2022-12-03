@@ -511,6 +511,8 @@ var Page = function() {
 	var returnBack=function () {
 		history.go(-1);
 	};
+
+	//将弹出显示出来并赋值
 	var buyFutures=function (id) {
 		var url="../../"+module+"_"+sub+"_servlet_action?id="+id;
 		var data={};
@@ -529,7 +531,6 @@ var Page = function() {
 			}
 		})
 	};
-
 	//买入弹窗的按钮事件,将买入期货相关信息存到my_position数据库并且减少用户余额
 	var onBuyDivSubmit=function () {
 		if (!(/(^[1-9]\d*$)/.test($("#buy_div #amount").val()))) {
@@ -579,6 +580,7 @@ var Page = function() {
 			});
 		}
 	};
+	//弹窗的取消按钮事件
 	var onBuyDivCancel=function () {
 		$("#buy_div").modal("hide");
 	};

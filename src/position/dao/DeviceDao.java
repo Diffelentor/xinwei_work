@@ -184,9 +184,9 @@ public class DeviceDao {
 		String user_name=data.getParam().has("user_name")?data.getParam().getString("user_name"):null;
 		if(user_name!=null && !user_name.isEmpty()){
 			if(sql.indexOf("where")>-1){
-				sql=sql+" and M.user_name like '%"+user_name+"%'";
+				sql=sql+" and M.user_name="+user_name+"'";
 			}else{
-				sql=sql+" where M.user_name like '%"+user_name+"%'";
+				sql=sql+" where M.user_name="+user_name+"'";
 			}
 		}
 		String orderBy=data.getParam().has("order_by")?data.getParam().getString("order_by"):null;

@@ -103,6 +103,9 @@
                                         <th>
                                             交易方向
                                         </th>
+                                        <th>
+                                            交易时间
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody id="print_table_content_div">
