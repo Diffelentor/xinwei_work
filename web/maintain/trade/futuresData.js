@@ -301,7 +301,7 @@ var Page = function() {
 			},{
 				"mRender": function(data, type, full) {
 					//如果要传不是数字类型的字符串需要加引号这个才会跳转，还有一点这里加引号需要转义，且转义的是单引号
-					sReturn = '<div><a href="javascript:Page.buyFutures('+full.id+')">【买入】</a><a href="javascript:Page.onDeleteRecord('+full.id+')">【k线图】</div>';
+					sReturn = '<div><a href="javascript:Page.buyFutures('+full.id+')">【买入】</a><a href="javascript:Page.onDeleteRecord('+full.id+')">【k线图】</a></div>';
 					return sReturn;
 				},"orderable": false
 			}],
@@ -554,7 +554,6 @@ var Page = function() {
 			data.email=sessionStorage.getItem("email");
 			data.identity=sessionStorage.getItem("identity");
 			data.balance=sessionStorage.getItem("balance") - $("#buy_div #amount").val()*$("#buy_div #price_right_now").val();
-			alert(data.balance);
 			$.post(url,data,function(json){
 				if(json.result_code==0){
 				}
@@ -567,8 +566,10 @@ var Page = function() {
 			data.futures_id=$("#buy_div #futures_id").val();
 			data.futures_name=$("#buy_div #futures_name").val();
 			data.type=$("#buy_div #type").val();
+			data.price_bought=$("#buy_div #price_right_now").val();
 			data.amount=$("#buy_div #amount").val();
-			data.user_name=sessionStorage.getItem("username")
+			data.user_name=sessionStorage.getItem("username");
+			data.forward="开仓";
 			$.post(url,data,function(json){
 				if(json.result_code==0){
 					alert("买入成功！");

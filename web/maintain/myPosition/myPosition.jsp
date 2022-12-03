@@ -33,7 +33,7 @@
         <div class="page-content">
             <%@include file="../../home/frame/frame_page_header.jsp"%>
             <h3 class="page-title">
-                期货数据
+                我的持仓
             </h3>
             <div class="page-bar">
                 <ul class="page-breadcrumb">
@@ -43,11 +43,11 @@
                         <i class="fa fa-angle-right"></i>
                     </li>
                     <li>
-                        <a href="#">金融信息</a>
+                        <a href="#">持仓管理</a>
                         <i class="fa fa-angle-right"></i>
                     </li>
                     <li>
-                        <a href="#">期货数据</a>
+                        <a href="#">我的持仓</a>
                     </li>
                 </ul>
             </div>
@@ -55,7 +55,7 @@
             <!-- BEGIN PAGE CONTENT-->
             <!--页面开始=======================================================-->
             <!--设置页面ID-->
-            <input type="hidden" id="page_id" name="page_id" value="futures_data">
+            <input type="hidden" id="page_id" name="page_id" value="my_position">
             <div class="row" id="record_query_setup">
                 <div class="form-group">
                     <label class="control-label col-sm-1" style="font-size: 18px">期货代号</label>
@@ -107,7 +107,6 @@
                     <table class="table table-striped table-bordered table-hover datatable" id="record_list">
                         <thead>
                         <tr>
-                            <th class="table-checkbox"><input type="checkbox" class="group-checkable" data-set="#record_list .checkboxes" /></th>
                             <th>
                                 期货代号
                             </th>
@@ -118,25 +117,19 @@
                                 类型
                             </th>
                             <th>
-                                开盘价
+                                买入时价格
+                            </th>
+                            <th>
+                                实时价格
                             </th>
                             <th >
-                                昨结算
+                                数量
                             </th>
                             <th>
-                                最新价
+                                交易方向
                             </th>
                             <th>
-                                最高价
-                            </th>
-                            <th>
-                                最低价
-                            </th>
-                            <th>
-                                价格变化
-                            </th>
-                            <th>
-                                涨跌幅
+                                买入时间
                             </th>
                             <th>
                                 操作
@@ -163,9 +156,9 @@
 <%--本页专用的--%>
 <script type="text/javascript" src="../dataTables/jquery.dataTables.min.js"></script>
 
-<script src="futuresData.js"></script>
+<script src="myPosition.js"></script>
 </body>
 <!-- END BODY -->
 </html>
-<%@include file="futures_download_div.jsp"%>
-<%@include file="buy_div.jsp"%>
+<%@include file="position_download_div.jsp"%>
+<%--<%@include file="buy_div.jsp"%>--%>

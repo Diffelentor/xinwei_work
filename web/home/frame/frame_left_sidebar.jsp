@@ -51,9 +51,9 @@
                             个人空间</a>
                     </li>
                     <li>
-                        <a href="ecommerce_orders.html">
+                        <a href="../../maintain/myPosition/myPosition.jsp">
                             <i class="icon-basket"></i>
-                            用户持仓</a>
+                            我的持仓</a>
                     </li>
                 </ul>
             </li>

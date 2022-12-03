@@ -331,7 +331,7 @@ var Page = function() {
 					//提问：这里比较奇怪，要想跳转则里面的数据必须都是数字类型的字符串（现在的发现是只要有string就不会执行函数）
 					//结果：如果要传不是数字类型的字符串需要加引号这个才会跳转，还有一点这里加引号需要转义，且转义的是单引号
 					sReturn = '<div><a href="javascript:Page.onModifyRecord('+full.id+')"><i class="fa fa-pencil"></i> 修改</a><a href="javascript:Page.onDeleteRecord('+full.id+')"><span class="glyphicon glyphicon-remove-sign">\n' +
-						'</span> 删除</div>';
+						'</span> 删除</a></div>';
 					return sReturn;
 				},"orderable": false
 			}],

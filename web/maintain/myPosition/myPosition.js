@@ -1,4 +1,4 @@
-var module="futures";
+var module="position";
 var sub="file";
 /*================================================================================*/
 jQuery(document).ready(function() {
@@ -14,8 +14,8 @@ var Page = function() {
 	/*----------------------------------------入口函数  开始----------------------------------------*/
 	var initPageControl=function(){
 		pageId=$("#page_id").val();
-		if(pageId=="futures_data"){
-			initFuturesDataList();
+		if(pageId=="my_position"){
+			initPositionDataList();
 		}
 		if(pageId=="device_add"){
 			initDeviceAdd();
@@ -23,11 +23,11 @@ var Page = function() {
 		if(pageId=="device_modify"){
 			initDeviceModify();
 		}
-		if(pageId=="futures_list_print_table"){
-			initFuturesPrintTable();
+		if(pageId=="position_list_print_table"){
+			initPositionPrintTable();
 		}
-		if(pageId=="futures_statistic"){
-			initFuturesStatistic();
+		if(pageId=="position_statistic"){
+			initPositionStatistic();
 		}
 
 	};
@@ -44,17 +44,17 @@ var Page = function() {
 		initDeviceModifyControlEvent();
 		initDeviceRecordView();
 	}
-	var initFuturesDataList=function () {
-		initFuturesDataControlEvent();
-		initFuturesDataRecordDatatable();
+	var initPositionDataList=function () {
+		initPositionDataControlEvent();
+		initPositionDataRecordDatatable();
 	}
-	var initFuturesPrintTable=function () {
-		initFuturesListPrintTableRecord()
+	var initPositionPrintTable=function () {
+		initPositionListPrintTableRecord()
 	};
-	var initFuturesStatistic=function () {
-		initFuturesStatisticControlEvent();
+	var initPositionStatistic=function () {
+		initPositionStatisticControlEvent();
 		$.ajaxSettings.async = false;	//禁止异步方式，否则第一个函数还没执行完就会执行第二个了
-		initFuturesStatisticRecord();
+		initPositionStatisticRecord();
 		$.ajaxSettings.async = true;
 		initBarChart();
 	};
@@ -73,16 +73,18 @@ var Page = function() {
 		$("#help_button").click(function() {help();});
 		$('#modify_button').click(function() {submitModifyRecord();});
 	}
-	var initFuturesDataControlEvent=function () {
+	var initPositionDataControlEvent=function () {
 		$('#remake_button').click(function() {onRemake();});	//重置按钮
-		$('#query_button').click(function() {initFuturesDataRecordDatatable();});	//查询按钮
+		$('#query_button').click(function() {initPositionDataRecordDatatable();});	//查询按钮
 		$('#export_button').click(function() {onExportRecord();});	//导出按钮
 		$('#finish_download_button').click(function() {onFinishDownload();});	//导出完毕按钮
 		$('#refresh_button').click(function() {onRemake();});	//另一个刷新按钮
 		$('#table_print_button').click(function() {onTablePrint();});	//打印按钮
 		$('#statistic_button').click(function() {onStatisticRecord();});	//统计按钮
+		$('#buy_div #submit').click(function() {onBuyDivSubmit();});	//购买弹窗的提交按钮
+		$('#buy_div #cancel').click(function() {onBuyDivCancel();});	//购买弹出的取消按钮
 	};
-	var initFuturesStatisticControlEvent=function () {
+	var initPositionStatisticControlEvent=function () {
 		$('#return_button').click(function() {returnBack();});
 	}
 	var initDeviceRecordView=function(){
@@ -183,7 +185,7 @@ var Page = function() {
 	var onHistoryRecord=function () {
 		window.location.href="commonHistoryOrder.jsp";
 	}
-	var initFuturesDataRecordDatatable=function () {
+	var initPositionDataRecordDatatable=function () {
 		//将之前的表删除掉，这样再次获取的时候就不会有warning了
 		if ($.fn.dataTable.isDataTable('#record_list'))
 		{
@@ -196,6 +198,7 @@ var Page = function() {
 		var data={};
 		data.futures_id=$("#record_query_setup #futures_id").val();
 		data.futures_name=$("#record_query_setup #futures_name").val();
+		data.user_name=sessionStorage.getItem("username");
 		$('.datatable').dataTable( {
 			"paging":true,
 			"searching":false,
@@ -220,11 +223,7 @@ var Page = function() {
 				}
 			},
 			//注意事项：在html里定义了几列这里就几列，参数是full
-			"aoColumns": [{"mRender": function(data, type, full) {
-					sReturn = '<input type="checkbox" class="checkboxes" value="'+full.futures_id+'"/>';
-					return sReturn;
-				},"orderable": false
-			},{
+			"aoColumns": [{
 				"mRender": function(data, type, full) {
 					sReturn = '<div>'+full.futures_id+'</div>';
 					return sReturn;
@@ -241,12 +240,7 @@ var Page = function() {
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					sReturn = '<div>'+full.price_today_begin+'</div>';
-					return sReturn;
-				},"orderable": false
-			},{
-				"mRender": function(data, type, full) {
-					sReturn = '<div>'+full.price_yesterday+'</div>';
+					sReturn = '<div>'+full.price_bought+'</div>';
 					return sReturn;
 				},"orderable": false
 			},{
@@ -256,57 +250,30 @@ var Page = function() {
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					sReturn = '<div>'+full.price_high+'</div>';
+					sReturn = '<div>'+full.amount+'</div>';
 					return sReturn;
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					sReturn = '<div>'+full.price_low+'</div>';
+					sReturn = '<div>'+full.forward+'</div>';
 					return sReturn;
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					if(full.price_right_now!="" && full.price_yesterday!=""){
-						var change=(full.price_right_now-0)-(full.price_yesterday-0);
-						change=Math.round(change*100)/100;
-						if(change>0){
-							sReturn = '<div class="font-red">'+change+'</div>';
-						}else {
-							sReturn = '<div class="font-green">'+change+'</div>';
-						}
-					}else {
-						sReturn = '<div></div>'
-					}
-
-					return sReturn;
-				},"orderable": false
-			},{
-				"mRender": function(data, type, full) {
-					if(full.price_right_now!="" && full.price_yesterday!=""){
-						var amplitude=(full.price_right_now-full.price_yesterday)/full.price_yesterday*100;
-						amplitude=Math.round(amplitude*1000)/1000;
-						if(amplitude>0){
-							sReturn = '<div class="font-red">'+amplitude+'%</div>';
-						}else {
-							sReturn = '<div class="font-green">'+amplitude+'%</div>';
-						}
-					}else {
-						sReturn = '<div></div>'
-					}
-
+					sReturn = '<div>'+full.select_time+'</div>';
 					return sReturn;
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
 					//如果要传不是数字类型的字符串需要加引号这个才会跳转，还有一点这里加引号需要转义，且转义的是单引号
-					sReturn = '<div><a href="javascript:Page.onModifyRecord('+full.id+')">【买入】</a><a href="javascript:Page.onDeleteRecord('+full.id+')">【k线图】</div>';
+					sReturn = '<div><a href="javascript:Page.buyFutures('+full.id+')">【卖出】</a></div>';
 					return sReturn;
 				},"orderable": false
 			}],
 			"aLengthMenu": [[5,10,15,20,25,40,50,-1],[5,10,15,20,25,40,50,"所有记录"]],
 			"fnDrawCallback": function(){$(".checkboxes").uniform();$(".group-checkable").uniform();},
 			//"sAjaxSource": "get_record.jsp"
-			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_futures_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name
+			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_position_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name+"&user_name="+data.user_name
 		});
 		$('.datatable').find('.group-checkable').change(function () {
 			var set = jQuery(this).attr("data-set");
@@ -333,26 +300,27 @@ var Page = function() {
 	//导出事件
 	var onExportRecord=function () {
 		var url="../../"+module+"_"+sub+"_servlet_action";
-		var data={"action":"export_futures_record"};
+		var user_name = sessionStorage.getItem("username");
+		var data={"action":"export_position_record","user_name":user_name};
 		$.post(url,data,function (json) {
 			if (json.result_code==0){
 				console.log(JSON.stringify(json));
-				$("#futures_download_div #download_url").attr("href","javascript:window.open('"+json.download_url+"')");	//window.open是打开一个新的页面进行跳转，但是这里没有显现出来
-				$("#futures_download_div").modal("show");
+				$("#position_download_div #download_url").attr("href","javascript:window.open('"+json.download_url+"')");	//window.open是打开一个新的页面进行跳转，但是这里没有显现出来
+				$("#position_download_div").modal("show");
 			}else{
 				alert("[onExportRecord]与后端交互错误！"+json.result_smg);
 			}
 		})
 	}
 	var onFinishDownload=function () {
-		$("#futures_download_div").modal("hide");
+		$("#position_download_div").modal("hide");
 	}
 
 	//打印事件，跳转到别的页面
 	var onTablePrint=function () {
-		window.location.href="futures_list_print_table.jsp";
+		window.location.href="position_list_print_table.jsp";
 	};
-	var initFuturesListPrintTableRecord=function () {
+	var initPositionListPrintTableRecord=function () {
 		$("#page_sidebar_wrapper").hide();
 		$("#page_header").hide();
 		$("#page_footer").hide();
@@ -360,7 +328,8 @@ var Page = function() {
 		$(".page-container").attr("style","margin-left:0px");
 		$(".page-container").attr("style","margin-top:0px");
 		// $(".page-container").attr("style","margin-bottom:0px"); 注意事项：top与bottom不能同时存在
-		$.post("../../"+module+"_"+sub+"_servlet_action?action=get_futures_record",function(json){
+		var user_name = sessionStorage.getItem("username");
+		$.post("../../"+module+"_"+sub+"_servlet_action?action=get_position_record&user_name="+user_name,function(json){
 			console.log(JSON.stringify(json));
 			if(json.result_code==0){
 				var list=json.aaData;
@@ -368,15 +337,6 @@ var Page = function() {
 				if(list!=undefined && list.length>0){
 					for(var i=0;i<list.length;i++){
 						var record=list[i];
-						var change="";
-						var amplitude="";
-						if(record.price_right_now!="" && record.price_yesterday!="") {
-							change = (record.price_right_now - 0) - (record.price_yesterday - 0);
-							change = Math.round(change * 100) / 100;
-							amplitude=(record.price_right_now-record.price_yesterday)/record.price_yesterday*100;
-							amplitude=Math.round(amplitude*1000)/1000;
-							amplitude=amplitude+'%';
-						}
 						html=html+"                          	 		<tr>";
 						html=html+"                                        <td>";
 						html=html+"                                            "+record.futures_id;
@@ -388,25 +348,16 @@ var Page = function() {
 						html=html+"                                            "+record.type;
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
-						html=html+"                                            "+record.price_today_begin;
-						html=html+"                                        </td>";
-						html=html+"                                        <td>";
-						html=html+"                                            "+record.price_yesterday;
+						html=html+"                                            "+record.price_bought;
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
 						html=html+"                                            "+record.price_right_now;
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
-						html=html+"                                            "+record.price_high;
+						html=html+"                                            "+record.amount;
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
-						html=html+"                                            "+record.price_low;
-						html=html+"                                        </td>";
-						html=html+"                                        <td>";
-						html=html+"                                            "+change;
-						html=html+"                                        </td>";
-						html=html+"                                        <td>";
-						html=html+"                                            "+amplitude;
+						html=html+"                                            "+record.forward;
 						html=html+"                                        </td>";
 						html=html+"                                    </tr>";
 					}
@@ -420,13 +371,14 @@ var Page = function() {
 	//统计功能的实现
 	//这里进行跳转，统计图显示在另一个页面中
 	var onStatisticRecord=function () {
-		window.location.href="futures_statistic.jsp";
+		window.location.href="position_statistic.jsp";
 	};
 	//当页面跳转后执行的，访问后端的数据，获取的东西是每个小时断和对应时间段的记录的数目，注意chartData是一个全局变量，在判断完page之后继续定义
-	var initFuturesStatisticRecord=function () {
+	var initPositionStatisticRecord=function () {
 		var url = "../../"+module+"_"+sub+"_servlet_action";
 		//其实不管是用data传参还是将要传递的参数放到url里，后端操作过程没有区别
-		var data={"action":"get_amplitude_by_futuresId"};
+		var user_name = sessionStorage.getItem("username");
+		var data={"action":"get_amplitude_by_futuresId","user_name":user_name};
 		$.post(url,data,function (json) {
 			var html="";
 			if(json.result_code == 0){
@@ -445,7 +397,7 @@ var Page = function() {
 	var changeResultDataToChartData=function (list,chartData) {
 		for(var i = 0; i < list.length; i++){
 			//year是横坐标，incom是横条的纵坐标，expenses是折线的纵坐标
-			var json = {"year":list[i].futures_name,"income":list[i].amplitude,"expenses":list[i].amplitude};
+			var json = {"year":list[i].futures_name,"income":list[i].earnings,"expenses":list[i].earnings};
 			chartData.push(json);
 		}
 	};
@@ -508,7 +460,77 @@ var Page = function() {
 	//统计页面返回按钮的事件
 	var returnBack=function () {
 		history.go(-1);
-	}
+	};
+	var buyFutures=function (id) {
+		var url="../../"+module+"_"+sub+"_servlet_action?id="+id;
+		var data={};
+		data.action="get_futures_record";
+		data.id=id;
+		$.post(url,data,function(json){
+			console.log(JSON.stringify(json));
+			if(json.result_code==0) {
+				var record = json.aaData;
+				record=record[0];
+				$("#buy_div #futures_id").val(record.futures_id);
+				$("#buy_div #futures_name").val(record.futures_name);
+				$("#buy_div #type").val(record.type);
+				$("#buy_div #price_right_now").val(record.price_right_now);
+				$("#buy_div").modal("show");
+			}
+		})
+	};
+
+	//买入弹窗的按钮事件,将买入期货相关信息存到my_position数据库并且减少用户余额
+	var onBuyDivSubmit=function () {
+		if (!(/(^[1-9]\d*$)/.test($("#buy_div #amount").val()))) {
+			$("#reminder").modal("show");
+			return;
+		}else {
+			$("#reminder").modal("hide");
+		}
+		var balance = sessionStorage.getItem("balance");
+		if($("#buy_div #amount").val()*$("#buy_div #price_right_now").val()>balance){
+			alert("您账户的余额不足");
+			return;
+		}
+		if(confirm("您确定要买入'"+$("#buy_div #futures_name").val()+"'吗？")){
+
+			var url="../../user_center_servlet_action";
+			var data={};
+			data.action="modify_user_record";
+			data.id=sessionStorage.getItem("id");
+			data.username=sessionStorage.getItem("username");
+			data.password=sessionStorage.getItem("password");
+			data.email=sessionStorage.getItem("email");
+			data.identity=sessionStorage.getItem("identity");
+			data.balance=sessionStorage.getItem("balance") - $("#buy_div #amount").val()*$("#buy_div #price_right_now").val();
+			$.post(url,data,function(json){
+				if(json.result_code==0){
+				}
+			});
+
+			var url="../../position_file_servlet_action";
+			var data={};
+			data.action="add_position_record";
+			//获取填写在该页面的数据准备传向后端
+			data.futures_id=$("#buy_div #futures_id").val();
+			data.futures_name=$("#buy_div #futures_name").val();
+			data.type=$("#buy_div #type").val();
+			data.amount=$("#buy_div #amount").val();
+			data.user_name=sessionStorage.getItem("username");
+			data.state="买入";
+			$.post(url,data,function(json){
+				if(json.result_code==0){
+					alert("买入成功！");
+					$("#buy_div").modal("hide");
+					window.location.reload();
+				}
+			});
+		}
+	};
+	var onBuyDivCancel=function () {
+		$("#buy_div").modal("hide");
+	};
 	//Page return 开始
 	return {
 		init: function() {
@@ -519,6 +541,9 @@ var Page = function() {
 		},
 		onModifyRecord:function(id){
 			onModifyRecord(id);
+		},
+		buyFutures:function (id) {
+			buyFutures(id);
 		}
 	}
 }();//Page

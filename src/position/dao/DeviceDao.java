@@ -19,17 +19,21 @@ public class DeviceDao {
 		String futures_id=data.getParam().has("futures_id")?data.getParam().getString("futures_id"):null;
 		String futures_name=data.getParam().has("futures_name")?data.getParam().getString("futures_name"):null;
 		String type=data.getParam().has("type")?data.getParam().getString("type"):null;
+		String price_bought=data.getParam().has("type")?data.getParam().getString("price_bought"):null;
 		String amount=data.getParam().has("amount")?data.getParam().getString("amount"):null;
 		String user_name=data.getParam().has("user_name")?data.getParam().getString("user_name"):null;
 		String select_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
+		String forward=data.getParam().has("forward")?data.getParam().getString("forward"):null;
 		if(futures_id!=null && futures_name!=null && type!=null && amount!=null && user_name!=null){
-			String sql="insert into my_position(futures_id,futures_name,type,amount,user_name,select_time)";
+			String sql="insert into my_position(futures_id,futures_name,type,price_bought,amount,user_name,select_time,forward)";
 			sql=sql+" values('"+futures_id+"'";
 			sql=sql+",'"+futures_name+"'";
 			sql=sql+",'"+type+"'";
+			sql=sql+",'"+price_bought+"'";
 			sql=sql+",'"+amount+"'";
 			sql=sql+",'"+user_name+"'";
-			sql=sql+" ,'"+select_time+"')";
+			sql=sql+",'"+select_time+"'";
+			sql=sql+" ,'"+forward+"')";
 			data.getParam().put("sql",sql);
 			updateRecord(data,json);
 		}
@@ -75,6 +79,13 @@ public class DeviceDao {
 			updateRecord(data,json);
 		}
 
+	}
+	/*查询要下载的记录*/
+	public void getDownloadRecord(Data data, JSONObject json) throws JSONException, SQLException{
+		//构造sql语句，根据传递过来的查询条件参数
+		String sql=createDownloadSql(data);			//构造sql语句，根据传递过来的查询条件参数
+		data.getParam().put("sql",sql);
+		queryRecord(data,json);
 	}
 	/*查询记录*/
 	public void getDeviceRecord(Data data, JSONObject json) throws JSONException, SQLException{
@@ -148,26 +159,71 @@ public class DeviceDao {
 		/*--------------------返回数据 结束--------------------*/
 	}
 
-	private String createGetRecordSql(Data data) throws JSONException {
-		String sql="select * from total";
+	private String createDownloadSql(Data data) throws JSONException {
+		String sql="select M.futures_id,M.futures_name,M.type,M.price_bought,T.price_right_now,M.amount,M.forward from my_position M,total T where M.futures_id=T.futures_id and M.forward='开仓'";
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
 		if(id!=null && !id.isEmpty()){
-			sql=sql+" where id="+id;
+			sql=sql+" and id="+id;
 		}
 		String futuresId=data.getParam().has("futures_id")?data.getParam().getString("futures_id"):null;
 		if(futuresId!=null && !futuresId.isEmpty()) {
 			if (sql.indexOf("where") > -1) {
-				sql = sql + " and futures_id='" + futuresId + "'";
+				sql = sql + " and M.futures_id='" + futuresId + "'";
 			} else {
-				sql = sql + " where futures_id='" + futuresId + "'";
+				sql = sql + " where M.futures_id='" + futuresId + "'";
 			}
 		}
 		String futuresName=data.getParam().has("futures_name")?data.getParam().getString("futures_name"):null;
 		if(futuresName!=null && !futuresName.isEmpty()){
 			if(sql.indexOf("where")>-1){
-				sql=sql+" and futures_name like '%"+futuresName+"%'";
+				sql=sql+" and M.futures_name like '%"+futuresName+"%'";
 			}else{
-				sql=sql+" where futures_name like '%"+futuresName+"%'";
+				sql=sql+" where M.futures_name like '%"+futuresName+"%'";
+			}
+		}
+		String user_name=data.getParam().has("user_name")?data.getParam().getString("user_name"):null;
+		if(user_name!=null && !user_name.isEmpty()){
+			if(sql.indexOf("where")>-1){
+				sql=sql+" and M.user_name like '%"+user_name+"%'";
+			}else{
+				sql=sql+" where M.user_name like '%"+user_name+"%'";
+			}
+		}
+		String orderBy=data.getParam().has("order_by")?data.getParam().getString("order_by"):null;
+		if(orderBy!=null && !orderBy.isEmpty()){
+			sql=sql+" order by "+orderBy;
+		}
+		return sql;
+	}
+
+	private String createGetRecordSql(Data data) throws JSONException {
+		String sql="select * from my_position M,total T where M.futures_id=T.futures_id and forward='开仓'";
+		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
+		if(id!=null && !id.isEmpty()){
+			sql=sql+" and id="+id;
+		}
+		String futuresId=data.getParam().has("futures_id")?data.getParam().getString("futures_id"):null;
+		if(futuresId!=null && !futuresId.isEmpty()) {
+			if (sql.indexOf("where") > -1) {
+				sql = sql + " and M.futures_id='" + futuresId + "'";
+			} else {
+				sql = sql + " where M.futures_id='" + futuresId + "'";
+			}
+		}
+		String futuresName=data.getParam().has("futures_name")?data.getParam().getString("futures_name"):null;
+		if(futuresName!=null && !futuresName.isEmpty()){
+			if(sql.indexOf("where")>-1){
+				sql=sql+" and M.futures_name like '%"+futuresName+"%'";
+			}else{
+				sql=sql+" where M.futures_name like '%"+futuresName+"%'";
+			}
+		}
+		String user_name=data.getParam().has("user_name")?data.getParam().getString("user_name"):null;
+		if(user_name!=null && !user_name.isEmpty()){
+			if(sql.indexOf("where")>-1){
+				sql=sql+" and M.user_name like '%"+user_name+"%'";
+			}else{
+				sql=sql+" where M.user_name like '%"+user_name+"%'";
 			}
 		}
 		String orderBy=data.getParam().has("order_by")?data.getParam().getString("order_by"):null;
@@ -185,6 +241,7 @@ public class DeviceDao {
 		List jsonList = new ArrayList();
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE,-1);
+		String user_name=data.getParam().has("user_name")?data.getParam().getString("user_name"):null;
 		String timeFrom="2015-09-20 00:00:00";
 		String timeTo="2035-09-21 15:39:51";
 //		String timeFrom=(new SimpleDateFormat("yyyy-MM-dd 00:00:00")).format(new Date());
@@ -192,8 +249,8 @@ public class DeviceDao {
 		/*--------------------获取变量 完毕--------------------*/
 		/*--------------------数据操作 开始--------------------*/
 		Db queryDb = new Db("test");
-		String sql="SELECT (price_right_now-price_yesterday)/price_yesterday*100 as amplitude,futures_name FROM total";
-		sql+= " where select_time BETWEEN '"+timeFrom+"' and '"+timeTo+"'";
+		String sql="SELECT (T.price_right_now-M.price_bought)*M.amount as earnings,M.futures_name FROM my_position M,total T";
+		sql+= " where M.futures_id=T.futures_id and M.forward='开仓' and M.user_name='"+user_name+"' and M.select_time BETWEEN '"+timeFrom+"' and '"+timeTo+"'";
 		showDebug("[queryRecord]构造的SQL语句是：" + sql);
 		try {
 			ResultSet rs = queryDb.executeQuery(sql);
@@ -202,7 +259,7 @@ public class DeviceDao {
 			while (rs.next()) {
 				//有一堆数据的话就就先put到一个map里面，最后把这个map add到一个List里，最后把这个List放到一个JSON里
 				Map map = new HashMap();
-				map.put("amplitude",rs.getString("amplitude"));
+				map.put("earnings",rs.getString("earnings"));
 				map.put("futures_name",rs.getString("futures_name"));
 				//map add进去自带一个大括号
 				jsonList.add(map);

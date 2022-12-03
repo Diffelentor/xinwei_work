@@ -83,18 +83,18 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
-            if (action.equals("get_futures_record")) {
+            if (action.equals("get_position_record")) {
                 actionOk=true;
                 try {
-                    getFuturesRecord(request, response, json);
+                    getPositionRecord(request, response, json);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            if (action.equals("export_futures_record")) {
+            if (action.equals("export_position_record")) {
                 actionOk=true;
                 try {
-                    exportDeviceRecord(request, response, json);
+                    exportPositionRecord(request, response, json);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -206,7 +206,7 @@ public class ServletAction extends HttpServlet {
     }
     /*========================================CRUD业务函数 结束========================================*/
     /*========================================期货CRUD业务函数 开始========================================*/
-    private void getFuturesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+    private void getPositionRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
         DeviceDao dao=new DeviceDao();
         Data data=getPageParameters(request,response,json);
         dao.getDeviceRecord(data,json);
@@ -236,10 +236,10 @@ public class ServletAction extends HttpServlet {
     }
 
     /*========================================导出功能========================================*/
-    private void exportDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
+    private void exportPositionRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
         DeviceDao dao=new DeviceDao();
         Data data=getPageParameters(request,response,json);
-        dao.getDeviceRecord(data,json);
+        dao.getDownloadRecord(data,json);
         getExportDeviceRecordToFile(json, data);
         getExportDeviceRecordToTxt(json, data);
         getExportDeviceRecordToExcel(json, data);
@@ -256,8 +256,8 @@ public class ServletAction extends HttpServlet {
 
     private void getExportDeviceRecordToFile(JSONObject json, Data data) throws JSONException {
         String jsonStr=json.toString();
-        File jsonFile = new File("C:\\testUpload\\futuresData.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
-        json.put("download_url","/upload/maintain/device/futuresData.rar");
+        File jsonFile = new File("C:\\testUpload\\PositionData.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
+        json.put("download_url","/upload/maintain/device/PositionData.rar");
         showDebug("准备下载");
         try{
             if(!jsonFile.exists()){
@@ -274,9 +274,9 @@ public class ServletAction extends HttpServlet {
     }
     //需要四个jar包的引入
     private void getExportDeviceRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
-        MyExcel me=new MyExcel("C:\\testUpload\\futuresData.xls");
-        json.put("download_url","/upload/maintain/device/futuresData.xls");
-        json.put("file_path","C:\\testUpload\\futuresData.xls");
+        MyExcel me=new MyExcel("C:\\testUpload\\PositionData.xls");
+        json.put("download_url","/upload/maintain/device/PositionData.xls");
+        json.put("file_path","C:\\testUpload\\PositionData.xls");
         me.exportData(data,json);
     }
 }
