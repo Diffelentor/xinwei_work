@@ -111,7 +111,7 @@
                                         </label>
                                         <textarea class="col-md-10 form-control" rows="8" id="comment_detail" name="comment_detail"></textarea>
                                     </div>
-                                    <button class="margin-top-20 btn blue" type="submit" id="comment_submit" name="comment_submit">提交评论</button>
+                                    <button class="margin-top-20 btn blue" type="button" id="comment_submit" name="comment_submit">提交评论</button>
                                 </form>
 
                             </div>
