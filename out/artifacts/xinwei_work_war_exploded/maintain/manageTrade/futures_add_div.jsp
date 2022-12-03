@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--添加页面的小窗，被包含在manageFuturesData.jsp里，默认隐藏--%>
+<%--添加页面的小窗，被包含在managefuturesData.jsp里，默认隐藏--%>
 <div class="modal fade draggable-modal" id="futures_add_div" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -17,7 +17,6 @@
                                     <input type="text" class="form-control" placeholder="请填写代号" id="futures_id" name="futures_id">
                                     <span class="help-block font-red display-none" id="reminder">
 											代号不能为空</span>
-                                </div>
                                 </div>
                             </div>
                             <div class="form-group">

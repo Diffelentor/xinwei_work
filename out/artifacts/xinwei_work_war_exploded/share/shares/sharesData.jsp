@@ -76,34 +76,9 @@
                 </div>
             </div>
             <br>
-<<<<<<< Updated upstream
-
-            <br>
-            <div class="row">
-                <div class="col-md-10 ">
-                    <%--                    如果不将type类型定义为buton的话会被默认为submit类型--%>
-                    <button type="button" class="btn btn-circle btn-lg green" id="table_print_button" name="table_print_button">
-                        <i class="fa fa-print"></i> 打印</button>
-                    <button type="button"   class="btn btn-circle btn-lg blue" id="return_button" name="return_button" onclick="javascript:history.back(-1)">
-                        <i class="fa fa-refresh"></i>返回</button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" style="float: right"  class="btn default" id="refresh_button" name="refresh_button">
-                        <i class="fa fa-refresh"></i></button>
-                </div>
-                <div style="float:right;">
-                    <button type="button"   class="btn green" id="show_futures" name="show_futures">
-                        <i class="fa fa-search"></i>期货</button>
-                    <button type="button"   class="btn green" id="show_shares" name="show_shares">
-                        <i class="fa fa-search"></i>股票</button>
-                    <button type="button"   class="btn green" id="show_exchange" name="show_exchange">
-                        <i class="fa fa-search"></i>汇率</button>
-=======
             <div class="row">
                 <div class="col-md-12">
                     <%--                    如果不将type类型定义为buton的话会被默认为submit类型--%>
-                    <button type="button"  class="btn btn-circle btn-lg yellow-crusta" id="add_button" name="add_button">
-                        <i class="fa fa-plus"></i> 新增</button>
                     <button type="button"  class="btn btn-circle btn-lg default" id="export_button" name="export_button">
                         <i class="fa fa-cloud-download"></i> 导出</button>
                     <button type="button" class="btn btn-circle btn-lg blue" id="table_button" name="table_button">
@@ -120,7 +95,6 @@
                         <button type="button"   class="btn green" id="show_exchange" name="show_exchange">
                             <i class="fa fa-search"></i>外汇</button>
                     </div>
->>>>>>> Stashed changes
                 </div>
             </div>
             <br>
@@ -158,12 +132,12 @@
                                 涨跌幅
                             </th>
                             <th>
-<<<<<<< Updated upstream
-=======
                                 交易额（/100股）
                             </th>
                             <th>
->>>>>>> Stashed changes
+                                状态
+                            </th>
+                            <th>
                                 操作
                             </th>
                         </tr>
@@ -187,11 +161,8 @@
 <%@include file="../../home/frame/frame_javascript.jsp"%>
 <%--本页专用的--%>
 <script type="text/javascript" src="../dataTables/jquery.dataTables.min.js"></script>
-<<<<<<< Updated upstream
-
-=======
 <%@include file="../../share/shares/shares_download_div.jsp"%>
->>>>>>> Stashed changes
+<%@include file="../../share/shares/buy_div.jsp"%>
 <script src="sharesData.js"></script>
 </body>
 <!-- END BODY -->

@@ -330,20 +330,12 @@
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <img alt="" class="img-circle" src="../../assets/admin/layout/img/avatar3_small.jpg"/>
                         <span class="username username-hide-on-mobile" id="const_username" name="const_username">
-<<<<<<< Updated upstream
-					Nick </span>
-=======
 					 </span>
->>>>>>> Stashed changes
                         <span hidden="hidden" id="const_is_manager" name="const_is_manager">
 					No </span>
                         <span  hidden="hidden" class="username username-hide-on-mobile" id="const_password" name="const_password">
 					 </span>
-<<<<<<< Updated upstream
-                        <span  hidden="hidden" sclass="username username-hide-on-mobile" id="const_email" name="const_email">
-=======
                         <span  hidden="hidden" class="username username-hide-on-mobile" id="const_email" name="const_email">
->>>>>>> Stashed changes
 					 </span>
                         <i class="fa fa-angle-down"></i>
                     </a>

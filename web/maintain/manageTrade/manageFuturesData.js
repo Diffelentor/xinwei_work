@@ -17,11 +17,8 @@ var Page = function() {
 		if(pageId=="manage_futures_data"){
 			initManageFuturesDataList();
 		}
-		if(pageId=="device_add"){
-			initDeviceAdd();
-		}
-		if(pageId=="device_modify"){
-			initDeviceModify();
+		if (pageId == "futures_statistic") {
+			initFuturesStatistic();
 		}
 		if(pageId=="futures_list_print_table"){
 			initFuturesPrintTable();
@@ -36,12 +33,10 @@ var Page = function() {
 		initManageFuturesDataListControlEvent();
 		initManageFuturesDataRecordDatatable();
 	}
-	var initDeviceAdd=function(){
-		initDeviceAddControlEvent();
-	}
-	var initDeviceModify=function(){
-		initDeviceModifyControlEvent();
-		initDeviceRecordView();
+	var initFuturesStatistic = function () {
+		$.ajaxSettings.async = false;	//禁止异步方式，否则第一个函数还没执行完就会执行第二个了
+		initFuturesStatisticRecord();
+		$.ajaxSettings.async = true;
 	}
 	var initFuturesPrintTable=function () {
 		initFuturesListPrintTableRecord()
@@ -66,26 +61,15 @@ var Page = function() {
 		$('#show_shares').click(function(){toSharePage();});
 		$('#show_exchange').click(function(){toExchangePage();});
 		$('#refresh_button').click(function() {onRemake();});
+		$('#table_button').click(function () {
+			onStatisticRecord();
+		});
 	}
-	var initDeviceAddControlEvent=function(){
-		$("#help_button").click(function() {help();});
-		$('#add_button').click(function() {submitAddRecord();});
+	/*isNull判定*/
+	function isNull(arg1)
+	{
+		return !arg1 && arg1!==0 && typeof arg1!=="boolean"?true:false;
 	}
-	var initDeviceModifyControlEvent=function(){
-		$("#help_button").click(function() {help();});
-		$('#modify_button').click(function() {submitModifyRecord();});
-	}
-	//测试字符串是不是数字形式(不进行输入的话也是可以通过测试的)
-	var testNumber=function (num) {
-		var numberFormat =/^[+-]?\d*(\.\d*)?(e[+-]?\d+)?$/;
-		if(numberFormat.test(num)){
-			return true;
-		}else{
-			return false;
-		}
-
-	};
-
 	var onAddRecord=function(){
 		$("#futures_add_div").modal("show");
 	}
@@ -111,10 +95,8 @@ var Page = function() {
 			data.price_high=$("#futures_add_div #price_high").val();
 			data.price_low=$("#futures_add_div #price_low").val();
 			//测试输入的是否为数字形式
-			if(testNumber(data.price_today_begin) && testNumber(data.price_yesterday) && testNumber(data.price_right_now) && testNumber(data.price_high) && testNumber(data.price_low)){
-
-			}else {
-				alert("输入的数据不和规范");
+			if(isNaN(data.price_today_begin) || isNaN(data.price_yesterday) || isNaN(data.price_right_now) || isNaN(data.price_high) || isNaN(data.price_low)){
+				alert("输入的数据不合规范！请输入数字！");
 				return;
 			}
 			$.post(url,data,function(json){
@@ -125,62 +107,42 @@ var Page = function() {
 			});
 		}
 	};
-
-	//点击修改后跳出小弹窗，会在输入框显示当先要修改元组的数据
-	var onModifyRecord=function(id){
-		var url="../../"+module+"_"+sub+"_servlet_action?id="+id;
-		var data={};
-		data.action="get_futures_record";
-		data.id=id;
-		$.post(url,data,function(json){
-			console.log(JSON.stringify(json));
-			if(json.result_code==0) {
-				var record = json.aaData;
-				record=record[0];
-				$("#futures_modify_div #id").val(record.id);
-				$("#futures_modify_div #futures_id").val(record.futures_id);
-				$("#futures_modify_div #futures_name").val(record.futures_name);
-				$("#futures_modify_div #price_today_begin").val(record.price_today_begin);
-				$("#futures_modify_div #price_yesterday").val(record.price_yesterday);
-				$("#futures_modify_div #price_right_now").val(record.price_right_now);
-				$("#futures_modify_div #price_high").val(record.price_high);
-				$("#futures_modify_div #price_low").val(record.price_low);
-				$("#futures_modify_div").modal("show");
-			}
-		})
-	};
+	var onStatisticRecord = function () {
+		window.location.href="futures_statistic.jsp";
+	}
 	//在修改界面确认修改后进行的事件
 	var onModifyDivSubmit=function () {
-		submitModifyRecordDiv();
+		$('#futures_modify_div #submit_button').click(function () {
+			submitModifyRecordDiv();
+		});
 	};
 	var submitModifyRecordDiv=function () {
-		if(confirm("您确定要修改该记录吗？")){;
+		if(confirm("您确定要修改该记录吗？")){
 			var url="../../"+module+"_"+sub+"_servlet_action";
-			var data={};
-			data.action="modify_futures_record";
+			var modify_data={};
+			modify_data.action="modify_futures_record";
 			//获取填写在该页面的数据准备传向后端
-			data.futures_id=$("#futures_modify_div #futures_id").val();
-			if(data.futures_id==""){
+			modify_data.futures_id=$("#futures_modify_div #futures_id").val();
+			if(isNull(modify_data.futures_id)){
+				$("#futures_modify_div #reminder").modal("show");
 				alert("代号不能为空");
 				return;
 			}
-			data.id=$("#futures_modify_div #id").val();
-			data.futures_name=$("#futures_modify_div #futures_name").val();
-			data.price_today_begin=$("#futures_modify_div #price_today_begin").val();
-			data.price_yesterday=$("#futures_modify_div #price_yesterday").val();
-			data.price_right_now=$("#futures_modify_div #price_right_now").val();
-			data.price_high=$("#futures_modify_div #price_high").val();
-			data.price_low=$("#futures_modify_div #price_low").val();
+			modify_data.id=$("#futures_modify_div #id").val();
+			modify_data.futures_name=$("#futures_modify_div #futures_name").val();
+			modify_data.price_today_begin=$("#futures_modify_div #price_today_begin").val();
+			modify_data.price_yesterday=$("#futures_modify_div #price_yesterday").val();
+			modify_data.price_right_now=$("#futures_modify_div #price_right_now").val();
+			modify_data.price_high=$("#futures_modify_div #price_high").val();
+			modify_data.price_low=$("#futures_modify_div #price_low").val();
 			//测试输入的是否为数字形式
-			if(testNumber(data.price_today_begin) && testNumber(data.price_yesterday) && testNumber(data.price_right_now) && testNumber(data.price_high) && testNumber(data.price_low)){
-
-			}else {
-				alert("输入的数据不和规范");
+			if(isNaN(modify_data.price_today_begin) || isNaN(modify_data.price_yesterday) || isNaN(modify_data.price_right_now) || isNaN(modify_data.price_high) || isNaN(modify_data.price_low)){
+				alert("输入的数据不合规范！请输入数字！");
 				return;
 			}
-			$.post(url,data,function(json){
+			$.post(url,modify_data,function(json){
 				if(json.result_code==0){
-					alert("已经完成期货记录修改！");
+					alert("已经完成外汇记录修改！");
 					window.location.reload();
 				}
 			});
@@ -245,7 +207,7 @@ var Page = function() {
 				"mRender": function(data, type, full) {
 					sReturn = '<div>'+full.futures_id+'</div>';
 					return sReturn;
-				},"orderable": false
+				},"orderable": true
 			},{
 				"mRender": function(data, type, full) {
 					sReturn = '<div>'+full.futures_name+'</div>';
@@ -303,11 +265,18 @@ var Page = function() {
 					}
 
 					return sReturn;
+				},"orderable": true
+			},{
+				"mRender": function(data, type, full) {
+					time = full.select_time;
+					time = time.slice(0,time.indexOf("."));
+					sReturn = '<div>'+time+'</div>';
+					return sReturn;
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
 					//注意事项：这里比较奇怪，要想跳转则里面的数据必须都是int（现在的发现是只要有string就不会执行函数）
-					sReturn = '<div><a href="javascript:Page.onModifyRecord('+full.id+')"><i class="fa fa-pencil"></i> 修改</a><a href="javascript:Page.onDeleteRecord('+full.id+')"><span class="glyphicon glyphicon-remove-sign">\n' +
+					sReturn = '<div><a href="javascript:Page.onModifyRecord(\'' + full.futures_id + '\')"><i class="fa fa-pencil"></i> 修改</a><a href="javascript:Page.onDeleteRecord(\'' + full.futures_id + '\')"><span class="glyphicon glyphicon-remove-sign">\n' +
 						'</span> 删除</div>';
 					return sReturn;
 				},"orderable": false
@@ -413,24 +382,149 @@ var Page = function() {
 					}
 				}
 				$("#print_table_content_div").html(html);
-<<<<<<< Updated upstream
-				window.print();		//因为这个JQ封装的的这个post是以异步的方式进行执行，所以要在这里调用这个接口，不然打印的是html没有修改后的东西。
-=======
 				window.print();
->>>>>>> Stashed changes
 			}
 		})
+	}
+	var initFuturesStatisticRecord = function () {
+		var chartDom = document.getElementById('chart_1');
+		var myChart = echarts.init(chartDom);
+
+		var url = "../../"+module+"_"+sub+"_servlet_action";
+		var data={"action":"get_amplitude_by_futuresId"};
+		var xlabel = [];
+		var ylabel = [];
+		$.post(url,data,function (json) {
+			if(json.result_code == 0){
+				//console.log(JSON.stringify(json));
+				var list = json.aaData;
+				if(list!=undefined && list.length>0){
+					for (var i = 0; i < list.length; i++) {
+						var item = list[i];
+						xlabel.push(item.futures_id);
+						ylabel.push(parseFloat(item.amplitude).toFixed(3));
+					}
+				}
+			}else {
+				alert("[initDeviceStatisticRecord]与后端交互错误！"+json.result_smg);
+			}
+		})
+
+		var emphasisStyle = {
+			itemStyle: {
+				shadowBlur: 10,
+				shadowColor: 'rgba(0,0,0,0.3)'
+			}
+		};
+		var option = {
+			legend: {
+				data: ['bar'],
+				left: '10%'
+			},
+			brush: {
+				toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
+				xAxisIndex: 0
+			},
+			toolbox: {
+				feature: {
+					magicType: {
+						type: ['stack']
+					},
+					dataView: {}
+				}
+			},
+			tooltip: {
+				show:true,
+				trigger: 'axis',
+				//triggerOn:'mouseover',
+				formatter: function(params) {
+					//console.log(params[0])
+					return '期货代码：' + params[0].name + '<br>涨跌幅：' + params[0].value +'%'
+				}
+			},
+			xAxis: {
+				data: xlabel,
+				name: '期货代码',
+				axisLine: { onZero: true },
+				splitLine: { show: true },
+				splitArea: { show: true }
+			},
+			yAxis: {},
+			grid: {
+				bottom: 100
+			},
+			series: [
+				{
+					name: '涨跌幅度',
+					type: 'bar',
+					stack: 'one',
+					emphasis: emphasisStyle,
+					data: ylabel
+				},
+			]
+		};
+		myChart.on('brushSelected', function (params) {
+			var brushed = [];
+			var brushComponent = params.batch[0];
+			for (var sIdx = 0; sIdx < brushComponent.selected.length; sIdx++) {
+				var rawIndices = brushComponent.selected[sIdx].dataIndex;
+				brushed.push('[Series ' + sIdx + '] ' + rawIndices.join(', '));
+			}
+			myChart.setOption({
+				title: {
+					backgroundColor: '#333',
+					text: 'SELECTED DATA INDICES: \n' + brushed.join('\n'),
+					bottom: 0,
+					right: '10%',
+					width: 100,
+					textStyle: {
+						fontSize: 12,
+						color: '#fff'
+					}
+				}
+			});
+		});
+
+		option && myChart.setOption(option);
 	}
 	//Page return 开始
 	return {
 		init: function() {
 			initPageControl();
 		},
-		onDeleteRecord:function(id){
-			onDeleteRecord(id);
+		onModifyRecord: function (futures_id) {
+			var url="../../"+module+"_"+sub+"_servlet_action";
+			var query_data = {};
+			query_data.action="get_futures_record";
+			query_data.futures_id=futures_id;
+			$.post(url,query_data,function(json){
+				if(json.result_code==0){
+					var data = json.aaData[0];
+					$('#futures_modify_div #futures_id').val(data.futures_id);
+					$('#futures_modify_div #futures_name').val(data.futures_name);
+					$('#futures_modify_div #price_today_begin').val(data.price_today_begin);
+					$('#futures_modify_div #price_yesterday').val(data.price_pre);
+					$('#futures_modify_div #price_right_now').val(data.price_right_now);
+					$('#futures_modify_div #price_high').val(data.price_high);
+					$('#futures_modify_div #price_low').val(data.price_low);
+				}
+			});
+			$("#futures_modify_div").modal("show");
+			onModifyDivSubmit();
 		},
-		onModifyRecord:function(id){
-			onModifyRecord(id);
+		onDeleteRecord:function (futures_id) {
+			if (confirm("您确定要删除该记录吗？")) {
+				var url = "../../" + module + "_" + sub + "_servlet_action";
+				var delete_data = {};
+				delete_data.action = "delete_futures_record";
+				delete_data.futures_id = futures_id;
+				$.post(url,delete_data,function(json){
+					if(json.result_code==0){
+						alert("已删除记录！")
+						window.location.reload();
+					}
+				});
+			}
 		}
 	}
 }();//Page

@@ -2235,10 +2235,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
 <%@include file="../../home/frame/frame_javascript.jsp"%>
 <script type="text/javascript" src="jquery.dataTables.min.js"></script>
-<<<<<<< Updated upstream
-=======
 <script src="index.js" type="text/javascript"></script>
->>>>>>> Stashed changes
 <%--<script>--%>
 <%--    jQuery(document).ready(function() {--%>
 <%--        Metronic.init(); // init metronic core componets--%>
@@ -2254,11 +2251,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <%--            if(pageId=="dash_board"){--%>
 <%--                initDeviceList();--%>
 <%--                $("#device_button").click(function() {--%>
-<<<<<<< Updated upstream
-<%--                    window.location.href="../../maintain/device/device_list.jsp";--%>
-=======
 <%--                    window.location.href="../../maintain/device/user_list.jsp";--%>
->>>>>>> Stashed changes
 <%--                })--%>
 <%--            }--%>
 <%--        };--%>

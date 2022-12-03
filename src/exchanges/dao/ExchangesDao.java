@@ -14,13 +14,6 @@ public class ExchangesDao {
         System.out.println("[" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()) + "][Exchange/dao/Db]" + msg);
     }
     /*添加记录*/
-<<<<<<< Updated upstream
-    public void deleteExchangesRecord(Data data, JSONObject json) throws JSONException, SQLException{
-        //构造sql语句，根据传递过来的条件参数
-        String id=data.getParam().has("id")?data.getParam().getString("id"):null;
-        if(id!=null){
-            String sql="delete from exchanges where id="+data.getParam().getString("id");
-=======
     public void addExchangesRecord(Data data, JSONObject json) throws JSONException, SQLException {
         //构造sql语句，根据传递过来的条件参数
         String exchanges_id=data.getParam().has("exchanges_id")?data.getParam().getString("exchanges_id"):null;
@@ -54,7 +47,6 @@ public class ExchangesDao {
         String date = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
         if(exchanges_id!=null){
             String sql="delete from exchanges where exchanges_id='"+exchanges_id+"' and date ='" + date +"'";
->>>>>>> Stashed changes
             data.getParam().put("sql",sql);
             updateRecord(data,json);
         }
@@ -62,14 +54,8 @@ public class ExchangesDao {
     /*修改记录*/
     public void modifyExchangesRecord(Data data, JSONObject json) throws JSONException, SQLException{
         //构造sql语句，根据传递过来的条件参数
-<<<<<<< Updated upstream
-        String id=data.getParam().has("id")?data.getParam().getString("id"):null;
-        String exchanges_id=data.getParam().has("exchanges_id")?data.getParam().getString("futures_id"):null;
-        String exchanges_name=data.getParam().has("exchanges_name")?data.getParam().getString("futures_name"):null;
-=======
         String exchanges_id=data.getParam().has("exchanges_id")?data.getParam().getString("exchanges_id"):null;
         String exchanges_name=data.getParam().has("exchanges_name")?data.getParam().getString("exchanges_name"):null;
->>>>>>> Stashed changes
         String price_today_begin=data.getParam().has("price_today_begin")?data.getParam().getString("price_today_begin"):null;
         String price_yesterday=data.getParam().has("price_yesterday")?data.getParam().getString("price_yesterday"):null;
         String price_right_now=data.getParam().has("price_right_now")?data.getParam().getString("price_right_now"):null;
@@ -77,11 +63,7 @@ public class ExchangesDao {
         String price_low=data.getParam().has("price_low")?data.getParam().getString("price_low"):null;
         String select_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
         String date = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
-<<<<<<< Updated upstream
-        if(id!=null){
-=======
         if(exchanges_id!=null){
->>>>>>> Stashed changes
             String sql="update exchanges";
             sql=sql+" set exchanges_id='"+exchanges_id+"'";
             sql=sql+" ,exchanges_name='"+exchanges_name+"'";
@@ -92,12 +74,8 @@ public class ExchangesDao {
             sql=sql+" ,price_low='"+price_low+"'";
             sql=sql+" ,select_time='"+select_time+"'";
             sql=sql+" ,date='"+date+"'";
-<<<<<<< Updated upstream
-            sql=sql+" where id="+id;
-=======
             sql=sql+" where exchanges_id ='"+exchanges_id+"'";
             sql=sql+" and date='" + date +"'";
->>>>>>> Stashed changes
             data.getParam().put("sql",sql);
             updateRecord(data,json);
         }
@@ -214,25 +192,18 @@ public class ExchangesDao {
         String sql="select price_today_begin,price_right_now,price_high,price_low,date from exchanges where exchanges_id='" + exchanges_id +"'";
         return sql;
     }
-<<<<<<< Updated upstream
-=======
 
     public void getAmplitudeByExchangesId(Data data, JSONObject json) throws JSONException, SQLException {
         /*--------------------获取变量 开始--------------------*/
         String resultMsg = "ok";
         int resultCode = 0;
         List jsonList = new ArrayList();
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE,-1);
-        String timeFrom="2015-09-20 00:00:00";
-        String timeTo="2035-09-21 15:39:51";
-//		String timeFrom=(new SimpleDateFormat("yyyy-MM-dd 00:00:00")).format(new Date());
-//		String timeTo=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         /*--------------------获取变量 完毕--------------------*/
         /*--------------------数据操作 开始--------------------*/
         Db queryDb = new Db("test");
         String sql="SELECT (price_right_now-price_yesterday)/price_yesterday*100 as amplitude,exchanges_id FROM exchanges";
-        sql+= " where select_time BETWEEN '"+timeFrom+"' and '"+timeTo+"'";
+        sql+= " where date ='" + date + "'";
         showDebug("[queryRecord]构造的SQL语句是：" + sql);
         try {
             ResultSet rs = queryDb.executeQuery(sql);
@@ -261,5 +232,4 @@ public class ExchangesDao {
         json.put("result_code",resultCode);														//返回0表示正常，不等于0就表示有错误产生，错误代码
         /*--------------------返回数据 结束--------------------*/
     }
->>>>>>> Stashed changes
 }

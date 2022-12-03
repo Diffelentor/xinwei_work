@@ -13,7 +13,7 @@ import java.util.*;
 
 public class UserDao {
     public void showDebug(String msg){
-        System.out.println("["+(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date())+"][user/dao/UserDao]"+msg);
+        System.out.println("["+(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date())+"][device/dao/Db]"+msg);
     }
     /*添加记录*/
     public void addDeviceRecord(Data data, JSONObject json) throws JSONException, SQLException {
@@ -142,7 +142,7 @@ public class UserDao {
         }
         return sql;
     }
-    public void login(Data data,JSONObject json) throws JSONException {
+    public  void login(Data data,JSONObject json) throws JSONException {
         String resultMsg="ok";
         int resultCode=0;
         List jsonList=new ArrayList();

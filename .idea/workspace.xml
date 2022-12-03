@@ -46,11 +46,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-<<<<<<< Updated upstream
-    "last_opened_file_path": "C:/Tools/IntelliJ IDEA 2022.2.2/xinwei_work/web/maintain/trade",
-=======
-    "last_opened_file_path": "C:/Tools/IntelliJ IDEA 2022.2.2/xinwei_work/web/share/exchanges",
->>>>>>> Stashed changes
+    "last_opened_file_path": "C:/Tools/IntelliJ IDEA 2022.2.2/xinwei_work/web/share/shares",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
@@ -59,26 +55,18 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-<<<<<<< Updated upstream
+      <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\share\shares" />
+      <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\share\exchanges" />
       <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\maintain\trade" />
-      <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web" />
-      <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\share\shares" />
-      <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\share\exchanges" />
-      <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\share" />
-=======
-      <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\share\exchanges" />
-      <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\share\shares" />
       <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\maintain\manageTrade" />
-      <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\maintain\trade" />
       <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web" />
->>>>>>> Stashed changes
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\maintain\trade" />
       <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\share\shares" />
       <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\share\exchanges" />
       <recent name="C:\Users\maguahaotian\Documents\GitHub\xinwei_work\web\maintain" />
       <recent name="C:\Users\Diffelentor\IdeaProjects\xinwei_work\web\home" />
-      <recent name="C:\Users\Diffelentor\IdeaProjects\xinwei_work\web\assets" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="futures.file" />
@@ -185,14 +173,11 @@
             <option name="CONTEXT_PATH" value="/xinwei_work_war_exploded" />
           </settings>
         </artifact>
-<<<<<<< Updated upstream
-=======
         <file path="$PROJECT_DIR$/../../output">
           <settings>
             <option name="CONTEXT_PATH" value="/output" />
           </settings>
         </file>
->>>>>>> Stashed changes
       </deployment>
       <server-settings>
         <option name="BASE_DIRECTORY_NAME" value="ad10d25c-9cdf-4bae-be33-2461613e82b0" />
@@ -339,8 +324,6 @@
       <workItem from="1669727512566" duration="3097000" />
       <workItem from="1669737816288" duration="4989000" />
       <workItem from="1669775469432" duration="2648000" />
-<<<<<<< Updated upstream
-=======
       <workItem from="1669790100342" duration="1644000" />
       <workItem from="1669798291901" duration="3067000" />
       <workItem from="1669806380773" duration="4813000" />
@@ -352,8 +335,12 @@
       <workItem from="1669888275497" duration="300000" />
       <workItem from="1669890096714" duration="13055000" />
       <workItem from="1669910716514" duration="4815000" />
-      <workItem from="1669951871847" duration="4457000" />
->>>>>>> Stashed changes
+      <workItem from="1669951871847" duration="6466000" />
+      <workItem from="1669971234062" duration="12995000" />
+      <workItem from="1669997267354" duration="1951000" />
+      <workItem from="1670044869067" duration="1567000" />
+      <workItem from="1670051606606" duration="1539000" />
+      <workItem from="1670058734570" duration="10658000" />
     </task>
     <task id="LOCAL-00001" summary="wgr">
       <created>1669388757438</created>

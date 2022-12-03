@@ -17,14 +17,11 @@ var Page = function() {
 		if(pageId=="futures_data"){
 			initFuturesDataList();
 		}
-		if(pageId=="device_add"){
-			initDeviceAdd();
-		}
-		if(pageId=="device_modify"){
-			initDeviceModify();
-		}
 		if(pageId=="futures_list_print_table"){
 			initFuturesPrintTable();
+		}
+		if (pageId == "futures_statistic") {
+			initFuturesStatistic();
 		}
 		if (pageId == "futures_kline") {
 			initFuturesKline();
@@ -35,20 +32,15 @@ var Page = function() {
 	var recordResult=undefined;
 	/*----------------------------------------业务函数  开始----------------------------------------*/
 	/*------------------------------针对各个页面的入口  开始------------------------------*/
-	var initMyHaveDeviceList=function(){
-		initDeviceListControlEvent();
-		//initDeviceRecordList();
-	}
-	var initDeviceAdd=function(){
-		initDeviceAddControlEvent();
-	}
-	var initDeviceModify=function(){
-		initDeviceModifyControlEvent();
-		initDeviceRecordView();
-	}
+
 	var initFuturesDataList=function () {
 		initFuturesDataControlEvent();
 		initFuturesDataRecordDatatable();
+	}
+	var initFuturesStatistic = function () {
+		$.ajaxSettings.async = false;	//禁止异步方式，否则第一个函数还没执行完就会执行第二个了
+		initFuturesStatisticRecord();
+		$.ajaxSettings.async = true;
 	}
 	var initFuturesPrintTable=function () {
 		initFuturesListPrintTableRecord()
@@ -57,43 +49,47 @@ var Page = function() {
 		initFuturesKlinePage();
 	}
 	/*------------------------------针对各个页面的入口 结束------------------------------*/
+
+	/*时间范围确定*/
+	function checkAuditTime(startTime, endTime){
+		// 获取当前时间
+		const date  = new Date()
+		// 获取当前时间的年月日
+		const dataStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} `
+
+		// 获取开始时间、结束时间、现在时间的时间戳
+		let startDate = new Date(dataStr + startTime).getTime()
+		let endDate = new Date(dataStr + endTime).getTime()
+		let nowDate = date.getTime()
+
+		const s = startDate > endDate // 判断开始时间否大于结束时间
+
+		if(s) [startDate, endDate] = [endDate, startDate] // 若开始时间否大于结束时间则交换值
+
+		// 判断现在的时间是否在开始时间和结束时间之间，若s为true则结果取反
+		if(nowDate > startDate && nowDate < endDate){
+			return s ? false : true
+		}else{
+			return s ? true : false
+		}
+	}
+	/*判断是否为周末*/
+	let weekArrayList = [ true,   '星期一',   '星期二',   '星期三',   '星期四',   '星期五',   true,  ]
+	let flag
+
 	var getUrlParam=function(name){
 		//获取url中的参数
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
 		var r = window.location.search.substr(1).match(reg);  //匹配目标参数
 		if (r != null) return decodeURI(r[2]); return null; //返回参数值，如果是中文传递，就用decodeURI解决乱码，否则用unescape
 	}
-	var initDeviceListControlEvent=function(){
-		$("#help_button").click(function() {help();});
-		$('#add_button').click(function() {onAddRecord();});
-		$('#history_button').click(function() {onHistoryRecord();});
-	}
-	var initDeviceAddControlEvent=function(){
-		$("#help_button").click(function() {help();});
-		$('#add_button').click(function() {submitAddRecord();});
-	}
-	var initDeviceModifyControlEvent=function(){
-		$("#help_button").click(function() {help();});
-		$('#modify_button').click(function() {submitModifyRecord();});
-	}
 	var initFuturesDataControlEvent=function () {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-		$('#remake_button').click(function() {onRemake();});	//重置按钮
-		$('#query_button').click(function() {initFuturesDataRecordDatatable();});	//查询按钮
-		$('#export_button').click(function() {onExportRecord();});	//导出按钮
-		$('#finish_download_button').click(function() {onFinishDownload();});	//导出完毕按钮
-		$('#refresh_button').click(function() {onRemake();});	//另一个刷新按钮
-		$('#table_print_button').click(function() {onTablePrint();});	//打印按钮
-=======
-=======
 		$('#remake_button').click(function() {onRemake();});	//重置按钮
 		$('#query_button').click(function() {initFuturesDataRecordDatatable();});	//查询按钮
 		$('#export_futures_button').click(function() {onExportRecord();});	//导出按钮
 		$('#finish_download_button').click(function() {onFinishDownload();});	//导出完毕按钮
 		$('#refresh_button').click(function() {onRemake();});	//另一个刷新按钮
 		$('#table_print_button').click(function() {onTablePrint();});	//打印按钮
->>>>>>> Stashed changes
 		$('#remake_button').click(function() {onRemake();});
 		$('#query_button').click(function() {initFuturesDataRecordDatatable();});
 		$('#export_button').click(function() {onExportRecord();});
@@ -102,112 +98,15 @@ var Page = function() {
 		$('#table_print_button').click(function() {onTablePrint();});
 		$('#show_shares').click(function(){toSharePage();});
 		$('#show_exchange').click(function(){toExchangePage();});
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-	}
-	var initDeviceRecordView=function(){
-		var id=getUrlParam("id");
-		var data={};
-		data.action="get_device_record";
-		data.id=id;
-		$.post(module+"_"+sub+"_servlet_action",data,function(json){
-			console.log(JSON.stringify(json));
-			if(json.result_code==0){
-				var list=json.aaData;
-				if(list!=undefined && list.length>0){
-					for(var i=0;i<list.length;i++){
-						var record=list[i];
-						$("#device_id").val(record.device_id);
-						$("#device_name").val(record.device_name);
-					}
-				}
-			}
-		})
-	}
-	var onAddRecord=function(){
-		window.location.href="device_add.jsp";
-	}
-	var submitAddRecord=function(){
-		var url="device_file_servlet_action";
-		var data={};
-		data.action="add_device_record";
-		data.device_id=$("#device_id").val();
-		data.device_name=$("#device_name").val();
-		$.post(url,data,function(json){
-			if(json.result_code==0){
-				alert("已经完成设备添加。");
-				window.location.href="device_list.jsp";
-			}
+		$('#table_button').click(function () {
+			onStatisticRecord();
 		});
-	}
-	var submitModifyRecord=function(){
-		if(confirm("您确定要修改该记录吗？")){
-			var id=getUrlParam("id");
-			var url="device_file_servlet_action";
-			var data={};
-			data.action="modify_device_record";
-			data.id=id;
-			data.device_id=$("#device_id").val();
-			data.device_name=$("#device_name").val();
-			$.post(url,data,function(json){
-				if(json.result_code==0){
-					alert("已经完成设备修改。");
-					window.location.href="device_list.jsp";
-				}
-			});
-		}
+		$('#buy_submit').click(function(){onBuyDivSubmit();});
 	}
 
-	
-	var initDeviceRecordList=function(){
-		getDeviceRecordList();
-	}
-	var initDeviceMobileRecord=function(){
-		getDeviceMobileRecord();
-	}
-	var getDeviceRecordList=function(){
-		$.post(module+"_"+sub+"_servlet_action?action=get_device_record",function(json){
-			console.log(JSON.stringify(json));
-			if(json.result_code==0){
-				var list=json.aaData;
-				var html="";
-				if(list!=undefined && list.length>0){
-					for(var i=0;i<list.length;i++){
-						var record=list[i];
-						html=html+"<div>序号："+i+"<div>";
-						html=html+"<div>设备ID："+record.device_id+"<div>";
-						html=html+"<div>设备名称："+record.device_name+"<div>";
-						html=html+"<div><a href=\"javascript:Page.onModifyRecord("+record.id+")\">【修改记录】</a><a href=\"javascript:Page.onDeleteRecord("+record.id+")\">【删除记录】</a><div>";
-						html=html+"<p>";
-					}
-				}
-				$("#record_list_div").html(html);
-			}
-		})
-	}
-	var onDeleteRecord = function(id){
-		if(confirm("您确定要删除这条记录吗？")){
-			if(id>-1){
-				var url="device_file_servlet_action";
-				var data={};
-				data.action="delete_device_record";
-				data.id=id;
-				$.post(url,data,function(json){
-					if(json.result_code==0){
-						getDeviceRecordList();
-					}
-				})
-			}
-		}
-	};
 	var on_show_kline = function (futures_id) {
 		window.location.href = "futures_show_kline.jsp?futures_id=" + futures_id;
 	};
-	var onModifyRecord=function(id){
-		window.location.href="device_modify.jsp?id="+id;
-	}
 	var onHistoryRecord=function () {
 		window.location.href="commonHistoryOrder.jsp";
 	}
@@ -256,7 +155,7 @@ var Page = function() {
 				"mRender": function(data, type, full) {
 					sReturn = '<div>'+full.futures_id+'</div>';
 					return sReturn;
-				},"orderable": false
+				},"orderable": true
 			},{
 				"mRender": function(data, type, full) {
 					sReturn = '<div>'+full.futures_name+'</div>';
@@ -316,13 +215,26 @@ var Page = function() {
 					}else {
 						sReturn = '<div></div>'
 					}
-
+					return sReturn;
+				},"orderable": true
+			},{
+				"mRender": function(data, type, full) {
+					let time = new Date()
+					let time1 = time.toLocaleString()  //打印结果为：YYMMDD time
+					let time2 = time.toLocaleDateString()   //打印结果为：YYMMDD
+					let index = new Date(time2).getDay()
+					/*是否为周末*/
+					flag = weekArrayList [index]
+					if (checkAuditTime('00:00','09:30') ||checkAuditTime('11:30','13:00') || checkAuditTime('15:00','24:00') || flag){
+						sReturn = '<div>休市</div>';
+					}
+					else sReturn = '<div>开市</div>';
 					return sReturn;
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
 					futures_id = full.futures_id;
-					sReturn = '<div><a href="javascript:Page.onModifyRecord('+full.id+')">【买入】</a><a href="#" onclick="Page.onShowKline(\'' + futures_id + '\')">【k线图】</div>';
+					sReturn = '<div><a href="#" onclick="Page.buyFutures(\'' + futures_id + '\')">【买入】</a><a href="#" onclick="Page.onShowKline(\'' + futures_id + '\')">【k线图】</div>';
 					return sReturn;
 				},"orderable": false
 			}],
@@ -350,6 +262,9 @@ var Page = function() {
 	};
 	var onRemake=function () {
 		window.location.reload();
+	}
+	var onStatisticRecord = function () {
+		window.location.href="futures_statistic.jsp";
 	}
 	var onExportRecord=function () {
 		var url="../../"+module+"_"+sub+"_servlet_action";
@@ -697,6 +612,158 @@ var Page = function() {
 			}
 		})
 	}
+	var initFuturesStatisticRecord = function () {
+		var chartDom = document.getElementById('chart_1');
+		var myChart = echarts.init(chartDom);
+
+		var url = "../../"+module+"_"+sub+"_servlet_action";
+		var data={"action":"get_amplitude_by_futuresId"};
+		var xlabel = [];
+		var ylabel = [];
+		$.post(url,data,function (json) {
+			if(json.result_code == 0){
+				//console.log(JSON.stringify(json));
+				var list = json.aaData;
+				if(list!=undefined && list.length>0){
+					for (var i = 0; i < list.length; i++) {
+						var item = list[i];
+						xlabel.push(item.futures_id);
+						ylabel.push(parseFloat(item.amplitude).toFixed(3));
+					}
+				}
+			}else {
+				alert("[initDeviceStatisticRecord]与后端交互错误！"+json.result_smg);
+			}
+		})
+
+		var emphasisStyle = {
+			itemStyle: {
+				shadowBlur: 10,
+				shadowColor: 'rgba(0,0,0,0.3)'
+			}
+		};
+		var option = {
+			legend: {
+				data: ['bar'],
+				left: '10%'
+			},
+			brush: {
+				toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
+				xAxisIndex: 0
+			},
+			toolbox: {
+				feature: {
+					magicType: {
+						type: ['stack']
+					},
+					dataView: {}
+				}
+			},
+			tooltip: {
+				show:true,
+				trigger: 'axis',
+				//triggerOn:'mouseover',
+				formatter: function(params) {
+					//console.log(params[0])
+					return '期货代码：' + params[0].name + '<br>涨跌幅：' + params[0].value +'%'
+				}
+			},
+			xAxis: {
+				data: xlabel,
+				name: '期货代码',
+				axisLine: { onZero: true },
+				splitLine: { show: true },
+				splitArea: { show: true }
+			},
+			yAxis: {},
+			grid: {
+				bottom: 100
+			},
+			series: [
+				{
+					name: '涨跌幅度',
+					type: 'bar',
+					stack: 'one',
+					emphasis: emphasisStyle,
+					data: ylabel
+				},
+			]
+		};
+		myChart.on('brushSelected', function (params) {
+			var brushed = [];
+			var brushComponent = params.batch[0];
+			for (var sIdx = 0; sIdx < brushComponent.selected.length; sIdx++) {
+				var rawIndices = brushComponent.selected[sIdx].dataIndex;
+				brushed.push('[Series ' + sIdx + '] ' + rawIndices.join(', '));
+			}
+			myChart.setOption({
+				title: {
+					backgroundColor: '#333',
+					text: 'SELECTED DATA INDICES: \n' + brushed.join('\n'),
+					bottom: 0,
+					right: '10%',
+					width: 100,
+					textStyle: {
+						fontSize: 12,
+						color: '#fff'
+					}
+				}
+			});
+		});
+
+		option && myChart.setOption(option);
+	}
+
+//买入弹窗的按钮事件,将买入期货相关信息存到my_position数据库并且减少用户余额
+	var onBuyDivSubmit=function () {
+		if (!(/(^[1-9]\d*$)/.test($("#buy_div #amount").val()))) {
+			$("#reminder").modal("show");
+			return;
+		}else {
+			$("#reminder").modal("hide");
+		}
+		var balance = sessionStorage.getItem("balance");
+		if($("#buy_div #amount").val()*$("#buy_div #price_right_now").val()>balance){
+			alert("您账户的余额不足");
+			return;
+		}
+		if(confirm("您确定要买入'"+$("#buy_div #futures_name").val()+"'吗？")){
+
+			var url="../../user_center_servlet_action";
+			var data={};
+			data.action="modify_user_record";
+			data.id=sessionStorage.getItem("id");
+			data.username=sessionStorage.getItem("username");
+			data.password=sessionStorage.getItem("password");
+			data.email=sessionStorage.getItem("email");
+			data.identity=sessionStorage.getItem("identity");
+			data.balance=sessionStorage.getItem("balance") - $("#buy_div #amount").val()*$("#buy_div #price_right_now").val();
+			$.post(url,data,function(json){
+				if(json.result_code==0){
+				}
+			});
+
+			var url="../../position_file_servlet_action";
+			var data={};
+			data.action="add_position_record";
+			//获取填写在该页面的数据准备传向后端
+			data.futures_id=$("#buy_div #futures_id").val();
+			data.futures_name=$("#buy_div #futures_name").val();
+			data.type=$("#buy_div #type").val();
+			data.price_bought=$("#buy_div #price_right_now").val();
+			data.amount=$("#buy_div #amount").val();
+			data.user_name=sessionStorage.getItem("username");
+			data.forward="开仓";
+			$.post(url,data,function(json){
+				if(json.result_code==0){
+					alert("买入成功！");
+					$("#buy_div").modal("hide");
+					window.location.reload();
+				}
+			});
+		}
+	};
+
 	//Page return 开始
 	return {
 		init: function() {
@@ -705,8 +772,29 @@ var Page = function() {
 		onShowKline: function (futures_id) {
 			on_show_kline(futures_id);
 		},
-		onModifyRecord:function(id){
-			onModifyRecord(id);
+		buyFutures : function (futures_id) {
+			//console.log(flag)
+			if (flag){
+				alert("已休市！")
+			}
+			else {
+				var url="../../"+module+"_"+sub+"_servlet_action?futures_id="+futures_id;
+				var data={};
+				data.action="get_futures_record";
+				data.futures_id=futures_id;
+				$.post(url,data,function(json){
+					//console.log(JSON.stringify(json));
+					if(json.result_code==0) {
+						var record = json.aaData;
+						record=record[0];
+						$("#buy_div #futures_id").val(record.futures_id);
+						$("#buy_div #futures_name").val(record.futures_name);
+						$("#buy_div #type").val("期货");
+						$("#buy_div #price_right_now").val(record.price_right_now);
+						$("#buy_div").modal("show");
+					}
+				})
+			}
 		}
 	}
 }();//Page

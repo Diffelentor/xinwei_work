@@ -32,11 +32,7 @@ public class MyExcel {
             HSSFCell cell=rowTitle.createCell(i);
             //设置单元格的值
             cell.setCellValue((String)arrayTitle.get(i));
-<<<<<<< Updated upstream
-            System.out.println("表头字段="+(String)arrayTitle.get(i));
-=======
             //System.out.println("表头字段="+(String)arrayTitle.get(i));
->>>>>>> Stashed changes
         }
         ////////////////////
         JSONArray array=json.getJSONArray("aaData");
@@ -51,11 +47,7 @@ public class MyExcel {
                         break;
                     }
                 }
-<<<<<<< Updated upstream
-                System.out.println("key ="+entry.getKey()+"---value="+entry.getValue());
-=======
                 //System.out.println("key ="+entry.getKey()+"---value="+entry.getValue());
->>>>>>> Stashed changes
                 //创建HSSFCell对象
                 HSSFCell cell=row.createCell(j);
                 //s何止单元格的值

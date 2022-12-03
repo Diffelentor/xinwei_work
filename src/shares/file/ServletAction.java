@@ -84,6 +84,14 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+            if (action.equals("get_amplitude_by_sharesId")) {
+                actionOk=true;
+                try {
+                    getAmplitudeBySharesId(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             if (action.equals("get_kline")) {
                 actionOk=true;
                 try {
@@ -99,7 +107,6 @@ public class ServletAction extends HttpServlet {
             }
         }
     }
-
     /*========================================函数分流 结束========================================*/
     /*========================================公共函数 开始========================================*/
     private Data getPageParameters(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException {
@@ -165,6 +172,11 @@ public class ServletAction extends HttpServlet {
         Data data=getPageParameters(request,response,json);
         dao.modifySharesRecord(data,json);
     }
+    private void getAmplitudeBySharesId(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        SharesDao dao=new SharesDao();
+        Data data=getPageParameters(request,response,json);
+        dao.getAmplitudeBySharesId(data,json);
+    }
     private void getSharesKline(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
         SharesDao dao=new SharesDao();
         Data data=getPageParameters(request,response,json);
@@ -174,26 +186,6 @@ public class ServletAction extends HttpServlet {
         SharesDao dao=new SharesDao();
         Data data=getPageParameters(request,response,json);
         dao.getSharesRecord(data,json);
-<<<<<<< Updated upstream
-        getExportDeviceRecordToFile(json, data);
-        getExportDeviceRecordToTxt(json, data);
-        getExportDeviceRecordToExcel(json, data);
-        getExportDeviceRecordToPdf(json, data);
-    }
-
-    private void getExportDeviceRecordToPdf(JSONObject json, Data data) {
-
-    }
-
-    private void getExportDeviceRecordToTxt(JSONObject json, Data data) {
-
-    }
-
-    private void getExportDeviceRecordToFile(JSONObject json, Data data) throws JSONException {
-        String jsonStr=json.toString();
-        File jsonFile = new File("C:\\testUpload\\export_device.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
-        json.put("download_url","/upload/maintain/device/export_device.rar");
-=======
         getExportSharesRecordToFile(json, data);
         getExportSharesRecordToExcel(json, data);
     }
@@ -205,7 +197,6 @@ public class ServletAction extends HttpServlet {
         String jsonStr=json.toString();
         File jsonFile = new File(file_path);		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
         json.put("download_rar_url",download_url);
->>>>>>> Stashed changes
         showDebug("准备下载");
         try{
             if(!jsonFile.exists()){
@@ -221,12 +212,6 @@ public class ServletAction extends HttpServlet {
         }
     }
     //需要四个jar包的引入
-<<<<<<< Updated upstream
-    private void getExportDeviceRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
-        MyExcel me=new MyExcel("C:\\testUpload\\export_device.xls");
-        json.put("download_url","/upload/maintain/device/export_device.xls");
-        json.put("file_path","C:\\testUpload\\export_device.xls");
-=======
     private void getExportSharesRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
         String download_url = "/output/export_shares.xls";
         String file_path = "C:\\Tools\\output\\export_shares.xls";
@@ -234,7 +219,6 @@ public class ServletAction extends HttpServlet {
         MyExcel me=new MyExcel(file_path);
         json.put("download_xls_url",download_url);
         json.put("file_path",file_path);
->>>>>>> Stashed changes
         me.exportData(data,json);
     }
 }

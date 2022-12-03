@@ -4,12 +4,7 @@ package user.center;
  * 增删改查看导印统功能的实现
  */
 
-<<<<<<< Updated upstream
-import device.dao.Data;
-import device.dao.DeviceDao;
-=======
 import user.dao.Data;
->>>>>>> Stashed changes
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -168,23 +163,6 @@ public class ServletAction extends HttpServlet {
 		Data data=getPageParameters(request,response,json);
 		dao.getUserRecord(data,json);
 	}
-<<<<<<< Updated upstream
-	private void modifyDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
-		DeviceDao dao=new DeviceDao();
-		Data data=getPageParameters(request,response,json);
-		dao.modifyDeviceRecord(data,json);
-	}
-	private void deleteDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
-		DeviceDao dao=new DeviceDao();
-		Data data=getPageParameters(request,response,json);
-		dao.deleteDeviceRecord(data,json);
-	}
-	private void addDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
-		DeviceDao dao=new DeviceDao();
-		Data data=getPageParameters(request,response,json);
-		dao.addDeviceRecord(data,json);
-	}
-=======
 //	private void modifyDeviceRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
 //		DeviceDao dao=new DeviceDao();
 //		Data data=getPageParameters(request,response,json);
@@ -200,15 +178,14 @@ public class ServletAction extends HttpServlet {
 //		Data data=getPageParameters(request,response,json);
 //		dao.addDeviceRecord(data,json);
 //	}
->>>>>>> Stashed changes
     private void getsession(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
         HttpSession session = request.getSession();
-        String is_manager=(String)session.getAttribute("is_manager");
+        String identity=(String)session.getAttribute("identity");
         String username=(String)session.getAttribute("username");
 		String email=(String)session.getAttribute("email");
 		String password=(String)session.getAttribute("password");
         json.put("username",username);
-        json.put("is_manager",is_manager);
+        json.put("identity",identity);
 		json.put("email",email);
 		json.put("password",password);
         json.put("result_code",0);
@@ -226,11 +203,11 @@ public class ServletAction extends HttpServlet {
 		JSONArray aaData=aa.getJSONArray("aaData");
 		JSONObject aData=aaData.getJSONObject(0);
 		String username=aData.getString("username");
-        String is_manager=aData.getString("is_manager");
+        String identity=aData.getString("identity");
 		String email=aData.getString("email");
 		String password=aData.getString("password");
 		session.setAttribute("username",username);
-        session.setAttribute("is_manager",is_manager);
+        session.setAttribute("identity",identity);
 		session.setAttribute("password",password);
 		session.setAttribute("email",email);
 		showDebug("session.username=:"+username);

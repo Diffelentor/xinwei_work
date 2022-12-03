@@ -34,11 +34,7 @@
         <div class="page-content" id="page-content">
             <%@include file="../../home/frame/frame_page_header.jsp"%>
             <h3 class="page-title">
-<<<<<<< Updated upstream
-                期货数据
-=======
                 股票数据
->>>>>>> Stashed changes
             </h3>
             <div class="page-bar">
                 <ul class="page-breadcrumb">
@@ -62,11 +58,7 @@
             <!--设置页面ID-->
             <input type="hidden" id="page_id" name="page_id" value="shares_list_print_table">
             <div class="row">
-<<<<<<< Updated upstream
-                <div class="col-md-6">
-=======
                 <div class="col-md-12">
->>>>>>> Stashed changes
                     <!-- BEGIN SAMPLE TABLE PORTLET-->
                     <div class="portlet">
                         <div class="portlet-title">
@@ -74,13 +66,8 @@
                                 <i class="fa fa-bell-o"></i>股票数据表
                             </div>
                             <div class="tools">
-<<<<<<< Updated upstream
-                                <button type="button"   class="btn green" id="button_1" name="button_1" onclick="javascript:collapse">
-                                    <i class="fa fa-refresh"></i></button>
-=======
                                 <a href="javascript:;" class="collapse">
                                 </a>
->>>>>>> Stashed changes
                                 <a href="javascript:;" class="collapse">
                                 </a>
                                 <a href="#portlet-config" data-toggle="modal" class="config">

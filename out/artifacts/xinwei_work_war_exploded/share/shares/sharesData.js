@@ -17,8 +17,8 @@ var Page = function () {
         if (pageId == "shares_data") {
             initSharesDataList();
         }
-        if (pageId == "device_add") {
-            initDeviceAdd();
+        if (pageId == "shares_statistic") {
+            initSharesStatistic();
         }
         if (pageId == "device_modify") {
             initDeviceModify();
@@ -29,32 +29,20 @@ var Page = function () {
         if (pageId == "shares_kline") {
             initSharesKline();
         }
-<<<<<<< Updated upstream
-=======
         if (pageId == "shares_data_admin") {
             initSharesAdmin();
         }
->>>>>>> Stashed changes
     };
     /*----------------------------------------入口函数  结束----------------------------------------*/
     var columnsData = undefined;
     var recordResult = undefined;
     /*----------------------------------------业务函数  开始----------------------------------------*/
     /*------------------------------针对各个页面的入口  开始------------------------------*/
-<<<<<<< Updated upstream
-    var initMyHaveDeviceList = function () {
-        initDeviceListControlEvent();
-        //initDeviceRecordList();
+    var initSharesStatistic = function () {
+        $.ajaxSettings.async = false;	//禁止异步方式，否则第一个函数还没执行完就会执行第二个了
+        initSharesStatisticRecord();
+        $.ajaxSettings.async = true;
     }
-    var initDeviceAdd = function () {
-        initDeviceAddControlEvent();
-    }
-    var initDeviceModify = function () {
-        initDeviceModifyControlEvent();
-        initDeviceRecordView();
-    }
-=======
->>>>>>> Stashed changes
     var initSharesDataList = function () {
         initSharesDataControlEvent();
         initSharesDataRecordDatatable();
@@ -65,13 +53,10 @@ var Page = function () {
     var initSharesKline = function () {
         initSharesKlinePage();
     }
-<<<<<<< Updated upstream
-=======
     var initSharesAdmin = function () {
         initSharesAdminControlEvent();
         initSharesDatatableAdmin();
     }
->>>>>>> Stashed changes
     /*------------------------------针对各个页面的入口 结束------------------------------*/
     var getUrlParam = function (name) {
         //获取url中的参数
@@ -80,36 +65,6 @@ var Page = function () {
         if (r != null) return decodeURI(r[2]);
         return null; //返回参数值，如果是中文传递，就用decodeURI解决乱码，否则用unescape
     }
-<<<<<<< Updated upstream
-    var initDeviceListControlEvent = function () {
-        $("#help_button").click(function () {
-            help();
-        });
-        $('#add_button').click(function () {
-            onAddRecord();
-        });
-        $('#history_button').click(function () {
-            onHistoryRecord();
-        });
-    }
-    var initDeviceAddControlEvent = function () {
-        $("#help_button").click(function () {
-            help();
-        });
-        $('#add_button').click(function () {
-            submitAddRecord();
-        });
-    }
-    var initDeviceModifyControlEvent = function () {
-        $("#help_button").click(function () {
-            help();
-        });
-        $('#modify_button').click(function () {
-            submitModifyRecord();
-        });
-    }
-    var initSharesDataControlEvent = function () {
-=======
 
     var initSharesDataControlEvent = function () {
         $('#remake_button').click(function () {
@@ -136,20 +91,19 @@ var Page = function () {
         $('#show_exchange').click(function () {
             toExchangePage();
         });
+        $('#table_button').click(function () {
+            onStatisticRecord();
+        });
+        $('#buy_submit').click(function(){onBuyDivSubmit();});
     }
     var initSharesAdminControlEvent = function () {
         $('#add_button').click(function() {onAddRecord();});
         $('#shares_add_div #submit_button').click(function() {onAddDivSubmit();});
->>>>>>> Stashed changes
         $('#remake_button').click(function () {
             onRemake();
         });
         $('#query_button').click(function () {
-<<<<<<< Updated upstream
-            initSharesDataRecordDatatable();
-=======
             initSharesDatatableAdmin();
->>>>>>> Stashed changes
         });
         $('#export_button').click(function () {
             onExportRecord();
@@ -164,19 +118,13 @@ var Page = function () {
             onTablePrint();
         });
         $('#show_futures').click(function () {
-<<<<<<< Updated upstream
-            toFuturePage();
-        });
-        $('#show_exchange').click(function () {
-            toExchangePage();
-        });
-    }
-
-=======
             toFutureAdminPage();
         });
         $('#show_exchange').click(function () {
             toExchangeAdminPage();
+        });
+        $('#table_button').click(function () {
+            onStatisticRecord();
         });
     }
 
@@ -187,10 +135,36 @@ var Page = function () {
         submitAddRecordDiv();
     };
     /*isNull判定*/
-    function isNull(arg1)
-    {
+    function isNull(arg1) {
         return !arg1 && arg1!==0 && typeof arg1!=="boolean"?true:false;
     }
+    /*时间范围确定*/
+    function checkAuditTime(startTime, endTime){
+        // 获取当前时间
+        const date  = new Date()
+        // 获取当前时间的年月日
+        const dataStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} `
+
+        // 获取开始时间、结束时间、现在时间的时间戳
+        let startDate = new Date(dataStr + startTime).getTime()
+        let endDate = new Date(dataStr + endTime).getTime()
+        let nowDate = date.getTime()
+
+        const s = startDate > endDate // 判断开始时间否大于结束时间
+
+        if(s) [startDate, endDate] = [endDate, startDate] // 若开始时间否大于结束时间则交换值
+
+        // 判断现在的时间是否在开始时间和结束时间之间，若s为true则结果取反
+        if(nowDate > startDate && nowDate < endDate){
+            return s ? false : true
+        }else{
+            return s ? true : false
+        }
+    }
+    /*判断是否为周末*/
+    let weekArrayList = [ true,   '星期一',   '星期二',   '星期三',   '星期四',   '星期五',   true,  ]
+    let flag
+
     var submitAddRecordDiv=function () {
         if(confirm("您确定要添加该记录吗？")){
             var url="../../"+module+"_"+sub+"_servlet_action";
@@ -261,7 +235,6 @@ var Page = function () {
             });
         }
     };
->>>>>>> Stashed changes
     var onModifyRecord = function (id) {
         window.location.href = "device_modify.jsp?id=" + id;
     }
@@ -271,8 +244,6 @@ var Page = function () {
     var on_show_kline = function (shares_id) {
         window.location.href = "shares_show_kline.jsp?shares_id=" + shares_id;
     }
-<<<<<<< Updated upstream
-=======
     var onRemake = function () {
         window.location.reload();
     }
@@ -293,6 +264,9 @@ var Page = function () {
         $("#shares_download_div").modal("hide");
     }
 
+    var onStatisticRecord = function () {
+        window.location.href="shares_statistic.jsp";
+    }
     //打印事件，跳转到别的页面
     var onTablePrint = function () {
         window.location.href = "shares_list_print_table.jsp";
@@ -309,12 +283,60 @@ var Page = function () {
     var toExchangeAdminPage = function () {
         window.location.href = "../exchanges/exchangesData_admin.jsp";
     };
+    //买入弹窗的按钮事件,将买入期货相关信息存到my_position数据库并且减少用户余额
+    var onBuyDivSubmit=function () {
+        //for test alert("1")
+        if (!(/(^[1-9]\d*$)/.test($("#buy_div #amount").val()))) {
+            $("#reminder").modal("show");
+            return;
+        }else {
+            $("#reminder").modal("hide");
+        }
+        var balance = sessionStorage.getItem("balance");
+        if($("#buy_div #amount").val()*$("#buy_div #price_right_now").val()>balance){
+            alert("您账户的余额不足");
+            return;
+        }
+        if(confirm("您确定要买入'"+$("#buy_div #shares_name").val()+"'吗？")){
 
->>>>>>> Stashed changes
+            var url="../../user_center_servlet_action";
+            var data={};
+            data.action="modify_user_record";
+            data.id=sessionStorage.getItem("id");
+            data.username=sessionStorage.getItem("username");
+            data.password=sessionStorage.getItem("password");
+            data.email=sessionStorage.getItem("email");
+            data.identity=sessionStorage.getItem("identity");
+            data.balance=sessionStorage.getItem("balance") - $("#buy_div #amount").val()*$("#buy_div #price_right_now").val();
+            $.post(url,data,function(json){
+                if(json.result_code==0){
+                }
+            });
+
+            var url="../../position_file_servlet_action";
+            var data={};
+            data.action="add_position_record";
+            //获取填写在该页面的数据准备传向后端
+            data.shares_id=$("#buy_div #shares_id").val();
+            data.shares_name=$("#buy_div #shares_name").val();
+            data.type=$("#buy_div #type").val();
+            data.price_bought=$("#buy_div #price_right_now").val();
+            data.amount=$("#buy_div #amount").val();
+            data.user_name=sessionStorage.getItem("username");
+            data.forward="开仓";
+            $.post(url,data,function(json){
+                if(json.result_code==0){
+                    alert("买入成功！");
+                    $("#buy_div").modal("hide");
+                    window.location.reload();
+                }
+            });
+        }
+    };
+
     var initSharesDataRecordDatatable = function () {
         //将之前的表删除掉，这样再次获取的时候就不会有warning了
         if ($.fn.dataTable.isDataTable('#record_list')) {
-            console.log("=====================")
             // 获取这个表
             _table = $('#record_list').DataTable();
             // 把这个表销毁掉
@@ -351,12 +373,12 @@ var Page = function () {
                 "mRender": function (data, type, full) {
                     sReturn = '<input type="checkbox" class="checkboxes" value="' + full.shares_id + '"/>';
                     return sReturn;
-                }, "orderable": false
+                }, "orderable": false,
             }, {
                 "mRender": function (data, type, full) {
                     sReturn = '<div>' + full.shares_id + '</div>';
                     return sReturn;
-                }, "orderable": false
+                }, "orderable": true
             }, {
                 "mRender": function (data, type, full) {
                     sReturn = '<div>' + full.shares_name + '</div>';
@@ -403,11 +425,7 @@ var Page = function () {
 
                     return sReturn;
                 }, "orderable": false
-<<<<<<< Updated upstream
-            }, {
-=======
             },{
->>>>>>> Stashed changes
                 "mRender": function (data, type, full) {
                     if (full.price_right_now != "" && full.price_pre != "") {
                         var amplitude = (full.price_right_now - full.price_pre) / full.price_pre;
@@ -422,21 +440,32 @@ var Page = function () {
                     }
 
                     return sReturn;
-                }, "orderable": false
+                }, "orderable": true
             }, {
-<<<<<<< Updated upstream
-=======
                 "mRender": function(data, type, full) {
                     var data = full.deal_count;
                     data = Math.round(data / 100);
                     sReturn = '<div>'+data+'</div>';
                     return sReturn;
-                },"orderable": false
-            },{
->>>>>>> Stashed changes
+                },"orderable": true
+            }, {
+                    "mRender": function(data, type, full) {
+                        let time = new Date()
+                        let time1 = time.toLocaleString()  //打印结果为：YYMMDD time
+                        let time2 = time.toLocaleDateString()   //打印结果为：YYMMDD
+                        let index = new Date(time2).getDay()
+                        /*是否为周末*/
+                        flag = weekArrayList [index]
+                        if (checkAuditTime('00:00','09:30') ||checkAuditTime('11:30','13:00') || checkAuditTime('15:00','24:00') || flag){
+                            sReturn = '<div>休市</div>';
+                        }
+                        else sReturn = '<div>开市</div>';
+                        return sReturn;
+                    },"orderable": false
+                },{
                 "mRender": function (data, type, full) {
                     var shares_id = full.shares_id;
-                    sReturn = '<div><a href="javascript:Page.onModifyRecord(' + full.id + ')">【买入】</a><a href="#" onclick="Page.onShowKline(\'' + shares_id + '\')">【k线图】</div>';
+                    sReturn = '<div><a href="#" onclick="Page.buyShares(\'' + shares_id + '\')">【买入】</a><a href="#" onclick="Page.onShowKline(\'' + shares_id + '\')">【k线图】</div>';
                     return sReturn;
                 }, "orderable": false
             }],
@@ -465,42 +494,6 @@ var Page = function () {
             $(this).parents('tr').toggleClass("active");
         });
     };
-<<<<<<< Updated upstream
-    var onRemake = function () {
-        window.location.reload();
-    }
-    var onExportRecord = function () {
-        var url = "../../" + module + "_" + sub + "_servlet_action";
-        var data = {"action": "export_shares_record"};
-        $.post(url, data, function (json) {
-            if (json.result_code == 0) {
-                console.log(JSON.stringify(json));
-                $("#shares_download_div #download_url").attr("href", "javascript:window.open('" + json.download_url + "')");	//window.open是打开一个新的页面进行跳转，但是这里没有显现出来
-                $("#shares_download_div").modal("show");
-            } else {
-                alert("[onExportRecord]与后端交互错误！" + json.result_smg);
-            }
-        })
-    }
-    var onFinishDownload = function () {
-        $("#shares_download_div").modal("hide");
-    }
-
-    //打印事件，跳转到别的页面
-    var onTablePrint = function () {
-        window.location.href = "shares_list_print_table.jsp";
-    };
-
-    var toFuturePage = function () {
-        window.location.href = "../../maintain/trade/futuresData.jsp";
-    };
-
-    var toExchangePage = function () {
-        window.location.href = "../exchanges/exchangesData.jsp";
-    };
-
-=======
->>>>>>> Stashed changes
     var initSharesKlinePage = function () {
         $("#page_sidebar_wrapper").hide();
         $("#page_header").hide();
@@ -755,10 +748,6 @@ var Page = function () {
             myChart.setOption(option);
         })
     }
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
     var initSharesListPrintTableRecord = function () {
         $("#page_sidebar_wrapper").hide();
         $("#page_header").hide();
@@ -777,19 +766,11 @@ var Page = function () {
                         var record = list[i];
                         var change = "";
                         var amplitude = "";
-<<<<<<< Updated upstream
-                        if (record.price_right_now != "" && record.price_yesterday != "") {
-                            change = (record.price_right_now - 0) - (record.price_yesterday - 0);
-                            change = Math.round(change * 100) / 100;
-                            amplitude = (record.price_right_now - record.price_yesterday) / record.price_yesterday;
-                            amplitude = Math.round(amplitude * 100000) / 100000;
-=======
                         if (record.price_right_now != "" && record.price_pre != "") {
                             change = (record.price_right_now - 0) - (record.price_pre - 0);
                             change = Math.round(change * 100) / 100;
                             amplitude = (record.price_right_now - record.price_pre) / record.price_pre;
                             amplitude = Math.round(amplitude * 100000) / 1000;
->>>>>>> Stashed changes
                             amplitude = amplitude + '%';
                         }
                         html = html + "                          	 		<tr>";
@@ -803,11 +784,7 @@ var Page = function () {
                         html = html + "                                            " + record.price_today_begin;
                         html = html + "                                        </td>";
                         html = html + "                                        <td>";
-<<<<<<< Updated upstream
-                        html = html + "                                            " + record.price_yesterday;
-=======
                         html = html + "                                            " + record.price_pre;
->>>>>>> Stashed changes
                         html = html + "                                        </td>";
                         html = html + "                                        <td>";
                         html = html + "                                            " + record.price_right_now;
@@ -828,11 +805,6 @@ var Page = function () {
                     }
                 }
                 $("#print_table_content_div").html(html);
-<<<<<<< Updated upstream
-            }
-        })
-    }
-=======
                 window.print();
             }
         })
@@ -882,7 +854,7 @@ var Page = function () {
                 "mRender": function (data, type, full) {
                     sReturn = '<div>' + full.shares_id + '</div>';
                     return sReturn;
-                }, "orderable": false
+                }, "orderable": true
             }, {
                 "mRender": function (data, type, full) {
                     sReturn = '<div>' + full.shares_name + '</div>';
@@ -944,12 +916,19 @@ var Page = function () {
                     }
 
                     return sReturn;
-                }, "orderable": false
+                }, "orderable": true
             }, {
                 "mRender": function(data, type, full) {
                     var data = full.deal_count;
                     data = Math.round(data / 100);
                     sReturn = '<div>'+data+'</div>';
+                    return sReturn;
+                },"orderable": true
+            }, {
+                "mRender": function(data, type, full) {
+                    var time = full.select_time;
+                    time = time.slice(0,time.indexOf("."));
+                    sReturn = '<div>'+time+'</div>';
                     return sReturn;
                 },"orderable": false
             },{
@@ -984,7 +963,107 @@ var Page = function () {
             $(this).parents('tr').toggleClass("active");
         });
     }
->>>>>>> Stashed changes
+    var initSharesStatisticRecord = function () {
+        var chartDom = document.getElementById('chart_1');
+        var myChart = echarts.init(chartDom);
+
+        var url = "../../"+module+"_"+sub+"_servlet_action";
+        var data={"action":"get_amplitude_by_sharesId"};
+        var xlabel = [];
+        var ylabel = [];
+        $.post(url,data,function (json) {
+            if(json.result_code == 0){
+                //console.log(JSON.stringify(json));
+                var list = json.aaData;
+                if(list!=undefined && list.length>0){
+                    for (var i = 0; i < list.length; i++) {
+                        var item = list[i];
+                        xlabel.push(item.shares_id);
+                        ylabel.push(parseFloat(item.amplitude).toFixed(3));
+                    }
+                }
+            }else {
+                alert("[initDeviceStatisticRecord]与后端交互错误！"+json.result_smg);
+            }
+        })
+
+        var emphasisStyle = {
+            itemStyle: {
+                shadowBlur: 10,
+                shadowColor: 'rgba(0,0,0,0.3)'
+            }
+        };
+        var option = {
+            legend: {
+                data: ['bar'],
+                left: '10%'
+            },
+            brush: {
+                toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
+                xAxisIndex: 0
+            },
+            toolbox: {
+                feature: {
+                    magicType: {
+                        type: ['stack']
+                    },
+                    dataView: {}
+                }
+            },
+            tooltip: {
+                show:true,
+                trigger: 'axis',
+                //triggerOn:'mouseover',
+                formatter: function(params) {
+                    //console.log(params[0])
+                    return '股票代码：' + params[0].name + '<br>涨跌幅：' + params[0].value +'%'
+                }
+            },
+            xAxis: {
+                data: xlabel,
+                name: '股票代码',
+                axisLine: { onZero: true },
+                splitLine: { show: false },
+                splitArea: { show: true }
+            },
+            yAxis: {},
+            grid: {
+                bottom: 100
+            },
+            series: [
+                {
+                    name: '涨跌幅度',
+                    type: 'bar',
+                    stack: 'one',
+                    emphasis: emphasisStyle,
+                    data: ylabel
+                },
+            ]
+        };
+        myChart.on('brushSelected', function (params) {
+            var brushed = [];
+            var brushComponent = params.batch[0];
+            for (var sIdx = 0; sIdx < brushComponent.selected.length; sIdx++) {
+                var rawIndices = brushComponent.selected[sIdx].dataIndex;
+                brushed.push('[Series ' + sIdx + '] ' + rawIndices.join(', '));
+            }
+            myChart.setOption({
+                title: {
+                    backgroundColor: '#333',
+                    text: 'SELECTED DATA INDICES: \n' + brushed.join('\n'),
+                    bottom: 0,
+                    right: '10%',
+                    width: 100,
+                    textStyle: {
+                        fontSize: 12,
+                        color: '#fff'
+                    }
+                }
+            });
+        });
+
+        option && myChart.setOption(option);
+    }
     //Page return 开始
     return {
         init: function () {
@@ -993,10 +1072,29 @@ var Page = function () {
         onShowKline: function (shares_id) {
             on_show_kline(shares_id);
         },
-<<<<<<< Updated upstream
-        onModifyRecord: function (id) {
-            onModifyRecord(id);
-=======
+        buyShares : function (shares_id) {
+            if(flag){
+                alert("已休市！")
+            }
+            else {
+                var url="../../"+module+"_"+sub+"_servlet_action?shares_id="+shares_id;
+                var data={};
+                data.action="get_shares_record";
+                data.shares_id=shares_id;
+                $.post(url,data,function(json){
+                    //console.log(JSON.stringify(json));
+                    if(json.result_code==0) {
+                        var record = json.aaData;
+                        record=record[0];
+                        $("#buy_div #shares_id").val(record.shares_id);
+                        $("#buy_div #shares_name").val(record.shares_name);
+                        $("#buy_div #type").val("股票");
+                        $("#buy_div #price_right_now").val(record.price_right_now);
+                        $("#buy_div").modal("show");
+                    }
+                })
+            }
+        },
         onModifyRecord: function (shares_id) {
             var url="../../"+module+"_"+sub+"_servlet_action";
             var query_data = {};
@@ -1030,7 +1128,6 @@ var Page = function () {
                     }
                 });
             }
->>>>>>> Stashed changes
         }
     }
 }();//Page

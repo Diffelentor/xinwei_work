@@ -139,11 +139,7 @@ var Page = function () {
     }
 
     var onViewRecord=function (id) {
-<<<<<<< Updated upstream
-        window.location.href="news_content.jsp?id="+id;
-=======
         window.location.href = "news_content.jsp?id="+id;
->>>>>>> Stashed changes
     };
 
     var initContentView=function () {

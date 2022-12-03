@@ -34,7 +34,7 @@
         <div class="page-content" id="page-content">
             <%@include file="../../home/frame/frame_page_header.jsp"%>
             <h3 class="page-title">
-                期货数据
+                期货管理
             </h3>
             <div class="page-bar">
                 <ul class="page-breadcrumb">

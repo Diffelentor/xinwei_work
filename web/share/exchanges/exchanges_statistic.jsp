@@ -48,6 +48,8 @@
                                 <span class="caption-subject bold uppercase font-green-haze"> 外汇统计</span>
                                 <span class="caption-helper">涨跌幅度统计</span>
                             </div>
+                            <button type="button" style="position: relative; left: 76%" class="btn green" id="return_button" name="return_button" onclick="javascript:history.back(-1)">
+                                <i class="fa fa-refresh"></i>返回</button>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse">
                                 </a>
@@ -91,6 +93,7 @@
 <script src="../../assets/global/plugins/amcharts/amcharts/themes/chalk.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <script type="text/javascript" src="../dataTables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../resource/js/echarts.min.js"></script>
 <script src="exchangesData.js"></script>
 </body>
 <!-- END BODY -->

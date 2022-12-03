@@ -58,11 +58,7 @@
             <!--设置页面ID-->
             <input type="hidden" id="page_id" name="page_id" value="exchanges_list_print_table">
             <div class="row">
-<<<<<<< Updated upstream
-                <div class="col-md-6">
-=======
                 <div class="col-md-12">
->>>>>>> Stashed changes
                     <!-- BEGIN SAMPLE TABLE PORTLET-->
                     <div class="portlet">
                         <div class="portlet-title">

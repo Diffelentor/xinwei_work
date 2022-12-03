@@ -88,6 +88,14 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+            if (action.equals("get_amplitude_by_futuresId")) {
+                actionOk=true;
+                try {
+                    getAmplitudeByFuturesId(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             if (action.equals("get_kline")) {
                 actionOk=true;
                 try {
@@ -169,25 +177,15 @@ public class ServletAction extends HttpServlet {
         Data data=getPageParameters(request,response,json);
         dao.modifyFuturesRecord(data,json);
     }
+    private void getAmplitudeByFuturesId(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        FuturesDao dao=new FuturesDao();
+        Data data=getPageParameters(request,response,json);
+        dao.getAmplitudeByFuturesId(data,json);
+    }
     private void getFuturesKline(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
         FuturesDao dao=new FuturesDao();
-<<<<<<< Updated upstream
         Data data=getPageParameters(request,response,json);
         dao.getFutureskline(data,json);
-    }
-
-    private void exportFuturesRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
-        FuturesDao dao=new FuturesDao();
-        Data data=getPageParameters(request,response,json);
-        dao.getFuturesRecord(data,json);
-        getExportDeviceRecordToFile(json, data);
-        getExportDeviceRecordToTxt(json, data);
-        getExportDeviceRecordToExcel(json, data);
-        getExportDeviceRecordToPdf(json, data);
-=======
-        Data data=getPageParameters(request,response,json);
-        dao.getFutureskline(data,json);
->>>>>>> Stashed changes
     }
 
     private void exportFuturesRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
@@ -203,13 +201,8 @@ public class ServletAction extends HttpServlet {
         String file_path = "C:\\Tools\\output\\futures\\export_futures.rar";
 
         String jsonStr=json.toString();
-<<<<<<< Updated upstream
-        File jsonFile = new File("C:\\testUpload\\export_device.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
-        json.put("download_url","/upload/maintain/device/export_device.rar");
-=======
         File jsonFile = new File(file_path);		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
         json.put("download_rar_url",download_url);
->>>>>>> Stashed changes
         //showDebug("准备下载");
         try{
             if(!jsonFile.exists()){

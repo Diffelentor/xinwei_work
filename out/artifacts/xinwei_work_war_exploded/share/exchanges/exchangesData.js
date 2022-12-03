@@ -11,27 +11,14 @@ jQuery(document).ready(function () {
 /* ================================================================================ */
 //关于页面的控件生成等操作都放在Page里
 var Page = function () {
-<<<<<<< Updated upstream
-=======
-    /*存放绘图数据*/
-    var chartData=[];
->>>>>>> Stashed changes
     /*----------------------------------------入口函数  开始----------------------------------------*/
     var initPageControl = function () {
         pageId = $("#page_id").val();
         if (pageId == "exchanges_data") {
             initExchangesDataList();
         }
-<<<<<<< Updated upstream
-        if (pageId == "device_add") {
-            initDeviceAdd();
-        }
-        if (pageId == "device_modify") {
-            initDeviceModify();
-=======
         if (pageId == "exchanges_statistic") {
             initExchangesStatistic();
->>>>>>> Stashed changes
         }
         if (pageId == "exchanges_list_print_table") {
             initExchangesPrintTable();
@@ -39,48 +26,25 @@ var Page = function () {
         if (pageId == "exchanges_kline") {
             initExchangesKline();
         }
-<<<<<<< Updated upstream
-=======
         if (pageId == "exchanges_data_admin") {
             initExchangesAdmin();
         }
->>>>>>> Stashed changes
     };
     /*----------------------------------------入口函数  结束----------------------------------------*/
     var columnsData = undefined;
     var recordResult = undefined;
     /*----------------------------------------业务函数  开始----------------------------------------*/
     /*------------------------------针对各个页面的入口  开始------------------------------*/
-<<<<<<< Updated upstream
-    var initMyHaveDeviceList = function () {
-        initDeviceListControlEvent();
-        //initDeviceRecordList();
-    }
-    var initDeviceAdd = function () {
-        initDeviceAddControlEvent();
-    }
-    var initDeviceModify = function () {
-        initDeviceModifyControlEvent();
-        initDeviceRecordView();
-=======
     var initExchangesStatistic = function () {
         $.ajaxSettings.async = false;	//禁止异步方式，否则第一个函数还没执行完就会执行第二个了
         initExchangesStatisticRecord();
         $.ajaxSettings.async = true;
-        initBarChart();
->>>>>>> Stashed changes
     }
     var initExchangesDataList = function () {
         initExchangesDataControlEvent();
         initExchangesDataRecordDatatable();
     }
     var initExchangesPrintTable = function () {
-<<<<<<< Updated upstream
-        initExchangesListPrintTableRecord()
-    }
-    var initExchangesKline = function () {
-        initExchangesKlinePage()
-=======
         initExchangesListPrintTableRecord();
     }
     var initExchangesKline = function () {
@@ -89,7 +53,6 @@ var Page = function () {
     var initExchangesAdmin = function (){
         initExchangesAdminControlEvent();
         initExchangesDatatableAdmin();
->>>>>>> Stashed changes
     }
     /*------------------------------针对各个页面的入口 结束------------------------------*/
     var getUrlParam = function (name) {
@@ -99,36 +62,6 @@ var Page = function () {
         if (r != null) return decodeURI(r[2]);
         return null; //返回参数值，如果是中文传递，就用decodeURI解决乱码，否则用unescape
     }
-<<<<<<< Updated upstream
-    var initDeviceListControlEvent = function () {
-        $("#help_button").click(function () {
-            help();
-        });
-        $('#add_button').click(function () {
-            onAddRecord();
-        });
-        $('#history_button').click(function () {
-            onHistoryRecord();
-        });
-    }
-    var initDeviceAddControlEvent = function () {
-        $("#help_button").click(function () {
-            help();
-        });
-        $('#add_button').click(function () {
-            submitAddRecord();
-        });
-    }
-    var initDeviceModifyControlEvent = function () {
-        $("#help_button").click(function () {
-            help();
-        });
-        $('#modify_button').click(function () {
-            submitModifyRecord();
-        });
-    }
-    var initExchangesDataControlEvent = function () {
-=======
 
     var initExchangesDataControlEvent = function () {
         $('#remake_button').click(function () {
@@ -158,20 +91,16 @@ var Page = function () {
         $('#table_button').click(function () {
             onStatisticRecord();
         });
+        $('#buy_submit').click(function(){onBuyDivSubmit();});
     }
     var initExchangesAdminControlEvent = function (){
         $('#add_button').click(function() {onAddRecord();});
         $('#exchanges_add_div #submit_button').click(function() {onAddDivSubmit();});
->>>>>>> Stashed changes
         $('#remake_button').click(function () {
             onRemake();
         });
         $('#query_button').click(function () {
-<<<<<<< Updated upstream
-            initExchangesDataRecordDatatable();
-=======
             initExchangesDatatableAdmin();
->>>>>>> Stashed changes
         });
         $('#export_button').click(function () {
             onExportRecord();
@@ -186,104 +115,45 @@ var Page = function () {
             onTablePrint();
         });
         $('#show_futures').click(function () {
-<<<<<<< Updated upstream
-            toFuturePage();
-        });
-        $('#show_shares').click(function () {
-            toSharePage();
-        });
-    }
-    var initDeviceRecordView = function () {
-        var id = getUrlParam("id");
-        var data = {};
-        data.action = "get_device_record";
-        data.id = id;
-        $.post(module + "_" + sub + "_servlet_action", data, function (json) {
-            console.log(JSON.stringify(json));
-            if (json.result_code == 0) {
-                var list = json.aaData;
-                if (list != undefined && list.length > 0) {
-                    for (var i = 0; i < list.length; i++) {
-                        var record = list[i];
-                        $("#device_id").val(record.device_id);
-                        $("#device_name").val(record.device_name);
-                    }
-                }
-            }
-        })
-    }
-    var onAddRecord = function () {
-        window.location.href = "device_add.jsp";
-    }
-    var submitAddRecord = function () {
-        var url = "device_file_servlet_action";
-        var data = {};
-        data.action = "add_device_record";
-        data.device_id = $("#device_id").val();
-        data.device_name = $("#device_name").val();
-        $.post(url, data, function (json) {
-            if (json.result_code == 0) {
-                alert("已经完成设备添加。");
-                window.location.href = "device_list.jsp";
-            }
-        });
-    }
-    var submitModifyRecord = function () {
-        if (confirm("您确定要修改该记录吗？")) {
-            var id = getUrlParam("id");
-            var url = "device_file_servlet_action";
-            var data = {};
-            data.action = "modify_device_record";
-            data.id = id;
-            data.device_id = $("#device_id").val();
-            data.device_name = $("#device_name").val();
-            $.post(url, data, function (json) {
-                if (json.result_code == 0) {
-                    alert("已经完成设备修改。");
-                    window.location.href = "device_list.jsp";
-                }
-            });
-        }
-    }
-
-
-    var initDeviceRecordList = function () {
-        getDeviceRecordList();
-    }
-    var initDeviceMobileRecord = function () {
-        getDeviceMobileRecord();
-    }
-    var getDeviceRecordList = function () {
-        $.post(module + "_" + sub + "_servlet_action?action=get_device_record", function (json) {
-            console.log(JSON.stringify(json));
-            if (json.result_code == 0) {
-                var list = json.aaData;
-                var html = "";
-                if (list != undefined && list.length > 0) {
-                    for (var i = 0; i < list.length; i++) {
-                        var record = list[i];
-                        html = html + "<div>序号：" + i + "<div>";
-                        html = html + "<div>设备ID：" + record.device_id + "<div>";
-                        html = html + "<div>设备名称：" + record.device_name + "<div>";
-                        html = html + "<div><a href=\"javascript:Page.onModifyRecord(" + record.id + ")\">【修改记录】</a><a href=\"javascript:Page.onShow_Kline(" + record.id + ")\">【删除记录】</a><div>";
-                        html = html + "<p>";
-                    }
-                }
-                $("#record_list_div").html(html);
-            }
-        })
-=======
             toFutureAdminPage();
         });
         $('#show_shares').click(function () {
             toShareAdminPage();
         });
+        $('#table_button').click(function () {
+            onStatisticRecord();
+        });
     }
     /*isNull判定*/
-    function isNull(arg1)
-    {
+    function isNull(arg1) {
         return !arg1 && arg1!==0 && typeof arg1!=="boolean"?true:false;
     }
+    /*时间范围确定*/
+    function checkAuditTime(startTime, endTime){
+        // 获取当前时间
+        const date  = new Date()
+        // 获取当前时间的年月日
+        const dataStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} `
+
+        // 获取开始时间、结束时间、现在时间的时间戳
+        let startDate = new Date(dataStr + startTime).getTime()
+        let endDate = new Date(dataStr + endTime).getTime()
+        let nowDate = date.getTime()
+
+        const s = startDate > endDate // 判断开始时间否大于结束时间
+
+        if(s) [startDate, endDate] = [endDate, startDate] // 若开始时间否大于结束时间则交换值
+
+        // 判断现在的时间是否在开始时间和结束时间之间，若s为true则结果取反
+        if(nowDate > startDate && nowDate < endDate){
+            return s ? false : true
+        }else{
+            return s ? true : false
+        }
+    }
+    /*判断是否为周末*/
+    let weekArrayList = [ true,   '星期一',   '星期二',   '星期三',   '星期四',   '星期五',   true,  ]
+    let flag
     var onAddRecord = function () {
         $("#exchanges_add_div").modal("show");
     }
@@ -362,20 +232,63 @@ var Page = function () {
     /*跳转统计图界面*/
     var onStatisticRecord = function () {
         window.location.href="exchanges_statistic.jsp";
->>>>>>> Stashed changes
     }
     var on_show_kline = function (exchanges_id) {
         window.location.href = "exchanges_show_kline.jsp?exchanges_id=" + exchanges_id;
     };
-<<<<<<< Updated upstream
-    var onModifyRecord = function (id) {
-        window.location.href = "device_modify.jsp?id=" + id;
-    }
-=======
->>>>>>> Stashed changes
     var onHistoryRecord = function () {
         window.location.href = "commonHistoryOrder.jsp";
     }
+    //买入弹窗的按钮事件,将买入期货相关信息存到my_position数据库并且减少用户余额
+    var onBuyDivSubmit=function () {
+        //alert("1")
+        if (!(/(^[1-9]\d*$)/.test($("#buy_div #amount").val()))) {
+            $("#reminder").modal("show");
+            return;
+        }else {
+            $("#reminder").modal("hide");
+        }
+        var balance = sessionStorage.getItem("balance");
+        if($("#buy_div #amount").val()*$("#buy_div #price_right_now").val()>balance){
+            alert("您账户的余额不足");
+            return;
+        }
+        if(confirm("您确定要买入'"+$("#buy_div #exchanges_name").val()+"'吗？")){
+
+            var url="../../user_center_servlet_action";
+            var data={};
+            data.action="modify_user_record";
+            data.id=sessionStorage.getItem("id");
+            data.username=sessionStorage.getItem("username");
+            data.password=sessionStorage.getItem("password");
+            data.email=sessionStorage.getItem("email");
+            data.identity=sessionStorage.getItem("identity");
+            data.balance=sessionStorage.getItem("balance") - $("#buy_div #amount").val()*$("#buy_div #price_right_now").val();
+            $.post(url,data,function(json){
+                if(json.result_code==0){
+                }
+            });
+
+            var url="../../position_file_servlet_action";
+            var data={};
+            data.action="add_position_record";
+            //获取填写在该页面的数据准备传向后端
+            data.exchanges_id=$("#buy_div #exchanges_id").val();
+            data.exchanges_name=$("#buy_div #exchanges_name").val();
+            data.type=$("#buy_div #type").val();
+            data.price_bought=$("#buy_div #price_right_now").val();
+            data.amount=$("#buy_div #amount").val();
+            data.user_name=sessionStorage.getItem("username");
+            data.forward="开仓";
+            $.post(url,data,function(json){
+                if(json.result_code==0){
+                    alert("买入成功！");
+                    $("#buy_div").modal("hide");
+                    window.location.reload();
+                }
+            });
+        }
+    };
     var initExchangesDataRecordDatatable = function () {
         //将之前的表删除掉，这样再次获取的时候就不会有warning了
         if ($.fn.dataTable.isDataTable('#record_list')) {
@@ -421,7 +334,7 @@ var Page = function () {
                 "mRender": function (data, type, full) {
                     sReturn = '<div>' + full.exchanges_id + '</div>';
                     return sReturn;
-                }, "orderable": false
+                }, "orderable": true
             }, {
                 "mRender": function (data, type, full) {
                     sReturn = '<div>' + full.exchanges_name + '</div>';
@@ -483,11 +396,25 @@ var Page = function () {
                     }
 
                     return sReturn;
-                }, "orderable": false
+                }, "orderable": true
             }, {
+                "mRender": function(data, type, full) {
+                    let time = new Date()
+                    let time1 = time.toLocaleString()  //打印结果为：YYMMDD time
+                    let time2 = time.toLocaleDateString()   //打印结果为：YYMMDD
+                    let index = new Date(time2).getDay()
+                    /*是否为周末*/
+                    flag = weekArrayList [index]
+                    if (checkAuditTime('00:00','09:30') ||checkAuditTime('11:30','13:00') || checkAuditTime('15:00','24:00') || flag){
+                        sReturn = '<div>休市</div>';
+                    }
+                    else sReturn = '<div>开市</div>';
+                    return sReturn;
+                },"orderable": false
+            },{
                 "mRender": function (data, type, full) {
                     exchanges_id = full.exchanges_id;
-                    sReturn = '<div><a href="javascript:Page.onModifyRecord(' + full.id + ')">【买入】</a><a href="#" onclick="Page.onShowKline(\'' + exchanges_id + '\')">【k线图】</a></div>';
+                    sReturn = '<div><a href="#" onclick="Page.buyExchanges(\'' + exchanges_id + '\')">【买入】</a><a href="#" onclick="Page.onShowKline(\'' + exchanges_id + '\')">【k线图】</a></div>';
                     return sReturn;
                 }, "orderable": false
             }],
@@ -522,20 +449,12 @@ var Page = function () {
     }
     var onExportRecord = function () {
         var url = "../../" + module + "_" + sub + "_servlet_action";
-<<<<<<< Updated upstream
-        var data = {"action": "export_futures_record"};
-        $.post(url, data, function (json) {
-            if (json.result_code == 0) {
-                console.log(JSON.stringify(json));
-                $("#exchanges_download_div #download_url").attr("href", "javascript:window.open('" + json.download_url + "')");	//window.open是打开一个新的页面进行跳转，但是这里没有显现出来
-=======
         var data = {"action": "export_exchanges_record"};
         $.post(url, data, function (json) {
             if (json.result_code == 0) {
                 //console.log(JSON.stringify(json));
                 $("#exchanges_download_div #download_exchanges_rar_url").attr("href","javascript:window.open('"+json.download_rar_url+ "')");
                 $("#exchanges_download_div #download_exchanges_xls_url").attr("href","javascript:window.open('"+json.download_xls_url+ "')");
->>>>>>> Stashed changes
                 $("#exchanges_download_div").modal("show");
             } else {
                 alert("[onExportRecord]与后端交互错误！" + json.result_smg);
@@ -550,16 +469,6 @@ var Page = function () {
     var onTablePrint = function () {
         window.location.href = "exchanges_list_print_table.jsp";
     };
-<<<<<<< Updated upstream
-
-    var toFuturePage = function () {
-        window.location.href = "../../maintain/trade/futuresData.jsp";
-    };
-
-    var toSharePage = function () {
-        window.location.href = "../shares/sharesData.jsp";
-    };
-=======
     var toFuturePage = function () {
         window.location.href = "../../maintain/trade/futuresData.jsp";
     };
@@ -572,7 +481,6 @@ var Page = function () {
     var toShareAdminPage = function () {
         window.location.href = "../shares/sharesData_admin.jsp";
     }
->>>>>>> Stashed changes
 
     var initExchangesKlinePage = function () {
         $("#page_sidebar_wrapper").hide();
@@ -829,24 +737,13 @@ var Page = function () {
         })
 
     }
-<<<<<<< Updated upstream
-
-
-=======
->>>>>>> Stashed changes
     var initExchangesListPrintTableRecord = function () {
         $("#page_sidebar_wrapper").hide();
         $("#page_header").hide();
         $("#page_footer").hide();
-<<<<<<< Updated upstream
-        $("#page-content").attr("style", "margin-left:0px");
-        $(".page-container").attr("style", "margin-left:0px");
-        $(".page-container").attr("style", "margin-top:0px");
-=======
         $("#page-content").attr("style","margin-left:0px");
         $(".page-container").attr("style","margin-left:0px");
         $(".page-container").attr("style","margin-top:0px");
->>>>>>> Stashed changes
         // $(".page-container").attr("style","margin-bottom:0px"); 注意事项：top与bottom不能同时存在
         $.post("../../" + module + "_" + sub + "_servlet_action?action=get_exchanges_record", function (json) {
             //console.log(JSON.stringify(json));
@@ -862,26 +759,15 @@ var Page = function () {
                             change = (record.price_right_now - 0) - (record.price_yesterday - 0);
                             change = Math.round(change * 100) / 100;
                             amplitude = (record.price_right_now - record.price_yesterday) / record.price_yesterday;
-<<<<<<< Updated upstream
-                            amplitude = Math.round(amplitude * 100000) / 100000;
-=======
                             amplitude = Math.round(amplitude * 100000) / 1000;
->>>>>>> Stashed changes
                             amplitude = amplitude + '%';
                         }
                         html = html + "                          	 		<tr>";
                         html = html + "                                        <td>";
-<<<<<<< Updated upstream
-                        html = html + "                                            " + record.futures_id;
-                        html = html + "                                        </td>";
-                        html = html + "                                        <td>";
-                        html = html + "                                            " + record.futures_name;
-=======
                         html = html + "                                            " + record.exchanges_id;
                         html = html + "                                        </td>";
                         html = html + "                                        <td>";
                         html = html + "                                            " + record.exchanges_name;
->>>>>>> Stashed changes
                         html = html + "                                        </td>";
                         html = html + "                                        <td>";
                         html = html + "                                            " + record.price_today_begin;
@@ -908,10 +794,6 @@ var Page = function () {
                     }
                 }
                 $("#print_table_content_div").html(html);
-<<<<<<< Updated upstream
-            }
-        })
-=======
                 window.print();
             }
         })
@@ -961,7 +843,7 @@ var Page = function () {
                 "mRender": function (data, type, full) {
                     sReturn = '<div>' + full.exchanges_id + '</div>';
                     return sReturn;
-                }, "orderable": false
+                }, "orderable": true
             }, {
                 "mRender": function (data, type, full) {
                     sReturn = '<div>' + full.exchanges_name + '</div>';
@@ -1021,10 +903,16 @@ var Page = function () {
                     } else {
                         sReturn = '<div></div>'
                     }
-
                     return sReturn;
-                }, "orderable": false
+                }, "orderable": true
             }, {
+                "mRender": function(data, type, full) {
+                    time = full.select_time;
+                    time = time.slice(0,time.indexOf("."));
+                    sReturn = '<div>'+time+'</div>';
+                    return sReturn;
+                },"orderable": false
+            },{
                 "mRender": function(data, type, full) {
                     sReturn = '<div><a href="javascript:Page.onModifyRecord(\'' + full.exchanges_id + '\')"><i class="fa fa-pencil"></i> 修改</a><a href="javascript:Page.onDeleteRecord(\'' + full.exchanges_id + '\')"><span class="glyphicon glyphicon-remove-sign">\n' +
                         '</span> 删除</div>';
@@ -1059,99 +947,137 @@ var Page = function () {
     }
     /*统计界面*/
     var initExchangesStatisticRecord=function () {
+        var chartDom = document.getElementById('chart_1');
+        var myChart = echarts.init(chartDom);
+
         var url = "../../"+module+"_"+sub+"_servlet_action";
         var data={"action":"get_amplitude_by_exchangesId"};
+        var xlabel = [];
+        var ylabel = [];
         $.post(url,data,function (json) {
-            var html="";
             if(json.result_code == 0){
-                console.log(JSON.stringify(json));
+                //console.log(JSON.stringify(json));
                 var list = json.aaData;
                 if(list!=undefined && list.length>0){
-                    changeResultDataToChartData(list,chartData);
-                    console.log(JSON.stringify(chartData));
+                    for (var i = 0; i < list.length; i++) {
+                        var item = list[i];
+                        xlabel.push(item.exchanges_id);
+                        ylabel.push(parseFloat(item.amplitude).toFixed(3));
+                    }
                 }
             }else {
                 alert("[initDeviceStatisticRecord]与后端交互错误！"+json.result_smg);
             }
         })
-    };
-    //将数据塞到chartData里，这个模板限定的用chartData这个变量
-    var changeResultDataToChartData=function (list,chartData) {
-        for(var i = 0; i < list.length; i++){
-            //year是横坐标，incom是横条的纵坐标，expenses是折线的纵坐标
-            var json = {"year":list[i].exchanges_id,"income":list[i].amplitude,"expenses":list[i].amplitude};
-            chartData.push(json);
-        }
-    };
-    //初始化
-    var initBarChart=function () {
-        var chart = AmCharts.makeChart("chart_1", {
-            "type": "serial",
-            "theme": "light",
-            "pathToImages": Metronic.getGlobalPluginsPath() + "amcharts/amcharts/images/",
-            "autoMargins": false,
-            "marginLeft": 30,
-            "marginRight": 8,
-            "marginTop": 10,
-            "marginBottom": 26,
 
-            "fontFamily": 'Open Sans',
-            "color":    '#888',
-
-            "dataProvider": chartData,
-            "valueAxes": [{
-                "axisAlpha": 0,
-                "position": "left"
-            }],
-            "startDuration": 1,
-            "graphs": [{
-                "alphaField": "alpha",
-                "balloonText": "<span style='font-size:13px;'>[[title]] in [[category]]:<b>[[value]]</b> [[additional]]</span>",
-                "dashLengthField": "dashLengthColumn",
-                "fillAlphas": 1,
-                "title": "Income",
-                "type": "column",
-                "valueField": "income"
-            }, {
-                "balloonText": "<span style='font-size:13px;'>[[title]] in [[category]]:<b>[[value]]</b> [[additional]]</span>",
-                "bullet": "round",
-                "dashLengthField": "dashLengthLine",
-                "lineThickness": 3,
-                "bulletSize": 7,
-                "bulletBorderAlpha": 1,
-                "bulletColor": "#FFFFFF",
-                "useLineColorForBulletBorder": true,
-                "bulletBorderThickness": 3,
-                "fillAlphas": 0,
-                "lineAlpha": 1,
-                "title": "Expenses",
-                "valueField": "expenses"
-            }],
-            "categoryField": "year",
-            "categoryAxis": {
-                "gridPosition": "start",
-                "axisAlpha": 0,
-                "tickLength": 0
+        var emphasisStyle = {
+            itemStyle: {
+                shadowBlur: 10,
+                shadowColor: 'rgba(0,0,0,0.3)'
             }
+        };
+        var option = {
+            legend: {
+                data: ['bar'],
+                left: '10%'
+            },
+            brush: {
+                toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
+                xAxisIndex: 0
+            },
+            toolbox: {
+                feature: {
+                    magicType: {
+                        type: ['stack']
+                    },
+                    dataView: {}
+                }
+            },
+            tooltip: {
+                show:true,
+                trigger: 'axis',
+                //triggerOn:'mouseover',
+                formatter: function(params) {
+                    //console.log(params[0])
+                    return '外汇代码：' + params[0].name + '<br>涨跌幅：' + params[0].value +'%'
+                }
+            },
+            xAxis: {
+                data: xlabel,
+                name: '外汇代码',
+                axisLine: { onZero: true },
+                splitLine: { show: true },
+                splitArea: { show: true }
+            },
+            yAxis: {},
+            grid: {
+                bottom: 100
+            },
+            series: [
+                {
+                    name: '涨跌幅度',
+                    type: 'bar',
+                    stack: 'one',
+                    emphasis: emphasisStyle,
+                    data: ylabel
+                },
+            ]
+        };
+        myChart.on('brushSelected', function (params) {
+            var brushed = [];
+            var brushComponent = params.batch[0];
+            for (var sIdx = 0; sIdx < brushComponent.selected.length; sIdx++) {
+                var rawIndices = brushComponent.selected[sIdx].dataIndex;
+                brushed.push('[Series ' + sIdx + '] ' + rawIndices.join(', '));
+            }
+            myChart.setOption({
+                title: {
+                    backgroundColor: '#333',
+                    text: 'SELECTED DATA INDICES: \n' + brushed.join('\n'),
+                    bottom: 0,
+                    right: '10%',
+                    width: 100,
+                    textStyle: {
+                        fontSize: 12,
+                        color: '#fff'
+                    }
+                }
+            });
         });
 
-        $('#chart_1').closest('.portlet').find('.fullscreen').click(function() {
-            chart.invalidateSize();
-        });
->>>>>>> Stashed changes
+        option && myChart.setOption(option);
     }
     //Page return 开始
     return {
         init: function () {
             initPageControl();
         },
+        buyExchanges : function (){
+            if(flag){
+                alert("已休市！")
+            }
+            else{
+                var url="../../"+module+"_"+sub+"_servlet_action?exchanges_id="+exchanges_id;
+                var data={};
+                data.action="get_exchanges_record";
+                data.exchanges_id=exchanges_id;
+                $.post(url,data,function(json){
+                    //console.log(JSON.stringify(json));
+                    if(json.result_code==0) {
+                        var record = json.aaData;
+                        record=record[0];
+                        $("#buy_div #exchanges_id").val(record.exchanges_id);
+                        $("#buy_div #exchanges_name").val(record.exchanges_name);
+                        $("#buy_div #type").val("外汇");
+                        $("#buy_div #price_right_now").val(record.price_right_now);
+                        $("#buy_div").modal("show");
+                    }
+                })
+            }
+        },
         onShowKline: function (exchanges_id) {
             on_show_kline(exchanges_id);
         },
-<<<<<<< Updated upstream
-        onModifyRecord: function (id) {
-            onModifyRecord(id);
-=======
         onModifyRecord: function (exchanges_id) {
             var url="../../"+module+"_"+sub+"_servlet_action";
             var query_data = {};
@@ -1185,7 +1111,6 @@ var Page = function () {
                     }
                 });
             }
->>>>>>> Stashed changes
         }
     }
 }();//Page

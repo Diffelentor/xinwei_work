@@ -12,9 +12,6 @@
 web/assets 模板
 
 ## zht部分
-
-新增功能：js使用$("#const_username")和$("#const_is_manager")即可获得登陆名和是否为管理员权限
-
 src/user 用户管理系统的servlet
 
 web/home/frame 封装模板，公用

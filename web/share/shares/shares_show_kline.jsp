@@ -48,11 +48,7 @@
                         <i class="fa fa-angle-right"></i>
                     </li>
                     <li>
-<<<<<<< Updated upstream
-                        <a href="#">外汇数据</a>
-=======
                         <a href="#">股票数据</a>
->>>>>>> Stashed changes
                     </li>
                 </ul>
             </div>
@@ -73,11 +69,8 @@
                         <!-- END SAMPLE TABLE PORTLET-->
                     </div>
                 </div>
-<<<<<<< Updated upstream
-=======
                 <button type="button" style="position: relative; left: 30%" class="btn green" id="return_button" name="return_button" onclick="javascript:history.back(-1)">
                     <i class="fa fa-refresh"></i>返回</button>
->>>>>>> Stashed changes
             </div>
             <!--页面结束=======================================================-->
             <!-- END PAGE CONTENT-->
