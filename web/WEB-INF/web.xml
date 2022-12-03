@@ -73,5 +73,13 @@
         	<url-pattern>/news_getdata_servlet_action</url-pattern>
     	</servlet-mapping>
     	<!-- ===========用来爬取财经新闻结束=============-->
+<servlet>
+		<servlet-name>todolist_file_servlet_action</servlet-name>
+		<servlet-class>todolist.file.ServletAction</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>todolist_file_servlet_action</servlet-name>
+		<url-pattern>/todolist_file_servlet_action</url-pattern>
+	</servlet-mapping>
 
 </web-app>
