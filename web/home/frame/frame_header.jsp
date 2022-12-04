@@ -83,7 +83,11 @@
                     </a>
                     <ul class="dropdown-menu pull-left">
                         <li>
-                            <a href="javascript:;">
+                            <a href="../../maintain/trade/futuresData.jsp">
+                                <i class="fa fa-bookmark-o"></i> 期货数据 </a>
+                        </li>
+                        <li>
+                            <a href="../../maintain/manageTrade/manageFuturesData.jsp">
                                 <i class="fa fa-bookmark-o"></i> 期货管理 </a>
                         </li>
                     </ul>
