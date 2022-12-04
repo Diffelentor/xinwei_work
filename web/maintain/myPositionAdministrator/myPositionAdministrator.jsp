@@ -126,7 +126,6 @@
                                 <div style="float: right">
                                     <i class="fa fa-sun-o" id="price_bought"></i>
                                 </div>
-
                             </th>
                             <th>
                                 实时价格

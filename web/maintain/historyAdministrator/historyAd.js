@@ -233,6 +233,9 @@ var Page = function() {
 		data.futures_name=$("#record_query_setup #futures_name").val();
 		data.user_name=$("#record_query_setup #user_name").val();
 		data.order_by = orderBy;		//"date desc";
+		// $.post("../../"+module+"_"+sub+"_servlet_action?action=get_history_administrator_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name+"&user_name="+data.user_name+"&order_by="+data.order_by,function(json) {
+		// 	console.log(JSON.stringify(json));
+		// })
 		$('.datatable').dataTable( {
 			"paging":true,
 			"searching":false,
@@ -453,6 +456,10 @@ var Page = function() {
 
 			}else {
 				alert("输入的数据不和规范");
+				return;
+			}
+			if(data.price_bought === ""){
+				alert("买入价格不能为空");
 				return;
 			}
 			$.post(url,data,function(json){
