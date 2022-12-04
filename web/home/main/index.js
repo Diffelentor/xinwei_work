@@ -4,6 +4,7 @@ jQuery(document).ready(function() {
     QuickSidebar.init(); // init quick sidebar
     Demo.init(); // init demo features
     Page.init();
+    $('.layout-option', panel).val("boxed");
 });
 var Page = function() {
     var initPageControl=function(){

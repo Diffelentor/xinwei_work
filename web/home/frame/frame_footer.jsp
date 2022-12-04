@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- BEGIN FOOTER -->
-<div class="footer" id="footer">
+<div class="footer" id="page_footer">
     <div class="container">
         <ul class="agileits_w3layouts_footer_info">
             <li><a href="">Home</a><i>|</i></li>

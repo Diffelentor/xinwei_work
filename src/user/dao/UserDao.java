@@ -221,10 +221,52 @@ public class UserDao {
         String sql="insert into user_file(username,password,email) values('"+userName+"','"+password+"','"+email+"')";
         showDebug("[login]构造的SQL语句是："+sql);
         data.getParam().put("sql",sql);
-        updateRecord(data,json);
+        try {
+            updateRecord(data,json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showDebug("[queryRecord]查询数据库出现错误：" + sql);
+            resultCode = 10;
+            resultMsg = "查询数据库出现错误！" + e.getMessage();
+        }
+        queryDb.close();
 
         json.put("aaData",jsonList);
         json.put("action",action);
+        json.put("result_msg",resultMsg);															//如果发生错误就设置成"error"等
+        json.put("result_code",resultCode);
     }
+    public  void getUserCountByIdentity(Data data,JSONObject json) throws JSONException, SQLException {
+        String resultMsg="ok";
+        int resultCode=0;
+        List jsonList = new ArrayList();
+        List jsonName=new ArrayList();
+        Db queryDb = new Db("test");
+		String sql="select count(identity) as count,identity from user_file group by identity";
+		showDebug("[queryRecord]构造的SQL语句是：" + sql);
+        try {
+            ResultSet rs = queryDb.executeQuery(sql);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int fieldCount = rsmd.getColumnCount();
+            while (rs.next()) {
+                Map map = new HashMap();
+                for (int i = 0; i < fieldCount; i++) {
+                    map.put(rsmd.getColumnName(i + 1), rs.getString(rsmd.getColumnName(i + 1)));
+                }
+                jsonList.add(map);
+            }
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showDebug("[queryRecord]查询数据库出现错误：" + sql);
+            resultCode = 10;
+            resultMsg = "查询数据库出现错误！" + e.getMessage();
+        }
+        queryDb.close();
+        json.put("aaData",jsonList);
+        json.put("result_msg",resultMsg);															//如果发生错误就设置成"error"等
+        json.put("result_code",resultCode);
+    }
+
 }
 

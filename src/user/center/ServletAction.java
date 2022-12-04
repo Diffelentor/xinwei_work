@@ -66,6 +66,14 @@ public class ServletAction extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
+			if (action.equals("get_user_count_by_identity")) {
+				actionOk=true;
+				try {
+					getUserCountByIdentity(request, response, json);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 			if (action.equals("add_user_record")) {
 				actionOk=true;
 				try {
@@ -174,6 +182,12 @@ public class ServletAction extends HttpServlet {
 		UserDao dao=new UserDao();
 		Data data=getPageParameters(request,response,json);
 		dao.getUserRecord(data,json);
+	}
+
+	private void getUserCountByIdentity(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
+		UserDao dao=new UserDao();
+		Data data=getPageParameters(request,response,json);
+		dao.getUserCountByIdentity(data,json);
 	}
 	private void modifyUserRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
 		UserDao dao=new UserDao();

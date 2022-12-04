@@ -179,8 +179,8 @@ var Page = function() {
 			var data={};
 			data.action="add_complain_record";
 			data.username=sessionStorage.getItem("username");
-			data.question=$("#complain_input").val();
-			console.log($("#complain_input").val());
+			data.question=$("#record_add_div #complain_input").val();
+			console.log($("#record_add_div #complain_input").val());
 			$.post(url,data,function(json){
 				console.log(json.toString());
 				if(json.result_code==0){
