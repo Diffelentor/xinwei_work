@@ -1,12 +1,14 @@
 <%--
   Created by IntelliJ IDEA.
-  User: Diffelentor
-  Date: 2022/10/16
-  Time: 20:04
+  User: kuro
+  Date: 2022/12/3
+  Time: 15:43
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!-- BEGIN FOOTER -->
+<!-- footer -->
+
+<!-- footer -->
 <div class="footer">
     <div class="container">
         <ul class="agileits_w3layouts_footer_info">
@@ -22,4 +24,6 @@
         <p>Copyright &copy; 2021.Company name All rights reserved.</p>
     </div>
 </div>
-<!-- END FOOTER -->
+<!-- //footer -->
+
+<!-- //footer -->

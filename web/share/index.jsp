@@ -55,7 +55,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- DOC: Apply "page-footer-fixed" class to the body element to have fixed footer -->
 <!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
 <!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
-<body class="page-header-fixed page-quick-sidebar-over-content page-full-width ">
+<body class="page-header-fixed page-quick-sidebar-over-content page-full-width page-boxed">
 <%@include file="../../home/frame/frame_header.jsp"%>
 <div class="clearfix">
 </div>

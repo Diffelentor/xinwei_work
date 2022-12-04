@@ -18,6 +18,9 @@
 <link href="../../assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
 <link href="../../assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
 <link href="../../assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
-<link id="style_color" href="../../assets/admin/layout/css/themes/darkblue.css" rel="stylesheet" type="text/css"/>
+<link id="style_color" href="../../assets/admin/layout/css/themes/light.css" rel="stylesheet" type="text/css"/>
+
+<link href="../../assets/global/plugins/pace/themes/pace-theme-barber-shop.css" rel="stylesheet" type="text/css"/>
 <link href="../../assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../home/frame/footer.css" rel="stylesheet" type="text/css"/>
 <!-- END THEME STYLES -->
