@@ -15,21 +15,36 @@ var Page = function() {
     var id=null;
     /*----------------------------------------入口函数  开始----------------------------------------*/
     var initPageControl=function(){
-        if(getUrlParam("id")==null){
-            id=sessionStorage.getItem("id");
-        }
-        else{
-            id=getUrlParam("id");
-        }
-        if(sessionStorage.getItem("identity")=="管理员"){
-            $("#identity").removeAttr('readonly');
-            $("#balance").removeAttr('readonly');
-        }
-        if(id==null || id==""){
-            console.log("当前以游客身份登录。");
-        }
-        else{
+        if(sessionStorage.getItem("id")!=null) {
+            if (sessionStorage.getItem("identity") == "管理员") {
+                $("#identity").removeAttr('readonly');
+                $("#balance").removeAttr('readonly');
+                console.log("管理员登录");
+            } else if (getUrlParam("id")==null || getUrlParam("id") == sessionStorage.getItem("id")) {
+                console.log("普通用户自己");
+            } else {
+                console.log("仅查看");
+                $("#username").attr("readonly", "true")
+                $("#password").attr("readonly", "true")
+                $("#email").attr("readonly", "true")
+            }
+            if(getUrlParam("id") ==null){
+                id=sessionStorage.getItem("id");
+            }
+            else{
+                id=getUrlParam("id");
+            }
             initUserProfile();
+        }
+        else{
+            console.log("游客登陆");
+            id = getUrlParam("id");
+            $("#username").attr("readonly", "true")
+            $("#password").attr("readonly", "true")
+            $("#email").attr("readonly", "true")
+            if(id!=null && id!=""){
+                initUserProfile();
+            }
         }
 
     };

@@ -192,19 +192,36 @@ public class ServletAction extends HttpServlet {
 	}
     private void getsession(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
         HttpSession session = request.getSession();
-		String id=(String)session.getAttribute("id");
-        String identity=(String)session.getAttribute("identity");
-        String username=(String)session.getAttribute("username");
-		String email=(String)session.getAttribute("email");
-		String password=(String)session.getAttribute("password");
-		String balance=(String)session.getAttribute("balance");
-        json.put("id",id);
-		json.put("username",username);
-        json.put("identity",identity);
-		json.put("email",email);
-		json.put("password",password);
-		json.put("balance",balance);
-        json.put("result_code",0);
+        if(session.getAttribute("id")!=null) {
+			String id = (String) session.getAttribute("id");
+
+			UserDao dao = new UserDao();
+			Data data = getPageParameters(request, response, json);
+			data.setParam(new JSONObject("{\"id\":"+id+"})"));
+			dao.getUserRecord(data,json);
+
+			String strJson = json.toString();
+			JSONObject aa = new JSONObject(strJson);
+			JSONArray aaData = aa.getJSONArray("aaData");
+			JSONObject aData = aaData.getJSONObject(0);
+			String username = aData.getString("username");
+			String identity = aData.getString("identity");
+			String email = aData.getString("email");
+			String password = aData.getString("password");
+			String balance = aData.getString("balance");
+			session.setAttribute("id", id);
+			json.put("id", id);
+			json.put("username", username);
+			json.put("identity", identity);
+			json.put("email", email);
+			json.put("password", password);
+			json.put("balance", balance);
+			json.put("result_code", 0);
+		}
+        else{
+			json.put("result_code", 10);
+		}
+        showDebug(json.toString());
     }
 	/*========================================CRUD业务函数 结束========================================*/
 	private void login(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
@@ -220,21 +237,8 @@ public class ServletAction extends HttpServlet {
 			JSONArray aaData=aa.getJSONArray("aaData");
 			JSONObject aData=aaData.getJSONObject(0);
 			String id=aData.getString("id");
-			String username=aData.getString("username");
-			String identity=aData.getString("identity");
-			String email=aData.getString("email");
-			String password=aData.getString("password");
-			String balance=aData.getString("balance");
 			session.setAttribute("id",id);
-			session.setAttribute("username",username);
-			session.setAttribute("identity",identity);
-			session.setAttribute("password",password);
-			session.setAttribute("email",email);
-			session.setAttribute("balance",balance);
-			showDebug("session.id=:"+id);
-			showDebug("session.username=:"+username);
-			showDebug("session.password=:"+password);
-			showDebug("session.email=:"+email);
+			showDebug("session.id="+session.getAttribute("id"));
 			json.put("redirect_url","home/main/index.jsp");
 		}else{
 			json.put("redirect_url","home/main/login_error.jsp");
