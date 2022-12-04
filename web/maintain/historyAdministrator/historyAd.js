@@ -497,7 +497,7 @@ var Page = function() {
 	};
 	//在这个页面进行显示
 	var initHistoryAdListPrintTableRecord=function () {
-		$("#page_sidebar_wrapper").hide();
+		$("#page_header_wrapper").hide();
 		$("#page_header").hide();
 		$("#page_footer").hide();
 		$("#page-content").attr("style","margin-left:0px");

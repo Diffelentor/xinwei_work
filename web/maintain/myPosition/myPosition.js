@@ -332,7 +332,7 @@ var Page = function() {
 		window.location.href="position_list_print_table.jsp";
 	};
 	var initPositionListPrintTableRecord=function () {
-		$("#page_sidebar_wrapper").hide();
+		$("#page_header_wrapper").hide();
 		$("#page_header").hide();
 		$("#page_footer").hide();
 		$("#page-content").attr("style","margin-left:0px");
