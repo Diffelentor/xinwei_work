@@ -1,13 +1,12 @@
 <%--
   Created by IntelliJ IDEA.
   User: Diffelentor
-  Date: 2022/10/16
-  Time: 20:02
+  Date: 2022/12/3
+  Time: 15:39
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!-- BEGIN HEADER -->
-<div class="page-header navbar navbar-fixed-top" id="page_header">
+<div class="page-header navbar navbar-fixed-top">
     <!-- BEGIN HEADER INNER -->
     <div class="page-header-inner">
         <!-- BEGIN LOGO -->
@@ -15,11 +14,187 @@
             <a href="index.html">
                 <img src="../../assets/admin/layout/img/logo.png" alt="logo" class="logo-default"/>
             </a>
-            <div class="menu-toggler sidebar-toggler">
-                <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
-            </div>
         </div>
         <!-- END LOGO -->
+        <!-- BEGIN HORIZANTAL MENU -->
+        <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
+        <!-- DOC: This is desktop version of the horizontal menu. The mobile version is defined(duplicated) sidebar menu below. So the horizontal menu has 2 seperate versions -->
+        <div class="hor-menu hidden-sm hidden-xs">
+            <ul class="nav navbar-nav">
+                <!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the horizontal opening on mouse hover -->
+                <li class="classic-menu-dropdown active">
+                    <a href="../../home/main/index.jsp">
+                        <i class="icon-home"></i>
+                        首页
+                        <span class="selected"></span>
+                    </a>
+                </li>
+                <li class="mega-menu-dropdown">
+                    <a data-toggle="dropdown" href="javascript:;" class="dropdown-toggle" data-hover="megamenu-dropdown" data-close-others="true">
+                        用户管理 <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu" style="min-width: 400px;">
+                        <li>
+                            <!-- Content container to add padding -->
+                            <div class="mega-menu-content">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul class="mega-menu-submenu">
+                                            <li>
+                                                <h3>用户</h3>
+                                            </li>
+                                            <li>
+                                                <a href="../../home/user/user_list.jsp">
+                                                    <i class="icon-home"></i>
+                                                    用户信息</a>
+                                            </li>
+                                            <li>
+                                                <a href="../../home/user/user_profile.jsp">
+                                                    <i class="icon-tag"></i>
+                                                    个人空间</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul class="mega-menu-submenu">
+                                            <li>
+                                                <h3>持仓</h3>
+                                            </li>
+                                            <li>
+                                                <a href="../../maintain/myPosition/myPosition.jsp">
+                                                    <i class="icon-basket"></i>
+                                                    我的持仓</a>
+                                            </li>
+                                            <li>
+                                                <a href="../../maintain/historyAdministrator/historyAd.jsp">
+                                                    <i class="icon-wallet"></i>
+                                                    交易记录</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="classic-menu-dropdown">
+                    <a data-toggle="dropdown" href="javascript:;" data-hover="megamenu-dropdown" data-close-others="true">
+                        金融 <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu pull-left">
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-bookmark-o"></i> 期货管理 </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="classic-menu-dropdown ">
+                    <a href="../../news/page/news.jsp">
+                        <i class="icon-home"></i>
+                        <span class="title">新闻</span>
+                    </a>
+                </li>
+                <li class="classic-menu-dropdown ">
+                    <a href="../../home/main/index.jsp">
+                        <i class="icon-home"></i>
+                        <span class="title">天气</span>
+                    </a>
+                </li>
+                <li class="classic-menu-dropdown ">
+                    <a href="../../record/page/index.jsp">
+                        <i class="icon-home"></i>
+                        <span class="title">待办事项</span>
+                    </a>
+                </li>
+                <li class="classic-menu-dropdown">
+                    <a data-toggle="dropdown" href="javascript:;" data-hover="megamenu-dropdown" data-close-others="true">
+                        More <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu pull-left">
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-bookmark-o"></i> Section 1 </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-user"></i> Section 2 </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-puzzle-piece"></i> Section 3 </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-gift"></i> Section 4 </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-table"></i> Section 5 </a>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a href="javascript:;">
+                                <i class="fa fa-envelope-o"></i> More options </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="javascript:;">
+                                        Second level link </a>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a href="javascript:;">
+                                        More options </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="index.html">
+                                                Third level link </a>
+                                        </li>
+                                        <li>
+                                            <a href="index.html">
+                                                Third level link </a>
+                                        </li>
+                                        <li>
+                                            <a href="index.html">
+                                                Third level link </a>
+                                        </li>
+                                        <li>
+                                            <a href="index.html">
+                                                Third level link </a>
+                                        </li>
+                                        <li>
+                                            <a href="index.html">
+                                                Third level link </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="index.html">
+                                        Second level link </a>
+                                </li>
+                                <li>
+                                    <a href="index.html">
+                                        Second level link </a>
+                                </li>
+                                <li>
+                                    <a href="index.html">
+                                        Second level link </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- END HORIZANTAL MENU -->
+        <!-- BEGIN HEADER SEARCH BOX -->
+        <!-- DOC: Apply "search-form-expanded" right after the "search-form" class to have half expanded search box -->
+        <form class="search-form" action="extra_search.html" method="GET">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search..." name="query">
+                <span class="input-group-btn">
+				<a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
+				</span>
+            </div>
+        </form>
+        <!-- END HEADER SEARCH BOX -->
         <!-- BEGIN RESPONSIVE MENU TOGGLER -->
         <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
         </a>

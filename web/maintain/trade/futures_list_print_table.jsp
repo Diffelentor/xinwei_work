@@ -22,7 +22,7 @@
 
     <link rel="shortcut icon" href="../dataTables/favicon.ico"/>
 </head>
-<body class="page-header-fixed page-quick-sidebar-over-content ">
+<body class="page-header-fixed page-quick-sidebar-over-content page-full-width ">
 <%@include file="../../home/frame/frame_header.jsp"%>
 <div class="clearfix">
 </div>
