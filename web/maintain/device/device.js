@@ -112,7 +112,7 @@ var Page = function() {
 		$.post(url,data,function(json){
 			if(json.result_code==0){
 				alert("已经完成设备添加。");
-				window.location.href="user_list.jsp";
+				window.location.href="complain_list.jsp";
 			}
 		});
 	};
@@ -128,7 +128,7 @@ var Page = function() {
 			$.post(url,data,function(json){
 				if(json.result_code==0){
 					alert("已经完成设备修改。");
-					window.location.href="user_list.jsp";
+					window.location.href="complain_list.jsp";
 				}
 			});
 		}
@@ -304,7 +304,7 @@ var Page = function() {
 		data.id=$('#record_query_setup #id').val();
 		data.device_id=$('#record_query_setup #device_id').val();
 		data.device_name=$('#record_query_setup #device_name').val();
-		$.post("../../"+module+"_"+sub+"_servlet_action?action=get_device_record",data,function(json){
+		$.post("../../"+module+"_"+sub+"_servlet_action?action=get_complain_record",data,function(json){
 			console.log(JSON.stringify(json));
 			if(json.result_code==0){
 				var list=json.aaData;
@@ -331,7 +331,7 @@ var Page = function() {
 
 					}
 				}
-				$("#record_bar_div").html(html);
+				$("#complain_bar").html(html);
 			}
 		})
 	};

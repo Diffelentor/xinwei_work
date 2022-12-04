@@ -507,7 +507,7 @@
                 <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                 <li class="dropdown dropdown-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                        <img alt="" class="img-circle" src="../../assets/admin/layout/img/avatar3_small.jpg"/>
+                        <img alt="" class="img-circle" src="../../home/user/向晚.jpg"/>
                         <span class="username username-hide-on-mobile" id="const_username" name="const_username" >游客</span>
                         <input type="hidden" id="const_username1" name="const_username1" value="游客"/>
                         <input type="hidden" id="const_identity1" name="const_identity1" value="游客"/>

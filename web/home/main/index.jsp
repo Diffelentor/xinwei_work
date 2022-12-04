@@ -38,7 +38,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <link href="../../assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
     <link href="../../assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css"/>
     <link href="../../assets/global/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>
-    <link href="../../home/frame/follow-us.css" rel="stylesheet" type="text/css"/>
+
     <!-- END PAGE LEVEL PLUGIN STYLES -->
     <!-- BEGIN PAGE STYLES -->
     <link href="../../assets/admin/pages/css/tasks.css" rel="stylesheet" type="text/css"/>

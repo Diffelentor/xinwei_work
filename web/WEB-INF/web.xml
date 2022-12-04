@@ -28,6 +28,15 @@
 		<servlet-name>user_center_servlet_action</servlet-name>
 		<url-pattern>/user_center_servlet_action</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>complain_center_servlet_action</servlet-name>
+		<servlet-class>complain.center.ServletAction</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>complain_center_servlet_action</servlet-name>
+		<url-pattern>/complain_center_servlet_action</url-pattern>
+	</servlet-mapping>
 	<!-- ================  login end =================           -->
 
 	<!-- ================  trade begin =================           -->

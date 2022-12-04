@@ -119,7 +119,7 @@ var Page = function() {
 		$.post(url,data,function(json){
 			if(json.result_code==0){
 				alert("已经完成设备添加。");
-				window.location.href="user_list.jsp";
+				window.location.href="complain_list.jsp";
 			}
 		});
 	}
@@ -135,7 +135,7 @@ var Page = function() {
 			$.post(url,data,function(json){
 				if(json.result_code==0){
 					alert("已经完成设备修改。");
-					window.location.href="user_list.jsp";
+					window.location.href="complain_list.jsp";
 				}
 			});
 		}
