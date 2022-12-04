@@ -14,8 +14,8 @@ var Page = function() {
 	/*----------------------------------------入口函数  开始----------------------------------------*/
 	var initPageControl=function(){
 		pageId=$("#page_id").val();
-		if(pageId=="my_position"){
-			initPositionDataList();
+		if(pageId=="history_common"){
+			initHistoryCommonDataList();
 		}
 		if(pageId=="device_add"){
 			initDeviceAdd();
@@ -23,20 +23,24 @@ var Page = function() {
 		if(pageId=="device_modify"){
 			initDeviceModify();
 		}
-		if(pageId=="position_list_print_table"){
-			initPositionPrintTable();
+		if(pageId=="history_common_list_print_table"){
+			initHistoryCommonPrintTable();
 		}
-		if(pageId=="position_statistic"){
-			initPositionStatistic();
+		if(pageId=="history_common_statistic"){
+			initHistoryCommonStatistic();
 		}
-
 	};
 	/*----------------------------------------入口函数  结束----------------------------------------*/
 	var columnsData=undefined;
 	var recordResult=undefined;
 	var chartData=[];
+	var orderBy="";
 	/*----------------------------------------业务函数  开始----------------------------------------*/
 	/*------------------------------针对各个页面的入口  开始------------------------------*/
+	var initHistoryCommonDataList=function(){
+		initManageFuturesDataListControlEvent();
+		initHistoryCommonDataRecordDatatable();
+	}
 	var initDeviceAdd=function(){
 		initDeviceAddControlEvent();
 	}
@@ -44,17 +48,13 @@ var Page = function() {
 		initDeviceModifyControlEvent();
 		initDeviceRecordView();
 	}
-	var initPositionDataList=function () {
-		initPositionDataControlEvent();
-		initPositionDataRecordDatatable();
-	}
-	var initPositionPrintTable=function () {
-		initPositionListPrintTableRecord()
+	var initHistoryCommonPrintTable=function () {
+		initHistoryCommonListPrintTableRecord()
 	};
-	var initPositionStatistic=function () {
-		initPositionStatisticControlEvent();
+	var initHistoryCommonStatistic=function () {
+		initHistoryCommonStatisticControlEvent();
 		$.ajaxSettings.async = false;	//禁止异步方式，否则第一个函数还没执行完就会执行第二个了
-		initPositionStatisticRecord();
+		initHistoryCommonStatisticRecord();
 		$.ajaxSettings.async = true;
 		initBarChart();
 	};
@@ -64,27 +64,34 @@ var Page = function() {
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
 		var r = window.location.search.substr(1).match(reg);  //匹配目标参数
 		if (r != null) return decodeURI(r[2]); return null; //返回参数值，如果是中文传递，就用decodeURI解决乱码，否则用unescape
-	}
+	};
+	//按钮事件
+	var initManageFuturesDataListControlEvent=function(){
+		$("#help_button").click(function() {help();});
+		$('#add_button').click(function() {onAddRecord();});		//添加按钮
+		$('#history_ad_add_div #submit').click(function() {onAddDivSubmit();});	//添加弹窗的提交按钮
+		$('#history_ad_add_div #cancel').click(function() {onAddDivCancel();});	//添加弹出的取消按钮
+		$('#history_ad_modify_div #submit').click(function() {onModifyDivSubmit();});	//修改弹窗的提交按钮
+		$('#history_ad_modify_div #cancel').click(function() {onModifyDivCancel();});	//添加弹出的取消按钮
+		$('#query_button').click(function() {initHistoryCommonDataRecordDatatable();});		//查找按钮
+		$('#remake_button').click(function() {onRemake();});				//重置按钮
+		$('#refresh_button').click(function() {onRemake();});				//刷新按钮
+		$('#export_button').click(function() {onExportRecord();});			//导出按钮
+		$('#table_print_button').click(function() {onTablePrint();});		//打印按钮
+		$('#statistic_button').click(function() {onStatisticRecord();});	//统计按钮
+		//排序按钮
+		$('#price_bought').click(function() {onPriceBoughtOrderBy();});
+		$('#select_time').click(function() {onSelectTimeOrderBy();});
+	};
 	var initDeviceAddControlEvent=function(){
 		$("#help_button").click(function() {help();});
 		$('#add_button').click(function() {submitAddRecord();});
-	}
+	};
 	var initDeviceModifyControlEvent=function(){
 		$("#help_button").click(function() {help();});
 		$('#modify_button').click(function() {submitModifyRecord();});
-	}
-	var initPositionDataControlEvent=function () {
-		$('#remake_button').click(function() {onRemake();});	//重置按钮
-		$('#query_button').click(function() {initPositionDataRecordDatatable();});	//查询按钮
-		$('#export_button').click(function() {onExportRecord();});	//导出按钮
-		$('#finish_download_button').click(function() {onFinishDownload();});	//导出完毕按钮
-		$('#refresh_button').click(function() {onRemake();});	//另一个刷新按钮
-		$('#table_print_button').click(function() {onTablePrint();});	//打印按钮
-		$('#statistic_button').click(function() {onStatisticRecord();});	//统计按钮
-		$('#sale_div #submit').click(function() {onSaleDivSubmit();});	//购买弹窗的提交按钮
-		$('#sale_div #cancel').click(function() {onSaleDivCancel();});	//购买弹出的取消按钮
 	};
-	var initPositionStatisticControlEvent=function () {
+	var initHistoryCommonStatisticControlEvent=function () {
 		$('#return_button').click(function() {returnBack();});
 	}
 	var initDeviceRecordView=function(){
@@ -137,7 +144,7 @@ var Page = function() {
 		}
 	}
 
-
+	
 	var initDeviceRecordList=function(){
 		getDeviceRecordList();
 	}
@@ -164,41 +171,72 @@ var Page = function() {
 			}
 		})
 	}
-	var onDeleteRecord = function(id){
+
+	//删除操作
+	var onDeleteRecord = function(id,forward){
+		if(forward != "平仓"){
+			alert("您只能卖出交易方向为平仓的数据");
+			return;
+		}
 		if(confirm("您确定要删除这条记录吗？")){
-			if(id>-1){
-				var url="device_file_servlet_action";
-				var data={};
-				data.action="delete_device_record";
-				data.id=id;
-				$.post(url,data,function(json){
-					if(json.result_code==0){
-						getDeviceRecordList();
-					}
-				})
-			}
+			var url="../../"+module+"_"+sub+"_servlet_action";
+			var data={};
+			data.action="delete_history_ad_record";
+			data.id=id;
+			$.post(url,data,function(json){
+				if(json.result_code==0){
+					alert("已经完成记录删除。");
+					initHistoryCommonDataRecordDatatable();
+				}
+			})
+
 		}
 	};
+
+	//点击修改后跳出小弹窗，会在输入框显示当先要修改元组的数据
 	var onModifyRecord=function(id){
-		window.location.href="device_modify.jsp?id="+id;
-	}
-	var onHistoryRecord=function () {
-		window.location.href="commonHistoryOrder.jsp";
-	}
-	var initPositionDataRecordDatatable=function () {
+		var url="../../"+module+"_"+sub+"_servlet_action?id="+id;
+		var data={};
+		data.action="get_history_administrator_record";
+		data.id=id;
+		$.post(url,data,function(json){
+			console.log(JSON.stringify(json));
+			if(json.result_code==0) {
+				var record = json.aaData;
+				record=record[0];
+				$("#history_ad_modify_div #id").val(id);
+				$("#history_ad_modify_div #user_name").val(record.user_name);
+				$("#history_ad_modify_div #futures_id").val(record.futures_id);
+				$("#history_ad_modify_div #futures_name").val(record.futures_name);
+				$("#history_ad_modify_div #type").val(record.type);
+				$("#history_ad_modify_div #price_bought").val(record.price_bought);
+				$("#history_ad_modify_div #amount").val(record.amount);
+				$("#history_ad_modify_div #forward").val(record.forward);
+				$("#history_ad_modify_div #price_sale").val(record.price_sale);
+				$("#history_ad_modify_div").modal("show");
+			}
+		})
+	};
+	var onRemake=function () {
+		window.location.reload();
+	};
+
+	//datatable的显示，显示全部或输入查询条件的查询结果
+	var initHistoryCommonDataRecordDatatable=function () {
 		//将之前的表删除掉，这样再次获取的时候就不会有warning了
 		if ($.fn.dataTable.isDataTable('#record_list'))
 		{
-			console.log("=====================")
 			// 获取这个表
 			_table = $('#record_list').DataTable();
 			// 把这个表销毁掉
 			_table.destroy();
 		}
+		//查询操作要用到的，获取填写在查询框的数据
 		var data={};
 		data.futures_id=$("#record_query_setup #futures_id").val();
 		data.futures_name=$("#record_query_setup #futures_name").val();
 		data.user_name=sessionStorage.getItem("username");
+		data.order_by = orderBy;		//"date desc";
 		$('.datatable').dataTable( {
 			"paging":true,
 			"searching":false,
@@ -265,26 +303,48 @@ var Page = function() {
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					var earning = (full.price_right_now-full.price_bought)*full.amount;
-					earning=Math.round(earning*100)/100;
-					if(earning >= 0){
-						sReturn = '<div class="font-red">'+earning+'</div>';
+					if(full.forward == '开仓'){
+						sReturn = '<div>未被卖出</div>';
 					}else {
-						sReturn = '<div class="font-green">'+earning+'</div>';
+						sReturn = '<div>'+full.price_sale+'</div>';
 					}
 					return sReturn;
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					//如果要传不是数字类型的字符串需要加引号这个才会跳转，还有一点这里加引号需要转义，且转义的是单引号
-					sReturn = '<div><a href="javascript:Page.saleFutures('+full.id+')">【卖出】</a></div>';
+					if(full.forward == '开仓'){
+						var earning = (full.price_right_now-full.price_bought)*full.amount;
+						earning=Math.round(earning*100)/100;
+						if(earning >= 0){
+							sReturn = '<div class="font-red">'+earning+'</div>';
+						}else {
+							sReturn = '<div class="font-green">'+earning+'</div>';
+						}
+
+					}else {
+						var earning = (full.price_sale-full.price_bought)*full.amount
+						earning=Math.round(earning*100)/100;
+						if(earning >= 0){
+							sReturn = '<div class="font-red">'+earning+'</div>';
+						}else {
+							sReturn = '<div class="font-green">'+earning+'</div>';
+						}
+					}
+					return sReturn;
+				},"orderable": false
+			},{
+				"mRender": function(data, type, full) {
+					//提问：这里比较奇怪，要想跳转则里面的数据必须都是数字类型的字符串（现在的发现是只要有string就不会执行函数）
+					//结果：如果要传不是数字类型的字符串需要加引号这个才会跳转，还有一点这里加引号需要转义，且转义的是单引号
+					sReturn = '<a href="javascript:Page.onDeleteRecord('+full.id+',\''+full.forward+'\''+')"><span class="glyphicon glyphicon-remove-sign">\n' +
+						'</span> 删除</a></div>';
 					return sReturn;
 				},"orderable": false
 			}],
 			"aLengthMenu": [[5,10,15,20,25,40,50,-1],[5,10,15,20,25,40,50,"所有记录"]],
 			"fnDrawCallback": function(){$(".checkboxes").uniform();$(".group-checkable").uniform();},
-			//"sAjaxSource": "get_record.jsp"
-			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_position_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name+"&user_name="+data.user_name+"&order_by=price_bought asc"
+			//像后端发送请求，附带的数据是为查询时候用的，起初这俩数据都是空值，不造成影响
+			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_history_administrator_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name+"&user_name="+data.user_name+"&order_by="+data.order_by
 		});
 		$('.datatable').find('.group-checkable').change(function () {
 			var set = jQuery(this).attr("data-set");
@@ -304,53 +364,172 @@ var Page = function() {
 			$(this).parents('tr').toggleClass("active");
 		});
 	};
-	var onRemake=function () {
-		window.location.reload();
-	}
 
-	//导出事件
+	var onAddRecord=function(){
+		$("#history_ad_add_div").modal("show");
+	}
+	//在添加页面确认添加之后的事件
+	var onAddDivSubmit=function () {
+		submitAddRecordDiv();
+	};
+	var onAddDivSubmit=function () {
+		var testBlank = $("#history_ad_add_div #user_name").val();
+		if(testBlank==""){
+			$("#history_ad_add_div #reminder").show();	//与.show作用相同，都可以达到显示或隐藏的目的
+			alert("用户名不能为空");
+			return;
+		}else {
+			$("#history_ad_add_div #reminder").hide();
+		}
+		if(confirm("您确定要添加该记录吗？")){;
+			var url="../../"+module+"_"+sub+"_servlet_action";
+			var data={};
+			data.action="add_history_ad_record";
+			//获取填写在该页面的数据准备传向后端
+			data.user_name=$("#history_ad_add_div #user_name").val();
+			data.futures_id=$("#history_ad_add_div #futures_id").val();
+			data.futures_name=$("#history_ad_add_div #futures_name").val();
+			data.type=$("#history_ad_add_div #type").val();
+			data.price_bought=$("#history_ad_add_div #price_bought").val();
+			data.amount=$("#history_ad_add_div #amount").val();
+			data.forward=$("#history_ad_add_div #forward").val();
+			data.price_sale=$("#history_ad_add_div #price_sale").val();
+			//测试输入的是否为数字形式
+			if(testNumber(data.price_bought) && testNumber(data.amount) && testNumber(data.price_sale)){
+
+			}else {
+				alert("输入的数据不和规范");
+				return;
+			}
+			$.post(url,data,function(json){
+				if(json.result_code==0){
+					alert("已经完成设备添加。");
+					$("#history_ad_add_div").modal("hide");
+					initHistoryAdDataRecordDatatable();
+				}
+			});
+		}
+	};
+	var onAddDivCancel=function () {
+		//这里只能用.modal("hide"),有.hide效果不够
+		$("#history_ad_add_div").modal("hide");
+	};
+
+	//在修改界面确认修改后进行的事件
+	var onModifyDivSubmit=function () {
+		submitModifyRecordDiv();
+	};
+	var submitModifyRecordDiv=function () {
+		var testBlank = $("#history_ad_modify_div #user_name").val();
+		if(testBlank==""){
+			$("#history_ad_modify_div #reminder").show();	//与.show作用相同，都可以达到显示或隐藏的目的
+			alert("用户名不能为空");
+			return;
+		}else {
+			$("#history_ad_modify_div #reminder").hide();
+		}
+
+		if(confirm("您确定要修改该记录吗？")){;
+			var url="../../"+module+"_"+sub+"_servlet_action";
+			var data={};
+			data.action="modify_history_ad_record";
+			//获取填写在该页面的数据准备传向后端
+			data.id=$("#history_ad_modify_div #id").val();
+			data.user_name=$("#history_ad_modify_div #user_name").val();
+			data.futures_id=$("#history_ad_modify_div #futures_id").val();
+			data.futures_name=$("#history_ad_modify_div #futures_name").val();
+			data.type=$("#history_ad_modify_div #type").val();
+			data.price_bought=$("#history_ad_modify_div #price_bought").val();
+			data.amount=$("#history_ad_modify_div #amount").val();
+			data.forward=$("#history_ad_modify_div #forward").val();
+			data.price_sale=$("#history_ad_modify_div #price_sale").val();
+			//测试输入的是否为数字形式
+			if(testNumber(data.price_bought) && testNumber(data.amount) && testNumber(data.price_sale)){
+
+			}else {
+				alert("输入的数据不和规范");
+				return;
+			}
+			$.post(url,data,function(json){
+				if(json.result_code==0){
+					alert("已经完成设备修改。");
+					$("#history_ad_modify_div").modal("hide");
+					initHistoryAdDataRecordDatatable();
+				}
+			});
+		}
+	};
+	var onModifyDivCancel=function () {
+		$("#history_ad_modify_div").modal("hide");
+	};
+
+	//测试字符串是不是数字形式(不进行输入的话也是可以通过测试的)
+	var testNumber=function (num) {
+		var numberFormat =/^[+-]?\d*(\.\d*)?(e[+-]?\d+)?$/;
+		if(numberFormat.test(num)){
+			return true;
+		}else{
+			if(num == ""){
+				return true
+			}else {
+				return false;
+			}
+
+		}
+	};
 	var onExportRecord=function () {
 		var url="../../"+module+"_"+sub+"_servlet_action";
-		var user_name = sessionStorage.getItem("username");
-		var data={"action":"export_position_record","user_name":user_name};
+		var username=sessionStorage.getItem("username");
+		var data={"action":"export_history_administrator_record","user_name":username};
 		$.post(url,data,function (json) {
 			if (json.result_code==0){
 				console.log(JSON.stringify(json));
-				$("#position_download_div #download_url1").attr("href","javascript:window.open('"+json.download_url1+"')");	//window.open是打开一个新的页面进行跳转，但是这里没有显现出来
-				$("#position_download_div #download_url2").attr("href","javascript:window.open('"+json.download_url2+"')");	//window.open是打开一个新的页面进行跳转，但是这里没有显现出来
-				$("#position_download_div").modal("show");
+				$("#history_common_download_div #download_url1").attr("href","javascript:window.open('"+json.download_url1+"')");	//window.open是打开一个新的页面进行跳转，但是这里没有显现出来
+				$("#history_common_download_div #download_url2").attr("href","javascript:window.open('"+json.download_url2+"')");
+				$("#history_common_download_div").modal("show");
 			}else{
 				alert("[onExportRecord]与后端交互错误！"+json.result_smg);
 			}
 		})
-	}
-	var onFinishDownload=function () {
-		$("#position_download_div").modal("hide");
-	}
+	};
 
 	//打印事件，跳转到别的页面
 	var onTablePrint=function () {
-		window.location.href="position_list_print_table.jsp";
+		window.location.href="history_common_list_print_table.jsp";
 	};
-	var initPositionListPrintTableRecord=function () {
+	//在这个页面进行显示
+	var initHistoryCommonListPrintTableRecord=function () {
 		$("#page_header_wrapper").hide();
 		$("#page_header").hide();
 		$("#page_footer").hide();
 		$("#page-content").attr("style","margin-left:0px");
 		$(".page-container").attr("style","margin-left:0px");
 		$(".page-container").attr("style","margin-top:0px");
+		var username=sessionStorage.getItem("username");
 		// $(".page-container").attr("style","margin-bottom:0px"); 注意事项：top与bottom不能同时存在
-		var user_name = sessionStorage.getItem("username");
-		$.post("../../"+module+"_"+sub+"_servlet_action?action=get_position_record&user_name="+user_name,function(json){
+		$.post("../../"+module+"_"+sub+"_servlet_action?action=get_history_administrator_record&user_name="+username,function(json){
 			console.log(JSON.stringify(json));
 			if(json.result_code==0){
 				var list=json.aaData;
 				var html="";
+				var price_sale = "";
+				var earning = "";
 				if(list!=undefined && list.length>0){
 					for(var i=0;i<list.length;i++){
 						var record=list[i];
-						var earning = (record.price_right_now-record.price_bought)*record.amount;
-						earning=Math.round(earning*100)/100;
+						if(record.forward == '开仓'){
+							price_sale="未被卖出"
+						}else {
+							price_sale=record.price_sale;
+						}
+						if(record.forward == '开仓'){
+							var earning = (record.price_right_now-record.price_bought)*record.amount;
+							earning=Math.round(earning*100)/100;
+						}else {
+							var earning = (record.price_sale-record.price_bought)*record.amount
+							earning=Math.round(earning*100)/100;
+						}
+
 						html=html+"                          	 		<tr>";
 						html=html+"                                        <td>";
 						html=html+"                                            "+record.futures_id;
@@ -377,28 +556,30 @@ var Page = function() {
 						html=html+"                                            "+record.select_time;
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
+						html=html+"                                            "+price_sale;
+						html=html+"                                        </td>";
+						html=html+"                                        <td>";
 						html=html+"                                            "+earning;
 						html=html+"                                        </td>";
 						html=html+"                                    </tr>";
 					}
 				}
 				$("#print_table_content_div").html(html);
-				window.print();
+				window.print();		//因为这个JQ封装的的这个post是以异步的方式进行执行，所以要在这里调用这个接口，不然打印的是html没有修改后的东西。
 			}
 		})
-	}
+	};
 
 	//统计功能的实现
 	//这里进行跳转，统计图显示在另一个页面中
 	var onStatisticRecord=function () {
-		window.location.href="position_statistic.jsp";
+		window.location.href="history_common_statistic.jsp";
 	};
 	//当页面跳转后执行的，访问后端的数据，获取的东西是每个小时断和对应时间段的记录的数目，注意chartData是一个全局变量，在判断完page之后继续定义
-	var initPositionStatisticRecord=function () {
+	var initHistoryCommonStatisticRecord=function () {
 		var url = "../../"+module+"_"+sub+"_servlet_action";
-		//其实不管是用data传参还是将要传递的参数放到url里，后端操作过程没有区别
-		var user_name = sessionStorage.getItem("username");
-		var data={"action":"get_position_amplitude_by_futuresId","user_name":user_name};
+		var username=sessionStorage.getItem("username");
+		var data={"action":"get_history_ad_amplitude_by_futuresId","user_name":username};
 		$.post(url,data,function (json) {
 			var html="";
 			if(json.result_code == 0){
@@ -476,149 +657,67 @@ var Page = function() {
 		$('#chart_1').closest('.portlet').find('.fullscreen').click(function() {
 			chart.invalidateSize();
 		});
-	};
+	}
 	//统计页面返回按钮的事件
 	var returnBack=function () {
 		history.go(-1);
-	};
+	}
 
-	//显示买入的出那个后
-	var saleFutures=function (id) {
-		var url="../../"+module+"_"+sub+"_servlet_action?id="+id;
-		var data={};
-		data.action="get_position_record";
-		data.id=id;
-		$.post(url,data,function(json){
-			console.log(JSON.stringify(json));
-			if(json.result_code==0) {
-				var record = json.aaData;
-				record=record[0];
-				$("#sale_div #id").val(record.id);
-				$("#sale_div #futures_id").val(record.futures_id);
-				$("#sale_div #futures_name").val(record.futures_name);
-				$("#sale_div #type").val(record.type);
-				$("#sale_div #price_bought").val(record.price_bought);
-				$("#sale_div #price_right_now").val(record.price_right_now);
-				$("#sale_div #amount").val(record.amount);
-				$("#sale_div").modal("show");
-			}
-		})
-	};
-
-	//买入弹窗的按钮事件,将买入期货相关信息存到my_position数据库并且减少用户余额
-	var onSaleDivSubmit=function () {
-		if (!(/(^[1-9]\d*$)/.test($("#sale_div #sale_amount").val()))) {
-			$("#reminder").modal("show");
-			alert("数量应该为正整数");
-			return;
+	//排序功能
+	//买入价格的排序
+	var iconPriceBought = 0;
+	var onPriceBoughtOrderBy=function () {
+		iconSelectTime = 0;
+		$("#select_time").attr("class","fa fa fa-sun-o");
+		if(iconPriceBought === 0){
+			$("#price_bought").attr("class","fa fa-chevron-up");
+			iconPriceBought = 1;
+			orderBy="price_bought asc";
+			initHistoryCommonDataRecordDatatable();
+		}else if(iconPriceBought === 1){
+			$("#price_bought").attr("class","fa fa-chevron-down");
+			iconPriceBought = 2;
+			orderBy="price_bought desc";
+			initHistoryCommonDataRecordDatatable();
 		}else {
-			$("#reminder").modal("hide");
+			$("#price_bought").attr("class","fa fa fa-sun-o");
+			iconPriceBought = 0;
+			orderBy="";
+			initHistoryCommonDataRecordDatatable();
 		}
-		if($("#sale_div #sale_amount").val()>$("#sale_div #amount").val()){
-			alert("要卖出的数量大于这个订单含有的的数量");
-			return;
-		}
-		if($("#sale_div #sale_amount").val()==$("#sale_div #amount").val()){
-			if(confirm("您确定要卖出'"+$("#sale_div #futures_name").val()+"'吗？")){
-
-				var url="../../user_center_servlet_action";
-				var data={};
-				data.action="modify_user_record";
-				data.id=sessionStorage.getItem("id");
-				data.username=sessionStorage.getItem("username");
-				data.password=sessionStorage.getItem("password");
-				data.email=sessionStorage.getItem("email");
-				data.identity=sessionStorage.getItem("identity");
-				data.balance=(sessionStorage.getItem("balance")-0) + $("#sale_div #sale_amount").val()*$("#sale_div #price_right_now").val();
-				$.post(url,data,function(json){
-					if(json.result_code==0){
-					}
-				});
-
-				var url="../../"+module+"_"+sub+"_servlet_action";
-				var data={};
-				data.action="sale_futures_all";
-				//获取填写在该页面的数据准备传向后端
-				data.id=$("#sale_div #id").val();
-				data.price_sale=$("#sale_div #price_right_now").val();
-				data.forward="平仓";
-				$.post(url,data,function(json){
-					if(json.result_code==0){
-						alert("卖出成功！");
-						$("#sale_div").modal("hide");
-						window.location.reload();
-					}
-				});
-			}
+	};
+	//订单时间的排序
+	var iconSelectTime = 0;
+	var onSelectTimeOrderBy=function () {
+		iconPriceBought = 0;
+		$("#price_bought").attr("class","fa fa fa-sun-o");
+		if(iconSelectTime === 0){
+			$("#select_time").attr("class","fa fa-chevron-up");
+			iconSelectTime = 1;
+			orderBy="select_time asc";
+			initHistoryCommonDataRecordDatatable();
+		}else if(iconSelectTime === 1){
+			$("#select_time").attr("class","fa fa-chevron-down");
+			iconSelectTime = 2;
+			orderBy="select_time desc";
+			initHistoryCommonDataRecordDatatable();
 		}else {
-			if(confirm("您确定要卖出'"+$("#sale_div #futures_name").val()+"'吗？")){
-				//修改余额
-
-				var url="../../user_center_servlet_action";
-				var data={};
-				data.action="modify_user_record";
-				data.id=sessionStorage.getItem("id");
-				data.username=sessionStorage.getItem("username");
-				data.password=sessionStorage.getItem("password");
-				data.email=sessionStorage.getItem("email");
-				data.identity=sessionStorage.getItem("identity");
-				data.balance=(sessionStorage.getItem("balance")-0) + $("#sale_div #sale_amount").val()*$("#sale_div #price_right_now").val();
-				$.post(url,data,function(json){
-					if(json.result_code==0){
-					}
-				});
-				//增加平仓记录
-				var url="../../"+module+"_"+sub+"_servlet_action";
-				var data={};
-				data.action="sale_futures_part_add";
-				//获取填写在该页面的数据准备传向后端
-				data.user_name=sessionStorage.getItem("username");
-				data.futures_id=$("#sale_div #futures_id").val();
-				data.futures_name=$("#sale_div #futures_name").val();
-				data.type=$("#sale_div #type").val();
-				data.price_bought=$("#sale_div #price_bought").val();
-				data.amount=$("#sale_div #sale_amount").val();
-				data.forward="平仓";
-				data.price_sale=$("#sale_div #price_right_now").val();
-				$.post(url,data,function(json){
-					if(json.result_code==0){
-					}
-				});
-
-				var url="../../"+module+"_"+sub+"_servlet_action";
-				var data={};
-				data.action="sale_futures_part_modify";
-				//获取填写在该页面的数据准备传向后端
-				data.id=$("#sale_div #id").val();
-				data.amount=$("#sale_div #amount").val()-$("#sale_div #sale_amount").val();
-				$.post(url,data,function(json){
-					if(json.result_code==0){
-						alert("卖出成功---！");
-						$("#sale_div").modal("hide");
-						window.location.reload();
-					}
-				});
-
-			}
+			$("#select_time").attr("class","fa fa fa-sun-o");
+			iconSelectTime = 0;
+			orderBy="";
+			initHistoryCommonDataRecordDatatable();
 		}
-
-	};
-	var onSaleDivCancel=function () {
-		$("#sale_div").modal("hide");
-	};
+	}
 	//Page return 开始
 	return {
 		init: function() {
 			initPageControl();
 		},
-		onDeleteRecord:function(id){
-			onDeleteRecord(id);
+		onDeleteRecord:function(id,forward){
+			onDeleteRecord(id,forward);
 		},
 		onModifyRecord:function(id){
 			onModifyRecord(id);
-		},
-		saleFutures:function (id) {
-			saleFutures(id);
 		}
 	}
 }();//Page

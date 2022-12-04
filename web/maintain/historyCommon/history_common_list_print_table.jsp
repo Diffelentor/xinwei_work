@@ -38,7 +38,7 @@
             <!-- BEGIN PAGE CONTENT-->
             <!--页面开始=======================================================-->
             <!--设置页面ID-->
-            <input type="hidden" id="page_id" name="page_id" value="history_ad_list_print_table">
+            <input type="hidden" id="page_id" name="page_id" value="history_common_list_print_table">
             <div class="row">
                 <div class="col-md-12">
                     <!-- BEGIN SAMPLE TABLE PORTLET-->
@@ -63,9 +63,6 @@
                                 <table class="table table-striped table-bordered table-advance table-hover">
                                     <thead>
                                     <tr>
-                                        <th >
-                                            用户名
-                                        </th>
                                         <th>
                                             期货代号
                                         </th>
@@ -138,7 +135,7 @@
 <%@include file="../../home/frame/frame_javascript.jsp"%>
 <%--本页专用的--%>
 <script type="text/javascript" src="../dataTables/jquery.dataTables.min.js"></script>
-<script src="historyAd.js"></script>
+<script src="historyCommon.js"></script>
 </body>
 <!-- END BODY -->
 </html>

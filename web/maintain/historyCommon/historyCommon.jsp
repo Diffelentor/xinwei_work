@@ -56,7 +56,7 @@
             <!-- BEGIN PAGE CONTENT-->
             <!--页面开始=======================================================-->
             <!--设置页面ID-->
-            <input type="hidden" id="page_id" name="page_id" value="history_administrator">
+            <input type="hidden" id="page_id" name="page_id" value="history_common">
             <div class="row" id="record_query_setup">
                 <div class="form-group">
                     <label class="control-label col-sm-1" style="font-size: 18px">期货代号</label>
@@ -66,10 +66,6 @@
                     <label class="control-label col-sm-1" style="font-size: 18px">期货名称</label>
                     <div class="col-md-2">
                         <input id="futures_name" type="text" class="form-control" value="" placeholder="请输入期货名称"/>
-                    </div>
-                    <label class="control-label col-sm-1" style="font-size: 18px">用户名称</label>
-                    <div class="col-md-2">
-                        <input id="user_name" type="text" class="form-control" value="" placeholder="请输入用户名称"/>
                     </div>
                     <div class="col-md-2">
                         <button type="button"   class="btn blue" id="query_button" name="query_button">
@@ -84,13 +80,6 @@
             <div class="row">
                 <div class="col-md-10 ">
                     <%--                    如果不将type类型定义为buton的话会被默认为submit类型--%>
-                    <button type="button"  class="btn btn-circle btn-lg yellow-crusta" id="add_button" name="add_button">
-                        <i class="fa fa-plus"></i> 新增</button>
-                    <button type="button"  class="btn btn-circle btn-lg yellow-crusta" id="datatable_button" name="datatable_button">
-                                <span class="glyphicon glyphicon-remove-sign">
-                                    </span> 删除</button>
-                    <button type="button"  class="btn btn-circle btn-lg red-pink" id="datatable_button" name="datatable_button">
-                        <i class="fa fa-pencil"></i> 修改</button>
                     <button type="button"  class="btn btn-circle btn-lg default" id="export_button" name="export_button">
                         <i class="fa fa-cloud-download"></i> 导出</button>
                     <button type="button" class="btn btn-circle btn-lg blue" id="statistic_button" name="statistic_button">
@@ -109,9 +98,6 @@
                     <table class="table table-striped table-bordered table-hover datatable" id="record_list">
                         <thead>
                         <tr>
-                            <th >
-                                用户名
-                            </th>
                             <th>
                                 期货代号
                             </th>
@@ -171,10 +157,10 @@
 <%@include file="../../home/frame/frame_javascript.jsp"%>
 <%--本页专用的--%>
 <script type="text/javascript" src="../dataTables/jquery.dataTables.min.js"></script>
-<script src="historyAd.js"></script>
+<script src="historyCommon.js"></script>
 </body>
 <!-- END BODY -->
 </html>
-<%@include file="history_ad_add_div.jsp"%>
-<%@include file="history_ad_modify_div.jsp"%>
-<%@include file="history_ad_download_div.jsp"%>
+<%--<%@include file="history_ad_add_div.jsp"%>--%>
+<%--<%@include file="history_ad_modify_div.jsp"%>--%>
+<%@include file="history_common_download_div.jsp"%>

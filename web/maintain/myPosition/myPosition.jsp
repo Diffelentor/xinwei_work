@@ -118,6 +118,9 @@
                             </th>
                             <th>
                                 买入时价格
+                                <div style="float: right">
+                                    <i class="fa fa-sun-o" id="price_bought"></i>
+                                </div>
                             </th>
                             <th>
                                 实时价格
@@ -130,6 +133,9 @@
                             </th>
                             <th>
                                 交易时间
+                                <div style="float: right">
+                                    <i class="fa fa-sun-o" id="select_time"></i>
+                                </div>
                             </th>
                             <th>
                                 收益

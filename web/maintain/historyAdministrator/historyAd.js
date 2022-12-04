@@ -34,6 +34,7 @@ var Page = function() {
 	var columnsData=undefined;
 	var recordResult=undefined;
 	var chartData=[];
+	var orderBy="";
 	/*----------------------------------------业务函数  开始----------------------------------------*/
 	/*------------------------------针对各个页面的入口  开始------------------------------*/
 	var initHistoryAdDataList=function(){
@@ -78,7 +79,9 @@ var Page = function() {
 		$('#export_button').click(function() {onExportRecord();});			//导出按钮
 		$('#table_print_button').click(function() {onTablePrint();});		//打印按钮
 		$('#statistic_button').click(function() {onStatisticRecord();});	//统计按钮
-
+		//排序按钮
+		$('#price_bought').click(function() {onPriceBoughtOrderBy();});
+		$('#select_time').click(function() {onSelectTimeOrderBy();});
 	};
 	var initDeviceAddControlEvent=function(){
 		$("#help_button").click(function() {help();});
@@ -219,7 +222,6 @@ var Page = function() {
 		//将之前的表删除掉，这样再次获取的时候就不会有warning了
 		if ($.fn.dataTable.isDataTable('#record_list'))
 		{
-			console.log("=====================")
 			// 获取这个表
 			_table = $('#record_list').DataTable();
 			// 把这个表销毁掉
@@ -230,7 +232,7 @@ var Page = function() {
 		data.futures_id=$("#record_query_setup #futures_id").val();
 		data.futures_name=$("#record_query_setup #futures_name").val();
 		data.user_name=$("#record_query_setup #user_name").val();
-		data.order_by = "";		//"date desc";
+		data.order_by = orderBy;		//"date desc";
 		$('.datatable').dataTable( {
 			"paging":true,
 			"searching":false,
@@ -400,6 +402,10 @@ var Page = function() {
 				alert("输入的数据不和规范");
 				return;
 			}
+			if(data.price_bought === ""){
+				alert("买入价格不能为空");
+				return;
+			}
 			$.post(url,data,function(json){
 				if(json.result_code==0){
 					alert("已经完成设备添加。");
@@ -565,7 +571,7 @@ var Page = function() {
 					}
 				}
 				$("#print_table_content_div").html(html);
-				//window.print();		//因为这个JQ封装的的这个post是以异步的方式进行执行，所以要在这里调用这个接口，不然打印的是html没有修改后的东西。
+				window.print();		//因为这个JQ封装的的这个post是以异步的方式进行执行，所以要在这里调用这个接口，不然打印的是html没有修改后的东西。
 			}
 		})
 	};
@@ -660,6 +666,52 @@ var Page = function() {
 	//统计页面返回按钮的事件
 	var returnBack=function () {
 		history.go(-1);
+	}
+
+	//排序功能
+	//买入价格的排序
+	var iconPriceBought = 0;
+	var onPriceBoughtOrderBy=function () {
+		iconSelectTime = 0;
+		$("#select_time").attr("class","fa fa fa-sun-o");
+		if(iconPriceBought === 0){
+			$("#price_bought").attr("class","fa fa-chevron-up");
+			iconPriceBought = 1;
+			orderBy="price_bought asc";
+			initHistoryAdDataRecordDatatable();
+		}else if(iconPriceBought === 1){
+			$("#price_bought").attr("class","fa fa-chevron-down");
+			iconPriceBought = 2;
+			orderBy="price_bought desc";
+			initHistoryAdDataRecordDatatable();
+		}else {
+			$("#price_bought").attr("class","fa fa fa-sun-o");
+			iconPriceBought = 0;
+			orderBy="";
+			initHistoryAdDataRecordDatatable();
+		}
+	};
+	//订单时间的排序
+	var iconSelectTime = 0;
+	var onSelectTimeOrderBy=function () {
+		iconPriceBought = 0;
+		$("#price_bought").attr("class","fa fa fa-sun-o");
+		if(iconSelectTime === 0){
+			$("#select_time").attr("class","fa fa-chevron-up");
+			iconSelectTime = 1;
+			orderBy="select_time asc";
+			initHistoryAdDataRecordDatatable();
+		}else if(iconSelectTime === 1){
+			$("#select_time").attr("class","fa fa-chevron-down");
+			iconSelectTime = 2;
+			orderBy="select_time desc";
+			initHistoryAdDataRecordDatatable();
+		}else {
+			$("#select_time").attr("class","fa fa fa-sun-o");
+			iconSelectTime = 0;
+			orderBy="";
+			initHistoryAdDataRecordDatatable();
+		}
 	}
 	//Page return 开始
 	return {

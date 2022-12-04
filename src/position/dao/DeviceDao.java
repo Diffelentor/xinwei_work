@@ -300,9 +300,9 @@ public class DeviceDao {
 		String user_name=data.getParam().has("user_name")?data.getParam().getString("user_name"):null;
 		if(user_name!=null && !user_name.isEmpty()){
 			if(sql.indexOf("where")>-1){
-				sql=sql+" and M.user_name="+user_name+"'";
+				sql=sql+" and M.user_name='"+user_name+"'";
 			}else{
-				sql=sql+" where M.user_name="+user_name+"'";
+				sql=sql+" where M.user_name='"+user_name+"'";
 			}
 		}
 		String orderBy=data.getParam().has("order_by")?data.getParam().getString("order_by"):null;
@@ -313,7 +313,7 @@ public class DeviceDao {
 	}
 	//得到持仓下载的sql
 	private String createDownloadSql(Data data) throws JSONException {
-		String sql="select M.futures_id,M.futures_name,M.type,M.price_bought,T.price_right_now,M.amount,M.forward,M.select_time,(T.price_right_now-M.price_bought)*M.amount as earning from my_position M,total T where M.futures_id=T.futures_id and M.forward='开仓'";
+		String sql="select M.user_name,M.futures_id,M.futures_name,M.type,M.price_bought,T.price_right_now,M.amount,M.forward,M.select_time,(T.price_right_now-M.price_bought)*M.amount as earning from my_position M,total T where M.futures_id=T.futures_id and M.forward='开仓'";
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
 		if(id!=null && !id.isEmpty()){
 			sql=sql+" and id="+id;
@@ -344,7 +344,7 @@ public class DeviceDao {
 		}
 		String orderBy=data.getParam().has("order_by")?data.getParam().getString("order_by"):null;
 		if(orderBy!=null && !orderBy.isEmpty()){
-			sql=sql+" order by "+orderBy;
+			sql=sql+" order by M."+orderBy;
 		}
 		return sql;
 	}
@@ -379,9 +379,17 @@ public class DeviceDao {
 				sql=sql+" where M.user_name='"+user_name+"'";
 			}
 		}
+		String forward=data.getParam().has("forward")?data.getParam().getString("forward"):null;
+		if(forward!=null && !forward.isEmpty()){
+			if(sql.indexOf("where")>-1){
+				sql=sql+" and M.forward='"+forward+"'";
+			}else{
+				sql=sql+" where M.forward='"+forward+"'";
+			}
+		}
 		String orderBy=data.getParam().has("order_by")?data.getParam().getString("order_by"):null;
 		if(orderBy!=null && !orderBy.isEmpty()){
-			sql=sql+" order by "+orderBy;
+			sql=sql+" order by M."+orderBy;
 		}
 		return sql;
 	}
@@ -418,7 +426,7 @@ public class DeviceDao {
 		}
 		String orderBy=data.getParam().has("order_by")?data.getParam().getString("order_by"):null;
 		if(orderBy!=null && !orderBy.isEmpty()){
-			sql=sql+" order by "+orderBy;
+			sql=sql+" order by M."+orderBy;
 		}
 		return sql;
 	}
@@ -440,7 +448,16 @@ public class DeviceDao {
 		/*--------------------数据操作 开始--------------------*/
 		Db queryDb = new Db("test");
 		String sql="SELECT (T.price_right_now-M.price_bought)*M.amount as earning,M.futures_name FROM my_position M,total T";
-		sql+= " where M.futures_id=T.futures_id and M.forward='开仓' and M.select_time BETWEEN '"+timeFrom+"' and '"+timeTo+"'";
+		sql+= " where M.futures_id=T.futures_id";
+		String user_name=data.getParam().has("user_name")?data.getParam().getString("user_name"):null;
+		if(user_name!=null && !user_name.isEmpty()){
+			if(sql.indexOf("where")>-1){
+				sql=sql+" and M.user_name='"+user_name+"'";
+			}else{
+				sql=sql+" where M.user_name='"+user_name+"'";
+			}
+		}
+		sql+=" and M.forward='开仓' and M.select_time BETWEEN '"+timeFrom+"' and '"+timeTo+"'";
 		showDebug("[queryRecord]构造的SQL语句是：" + sql);
 		try {
 			ResultSet rs = queryDb.executeQuery(sql);

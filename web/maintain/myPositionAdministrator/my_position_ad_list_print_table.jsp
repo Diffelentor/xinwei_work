@@ -38,14 +38,14 @@
             <!-- BEGIN PAGE CONTENT-->
             <!--页面开始=======================================================-->
             <!--设置页面ID-->
-            <input type="hidden" id="page_id" name="page_id" value="history_ad_list_print_table">
+            <input type="hidden" id="page_id" name="page_id" value="my_position_ad_list_print_table">
             <div class="row">
                 <div class="col-md-12">
                     <!-- BEGIN SAMPLE TABLE PORTLET-->
                     <div class="portlet">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-bell-o"></i>交易记录
+                                <i class="fa fa-bell-o"></i>用户持仓
                             </div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse">
@@ -89,9 +89,6 @@
                                         </th>
                                         <th>
                                             交易时间
-                                        </th>
-                                        <th>
-                                            卖出时价格
                                         </th>
                                         <th>
                                             收益
@@ -138,7 +135,7 @@
 <%@include file="../../home/frame/frame_javascript.jsp"%>
 <%--本页专用的--%>
 <script type="text/javascript" src="../dataTables/jquery.dataTables.min.js"></script>
-<script src="historyAd.js"></script>
+<script src="myPositionAdministrator.js"></script>
 </body>
 <!-- END BODY -->
 </html>

@@ -13,7 +13,10 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">下载链接</label>
                                 <div class="col-md-9">
-                                    <span><a href="" id="download_url" name="download_url">点击下载</a></span>
+                                    <span><a href="" id="download_url1" name="download_url">点击下载rar</a></span>
+                                </div>
+                                <div class="col-md-9">
+                                    <span><a href="" id="download_url2" name="download_url">点击下载xls</a></span>
                                 </div>
                             </div>
                         </div>

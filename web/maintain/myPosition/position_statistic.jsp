@@ -49,7 +49,7 @@
             <!--设置页面ID-->
             <input type="hidden" id="page_id" name="page_id" value="position_statistic">
             <div class="row">
-                <button class="btn btn-lg" id="return_button"><i class="icon-logout"></i></button>
+                <button class="btn btn-lg btn-circle" id="return_button"><i class="fa fa-arrow-left"></i></button>
             </div>
             <div class="row">
                 <div class="col-md-12">

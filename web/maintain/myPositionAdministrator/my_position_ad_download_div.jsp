@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="modal fade draggable-modal" id="history_ad_download_div" tabindex="-1" role="basic" aria-hidden="true">
+<div class="modal fade draggable-modal" id="my_position_ad_download_div" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">交易记录下载</h4>
+                <h4 class="modal-title">历史记录下载</h4>
             </div>
             <div class="modal-body">
                 <div class="portlet-body form">

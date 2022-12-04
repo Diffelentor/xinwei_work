@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="modal fade draggable-modal" id="history_ad_download_div" tabindex="-1" role="basic" aria-hidden="true">
+<div class="modal fade draggable-modal" id="history_common_download_div" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

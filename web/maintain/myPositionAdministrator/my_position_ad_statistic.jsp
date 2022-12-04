@@ -47,7 +47,7 @@
             <!-- BEGIN PAGE CONTENT-->
             <!--页面开始=======================================================-->
             <!--设置页面ID-->
-            <input type="hidden" id="page_id" name="page_id" value="history_ad_statistic">
+            <input type="hidden" id="page_id" name="page_id" value="position_ad_statistic">
             <div class="row">
                 <button class="btn btn-lg btn-circle" id="return_button"><i class="fa fa-arrow-left"></i></button>
             </div>
@@ -103,7 +103,7 @@
 <script src="../../assets/global/plugins/amcharts/amcharts/themes/chalk.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <script type="text/javascript" src="../dataTables/jquery.dataTables.min.js"></script>
-<script src="historyAd.js"></script>
+<script src="myPositionAdministrator.js"></script>
 </body>
 <!-- END BODY -->
 </html>

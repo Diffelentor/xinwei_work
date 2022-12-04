@@ -373,8 +373,8 @@ public class ServletAction extends HttpServlet {
     }
     private void getExportHistoryAdRecordToFile(JSONObject json, Data data) throws JSONException {
         String jsonStr=json.toString();
-        File jsonFile = new File("C:\\testUpload\\historyAdministratorData.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
-        json.put("download_url1","/upload/maintain/device/historyAdministratorData.rar");
+        File jsonFile = new File("C:\\testUpload\\historyData.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
+        json.put("download_url1","/upload/maintain/device/historyData.rar");
         showDebug("准备下载");
         try{
             if(!jsonFile.exists()){
@@ -409,9 +409,9 @@ public class ServletAction extends HttpServlet {
     }
     //需要四个jar包的引入
     private void getExportHistoryAdRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
-        MyExcel me=new MyExcel("C:\\testUpload\\historyAdministratorData.xls");
-        json.put("download_url2","/upload/maintain/device/historyAdministratorData.xls");
-        json.put("file_path","C:\\testUpload\\historyAdministratorData.xls");
+        MyExcel me=new MyExcel("C:\\testUpload\\historyData.xls");
+        json.put("download_url2","/upload/maintain/device/historyData.xls");
+        json.put("file_path","C:\\testUpload\\historyData.xls");
         me.exportData(data,json);
     }
     private void getExportDeviceRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
