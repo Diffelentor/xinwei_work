@@ -774,7 +774,7 @@ var Page = function() {
 		},
 		buyFutures : function (futures_id) {
 			//console.log(flag)
-			if (flag){
+			if (false){
 				alert("已休市！")
 			}
 			else {

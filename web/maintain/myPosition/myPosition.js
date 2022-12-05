@@ -231,7 +231,11 @@ var Page = function() {
 				}
 			},
 			//注意事项：在html里定义了几列这里就几列，参数是full
-			"aoColumns": [{
+			"aoColumns": [{"mRender": function(data, type, full) {
+					sReturn = '<input type="checkbox" class="checkboxes"/>';
+					return sReturn;
+				},"orderable": false
+			},{
 				"mRender": function(data, type, full) {
 					sReturn = '<div>'+full.futures_id+'</div>';
 					return sReturn;

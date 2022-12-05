@@ -14,7 +14,7 @@ var Page = function() {
 	/*----------------------------------------入口函数  开始----------------------------------------*/
 	var initPageControl=function(){
 		pageId=$("#page_id").val();
-		if(pageId=="my_position_ad"){
+		if(pageId=="my_position"){
 			initHistoryAdDataList();
 		}
 		if(pageId=="device_add"){
@@ -230,7 +230,7 @@ var Page = function() {
 		var data={};
 		data.futures_id=$("#record_query_setup #futures_id").val();
 		data.futures_name=$("#record_query_setup #futures_name").val();
-		data.user_name=$("#record_query_setup #user_name").val();
+		data.user_name=sessionStorage.getItem("username");
 		data.forward="开仓";
 		data.order_by = orderBy;		//"date desc";
 		$('.datatable').dataTable( {
@@ -257,13 +257,9 @@ var Page = function() {
 				}
 			},
 			//注意事项：在html里定义了几列这里就几列，参数是full
-			"aoColumns": [{"mRender": function(data, type, full) {
-					sReturn = '<input type="checkbox" class="checkboxes"/>';
-					return sReturn;
-				},"orderable": false
-			},{
+			"aoColumns": [{
 				"mRender": function(data, type, full) {
-					sReturn = '<div>'+full.user_name+'</div>';
+					sReturn = '<div>'+full.futures_id+'</div>';
 					return sReturn;
 				},"orderable": false
 			},{

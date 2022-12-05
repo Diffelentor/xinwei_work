@@ -98,6 +98,7 @@
                     <table class="table table-striped table-bordered table-hover datatable" id="record_list">
                         <thead>
                         <tr>
+                            <th class="table-checkbox"><input type="checkbox" class="group-checkable" data-set="#record_list .checkboxes" /></th>
                             <th>
                                 期货代号
                             </th>

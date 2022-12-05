@@ -56,7 +56,7 @@
             <!-- BEGIN PAGE CONTENT-->
             <!--页面开始=======================================================-->
             <!--设置页面ID-->
-            <input type="hidden" id="page_id" name="page_id" value="history_common">
+            <input type="hidden" id="page_id" name="page_id" value="my_position_ad">
             <div class="row" id="record_query_setup">
                 <div class="form-group">
                     <label class="control-label col-sm-1" style="font-size: 18px">期货代号</label>
@@ -109,6 +109,7 @@
                     <table class="table table-striped table-bordered table-hover datatable" id="record_list">
                         <thead>
                         <tr>
+                            <th class="table-checkbox"><input type="checkbox" class="group-checkable" data-set="#record_list .checkboxes" /></th>
                             <th >
                                 用户名
                             </th>
