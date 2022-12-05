@@ -167,7 +167,7 @@ var Page = function() {
 				},"orderable": false},{"mRender": function(data, type, full) {
 					sReturn = '<div> '+full.balance+'</div>';
 					return sReturn;
-				},"orderable": false},{"mRender": function(data, type, full) {
+				},"orderable": true},{"mRender": function(data, type, full) {
 					sReturn = '<div><a href=\"javascript:Page.onModifyRecord('+full.id+')\"><i class="fa fa-edit"></i>修改</a>&nbsp&nbsp&nbsp<a href=\"javascript:Page.onDeleteRecord('+full.id+')\"><i class="fa fa-times"></i>删除</a>&nbsp&nbsp&nbsp<a href=\"javascript:Page.onViewRecord('+full.id+')\"><i class="fa fa-user"></i>个人信息</a></div>';
 					return sReturn;
 				},"orderable": false}],
