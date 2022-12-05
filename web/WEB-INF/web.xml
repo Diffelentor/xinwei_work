@@ -69,12 +69,12 @@
 	<listener>
 		<listener-class>shares.dao.GetSharesData</listener-class>
 	</listener>
-<!--	<listener>-->
-<!--		<listener-class>futures.dao.GetFuturesData</listener-class>-->
-<!--	</listener>-->
-<!--	<listener>-->
-<!--		<listener-class>exchanges.dao.GetExchangesData</listener-class>-->
-<!--	</listener>-->
+	<listener>
+		<listener-class>futures.dao.GetFuturesData</listener-class>
+	</listener>
+	<listener>
+		<listener-class>exchanges.dao.GetExchangesData</listener-class>
+	</listener>
 	<!-- ================  trade end =================           -->
 
 	<!-- ================  position begin =================           -->
