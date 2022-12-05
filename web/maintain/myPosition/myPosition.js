@@ -203,9 +203,10 @@ var Page = function() {
 		data.futures_id=$("#record_query_setup #futures_id").val();
 		data.futures_name=$("#record_query_setup #futures_name").val();
 		data.user_name=sessionStorage.getItem("username");
-		// $.post("../../"+module+"_"+sub+"_servlet_action?action=get_position_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name+"&user_name="+data.user_name+"&order_by=price_bought asc",function(json) {
-		// 	console.log(JSON.stringify(json));
-		// })
+		data.order_by=orderBy;
+		$.post("../../"+module+"_"+sub+"_servlet_action?action=get_position_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name+"&user_name="+data.user_name+"&order_by="+data.order_by,function(json) {
+			console.log(JSON.stringify(json));
+		})
 		$('.datatable').dataTable( {
 			"paging":true,
 			"searching":false,
@@ -291,7 +292,7 @@ var Page = function() {
 			"aLengthMenu": [[5,10,15,20,25,40,50,-1],[5,10,15,20,25,40,50,"所有记录"]],
 			"fnDrawCallback": function(){$(".checkboxes").uniform();$(".group-checkable").uniform();},
 			//"sAjaxSource": "get_record.jsp"
-			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_position_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name+"&user_name="+data.user_name+"&order_by=price_bought asc"
+			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_position_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name+"&user_name="+data.user_name+"&order_by="+data.order_by
 		});
 		$('.datatable').find('.group-checkable').change(function () {
 			var set = jQuery(this).attr("data-set");
