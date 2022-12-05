@@ -40,8 +40,8 @@
                         </div>
                     </div>
                     <div class="form-actions noborder">
-                        <button type="button" class="btn blue" id="submit">购买</button>
-                        <button type="button" class="btn default" id="cancel">取消</button>
+                        <button type="button" class="btn blue" id="buy_submit">购买</button>
+                        <button type="button" class="btn default" data-dismiss="modal">取消</button>
                     </div>
                 </form>
             </div>

@@ -17,171 +17,96 @@ var Page = function() {
 		if(pageId=="futures_data"){
 			initFuturesDataList();
 		}
-		if(pageId=="device_add"){
-			initDeviceAdd();
-		}
-		if(pageId=="device_modify"){
-			initDeviceModify();
-		}
 		if(pageId=="futures_list_print_table"){
 			initFuturesPrintTable();
 		}
-		if(pageId=="futures_statistic"){
+		if (pageId == "futures_statistic") {
 			initFuturesStatistic();
 		}
-
+		if (pageId == "futures_kline") {
+			initFuturesKline();
+		}
 	};
 	/*----------------------------------------入口函数  结束----------------------------------------*/
 	var columnsData=undefined;
 	var recordResult=undefined;
-	var chartData=[];
 	/*----------------------------------------业务函数  开始----------------------------------------*/
 	/*------------------------------针对各个页面的入口  开始------------------------------*/
-	var initDeviceAdd=function(){
-		initDeviceAddControlEvent();
-	}
-	var initDeviceModify=function(){
-		initDeviceModifyControlEvent();
-		initDeviceRecordView();
-	}
+
 	var initFuturesDataList=function () {
 		initFuturesDataControlEvent();
 		initFuturesDataRecordDatatable();
 	}
-	var initFuturesPrintTable=function () {
-		initFuturesListPrintTableRecord()
-	};
-	var initFuturesStatistic=function () {
-		initFuturesStatisticControlEvent();
+	var initFuturesStatistic = function () {
 		$.ajaxSettings.async = false;	//禁止异步方式，否则第一个函数还没执行完就会执行第二个了
 		initFuturesStatisticRecord();
 		$.ajaxSettings.async = true;
-		initBarChart();
-	};
+	}
+	var initFuturesPrintTable=function () {
+		initFuturesListPrintTableRecord()
+	}
+	var initFuturesKline = function (){
+		initFuturesKlinePage();
+	}
 	/*------------------------------针对各个页面的入口 结束------------------------------*/
+
+	/*时间范围确定*/
+	function checkAuditTime(startTime, endTime){
+		// 获取当前时间
+		const date  = new Date()
+		// 获取当前时间的年月日
+		const dataStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} `
+
+		// 获取开始时间、结束时间、现在时间的时间戳
+		let startDate = new Date(dataStr + startTime).getTime()
+		let endDate = new Date(dataStr + endTime).getTime()
+		let nowDate = date.getTime()
+
+		const s = startDate > endDate // 判断开始时间否大于结束时间
+
+		if(s) [startDate, endDate] = [endDate, startDate] // 若开始时间否大于结束时间则交换值
+
+		// 判断现在的时间是否在开始时间和结束时间之间，若s为true则结果取反
+		if(nowDate > startDate && nowDate < endDate){
+			return s ? false : true
+		}else{
+			return s ? true : false
+		}
+	}
+	/*判断是否为周末*/
+	let weekArrayList = [ true,   '星期一',   '星期二',   '星期三',   '星期四',   '星期五',   true,  ]
+	let flag
+
 	var getUrlParam=function(name){
 		//获取url中的参数
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
 		var r = window.location.search.substr(1).match(reg);  //匹配目标参数
 		if (r != null) return decodeURI(r[2]); return null; //返回参数值，如果是中文传递，就用decodeURI解决乱码，否则用unescape
 	}
-	var initDeviceAddControlEvent=function(){
-		$("#help_button").click(function() {help();});
-		$('#add_button').click(function() {submitAddRecord();});
-	}
-	var initDeviceModifyControlEvent=function(){
-		$("#help_button").click(function() {help();});
-		$('#modify_button').click(function() {submitModifyRecord();});
-	}
 	var initFuturesDataControlEvent=function () {
 		$('#remake_button').click(function() {onRemake();});	//重置按钮
 		$('#query_button').click(function() {initFuturesDataRecordDatatable();});	//查询按钮
-		$('#export_button').click(function() {onExportRecord();});	//导出按钮
+		$('#export_futures_button').click(function() {onExportRecord();});	//导出按钮
 		$('#finish_download_button').click(function() {onFinishDownload();});	//导出完毕按钮
 		$('#refresh_button').click(function() {onRemake();});	//另一个刷新按钮
 		$('#table_print_button').click(function() {onTablePrint();});	//打印按钮
-		$('#statistic_button').click(function() {onStatisticRecord();});	//统计按钮
-		$('#buy_div #submit').click(function() {onBuyDivSubmit();});	//购买弹窗的提交按钮
-		$('#buy_div #cancel').click(function() {onBuyDivCancel();});	//购买弹出的取消按钮
-	};
-	var initFuturesStatisticControlEvent=function () {
-		$('#return_button').click(function() {returnBack();});
-	}
-	var initDeviceRecordView=function(){
-		var id=getUrlParam("id");
-		var data={};
-		data.action="get_device_record";
-		data.id=id;
-		$.post(module+"_"+sub+"_servlet_action",data,function(json){
-			console.log(JSON.stringify(json));
-			if(json.result_code==0){
-				var list=json.aaData;
-				if(list!=undefined && list.length>0){
-					for(var i=0;i<list.length;i++){
-						var record=list[i];
-						$("#device_id").val(record.device_id);
-						$("#device_name").val(record.device_name);
-					}
-				}
-			}
-		})
-	}
-	var submitAddRecord=function(){
-		var url="device_file_servlet_action";
-		var data={};
-		data.action="add_device_record";
-		data.device_id=$("#device_id").val();
-		data.device_name=$("#device_name").val();
-		$.post(url,data,function(json){
-			if(json.result_code==0){
-				alert("已经完成设备添加。");
-				window.location.href="complain_list.jsp";
-			}
+		$('#remake_button').click(function() {onRemake();});
+		$('#query_button').click(function() {initFuturesDataRecordDatatable();});
+		$('#export_button').click(function() {onExportRecord();});
+		$('#finish_download_button').click(function() {onFinishDownload();});
+		$('#refresh_button').click(function() {onRemake();});
+		$('#table_print_button').click(function() {onTablePrint();});
+		$('#show_shares').click(function(){toSharePage();});
+		$('#show_exchange').click(function(){toExchangePage();});
+		$('#table_button').click(function () {
+			onStatisticRecord();
 		});
-	}
-	var submitModifyRecord=function(){
-		if(confirm("您确定要修改该记录吗？")){
-			var id=getUrlParam("id");
-			var url="device_file_servlet_action";
-			var data={};
-			data.action="modify_device_record";
-			data.id=id;
-			data.device_id=$("#device_id").val();
-			data.device_name=$("#device_name").val();
-			$.post(url,data,function(json){
-				if(json.result_code==0){
-					alert("已经完成设备修改。");
-					window.location.href="complain_list.jsp";
-				}
-			});
-		}
+		$('#buy_submit').click(function(){onBuyDivSubmit();});
 	}
 
-	
-	var initDeviceRecordList=function(){
-		getDeviceRecordList();
-	}
-	var initDeviceMobileRecord=function(){
-		getDeviceMobileRecord();
-	}
-	var getDeviceRecordList=function(){
-		$.post(module+"_"+sub+"_servlet_action?action=get_device_record",function(json){
-			console.log(JSON.stringify(json));
-			if(json.result_code==0){
-				var list=json.aaData;
-				var html="";
-				if(list!=undefined && list.length>0){
-					for(var i=0;i<list.length;i++){
-						var record=list[i];
-						html=html+"<div>序号："+i+"<div>";
-						html=html+"<div>设备ID："+record.device_id+"<div>";
-						html=html+"<div>设备名称："+record.device_name+"<div>";
-						html=html+"<div><a href=\"javascript:Page.onModifyRecord("+record.id+")\">【修改记录】</a><a href=\"javascript:Page.onDeleteRecord("+record.id+")\">【删除记录】</a><div>";
-						html=html+"<p>";
-					}
-				}
-				$("#record_list_div").html(html);
-			}
-		})
-	}
-	var onDeleteRecord = function(id){
-		if(confirm("您确定要删除这条记录吗？")){
-			if(id>-1){
-				var url="device_file_servlet_action";
-				var data={};
-				data.action="delete_device_record";
-				data.id=id;
-				$.post(url,data,function(json){
-					if(json.result_code==0){
-						getDeviceRecordList();
-					}
-				})
-			}
-		}
+	var on_show_kline = function (futures_id) {
+		window.location.href = "futures_show_kline.jsp?futures_id=" + futures_id;
 	};
-	var onModifyRecord=function(id){
-		window.location.href="device_modify.jsp?id="+id;
-	}
 	var onHistoryRecord=function () {
 		window.location.href="commonHistoryOrder.jsp";
 	}
@@ -230,15 +155,10 @@ var Page = function() {
 				"mRender": function(data, type, full) {
 					sReturn = '<div>'+full.futures_id+'</div>';
 					return sReturn;
-				},"orderable": false
+				},"orderable": true
 			},{
 				"mRender": function(data, type, full) {
 					sReturn = '<div>'+full.futures_name+'</div>';
-					return sReturn;
-				},"orderable": false
-			},{
-				"mRender": function(data, type, full) {
-					sReturn = '<div>'+full.type+'</div>';
 					return sReturn;
 				},"orderable": false
 			},{
@@ -285,8 +205,8 @@ var Page = function() {
 			},{
 				"mRender": function(data, type, full) {
 					if(full.price_right_now!="" && full.price_yesterday!=""){
-						var amplitude=(full.price_right_now-full.price_yesterday)/full.price_yesterday*100;
-						amplitude=Math.round(amplitude*1000)/1000;
+						var amplitude=(full.price_right_now-full.price_yesterday)/full.price_yesterday;
+						amplitude=Math.round(amplitude*100000)/1000;
 						if(amplitude>0){
 							sReturn = '<div class="font-red">'+amplitude+'%</div>';
 						}else {
@@ -295,19 +215,31 @@ var Page = function() {
 					}else {
 						sReturn = '<div></div>'
 					}
-
+					return sReturn;
+				},"orderable": true
+			},{
+				"mRender": function(data, type, full) {
+					let time = new Date()
+					let time1 = time.toLocaleString()  //打印结果为：YYMMDD time
+					let time2 = time.toLocaleDateString()   //打印结果为：YYMMDD
+					let index = new Date(time2).getDay()
+					/*是否为周末*/
+					flag = weekArrayList [index]
+					if (checkAuditTime('00:00','09:30') ||checkAuditTime('11:30','13:00') || checkAuditTime('15:00','24:00') || flag){
+						sReturn = '<div>休市</div>';
+					}
+					else sReturn = '<div>开市</div>';
 					return sReturn;
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					//如果要传不是数字类型的字符串需要加引号这个才会跳转，还有一点这里加引号需要转义，且转义的是单引号
-					sReturn = '<div><a href="javascript:Page.buyFutures('+full.id+')">【买入】</a><a href="javascript:Page.onDeleteRecord('+full.id+')">【k线图】</a></div>';
+					futures_id = full.futures_id;
+					sReturn = '<div><a href="#" onclick="Page.buyFutures(\'' + futures_id + '\')">【买入】</a><a href="#" onclick="Page.onShowKline(\'' + futures_id + '\')">【k线图】</div>';
 					return sReturn;
 				},"orderable": false
 			}],
 			"aLengthMenu": [[5,10,15,20,25,40,50,-1],[5,10,15,20,25,40,50,"所有记录"]],
 			"fnDrawCallback": function(){$(".checkboxes").uniform();$(".group-checkable").uniform();},
-			//"sAjaxSource": "get_record.jsp"
 			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_futures_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name
 		});
 		$('.datatable').find('.group-checkable').change(function () {
@@ -331,15 +263,17 @@ var Page = function() {
 	var onRemake=function () {
 		window.location.reload();
 	}
-
-	//导出事件
+	var onStatisticRecord = function () {
+		window.location.href="futures_statistic.jsp";
+	}
 	var onExportRecord=function () {
 		var url="../../"+module+"_"+sub+"_servlet_action";
 		var data={"action":"export_futures_record"};
 		$.post(url,data,function (json) {
 			if (json.result_code==0){
-				console.log(JSON.stringify(json));
-				$("#futures_download_div #download_url").attr("href","javascript:window.open('"+json.download_url+"')");	//window.open是打开一个新的页面进行跳转，但是这里没有显现出来
+				//console.log(JSON.stringify(json));
+				$("#futures_download_div #download_futures_rar_url").attr("href","javascript:window.open('"+json.download_rar_url+ "')");
+				$("#futures_download_div #download_futures_xls_url").attr("href","javascript:window.open('"+json.download_xls_url+ "')");
 				$("#futures_download_div").modal("show");
 			}else{
 				alert("[onExportRecord]与后端交互错误！"+json.result_smg);
@@ -354,6 +288,269 @@ var Page = function() {
 	var onTablePrint=function () {
 		window.location.href="futures_list_print_table.jsp";
 	};
+
+	var toSharePage = function (){
+		window.location.href="../../share/shares/sharesData.jsp";
+	};
+
+	var toExchangePage = function (){
+		window.location.href="../../share/exchanges/exchangesData.jsp";
+	};
+
+	var initFuturesKlinePage = function () {
+		$("#page_sidebar_wrapper").hide();
+		$("#page_header").hide();
+		$("#page_footer").hide();
+		$("#page-content").attr("style", "margin-left:0px");
+		$(".page-container").attr("style", "margin-left:0px");
+		$(".page-container").attr("style", "margin-top:0px");
+		var futures_id = getUrlParam("futures_id");
+		$("#kline_shares_id").val(futures_id);
+		console.log(futures_id)
+
+		$.post("../../" + module + "_" + sub + "_servlet_action?action=get_kline&futures_id=" + futures_id, function (json) {
+			//console.log(JSON.stringify(json));
+			var data = [];
+			if (json.result_code == 0) {
+				var list = json.aaData;
+				if (list != undefined && list.length > 0) {
+					for (var i = 0; i < list.length; i++) {
+						var item = list[i];
+						var open = parseFloat(item.price_today_begin);
+						var close = parseFloat(item.price_right_now);
+						var lowest = parseFloat(item.price_low);
+						var highest = parseFloat(item.price_high);
+						var date = item.date;
+						date = date.replace("-", "/");
+						var temp = [];
+						temp.push(date, open, close, lowest, highest)
+						data.push(temp)
+					}
+				}
+			}
+			/*配置echarts*/
+			const upColor = '#ec0000';
+			const upBorderColor = '#8A0000';
+			const downColor = '#00da3c';
+			const downBorderColor = '#008F28';
+			// Each item: open，close，lowest，highest
+			const data0 = splitData(data);
+
+			function splitData(rawData) {
+				const categoryData = [];
+				const values = [];
+				for (var i = 0; i < rawData.length; i++) {
+					categoryData.push(rawData[i].splice(0, 1)[0]);
+					values.push(rawData[i]);
+				}
+				return {
+					categoryData: categoryData,
+					values: values
+				};
+			}
+
+			function calculateMA(dayCount) {
+				var result = [];
+				for (var i = 0, len = data0.values.length; i < len; i++) {
+					if (i < dayCount) {
+						result.push('-');
+						continue;
+					}
+					var sum = 0;
+					for (var j = 0; j < dayCount; j++) {
+						sum += +data0.values[i - j][1];
+					}
+					result.push(sum / dayCount);
+				}
+				return result;
+			}
+
+			var option = {
+				title: {
+					text: futures_id,
+					left: 0
+				},
+				tooltip: {
+					trigger: 'axis',
+					axisPointer: {
+						type: 'cross'
+					}
+				},
+				legend: {
+					data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30']
+				},
+				grid: {
+					left: '10%',
+					right: '10%',
+					bottom: '15%'
+				},
+				xAxis: {
+					type: 'category',
+					data: data0.categoryData,
+					boundaryGap: false,
+					axisLine: {onZero: false},
+					splitLine: {show: false},
+					min: 'dataMin',
+					max: 'dataMax'
+				},
+				yAxis: {
+					scale: true,
+					splitArea: {
+						show: true
+					}
+				},
+				dataZoom: [
+					{
+						type: 'inside',
+						start: 50,
+						end: 100
+					},
+					{
+						show: true,
+						type: 'slider',
+						top: '90%',
+						start: 50,
+						end: 100
+					}
+				],
+				series: [
+					{
+						name: '日K',
+						type: 'candlestick',
+						data: data0.values,
+						itemStyle: {
+							color: upColor,
+							color0: downColor,
+							borderColor: upBorderColor,
+							borderColor0: downBorderColor
+						},
+						markPoint: {
+							label: {
+								formatter: function (param) {
+									return param != null ? Math.round(param.value) + '' : '';
+								}
+							},
+							data: [
+								{
+									name: 'Mark',
+									coord: ['2013/5/31', 2300],
+									value: 2300,
+									itemStyle: {
+										color: 'rgb(41,60,85)'
+									}
+								},
+								{
+									name: 'highest value',
+									type: 'max',
+									valueDim: 'highest'
+								},
+								{
+									name: 'lowest value',
+									type: 'min',
+									valueDim: 'lowest'
+								},
+								{
+									name: 'average value on close',
+									type: 'average',
+									valueDim: 'close'
+								}
+							],
+							tooltip: {
+								formatter: function (param) {
+									return param.name + '<br>' + (param.data.coord || '');
+								}
+							}
+						},
+						markLine: {
+							symbol: ['none', 'none'],
+							data: [
+								[
+									{
+										name: 'from lowest to highest',
+										type: 'min',
+										valueDim: 'lowest',
+										symbol: 'circle',
+										symbolSize: 10,
+										label: {
+											show: false
+										},
+										emphasis: {
+											label: {
+												show: false
+											}
+										}
+									},
+									{
+										type: 'max',
+										valueDim: 'highest',
+										symbol: 'circle',
+										symbolSize: 10,
+										label: {
+											show: false
+										},
+										emphasis: {
+											label: {
+												show: false
+											}
+										}
+									}
+								],
+								{
+									name: 'min line on close',
+									type: 'min',
+									valueDim: 'close'
+								},
+								{
+									name: 'max line on close',
+									type: 'max',
+									valueDim: 'close'
+								}
+							]
+						}
+					},
+					{
+						name: 'MA5',
+						type: 'line',
+						data: calculateMA(5),
+						smooth: true,
+						lineStyle: {
+							opacity: 0.5
+						}
+					},
+					{
+						name: 'MA10',
+						type: 'line',
+						data: calculateMA(10),
+						smooth: true,
+						lineStyle: {
+							opacity: 0.5
+						}
+					},
+					{
+						name: 'MA20',
+						type: 'line',
+						data: calculateMA(20),
+						smooth: true,
+						lineStyle: {
+							opacity: 0.5
+						}
+					},
+					{
+						name: 'MA30',
+						type: 'line',
+						data: calculateMA(30),
+						smooth: true,
+						lineStyle: {
+							opacity: 0.5
+						}
+					}
+				]
+			};
+			var chartDom = document.getElementById('echarts');
+			var myChart = echarts.init(chartDom);
+			myChart.setOption(option);
+		})
+	}
 	var initFuturesListPrintTableRecord=function () {
 		$("#page_sidebar_wrapper").hide();
 		$("#page_header").hide();
@@ -375,8 +572,8 @@ var Page = function() {
 						if(record.price_right_now!="" && record.price_yesterday!="") {
 							change = (record.price_right_now - 0) - (record.price_yesterday - 0);
 							change = Math.round(change * 100) / 100;
-							amplitude=(record.price_right_now-record.price_yesterday)/record.price_yesterday*100;
-							amplitude=Math.round(amplitude*1000)/1000;
+							amplitude=(record.price_right_now-record.price_yesterday)/record.price_yesterday;
+							amplitude=Math.round(amplitude*100000)/1000;
 							amplitude=amplitude+'%';
 						}
 						html=html+"                          	 		<tr>";
@@ -385,9 +582,6 @@ var Page = function() {
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
 						html=html+"                                            "+record.futures_name;
-						html=html+"                                        </td>";
-						html=html+"                                        <td>";
-						html=html+"                                            "+record.type;
 						html=html+"                                        </td>";
 						html=html+"                                        <td>";
 						html=html+"                                            "+record.price_today_begin;
@@ -414,124 +608,113 @@ var Page = function() {
 					}
 				}
 				$("#print_table_content_div").html(html);
-				//window.print();
+				window.print();
 			}
 		})
 	}
+	var initFuturesStatisticRecord = function () {
+		var chartDom = document.getElementById('chart_1');
+		var myChart = echarts.init(chartDom);
 
-	//统计功能的实现
-	//这里进行跳转，统计图显示在另一个页面中
-	var onStatisticRecord=function () {
-		window.location.href="futures_statistic.jsp";
-	};
-	//当页面跳转后执行的，访问后端的数据，获取的东西是每个小时断和对应时间段的记录的数目，注意chartData是一个全局变量，在判断完page之后继续定义
-	var initFuturesStatisticRecord=function () {
 		var url = "../../"+module+"_"+sub+"_servlet_action";
-		//其实不管是用data传参还是将要传递的参数放到url里，后端操作过程没有区别
 		var data={"action":"get_amplitude_by_futuresId"};
+		var xlabel = [];
+		var ylabel = [];
 		$.post(url,data,function (json) {
-			var html="";
 			if(json.result_code == 0){
-				console.log(JSON.stringify(json));
+				//console.log(JSON.stringify(json));
 				var list = json.aaData;
 				if(list!=undefined && list.length>0){
-					changeResultDataToChartData(list,chartData);
-					console.log(JSON.stringify(chartData));
+					for (var i = 0; i < list.length; i++) {
+						var item = list[i];
+						xlabel.push(item.futures_id);
+						ylabel.push(parseFloat(item.amplitude).toFixed(3));
+					}
 				}
 			}else {
 				alert("[initDeviceStatisticRecord]与后端交互错误！"+json.result_smg);
 			}
 		})
-	};
-	//将数据塞到chartData里，这个模板限定的用chartData这个变量
-	var changeResultDataToChartData=function (list,chartData) {
-		for(var i = 0; i < list.length; i++){
-			//year是横坐标，incom是横条的纵坐标，expenses是折线的纵坐标
-			var json = {"year":list[i].futures_name,"income":list[i].amplitude,"expenses":list[i].amplitude};
-			chartData.push(json);
-		}
-	};
-	//初始化那个统计表，必须要但不知道具体原理的东西
-	var initBarChart=function () {
-		var chart = AmCharts.makeChart("chart_1", {
-			"type": "serial",
-			"theme": "light",
-			"pathToImages": Metronic.getGlobalPluginsPath() + "amcharts/amcharts/images/",
-			"autoMargins": false,
-			"marginLeft": 30,
-			"marginRight": 8,
-			"marginTop": 10,
-			"marginBottom": 26,
 
-			"fontFamily": 'Open Sans',
-			"color":    '#888',
-
-			"dataProvider": chartData,
-			"valueAxes": [{
-				"axisAlpha": 0,
-				"position": "left"
-			}],
-			"startDuration": 1,
-			"graphs": [{
-				"alphaField": "alpha",
-				"balloonText": "<span style='font-size:13px;'>[[title]] in [[category]]:<b>[[value]]</b> [[additional]]</span>",
-				"dashLengthField": "dashLengthColumn",
-				"fillAlphas": 1,
-				"title": "Income",
-				"type": "column",
-				"valueField": "income"
-			}, {
-				"balloonText": "<span style='font-size:13px;'>[[title]] in [[category]]:<b>[[value]]</b> [[additional]]</span>",
-				"bullet": "round",
-				"dashLengthField": "dashLengthLine",
-				"lineThickness": 3,
-				"bulletSize": 7,
-				"bulletBorderAlpha": 1,
-				"bulletColor": "#FFFFFF",
-				"useLineColorForBulletBorder": true,
-				"bulletBorderThickness": 3,
-				"fillAlphas": 0,
-				"lineAlpha": 1,
-				"title": "Expenses",
-				"valueField": "expenses"
-			}],
-			"categoryField": "year",
-			"categoryAxis": {
-				"gridPosition": "start",
-				"axisAlpha": 0,
-				"tickLength": 0
+		var emphasisStyle = {
+			itemStyle: {
+				shadowBlur: 10,
+				shadowColor: 'rgba(0,0,0,0.3)'
 			}
+		};
+		var option = {
+			legend: {
+				data: ['bar'],
+				left: '10%'
+			},
+			brush: {
+				toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
+				xAxisIndex: 0
+			},
+			toolbox: {
+				feature: {
+					magicType: {
+						type: ['stack']
+					},
+					dataView: {}
+				}
+			},
+			tooltip: {
+				show:true,
+				trigger: 'axis',
+				//triggerOn:'mouseover',
+				formatter: function(params) {
+					//console.log(params[0])
+					return '期货代码：' + params[0].name + '<br>涨跌幅：' + params[0].value +'%'
+				}
+			},
+			xAxis: {
+				data: xlabel,
+				name: '期货代码',
+				axisLine: { onZero: true },
+				splitLine: { show: true },
+				splitArea: { show: true }
+			},
+			yAxis: {},
+			grid: {
+				bottom: 100
+			},
+			series: [
+				{
+					name: '涨跌幅度',
+					type: 'bar',
+					stack: 'one',
+					emphasis: emphasisStyle,
+					data: ylabel
+				},
+			]
+		};
+		myChart.on('brushSelected', function (params) {
+			var brushed = [];
+			var brushComponent = params.batch[0];
+			for (var sIdx = 0; sIdx < brushComponent.selected.length; sIdx++) {
+				var rawIndices = brushComponent.selected[sIdx].dataIndex;
+				brushed.push('[Series ' + sIdx + '] ' + rawIndices.join(', '));
+			}
+			myChart.setOption({
+				title: {
+					backgroundColor: '#333',
+					text: 'SELECTED DATA INDICES: \n' + brushed.join('\n'),
+					bottom: 0,
+					right: '10%',
+					width: 100,
+					textStyle: {
+						fontSize: 12,
+						color: '#fff'
+					}
+				}
+			});
 		});
 
-		$('#chart_1').closest('.portlet').find('.fullscreen').click(function() {
-			chart.invalidateSize();
-		});
-	};
-	//统计页面返回按钮的事件
-	var returnBack=function () {
-		history.go(-1);
-	};
+		option && myChart.setOption(option);
+	}
 
-	//将弹出显示出来并赋值
-	var buyFutures=function (id) {
-		var url="../../"+module+"_"+sub+"_servlet_action?id="+id;
-		var data={};
-		data.action="get_futures_record";
-		data.id=id;
-		$.post(url,data,function(json){
-			console.log(JSON.stringify(json));
-			if(json.result_code==0) {
-				var record = json.aaData;
-				record=record[0];
-				$("#buy_div #futures_id").val(record.futures_id);
-				$("#buy_div #futures_name").val(record.futures_name);
-				$("#buy_div #type").val(record.type);
-				$("#buy_div #price_right_now").val(record.price_right_now);
-				$("#buy_div").modal("show");
-			}
-		})
-	};
-	//买入弹窗的按钮事件,将买入期货相关信息存到my_position数据库并且减少用户余额
+//买入弹窗的按钮事件,将买入期货相关信息存到my_position数据库并且减少用户余额
 	var onBuyDivSubmit=function () {
 		if (!(/(^[1-9]\d*$)/.test($("#buy_div #amount").val()))) {
 			$("#reminder").modal("show");
@@ -580,23 +763,38 @@ var Page = function() {
 			});
 		}
 	};
-	//弹窗的取消按钮事件
-	var onBuyDivCancel=function () {
-		$("#buy_div").modal("hide");
-	};
+
 	//Page return 开始
 	return {
 		init: function() {
 			initPageControl();
 		},
-		onDeleteRecord:function(id){
-			onDeleteRecord(id);
+		onShowKline: function (futures_id) {
+			on_show_kline(futures_id);
 		},
-		onModifyRecord:function(id){
-			onModifyRecord(id);
-		},
-		buyFutures:function (id) {
-			buyFutures(id);
+		buyFutures : function (futures_id) {
+			//console.log(flag)
+			if (flag){
+				alert("已休市！")
+			}
+			else {
+				var url="../../"+module+"_"+sub+"_servlet_action?futures_id="+futures_id;
+				var data={};
+				data.action="get_futures_record";
+				data.futures_id=futures_id;
+				$.post(url,data,function(json){
+					//console.log(JSON.stringify(json));
+					if(json.result_code==0) {
+						var record = json.aaData;
+						record=record[0];
+						$("#buy_div #futures_id").val(record.futures_id);
+						$("#buy_div #futures_name").val(record.futures_name);
+						$("#buy_div #type").val("期货");
+						$("#buy_div #price_right_now").val(record.price_right_now);
+						$("#buy_div").modal("show");
+					}
+				})
+			}
 		}
 	}
 }();//Page

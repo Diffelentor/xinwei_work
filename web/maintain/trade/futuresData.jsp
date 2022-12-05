@@ -21,7 +21,7 @@
 
     <link rel="shortcut icon" href="../dataTables/favicon.ico"/>
 </head>
-<body class="page-header-fixed page-quick-sidebar-over-content page-full-width page-boxed">
+<body class="page-header-fixed page-quick-sidebar-over-content ">
 <%@include file="../../home/frame/frame_header.jsp"%>
 <div class="clearfix">
 </div>
@@ -76,29 +76,25 @@
                 </div>
             </div>
             <br>
-
-            <br>
             <div class="row">
-                <div class="col-md-10 ">
+                <div class="col-md-12">
                     <%--                    如果不将type类型定义为buton的话会被默认为submit类型--%>
                     <button type="button"  class="btn btn-circle btn-lg default" id="export_button" name="export_button">
                         <i class="fa fa-cloud-download"></i> 导出</button>
-                    <button type="button" class="btn btn-circle btn-lg blue" id="statistic_button" name="statistic_button">
+                    <button type="button" class="btn btn-circle btn-lg blue" id="table_button" name="table_button">
                         <i class="icon-bar-chart"></i> 统计</button>
                     <button type="button" class="btn btn-circle btn-lg green" id="table_print_button" name="table_print_button">
                         <i class="fa fa-print"></i> 打印</button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" style="float: right"  class="btn default" id="refresh_button" name="refresh_button">
-                        <i class="fa fa-refresh"></i></button>
-                </div>
-                <div style="float:right;">
-                    <button type="button"   class="btn green" id="show_futures" name="show_futures">
-                        <i class="fa fa-search"></i>期货</button>
-                    <button type="button"   class="btn green" id="show_stock" name="show_stock">
-                        <i class="fa fa-search"></i>股票</button>
-                    <button type="button"   class="btn green" id="show_exchange" name="show_exchange">
-                        <i class="fa fa-search"></i>汇率</button>
+                    <div style="float:right;">
+                        <button type="button" style="float: right"  class="btn default" id="refresh_button" name="history_button">
+                            <i class="fa fa-refresh"></i></button>
+                        <button type="button"   class="btn green" id="show_futures" name="show_futures">
+                            <i class="fa fa-search"></i>期货</button>
+                        <button type="button"   class="btn green" id="show_shares" name="show_shares">
+                            <i class="fa fa-search"></i>股票</button>
+                        <button type="button"   class="btn green" id="show_exchange" name="show_exchange">
+                            <i class="fa fa-search"></i>外汇</button>
+                    </div>
                 </div>
             </div>
             <br>
@@ -113,9 +109,6 @@
                             </th>
                             <th>
                                 期货名称
-                            </th>
-                            <th>
-                                类型
                             </th>
                             <th>
                                 开盘价
@@ -139,6 +132,9 @@
                                 涨跌幅
                             </th>
                             <th>
+                                状态
+                            </th>
+                            <th>
                                 操作
                             </th>
                         </tr>
@@ -160,6 +156,8 @@
 <%@include file="../../home/frame/frame_footer.jsp"%>
 
 <%@include file="../../home/frame/frame_javascript.jsp"%>
+<%@include file="../../maintain/trade/futures_download_div.jsp"%>
+<%@include file="../../maintain/trade/buy_div.jsp"%>
 <%--本页专用的--%>
 <script type="text/javascript" src="../dataTables/jquery.dataTables.min.js"></script>
 
@@ -167,5 +165,3 @@
 </body>
 <!-- END BODY -->
 </html>
-<%@include file="futures_download_div.jsp"%>
-<%@include file="buy_div.jsp"%>

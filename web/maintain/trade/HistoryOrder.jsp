@@ -22,7 +22,7 @@
 
     <link rel="shortcut icon" href="../device/favicon.ico"/>
 </head>
-<body class="page-header-fixed page-quick-sidebar-over-content page-full-width page-boxed">
+<body class="page-header-fixed page-quick-sidebar-over-content ">
 <%@include file="../../home/frame/frame_header.jsp"%>
 <div class="clearfix">
 </div>

@@ -22,7 +22,7 @@
 
     <link rel="shortcut icon" href="../dataTables/favicon.ico"/>
 </head>
-<body class="page-header-fixed page-quick-sidebar-over-content page-full-width page-boxed">
+<body class="page-header-fixed page-quick-sidebar-over-content ">
 <%@include file="../../home/frame/frame_header.jsp"%>
 <div class="clearfix">
 </div>
@@ -63,7 +63,7 @@
                     <div class="portlet">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-bell-o"></i>期货数据
+                                <i class="fa fa-bell-o"></i>期货数据表
                             </div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse">
@@ -74,6 +74,8 @@
                                 </a>
                                 <a href="javascript:;" class="remove">
                                 </a>
+                                <button type="button"   class="btn green" id="return_button" name="return_button" onclick="javascript:history.back(-1)">
+                                    <i class="fa fa-refresh"></i>返回</button>
                             </div>
                         </div>
                         <div class="portlet-body">
@@ -86,9 +88,6 @@
                                         </th>
                                         <th>
                                             期货名称
-                                        </th>
-                                        <th>
-                                            类型
                                         </th>
                                         <th>
                                             开盘价
@@ -139,6 +138,7 @@
                     </div>
                     <!-- END SAMPLE TABLE PORTLET-->
                 </div>
+
             </div>
             <!--页面结束=======================================================-->
             <!-- END PAGE CONTENT-->

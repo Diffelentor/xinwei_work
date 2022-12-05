@@ -22,7 +22,7 @@
 
     <link rel="shortcut icon" href="../device/favicon.ico"/>
 </head>
-<body class="page-header-fixed page-quick-sidebar-over-content page-full-width page-boxed">
+<body class="page-header-fixed page-quick-sidebar-over-content ">
 <%@include file="../../home/frame/frame_header.jsp"%>
 <div class="clearfix">
 </div>
@@ -78,7 +78,6 @@
             </div>
             <div class="portlet box green-haze">
                 <div class="portlet-body">
-
                     <br>
                     <br>
                     <%--                    按钮--%>
@@ -87,11 +86,6 @@
                             <%--                    如果不将type类型定义为buton的话会被默认为submit类型--%>
                             <button type="button"  class="btn btn-circle btn-lg yellow-crusta" id="datatable_button" name="datatable_button">
                                 <i class="fa fa-plus"></i> 新增</button>
-                            <button type="button"  class="btn btn-circle btn-lg yellow-crusta" id="datatable_button" name="datatable_button">
-                                <span class="glyphicon glyphicon-remove-sign">
-                                    </span> 删除</button>
-                            <button type="button"  class="btn btn-circle btn-lg red-pink" id="datatable_button" name="datatable_button">
-                                <i class="fa fa-pencil"></i> 修改</button>
                             <button type="button"  class="btn btn-circle btn-lg default" id="datatable_button" name="datatable_button">
                                 <i class="fa fa-cloud-download"></i> 导出</button>
                             <button type="button" class="btn btn-circle btn-lg blue" id="table_button" name="table_button">

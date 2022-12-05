@@ -1,18 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--添加页面的小窗，被包含在manageFuturesData.jsp里，默认隐藏--%>
+<%--添加页面的小窗，被包含在managefuturesData.jsp里，默认隐藏--%>
 <div class="modal fade draggable-modal" id="futures_add_div" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">设备信息修改</h4>
+                <h4 class="modal-title">期货记录增加</h4>
             </div>
             <div class="modal-body">
                 <div class="portlet-body form">
                     <form class="form-horizontal" role="form">
                         <div class="form-body">
                             <div class="form-group">
-                                <label class="col-md-3 control-label">*期货代号</label>
+                                <label class="col-md-3 control-label">*代号</label>
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" placeholder="请填写代号" id="futures_id" name="futures_id">
                                     <span class="help-block font-red display-none" id="reminder">
@@ -20,15 +20,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label">期货名称</label>
+                                <label class="col-md-3 control-label">名称</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" placeholder="请填写期货名称" id="futures_name" name="futures_name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">类型</label>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" placeholder="请填写    类型" id="type" name="type">
+                                    <input type="text" class="form-control" placeholder="请填写名称" id="futures_name" name="futures_name">
                                 </div>
                             </div>
                             <div class="form-group">

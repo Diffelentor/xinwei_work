@@ -5,16 +5,6 @@
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
 <html lang="en">
-<!--<![endif]-->
-<!-- BEGIN HEAD -->
-<%--89行！！！！！！！！！！！！，page_id是XXX的形式！！！！！！！！！！！--%>
-<%--89行！！！！！！！！！！！！，page_id是XXX的形式！！！！！！！！！！！--%>
-<%--89行！！！！！！！！！！！！，page_id是XXX的形式！！！！！！！！！！！--%>
-<%--89行！！！！！！！！！！！！，page_id是XXX的形式！！！！！！！！！！！--%>
-<%--89行！！！！！！！！！！！！，page_id是XXX的形式！！！！！！！！！！！--%>
-<%--89行！！！！！！！！！！！！，page_id是XXX的形式！！！！！！！！！！！--%>
-<%--89行！！！！！！！！！！！！js里拿到的纵坐标横坐标也要改到相对应！！！！！！！！！！！--%>
-<%--89行！！！！！！！！！！！！使用时需要更改js文件名！！！！！！！！！！！--%>
 <head>
     <meta charset="utf-8"/>
     <title>管理系统</title>
@@ -29,7 +19,7 @@
 
     <link rel="shortcut icon" href="../dataTables/favicon.ico"/>
 </head>
-<body class="page-header-fixed page-quick-sidebar-over-content page-full-width page-boxed">
+<body class="page-header-fixed page-quick-sidebar-over-content ">
 <%@include file="../../home/frame/frame_header.jsp"%>
 <div class="clearfix">
 </div>
@@ -49,9 +39,6 @@
             <!--设置页面ID-->
             <input type="hidden" id="page_id" name="page_id" value="futures_statistic">
             <div class="row">
-                <button class="btn btn-lg" id="return_button"><i class="icon-arrow-left"></i></button>
-            </div>
-            <div class="row">
                 <div class="col-md-12">
                     <!-- BEGIN CHART PORTLET-->
                     <div class="portlet light bordered">
@@ -61,6 +48,8 @@
                                 <span class="caption-subject bold uppercase font-green-haze"> 期货统计</span>
                                 <span class="caption-helper">涨跌幅度统计</span>
                             </div>
+                            <button type="button" style="position: relative; left: 76%" class="btn green" id="return_button" name="return_button" onclick="javascript:history.back(-1)">
+                                <i class="fa fa-refresh"></i>返回</button>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse">
                                 </a>
@@ -104,7 +93,9 @@
 <script src="../../assets/global/plugins/amcharts/amcharts/themes/chalk.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <script type="text/javascript" src="../dataTables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../resource/js/echarts.min.js"></script>
 <script src="futuresData.js"></script>
 </body>
 <!-- END BODY -->
 </html>
+
