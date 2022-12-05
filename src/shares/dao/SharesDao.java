@@ -247,7 +247,7 @@ public class SharesDao {
         String resultMsg = "ok";
         int resultCode = 0;
         List jsonList = new ArrayList();
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String date = idWeek(determine_date());
         /*--------------------获取变量 完毕--------------------*/
         /*--------------------数据操作 开始--------------------*/
         Db queryDb = new Db("test");
