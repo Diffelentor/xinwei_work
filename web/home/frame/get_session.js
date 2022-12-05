@@ -25,9 +25,17 @@ var Get_Session = function() {
             }
         })
     };
+    var logout=function() {
+        console.log("退出登陆");
+        sessionStorage.clear();
+        window.location.href="../../home/main/login.jsp";
+    }
     return {
         init: function() {
             initSession();
+        },
+        logout: function(){
+            logout();
         }
     }
 }();

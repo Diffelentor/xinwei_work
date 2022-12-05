@@ -9,7 +9,7 @@
 <!-- footer -->
 
 <!-- footer -->
-<div class="footer">
+<div class="page_footer">
     <div class="container">
         <ul class="agileits_w3layouts_footer_info">
             <li><a href="">Home</a><i>|</i></li>

@@ -118,6 +118,10 @@ License: You must have a valid license purchased only from themeforest(the above
                         <i class="fa fa-plus"></i> 新增</button>
                     <button type="button"  class="btn btn-circle btn-lg default" id="export_button" name="export_button">
                         <i class="fa fa-cloud-download"></i> 导出</button>
+                    <button type="button" class="btn btn-circle btn-lg green" id="table_print_button" name="table_print_button">
+                        <i class="fa fa-print"></i> 打印</button>
+                    <button type="button" class="btn btn-circle btn-lg blue" id="statistic_button" name="statistic_button">
+                        <i class="icon-bar-chart"></i> 统计</button>
                 </div>
                 <div class="col-md-2">
                     <button type="button" style="float: right"  class="btn default" id="refresh_button" name="refresh_button">
@@ -164,7 +168,9 @@ License: You must have a valid license purchased only from themeforest(the above
                             <th>用户密码</th>
                             <th>用户邮箱</th>
                             <th>用户身份</th>
-                            <th>用户余额</th>
+                            <th>
+                                用户余额
+                            </th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -256,6 +262,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <%@include file="../../home/frame/frame_javascript.jsp"%>
 <script type="text/javascript" src="jquery.dataTables.min.js"></script>
 <script src="user.js" type="text/javascript"></script>
+
 </body>
 <!-- END BODY -->
 

@@ -15,16 +15,33 @@ var Page = function() {
 
 	/*----------------------------------------入口函数  开始----------------------------------------*/
 	var initPageControl=function(){
-		initUserList();
+		if($("#page_id").val()=="user_list_print"){
+			initUserListPrint();
+		}
+		else if($("#page_id").val()=="user_statistic"){
+			initUserStatistic();
+		}
+		else{
+			initUserList();
+		}
+
 	};
 	/*----------------------------------------入口函数  结束----------------------------------------*/
 	var columnsData=undefined;
 	var recordResult=undefined;
+	var chartData=[];
 	/*----------------------------------------业务函数  开始----------------------------------------*/
 	/*------------------------------针对各个页面的入口  开始------------------------------*/
 	var initUserList=function(){
 		initUserListControlEvent();
 		initUserRecordList();
+	};
+	var initUserStatistic=function () {
+		initUserStatisticControlEvent();
+		$.ajaxSettings.async = false;	//禁止异步方式，否则第一个函数还没执行完就会执行第二个了
+		initUserStatisticRecord();
+		$.ajaxSettings.async = true;
+		initBarChart();
 	};
 	/*------------------------------针对各个页面的入口 结束------------------------------*/
 	var getUrlParam=function(name){
@@ -42,11 +59,21 @@ var Page = function() {
 		$('#export_button').click(function() {onExportRecord();});
 		$('#remake_button').click(function() {onRemake();});
 		$('#refresh_button').click(function() {onRemake();});	//另一个刷新按钮
+		$('#table_print_button').click(function() {onTablePrint();});
+		$('#statistic_button').click(function() {onStatisticRecord();});
 	};
+	var initUserStatisticControlEvent=function () {
+		$('#return_button').click(function() {returnBack();});
+	}
 
 	var onRemake=function () {
 		window.location.reload();
 	};
+
+	var returnBack=function () {
+		history.go(-1);
+	};
+
 	var onAddRecord=function(){
 		$('#record_add_div').modal("show");
 		//window.location.href="user_add.jsp";
@@ -243,7 +270,85 @@ var Page = function() {
 			}
 		});
 	};
+	var onTablePrint=function(){
+		window.location.href="user_list_print.jsp";
+	}
+	var initUserListPrint=function(){
+		$(".page-container").attr("style","margin-top:0px");
+		$.post("../../"+module+"_"+sub+"_servlet_action?action=get_user_record",function(json){
+			console.log(JSON.stringify(json));
+			if(json.result_code==0){
+				var list=json.aaData;
+				var html="";
+				if(list!=undefined && list.length>0){
+					for(var i=0;i<list.length;i++){
+						var record=list[i];
 
+						html=html+"                          	 		<tr>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+record.username;
+						html=html+"                                        </td>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+record.password;
+						html=html+"                                        </td>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+record.email;
+						html=html+"                                        </td>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+record.identity;
+						html=html+"                                        </td>";
+						html=html+"                                        <td>";
+						html=html+"                                            "+record.balance;
+						html=html+"                                        </td>";
+						html=html+"                                    </tr>";
+					}
+				}
+				$("#print_table_content_div").html(html);
+				window.print();		//因为这个JQ封装的的这个post是以异步的方式进行执行，所以要在这里调用这个接口，不然打印的是html没有修改后的东西。
+			}
+		})
+	};
+	var onStatisticRecord=function () {
+		window.location.href="user_statistic.jsp";
+	};
+
+	var initUserStatisticRecord=function () {
+		var url = "../../"+module+"_"+sub+"_servlet_action";
+		var data={"action":"get_user_count_by_identity"};
+		$.post(url,data,function (json) {
+			var html="";
+			if(json.result_code == 0){
+				console.log(JSON.stringify(json));
+				var list = json.aaData;
+				if(list!=undefined && list.length>0){
+					changeResultDataToChartData(list,chartData);
+					console.log(JSON.stringify(chartData));
+				}
+			}else {
+				alert("[initDeviceStatisticRecord]与后端交互错误！"+json.result_smg);
+			}
+		})
+	};
+	var changeResultDataToChartData=function (list,chartData) {
+		for(var i = 0; i < list.length; i++){
+			//year是横坐标，incom是横条的纵坐标，expenses是折线的纵坐标
+			var json = {"category":list[i].identity,"column-1":list[i].count};
+			chartData.push(json);
+		}
+	};
+	var initBarChart=function () {
+		var chart = AmCharts.makeChart("chart_1",{
+			"type"    : "pie",
+			"theme": "light",
+			"pathToImages": Metronic.getGlobalPluginsPath() + "amcharts/amcharts/images/",
+			"titleField"  : "category",
+			"valueField"  : "column-1",
+			"dataProvider"  : chartData,
+		});
+		$('#chart_1').closest('.portlet').find('.fullscreen').click(function() {
+			chart.invalidateSize();
+		});
+	};
 	//Page return 开始
 	return {
 		init: function() {

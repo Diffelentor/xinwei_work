@@ -116,8 +116,8 @@
                     </a>
                     <ul class="dropdown-menu pull-left">
                         <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-bookmark-o"></i> Section 1 </a>
+                            <a href="../../home/complain/complain_list.jsp">
+                                <i class="fa fa-bookmark-o"></i>投诉</a>
                         </li>
                         <li>
                             <a href="javascript:;">
@@ -545,7 +545,7 @@
                                 <i class="icon-lock"></i> Lock Screen </a>
                         </li>
                         <li>
-                            <a href="login.html">
+                            <a href="javascript:Get_Session.logout();">
                                 <i class="icon-key"></i> Log Out </a>
                         </li>
                     </ul>
