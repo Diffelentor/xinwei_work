@@ -142,11 +142,10 @@ public class GetExchangesData implements ServletContextListener{
             sql += " and date='" + date + "'";
         }
         updateDb.executeUpdate(sql);
-
         /*total表*/
         String sql_total = "";
         count = 0;
-        String check_if_exist_total = "select count(*) as total from total where futures_id = '" + exchange_id +"' and date = '" + date +"'";
+        String check_if_exist_total = "select count(*) as total from total where futures_id = '" + exchange_id + "'";
         try{
             ResultSet rs = updateDb.executeQuery(check_if_exist_total);
             while(rs.next()){
@@ -158,8 +157,8 @@ public class GetExchangesData implements ServletContextListener{
         }
         /*第一次录入则插入记录*/
         if (count == 0){
-            sql_total = "insert into total(futures_id,futures_name,type,price_today_begin,price_yesterday,price_right_now,price_high,price_low,select_time,date)";
-            sql_total += " values('" + exchange_id + "'" + " ,'" + name + "'" + " ,'外汇' ,'" + price_today_begin + "'" + " ,'" + price_yesterday + "'" + " ,'" + price_right_now + "'" + " ,'" + price_high + "'" + " ,'" + price_low + "'" + " ,'" + time + "'" +" ,'" + date +"')";
+            sql_total = "insert into total(futures_id,futures_name,type,price_today_begin,price_yesterday,price_right_now,price_high,price_low,select_time)";
+            sql_total += " values('" + exchange_id + "'" + " ,'" + name + "'" + " ,'外汇' ,'" + price_today_begin + "'" + " ,'" + price_yesterday + "'" + " ,'" + price_right_now + "'" + " ,'" + price_high + "'" + " ,'" + price_low + "'" + " ,'" + time + "')";
         }
         /*非第一次则修改记录*/
         else{
@@ -170,7 +169,6 @@ public class GetExchangesData implements ServletContextListener{
             sql_total += " ,price_low='"+price_low+"'";
             sql_total += " ,select_time='"+time+"'";
             sql_total += " where futures_id='"+ exchange_id +"'";
-            sql_total += " and date='" + date + "'";
         }
         updateDb.executeUpdate(sql_total);
         updateDb.close();
