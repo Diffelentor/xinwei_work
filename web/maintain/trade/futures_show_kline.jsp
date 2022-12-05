@@ -22,16 +22,16 @@
 
     <link rel="shortcut icon" href="../dataTables/favicon.ico"/>
 </head>
-<body class="page-header-fixed page-quick-sidebar-over-content ">
+<body class="page-header-fixed page-quick-sidebar-over-content page-full-width page-boxed">
 <%@include file="../../home/frame/frame_header.jsp"%>
 <div class="clearfix">
 </div>
 <!-- BEGIN CONTAINER -->
-<div class="page-container" id="page-container">
+<div class="page-container">
     <%@include file="../../home/frame/frame_left_sidebar.jsp"%>
     <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
-        <div class="page-content" id="page-content">
+        <div class="page-content">
             <%@include file="../../home/frame/frame_page_header.jsp"%>
             <h3 class="page-title">
                 期货数据

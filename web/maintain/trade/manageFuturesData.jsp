@@ -17,12 +17,12 @@
     <meta content="" name="author"/>
 
     <%@include file="../../home/frame/frame_style.jsp"%>
-    <link rel="stylesheet" type="text/css" href="dataTables/dataTables.bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../dataTables/dataTables.bootstrap.css"/>
     <!-- END THEME STYLES -->
 
     <link rel="shortcut icon" href="../device/favicon.ico"/>
 </head>
-<body class="page-header-fixed page-quick-sidebar-over-content ">
+<body class="page-header-fixed page-quick-sidebar-over-content page-full-width page-boxed">
 <%@include file="../../home/frame/frame_header.jsp"%>
 <div class="clearfix">
 </div>
