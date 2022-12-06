@@ -7,6 +7,14 @@
         <element id="directory" name="classes">
           <element id="module-output" name="xinwei_work" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="commons-logging-1.1" />
+          <element id="library" level="project" name="poi-3.8-20120326" />
+          <element id="library" level="project" name="mysql-connector-java-5.0.4-bin" />
+          <element id="library" level="project" name="junit-3.8.1" />
+          <element id="library" level="project" name="json" />
+          <element id="library" level="project" name="log4j-1.2.13" />
+        </element>
       </element>
     </root>
   </artifact>

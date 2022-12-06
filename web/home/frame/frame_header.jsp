@@ -61,7 +61,7 @@
                                                 <h3>持仓</h3>
                                             </li>
                                             <li>
-                                                <a href="../../maintain/myPosition/myPosition.jsp">
+                                                <a href="../../maintain/control/position.js">
                                                     <i class="icon-basket"></i>
                                                     我的持仓</a>
                                             </li>
