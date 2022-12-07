@@ -24,7 +24,7 @@ public class FuturesDao {
         String price_high=data.getParam().has("price_high")?data.getParam().getString("price_high"):null;
         String price_low=data.getParam().has("price_low")?data.getParam().getString("price_low"):null;
         String select_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
-        String date = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
+        String date = data.getParam().has("date")?data.getParam().getString("date"):(new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
         if(futures_id!=null && futures_name!=null && price_today_begin!=null && price_yesterday!=null && price_right_now!=null && price_high!=null && price_low!=null){
             String sql="insert into futures(futures_id,futures_name,price_today_begin,price_yesterday,price_right_now,price_high,price_low,select_time,date)";
             sql=sql+" values('"+futures_id+"'";
@@ -44,7 +44,7 @@ public class FuturesDao {
     public void deleteFuturesRecord(Data data, JSONObject json) throws JSONException, SQLException{
         //构造sql语句，根据传递过来的条件参数
         String futures_id=data.getParam().has("futures_id")?data.getParam().getString("futures_id"):null;
-        String date = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
+        String date = data.getParam().has("date")?data.getParam().getString("date"):(new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
         if(futures_id!=null){
             String sql="delete from futures where futures_id='"+futures_id +"' and date ='" + date +"'";
             data.getParam().put("sql",sql);
@@ -62,7 +62,7 @@ public class FuturesDao {
         String price_high=data.getParam().has("price_high")?data.getParam().getString("price_high"):null;
         String price_low=data.getParam().has("price_low")?data.getParam().getString("price_low"):null;
         String select_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
-        String date = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
+        String date = data.getParam().has("date")?data.getParam().getString("date"):(new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
         if(futures_id!=null){
             String sql="update futures";
             sql=sql+" set futures_id='"+futures_id+"'";
@@ -88,7 +88,19 @@ public class FuturesDao {
         data.getParam().put("sql",sql);
         queryRecord(data,json);
     }
-
+    /*查询历史记录*/
+    public void getFuturesHistory(Data data, JSONObject json) throws JSONException, SQLException{
+        //构造sql语句，根据传递过来的查询条件参数
+        String sql=createGetHistorySql(data);			//构造sql语句，根据传递过来的查询条件参数
+        data.getParam().put("sql",sql);
+        queryRecord(data,json);
+    }
+    public void getFuturesAdmin(Data data, JSONObject json) throws JSONException, SQLException{
+        //构造sql语句，根据传递过来的查询条件参数
+        String sql=createGetAdminSql(data);			//构造sql语句，根据传递过来的查询条件参数
+        data.getParam().put("sql",sql);
+        queryRecord(data,json);
+    }
     public void getFutureskline(Data data, JSONObject json) throws JSONException, SQLException {
         String sql=createGetKlineSql(data);			//构造sql语句，根据传递过来的查询条件参数
         data.getParam().put("sql",sql);
@@ -161,28 +173,43 @@ public class FuturesDao {
         json.put("result_code",resultCode);														//返回0表示正常，不等于0就表示有错误产生，错误代码
         /*--------------------返回数据 结束--------------------*/
     }
-
+    /*判断是否为空，空值返回true*/
+    public boolean determine_null(String str){
+        if (str == null)
+            return true;
+        else if (str.isEmpty())
+            return true;
+        else
+            return false;
+    }
     private String createGetRecordSql(Data data) throws JSONException {
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        String sql="select * from futures where date = '" + date +"'";
-        String id=data.getParam().has("id")?data.getParam().getString("id"):null;
-        if(id!=null && !id.isEmpty()){
-            sql=sql+" where id="+id;
-        }
+        String date = data.getParam().has("date")?data.getParam().getString("date"):null;
         String futuresId=data.getParam().has("futures_id")?data.getParam().getString("futures_id"):null;
-        if(futuresId!=null && !futuresId.isEmpty()) {
-            if (sql.indexOf("where") > -1) {
-                sql = sql + " and futures_id='" + futuresId + "'";
-            } else {
-                sql = sql + " where futures_id='" + futuresId + "'";
-            }
-        }
         String futuresName=data.getParam().has("futures_name")?data.getParam().getString("futures_name"):null;
-        if(futuresName!=null && !futuresName.isEmpty()){
-            if(sql.indexOf("where")>-1){
-                sql=sql+" and futures_name like '%"+futuresName+"%'";
-            }else{
-                sql=sql+" where futures_name like '%"+futuresName+"%'";
+
+        String sql="select * from futures";
+
+        if (determine_null(date) && determine_null(futuresId) && determine_null(futuresName)){
+            sql += " where date ='" + (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()) +"'";
+        }
+
+        else {
+            if(!determine_null(date)){
+                sql=sql+" where date='"+date +"'";
+            }
+            if(futuresId!=null && !futuresId.isEmpty()) {
+                if (sql.indexOf("where") > -1) {
+                    sql = sql + " and futures_id='" + futuresId + "'";
+                } else {
+                    sql = sql + " where futures_id='" + futuresId + "'";
+                }
+            }
+            if(futuresName!=null && !futuresName.isEmpty()){
+                if(sql.indexOf("where")>-1){
+                    sql=sql+" and futures_name like '%"+futuresName+"%'";
+                }else{
+                    sql=sql+" where futures_name like '%"+futuresName+"%'";
+                }
             }
         }
         return sql;
@@ -192,7 +219,25 @@ public class FuturesDao {
         String sql="select price_today_begin,price_right_now,price_high,price_low,date from futures where futures_id='" + futures_id +"'";
         return sql;
     }
-
+    private String createGetHistorySql(Data data) throws JSONException{
+        String futuresId=data.getParam().has("futures_id")?data.getParam().getString("futures_id"):null;
+        String sql="select * from futures where futures_id = '" + futuresId +"'";
+        return sql;
+    }
+    private String createGetAdminSql(Data data) throws JSONException{
+        String futuresId=data.getParam().has("futures_id")?data.getParam().getString("futures_id"):null;
+        String futuresName=data.getParam().has("futures_name")?data.getParam().getString("futures_name"):null;
+        String date=data.getParam().has("date")?data.getParam().getString("date"):null;
+        String sql = "";
+        if (determine_null(futuresId) && determine_null(futuresName) && determine_null(date)){
+            sql="SELECT * from (SELECT * FROM futures ORDER BY date DESC) a GROUP BY futures_id";
+        }
+        else {
+            System.out.println("执行带参数查询！");
+            sql = createGetRecordSql(data);
+        }
+        return sql;
+    }
     public void getAmplitudeByFuturesId(Data data, JSONObject json) throws JSONException {
         /*--------------------获取变量 开始--------------------*/
         String resultMsg = "ok";

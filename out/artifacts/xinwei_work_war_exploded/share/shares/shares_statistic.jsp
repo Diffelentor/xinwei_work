@@ -25,13 +25,12 @@
 </div>
 <!-- BEGIN CONTAINER -->
 <div class="page-container">
-    <%@include file="../../home/frame/frame_left_sidebar.jsp"%>
     <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
         <div class="page-content">
             <%@include file="../../home/frame/frame_page_header.jsp"%>
             <h3 class="page-title">
-                统计图
+                当日涨跌幅度通览
             </h3>
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->

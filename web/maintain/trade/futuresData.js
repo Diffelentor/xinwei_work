@@ -219,6 +219,13 @@ var Page = function() {
 				},"orderable": true
 			},{
 				"mRender": function(data, type, full) {
+					time = full.select_time;
+					time = time.slice(0,time.indexOf("."));
+					sReturn = '<div>'+time+'</div>';
+					return sReturn;
+				},"orderable": false
+			},{
+				"mRender": function(data, type, full) {
 					let time = new Date()
 					let time1 = time.toLocaleString()  //打印结果为：YYMMDD time
 					let time2 = time.toLocaleDateString()   //打印结果为：YYMMDD
@@ -240,7 +247,7 @@ var Page = function() {
 			}],
 			"aLengthMenu": [[5,10,15,20,25,40,50,-1],[5,10,15,20,25,40,50,"所有记录"]],
 			"fnDrawCallback": function(){$(".checkboxes").uniform();$(".group-checkable").uniform();},
-			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_futures_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name
+			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_futures_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name+"&date=" + $("#record_query_setup #date").val()
 		});
 		$('.datatable').find('.group-checkable').change(function () {
 			var set = jQuery(this).attr("data-set");

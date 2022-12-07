@@ -24,7 +24,7 @@ public class ExchangesDao {
         String price_high=data.getParam().has("price_high")?data.getParam().getString("price_high"):null;
         String price_low=data.getParam().has("price_low")?data.getParam().getString("price_low"):null;
         String select_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String date = data.getParam().has("date")?data.getParam().getString("date"):(new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
         if(exchanges_id!=null && exchanges_name!=null && price_today_begin!=null && price_yesterday!=null && price_right_now!=null && price_high!=null && price_low!=null){
             String sql="insert into exchanges(exchanges_id,exchanges_name,price_today_begin,price_yesterday,price_right_now,price_high,price_low,select_time,date)";
             sql=sql+" values('"+exchanges_id+"'";
@@ -44,7 +44,7 @@ public class ExchangesDao {
     public void deleteExchangesRecord(Data data, JSONObject json) throws JSONException, SQLException{
         //构造sql语句，根据传递过来的条件参数
         String exchanges_id=data.getParam().has("exchanges_id")?data.getParam().getString("exchanges_id"):null;
-        String date = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
+        String date = data.getParam().has("date")?data.getParam().getString("date"):(new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
         if(exchanges_id!=null){
             String sql="delete from exchanges where exchanges_id='"+exchanges_id+"' and date ='" + date +"'";
             data.getParam().put("sql",sql);
@@ -62,7 +62,8 @@ public class ExchangesDao {
         String price_high=data.getParam().has("price_high")?data.getParam().getString("price_high"):null;
         String price_low=data.getParam().has("price_low")?data.getParam().getString("price_low"):null;
         String select_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
-        String date = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
+        String date = data.getParam().has("date")?data.getParam().getString("date"):(new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
+
         if(exchanges_id!=null){
             String sql="update exchanges";
             sql=sql+" set exchanges_id='"+exchanges_id+"'";
@@ -85,6 +86,20 @@ public class ExchangesDao {
     public void getExchangesRecord(Data data, JSONObject json) throws JSONException, SQLException{
         //构造sql语句，根据传递过来的查询条件参数
         String sql=createGetRecordSql(data);			//构造sql语句，根据传递过来的查询条件参数
+        data.getParam().put("sql",sql);
+        queryRecord(data,json);
+    }
+    /*管理员界面的显示*/
+    public void getExchangesAdmin(Data data, JSONObject json) throws JSONException, SQLException{
+        //构造sql语句，根据传递过来的查询条件参数
+        String sql=createGetAdminSql(data);			//构造sql语句，根据传递过来的查询条件参数
+        data.getParam().put("sql",sql);
+        queryRecord(data,json);
+    }
+    /*查询历史记录*/
+    public void getExchangesHistory(Data data, JSONObject json) throws JSONException, SQLException{
+        //构造sql语句，根据传递过来的查询条件参数
+        String sql=createGetHistorySql(data);			//构造sql语句，根据传递过来的查询条件参数
         data.getParam().put("sql",sql);
         queryRecord(data,json);
     }
@@ -162,28 +177,63 @@ public class ExchangesDao {
     }
 
     private String createGetRecordSql(Data data) throws JSONException {
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        String sql="select * from exchanges where date = '" + date +"'";
-        String id=data.getParam().has("id")?data.getParam().getString("id"):null;
-        if(id!=null && !id.isEmpty()){
-            sql=sql+" where id="+id;
-        }
+        String date = data.getParam().has("date")?data.getParam().getString("date"):null;
         String exchangesId=data.getParam().has("exchanges_id")?data.getParam().getString("exchanges_id"):null;
-        if(exchangesId!=null && !exchangesId.isEmpty()) {
-            if (sql.indexOf("where") > -1) {
-                sql = sql + " and exchanges_id='" + exchangesId + "'";
-            } else {
-                sql = sql + " where exchanges_id='" + exchangesId + "'";
-            }
-        }
         String exchangesName=data.getParam().has("exchanges_name")?data.getParam().getString("exchanges_name"):null;
-        if(exchangesName!=null && !exchangesName.isEmpty()){
-            if(sql.indexOf("where")>-1){
-                sql=sql+" and exchanges_name like '%"+exchangesName+"%'";
-            }else{
-                sql=sql+" where exchanges_name like '%"+exchangesName+"%'";
+
+        String sql="select * from exchanges";
+
+        if (determine_null(date) && determine_null(exchangesId) && determine_null(exchangesName)){
+            sql += " where date ='" + (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()) +"'";
+        }
+
+        else {
+            if(!determine_null(date)){
+                sql=sql+" where date='"+date +"'";
+            }
+            if(exchangesId!=null && !exchangesId.isEmpty()) {
+                if (sql.indexOf("where") > -1) {
+                    sql = sql + " and exchanges_id='" + exchangesId + "'";
+                } else {
+                    sql = sql + " where exchanges_id='" + exchangesId + "'";
+                }
+            }
+            if(exchangesName!=null && !exchangesName.isEmpty()){
+                if(sql.indexOf("where")>-1){
+                    sql=sql+" and exchanges_name like '%"+exchangesName+"%'";
+                }else{
+                    sql=sql+" where exchanges_name like '%"+exchangesName+"%'";
+                }
             }
         }
+        return sql;
+    }
+    private String createGetAdminSql(Data data) throws JSONException {
+        String exchangesId=data.getParam().has("exchanges_id")?data.getParam().getString("exchanges_id"):null;
+        String exchangesName=data.getParam().has("exchanges_name")?data.getParam().getString("exchanges_name"):null;
+        String date=data.getParam().has("date")?data.getParam().getString("date"):null;
+        String sql = "";
+        if (determine_null(exchangesId) && determine_null(exchangesName) && determine_null(date)){
+            sql="SELECT * from (SELECT * FROM exchanges ORDER BY date DESC) a GROUP BY exchanges_id";
+        }
+        else {
+            System.out.println("执行带参数查询！");
+            sql = createGetRecordSql(data);
+        }
+        return sql;
+    }
+    /*判断是否为空，空值返回true*/
+    public boolean determine_null(String str){
+        if (str == null)
+            return true;
+        else if (str.isEmpty())
+            return true;
+        else
+            return false;
+    }
+    private String createGetHistorySql(Data data) throws JSONException {
+        String exchangesId=data.getParam().has("exchanges_id")?data.getParam().getString("exchanges_id"):null;
+        String sql="select * from exchanges where exchanges_id = '" + exchangesId +"'";
         return sql;
     }
 

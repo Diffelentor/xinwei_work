@@ -46,13 +46,18 @@
                             用户信息</a>
                     </li>
                     <li>
-                        <a href="ecommerce_orders.html">
-                            <i class="icon-basket"></i>
-                            用户持仓</a>
+                        <a href="../../home/user/user_profile.jsp">
+                            <i class="icon-tag"></i>
+                            个人空间</a>
                     </li>
                     <li>
-                        <a href="ecommerce_orders.html">
-                            <i class="icon-tag"></i>
+                        <a href="../../maintain/myPosition/myPosition.jsp">
+                            <i class="icon-basket"></i>
+                            我的持仓</a>
+                    </li>
+                    <li>
+                        <a href="../../maintain/historyAdministrator/historyAd.jsp">
+                            <i class="icon-wallet"></i>
                             历史记录</a>
                     </li>
                 </ul>
@@ -60,7 +65,7 @@
             <li>
                 <a href="javascript:;">
                     <i class="icon-rocket"></i>
-                    <span class="title">股票信息</span>
+                    <span class="title">金融信息</span>
                     <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu">

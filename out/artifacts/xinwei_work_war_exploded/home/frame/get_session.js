@@ -9,6 +9,19 @@ var Get_Session = function() {
             console.log(JSON.stringify(json));
             if(json.result_code==0){
                 $("#const_username").html(json.username);
+                $("#const_username1").val(json.username);
+                $("#const_identity1").val(json.identity);
+                $("#const_id1").val(json.id);
+                $("#const_balance1").val(json.balance);
+                $("#const_password1").val(json.password);
+                $("#const_email1").val(json.email);
+                console.log(JSON.stringify(json));
+                sessionStorage.setItem("username", json.username);
+                sessionStorage.setItem("identity", json.identity);
+                sessionStorage.setItem("id", json.id);
+                sessionStorage.setItem("balance", json.balance);
+                sessionStorage.setItem("password", json.password);
+                sessionStorage.setItem("email", json.email);
             }
         })
     };

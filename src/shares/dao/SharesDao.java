@@ -75,7 +75,8 @@ public class SharesDao {
         String price_high=data.getParam().has("price_high")?data.getParam().getString("price_high"):null;
         String price_low=data.getParam().has("price_low")?data.getParam().getString("price_low"):null;
         String select_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
-        String date = idWeek(determine_date());
+        String date= data.getParam().has("date")?data.getParam().getString("date"):(new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
+        date = idWeek(date);
         if(shares_id!=null && shares_name!=null && price_today_begin!=null && price_pre!=null && price_right_now!=null && price_high!=null && price_low!=null){
             String sql="insert into shares(shares_id,shares_name,price_today_begin,price_pre,price_right_now,price_high,price_low,select_time,date)";
             sql=sql+" values('"+shares_id+"'";
@@ -95,7 +96,8 @@ public class SharesDao {
     public void deleteSharesRecord(Data data, JSONObject json) throws JSONException, SQLException{
         //构造sql语句，根据传递过来的条件参数
         String shares_id=data.getParam().has("shares_id")?data.getParam().getString("shares_id"):null;
-        String date = determine_date();
+        String date= data.getParam().has("date")?data.getParam().getString("date"):(new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
+
         if(shares_id!=null){
             String sql="delete from shares where shares_id='"+shares_id +"' and date ='" + date +"'";
             data.getParam().put("sql",sql);
@@ -113,7 +115,8 @@ public class SharesDao {
         String price_high=data.getParam().has("price_high")?data.getParam().getString("price_high"):null;
         String price_low=data.getParam().has("price_low")?data.getParam().getString("price_low"):null;
         String select_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
-        String date = idWeek(determine_date());
+        String date= data.getParam().has("date")?data.getParam().getString("date"):(new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
+        date = idWeek(date);
         if(shares_id!=null){
             String sql="update shares";
             sql=sql+" set shares_id='"+shares_id+"'";
@@ -131,6 +134,20 @@ public class SharesDao {
             updateRecord(data,json);
         }
 
+    }
+    /*管理员界面的显示*/
+    public void getSharesAdmin(Data data, JSONObject json) throws JSONException, SQLException{
+        //构造sql语句，根据传递过来的查询条件参数
+        String sql=createGetAdminSql(data);			//构造sql语句，根据传递过来的查询条件参数
+        data.getParam().put("sql",sql);
+        queryRecord(data,json);
+    }
+    /*查询历史记录*/
+    public void getSharesHistory(Data data, JSONObject json) throws JSONException, SQLException{
+        //构造sql语句，根据传递过来的查询条件参数
+        String sql=createGetHistorySql(data);			//构造sql语句，根据传递过来的查询条件参数
+        data.getParam().put("sql",sql);
+        queryRecord(data,json);
     }
     /*查询记录*/
     public void getSharesRecord(Data data, JSONObject json) throws JSONException, SQLException{
@@ -212,33 +229,62 @@ public class SharesDao {
         /*--------------------返回数据 结束--------------------*/
     }
     private String createGetRecordSql(Data data) throws JSONException {
-        String date = idWeek(determine_date());
-        String sql="select * from shares where date = '" + date +"'";
-        String id=data.getParam().has("id")?data.getParam().getString("id"):null;
-        if(id!=null && !id.isEmpty()){
-            sql=sql+" where id="+id;
-        }
+        String date = data.getParam().has("date")?data.getParam().getString("date"):null;
         String sharesId=data.getParam().has("shares_id")?data.getParam().getString("shares_id"):null;
-        if(sharesId!=null && !sharesId.isEmpty()) {
-            if (sql.indexOf("where") > -1) {
-                sql = sql + " and shares_id='" + sharesId + "'";
-            } else {
-                sql = sql + " where shares_id='" + sharesId + "'";
+        String sharesName=data.getParam().has("shares_name")?data.getParam().getString("shares_name"):null;
+
+        String sql="select * from shares";
+
+        if(determine_null(date) && determine_null(sharesId) && determine_null(sharesName)){
+            sql += " where date ='" + idWeek(determine_date()) +"'";
+        }
+        else {
+            if(sharesId!=null && !sharesId.isEmpty()) {
+                if (sql.indexOf("where") > -1) {
+                    sql = sql + " and shares_id='" + sharesId + "'";
+                } else {
+                    sql = sql + " where shares_id='" + sharesId + "'";
+                }
+            }
+            if(sharesName!=null && !sharesName.isEmpty()){
+                if(sql.indexOf("where")>-1){
+                    sql=sql+" and shares_name like '%"+sharesName+"%'";
+                }else{
+                    sql=sql+" where shares_name like '%"+sharesName+"%'";
+                }
+            }
+            if(!determine_null(date)){
+                if(sql.indexOf("where")>-1){
+                    sql=sql+" and date='"+idWeek(date)+"'";
+                }else{
+                    sql=sql+" where date='"+idWeek(date)+"'";
+                }
             }
         }
+        return sql;
+    }
+    private String createGetAdminSql(Data data) throws JSONException {
+        String sharesId=data.getParam().has("shares_id")?data.getParam().getString("shares_id"):null;
         String sharesName=data.getParam().has("shares_name")?data.getParam().getString("shares_name"):null;
-        if(sharesName!=null && !sharesName.isEmpty()){
-            if(sql.indexOf("where")>-1){
-                sql=sql+" and shares_name like '%"+sharesName+"%'";
-            }else{
-                sql=sql+" where shares_name like '%"+sharesName+"%'";
-            }
+        String date=data.getParam().has("date")?data.getParam().getString("date"):null;
+        String sql = "";
+        if (determine_null(sharesId) && determine_null(sharesName) && determine_null(date)){
+            sql="SELECT * from (SELECT * FROM shares ORDER BY date DESC) a GROUP BY shares_id";
+        }
+        else {
+            System.out.println("执行带参数查询！");
+            sql = createGetRecordSql(data);
         }
         return sql;
     }
     private String createGetKlineSql(Data data) throws JSONException {
         String shares_id=data.getParam().has("shares_id")?data.getParam().getString("shares_id"):null;
         String sql="select price_today_begin,price_right_now,price_high,price_low,date from shares where shares_id='" + shares_id +"'";
+        return sql;
+    }
+    private String createGetHistorySql(Data data) throws JSONException {
+        String shares_id=data.getParam().has("shares_id")?data.getParam().getString("shares_id"):null;
+        String sql="select * from shares where shares_id = '" + shares_id +"'";
         return sql;
     }
 
@@ -280,5 +326,14 @@ public class SharesDao {
         json.put("result_msg",resultMsg);															//如果发生错误就设置成"error"等
         json.put("result_code",resultCode);														//返回0表示正常，不等于0就表示有错误产生，错误代码
         /*--------------------返回数据 结束--------------------*/
+    }
+    /*判断是否为空，空值返回true*/
+    public boolean determine_null(String str){
+        if (str == null)
+            return true;
+        else if (str.isEmpty())
+            return true;
+        else
+            return false;
     }
 }

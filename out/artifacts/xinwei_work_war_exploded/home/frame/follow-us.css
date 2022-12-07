@@ -1,0 +1,122 @@
+.follow-us{
+	margin-bottom:3em;
+}
+.agileinfo_follow_us_grid{
+	margin:1em 0;
+	padding:1em 0;
+	border-top:1px solid #E3E3E3;
+	border-bottom:1px solid #E3E3E3;
+}
+.agileits_follow_us_left{
+	float:left;
+}
+.agileits_follow_us_left h3{
+	font-size:1.5em;
+	color:#212121;
+	margin: .3em 0 0;
+}
+.agileits_follow_us_right{
+	float:left;
+	margin-left:2em;
+}
+.w3_agileits_social_icons li{
+	display:inline-block;
+}
+.w3_agileits_social_icons li a{
+	width: 40px;
+    height: 40px;
+    display: inline-block;
+    border-radius: 40px;
+}
+.w3_agileits_social_icons li a i{
+	color: #fff;
+    font-size: 1em;
+    display: block;
+    text-align: center;
+    padding:1em 0 0;
+}
+.w3_agileits_social_icons li a.wthree_facebook{
+	background:#3b5998;
+}
+.w3_agileits_social_icons li a.wthree_twitter{
+	background:#1da1f2;
+}
+.w3_agileits_social_icons li a.wthree_google{
+	background:#dd4b39;
+}
+.w3_agileits_social_icons li a.wthree_rss{
+	background:#f26522;
+}
+.w3_agileits_social_icons li a.wthree_linkedin{
+	background:#00a0dc;
+}
+.w3_agileits_social_icons li a.wthree_dribble{
+	background:#ea4c89;
+}
+.w3_agileits_social_icons li a.wthree_instagram{
+	background:#833ab4;
+}
+.w3_agileits_social_icons li a.wthree_utube{
+	background:#cd201f;
+}
+.w3_agileits_social_icons li a.wthree_tumblr{
+	background:#35465c;
+}
+.w3_agileits_social_icons li a.wthree_facebook:hover{
+    background: #6B7EA7;
+}
+.w3_agileits_social_icons li a.wthree_twitter:hover{
+	background:#69A8CE;
+}
+.w3_agileits_social_icons li a.wthree_google:hover{
+	background:#BE5E52;
+}
+.w3_agileits_social_icons li a.wthree_rss:hover{
+	background:#C69076;
+}
+.w3_agileits_social_icons li a.wthree_linkedin:hover{
+	background:#80BFD7;
+}
+.w3_agileits_social_icons li a.wthree_dribble:hover{
+	background:#DF81A5;
+}
+.w3_agileits_social_icons li a.wthree_instagram:hover{
+	background:#9B6EBA;
+}
+.w3_agileits_social_icons li a.wthree_utube:hover{
+	background:#D95453;
+}
+.w3_agileits_social_icons li a.wthree_tumblr:hover{
+	background:#576F8F;
+}
+.agile_stocks_mutual_fund_grid_l{
+	float:left;
+}
+.agile_stocks_mutual_fund_grid_l h3{
+	text-transform: uppercase;
+    font-size: 14px;
+    color: #212121;
+    font-weight: bold;
+	margin: .3em 0 0;
+}
+.agile_stocks_mutual_fund_grid_r{
+	float:left;
+	margin-left:2em;
+}
+.agile_stocks_mutual_fund_grid_r ul li,.agileits_w3layouts_footer_info li{
+	display:inline-block;
+	color:#999;
+}
+.agile_stocks_mutual_fund_grid_r ul li a,.agileits_w3layouts_footer_info li a{
+	color:#212121;
+	text-transform:uppercase;
+	text-decoration:none;
+}
+.agile_stocks_mutual_fund_grid_r ul li i,.agileits_w3layouts_footer_info li i{
+	padding: 0 .5em;
+    font-style: normal;
+}
+.agile_stocks_mutual_fund_grid:last-child{
+	margin-top:1em;
+}
+/*-- //follow-us --*/

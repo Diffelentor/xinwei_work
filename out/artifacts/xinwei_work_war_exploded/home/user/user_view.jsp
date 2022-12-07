@@ -21,14 +21,14 @@ License: You must have a valid license purchased only from themeforest(the above
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
-< lang="en">
+<html lang="en">
 <!--<![endif]-->
 <!-- BEGIN HEAD -->
 <head>
     <meta charset="utf-8"/>
     <title>管理系统</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="width=user-width, initial-scale=1.0" name="viewport"/>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta content="" name="description"/>
     <meta content="" name="author"/>
@@ -39,7 +39,7 @@ License: You must have a valid license purchased only from themeforest(the above
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<!-- DOC: Apply "page-header-fixed-mobile" and "page-footer-fixed-mobile" class to body element to force fixed header or footer in mobile devices -->
+<!-- DOC: Apply "page-header-fixed-mobile" and "page-footer-fixed-mobile" class to body element to force fixed header or footer in mobile users -->
 <!-- DOC: Apply "page-sidebar-closed" class to the body and "page-sidebar-menu-closed" class to the sidebar menu element to hide the sidebar by default -->
 <!-- DOC: Apply "page-sidebar-hide" class to the body to make the sidebar completely hidden on toggle -->
 <!-- DOC: Apply "page-sidebar-closed-hide-logo" class to the body element to make the logo hidden on sidebar toggle -->
@@ -48,7 +48,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- DOC: Apply "page-footer-fixed" class to the body element to have fixed footer -->
 <!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
 <!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
-<body class="page-header-fixed page-quick-sidebar-over-content ">
+<body class="page-header-fixed page-quick-sidebar-over-content page-full-width page-boxed">
 <!-- BEGIN HEADER -->
 <%@include file="../../home/frame/frame_header.jsp"%>
 <!-- END HEADER -->
@@ -66,49 +66,23 @@ License: You must have a valid license purchased only from themeforest(the above
             <%@include file="../../home/frame/frame_page_header.jsp"%>
             <!-- END 主页面头 -->
             <h3 class="page-title">
-                管理信息 <small>设备数据信息表</small>
+                用户信息管理 <small>用户信息表</small>
             </h3>
             <div class="page-bar">
                 <ul class="page-breadcrumb">
                     <li>
                         <i class="fa fa-home"></i>
-                        <a href="index.html">Home</a>
+                        <a href="../main/index.jsp">首页</a>
                         <i class="fa fa-angle-right"></i>
                     </li>
                     <li>
-                        <a href="#">Data Tables</a>
+                        <a href="user_list.jsp">用户信息</a>
                         <i class="fa fa-angle-right"></i>
-                    </li>
-                    <li>
-                        <a href="#">Basic Datatables</a>
                     </li>
                 </ul>
-                <div class="page-toolbar">
-                    <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
-                            Actions <i class="fa fa-angle-down"></i>
-                        </button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                            <li>
-                                <a href="#">Action</a>
-                            </li>
-                            <li>
-                                <a href="#">Another action</a>
-                            </li>
-                            <li>
-                                <a href="#">Something else here</a>
-                            </li>
-                            <li class="divider">
-                            </li>
-                            <li>
-                                <a href="#">Separated link</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </div>
             <!-- END PAGE HEADER-->
-            <input type="hidden" id="page_id" name="page_id" value="device_view">
+            <input type="hidden" id="page_id" name="page_id" value="user_view">
             <!-- BEGIN PAGE CONTENT-->
             <div class="row">
                 <div class="col-md-6">
@@ -116,25 +90,33 @@ License: You must have a valid license purchased only from themeforest(the above
                     </div>
             </div>
             <div class="row" id="bar_tab">
-                <div class="col-md-6">
-                    <div id="record_bar_div">
+                <div class="col-md-12">
+                    <div id="user_view_div">
                         <div class="portlet-body form">
                             <form class="form-horizontal" role="form">
                                 <div class="form-body">
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">设备编号</label>
+                                        <label class="col-md-3 control-label">用户名</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" placeholder="Enter text" id="device_id" name="device_id">
-
+                                            <input type="text" class="form-control" placeholder="Enter text" id="username" name="username">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-body">
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">设备名称</label>
+                                        <label class="col-md-3 control-label">用户密码</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" placeholder="Enter text" id="device_name" name="device_name">
-
+                                            <input type="text" class="form-control" placeholder="Enter text" id="password" name="password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">用户身份</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" placeholder="Enter text" id="identity" name="identity">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">用户邮箱</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" placeholder="Enter text" id="email" name="email">
                                         </div>
                                     </div>
                                 </div>

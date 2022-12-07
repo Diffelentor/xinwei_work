@@ -21,7 +21,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
-< lang="en">
+<html lang="en">
 <!--<![endif]-->
 <!-- BEGIN HEAD -->
 <head>
@@ -48,7 +48,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- DOC: Apply "page-footer-fixed" class to the body element to have fixed footer -->
 <!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
 <!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
-<body class="page-header-fixed page-quick-sidebar-over-content ">
+<body class="page-header-fixed page-quick-sidebar-over-content page-full-width page-boxed">
 <%@include file="../../home/frame/frame_header.jsp"%>
 <div class="clearfix">
 </div>
@@ -68,78 +68,42 @@ License: You must have a valid license purchased only from themeforest(the above
                 <ul class="page-breadcrumb">
                     <li>
                         <i class="fa fa-home"></i>
-                        <a href="index.html">Home</a>
+                        <a href="../main/index.jsp">首页</a>
                         <i class="fa fa-angle-right"></i>
                     </li>
                     <li>
-                        <a href="#">Data Tables</a>
-                        <i class="fa fa-angle-right"></i>
-                    </li>
-                    <li>
-                        <a href="#">Basic Datatables</a>
+                        <a href="user_list.jsp">用户信息</a>
                     </li>
                 </ul>
-                <div class="page-toolbar">
-                    <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
-                            Actions <i class="fa fa-angle-down"></i>
-                        </button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                            <li>
-                                <a href="#">Action</a>
-                            </li>
-                            <li>
-                                <a href="#">Another action</a>
-                            </li>
-                            <li>
-                                <a href="#">Something else here</a>
-                            </li>
-                            <li class="divider">
-                            </li>
-                            <li>
-                                <a href="#">Separated link</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+
             </div>
             <!-- END PAGE HEADER-->
-            <input type="hidden" id="page_id" name="page_id" value="user_list">
             <!-- BEGIN PAGE CONTENT-->
             <div class="row">
-                <div class="col-md-6">
-                    <button type="button" class="btn btn-primary" id="add_button" name="add_button">添加用户</button>
-                    <button type="button" class="btn btn-primary" id="query_button" name="query_button">查询用户</button>
-                    <button type="button" class="btn btn-primary" id="export_button" name="export_button">导出用户</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="portlet-body form" id="record_query_setup" name="record_query_setup">
                             <form class="form-horizontal" role="form">
                                 <div class="form-body">
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">用户名</label>
-                                        <div class="col-md-9">
-                                            <input type="text" class="form-control" placeholder="Enter text" id="username" name="username">
-                                            <span class="help-block">
-											请填写要查找的用户名 </span>
+                                        <label class="col-md-1 control-label">用户名</label>
+                                        <div class="col-md-2">
+                                            <input type="text" class="form-control" placeholder="请输入用户名" id="username" name="username">
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label">用户密码</label>
-                                        <div class="col-md-9">
-                                            <input type="text" class="form-control" placeholder="Enter text" id="password" name="password">
-                                            <span class="help-block">
-											请填写要查找的用户密码 </span>
+                                        <label class="col-md-1 control-label">用户身份</label>
+                                        <div class="col-md-2">
+                                            <input type="text" class="form-control" placeholder="请输入用户身份 text" id="identity" name="identity">
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label">用户邮箱</label>
-                                        <div class="col-md-9">
-                                            <input type="text" class="form-control" placeholder="Enter text" id="email" name="email">
-                                            <span class="help-block">
-											请填写要查找的用户邮箱 </span>
+                                        <label class="col-md-1 control-label">用户邮箱</label>
+                                        <div class="col-md-2">
+                                            <input type="text" class="form-control" placeholder="请输入用户邮箱 text" id="email" name="email">
+                                        </div>
+                                        <div class="col-md-1">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button"   class="btn blue" id="query_button" name="query_button">
+                                                <i class="fa fa-search"></i>搜索</button>
+                                            <button type="button"   class="btn default" id="remake_button" name="remake_button">
+                                                <i class="fa fa-refresh"></i>重置</button>
                                         </div>
                                     </div>
                                 </div>
@@ -147,6 +111,20 @@ License: You must have a valid license purchased only from themeforest(the above
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-10 ">
+                    <%--                    如果不将type类型定义为buton的话会被默认为submit类型--%>
+                    <button type="button"  class="btn btn-circle btn-lg yellow-crusta" id="add_button" name="add_button">
+                        <i class="fa fa-plus"></i> 新增</button>
+                    <button type="button"  class="btn btn-circle btn-lg default" id="export_button" name="export_button">
+                        <i class="fa fa-cloud-download"></i> 导出</button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" style="float: right"  class="btn default" id="refresh_button" name="refresh_button">
+                        <i class="fa fa-refresh"></i></button>
+                </div>
+            </div>
+            <br>
 <%--            <div class="row">--%>
 <%--                <div class="col-md-6">--%>
 <%--                    <button type="button" class="btn btn-primary" id="datatable_button" name="datatable_button">切换到DataTable</button>--%>
@@ -176,91 +154,92 @@ License: You must have a valid license purchased only from themeforest(the above
 <%--                    </div>--%>
 <%--                </div>--%>
 <%--            </div>--%>
-<%--            <div class="row" id="datatable_tab">--%>
-<%--                <div class="col-md-6">--%>
-<%--                    <table class="table table-striped table-bordered table-hover datatable" id="record_list">--%>
-<%--                        <thead>--%>
-<%--                        <tr>--%>
-<%--                            <th class="table-checkbox"><input type="checkbox" class="group-checkable" data-set="#record_list .checkboxes" /></th>--%>
-<%--                            <th>设备ID</th>--%>
-<%--                            <th>设备名称</th>--%>
-<%--                            <th>创建人</th>--%>
-<%--                            <th>创建时间</th>--%>
-<%--                            <th>操作</th>--%>
-<%--                        </tr>--%>
-<%--                        </thead>--%>
-<%--                    </table>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-            <div class="row display" id="table_tab">
+            <div class="row" id="datatable_tab">
                 <div class="col-md-12">
-                    <!-- BEGIN SAMPLE TABLE PORTLET-->
-                    <div class="portlet box blue">
-                        <div class="portlet-title">
-                            <div class="caption">
-                                <i class="fa fa-comments"></i>用户数据表
-                            </div>
-                            <div class="tools">
-                                <a href="javascript:;" class="collapse">
-                                </a>
-                                <a href="#portlet-config" data-toggle="modal" class="config">
-                                </a>
-                                <a href="javascript:;" class="reload">
-                                </a>
-                                <a href="javascript:;" class="remove">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="portlet-body">
-                            <div class="table-scrollable">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            Username
-                                        </th>
-                                        <th>
-                                            password
-                                        </th>
-                                        <th>
-                                            email
-                                        </th>
-                                        <th>
-                                            is_manager
-                                        </th>
-                                        <th>
-                                            modify
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="record_table_content_div" name="record_table_content_div">
-                                    <tr class=\"active\">
-                                        <td>
-                                            aaaaa
-                                        </td>
-                                        <td>
-                                            12345
-                                        </td>
-                                        <td>
-                                            12345@qq.com
-                                        </td>
-                                        <td>
-                                            Yes
-                                        </td>
-                                        <td>
-                                         <a href="javascript:Page.onModifyRecord(record.id)">【修改】</a><a href="javascript:Page.onDeleteRecord(record.id)">【删除】</a>
-                                        </td>
-                                    </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END SAMPLE TABLE PORTLET-->
+                    <table class="table table-striped table-bordered table-hover datatable" id="user_record_list">
+                        <thead>
+                        <tr>
+                            <th class="table-checkbox"><input type="checkbox" class="group-checkable" data-set="#record_list .checkboxes" /></th>
+                            <th>用户名</th>
+                            <th>用户密码</th>
+                            <th>用户邮箱</th>
+                            <th>用户身份</th>
+                            <th>用户余额</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                    </table>
                 </div>
-
             </div>
+<%--            <div class="row display" id="table_tab">--%>
+<%--                <div class="col-md-12">--%>
+<%--                    <!-- BEGIN SAMPLE TABLE PORTLET-->--%>
+<%--                    <div class="portlet box blue">--%>
+<%--                        <div class="portlet-title">--%>
+<%--                            <div class="caption">--%>
+<%--                                <i class="fa fa-comments"></i>用户数据表--%>
+<%--                            </div>--%>
+<%--                            <div class="tools">--%>
+<%--                                <a href="javascript:;" class="collapse">--%>
+<%--                                </a>--%>
+<%--                                <a href="#portlet-config" data-toggle="modal" class="config">--%>
+<%--                                </a>--%>
+<%--                                <a href="javascript:;" class="reload">--%>
+<%--                                </a>--%>
+<%--                                <a href="javascript:;" class="remove">--%>
+<%--                                </a>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <div class="portlet-body">--%>
+<%--                            <div class="table-scrollable">--%>
+<%--                                <table class="table table-bordered table-hover">--%>
+<%--                                    <thead>--%>
+<%--                                    <tr>--%>
+<%--                                        <th>--%>
+<%--                                            Username--%>
+<%--                                        </th>--%>
+<%--                                        <th>--%>
+<%--                                            password--%>
+<%--                                        </th>--%>
+<%--                                        <th>--%>
+<%--                                            email--%>
+<%--                                        </th>--%>
+<%--                                        <th>--%>
+<%--                                            is_manager--%>
+<%--                                        </th>--%>
+<%--                                        <th>--%>
+<%--                                            modify--%>
+<%--                                        </th>--%>
+<%--                                    </tr>--%>
+<%--                                    </thead>--%>
+<%--                                    <tbody id="record_table_content_div" name="record_table_content_div">--%>
+<%--                                    <tr class=\"active\">--%>
+<%--                                        <td>--%>
+<%--                                            aaaaa--%>
+<%--                                        </td>--%>
+<%--                                        <td>--%>
+<%--                                            12345--%>
+<%--                                        </td>--%>
+<%--                                        <td>--%>
+<%--                                            12345@qq.com--%>
+<%--                                        </td>--%>
+<%--                                        <td>--%>
+<%--                                            Yes--%>
+<%--                                        </td>--%>
+<%--                                        <td>--%>
+<%--                                         <a href="javascript:Page.onModifyRecord(record.id)">【修改】</a><a href="javascript:Page.onDeleteRecord(record.id)">【删除】</a>--%>
+<%--                                        </td>--%>
+<%--                                    </tr>--%>
+
+<%--                                    </tbody>--%>
+<%--                                </table>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                    <!-- END SAMPLE TABLE PORTLET-->--%>
+<%--                </div>--%>
+
+<%--            </div>--%>
 
             <!-- END PAGE CONTENT-->
         </div>
@@ -268,6 +247,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- END CONTENT -->
 
 </div>
+<input type="hidden" id="page_id" name="page_id" value="user_list">
 <!-- END CONTAINER -->
 <!-- BEGIN FOOTER -->
 <%@include file="../../home/frame/frame_footer.jsp"%>

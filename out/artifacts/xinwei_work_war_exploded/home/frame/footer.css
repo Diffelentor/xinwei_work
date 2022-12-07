@@ -1,0 +1,26 @@
+/*-- footer --*/
+.footer{
+	padding:2em 0;
+	background:#212121;
+	text-align:center;
+}
+.agileits_w3layouts_footer_info li,.agileits_w3layouts_footer_info li a{
+	color:#fff;
+	font-weight:bold;
+}
+.agileits_w3layouts_footer_info li a:hover{
+	color:#ccc;
+}
+.footer p{
+	color:#fff;
+	margin:1em 0 0;
+	line-height:1.5em;
+}
+.footer p a{
+	color:#01A9CE;
+	text-decoration:underline;
+}
+.footer p a:hover{
+	color:#fff;
+}
+/*-- //footer --*/

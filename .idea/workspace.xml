@@ -41,25 +41,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Tools/IntelliJ IDEA 2022.2.2/xinwei_work/web/share/shares",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Tools/IntelliJ IDEA 2022.2.2/xinwei_work/web/home&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\home" />
       <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\share\shares" />
       <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\share\exchanges" />
       <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\maintain\trade" />
       <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\maintain\manageTrade" />
-      <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Tools\IntelliJ IDEA 2022.2.2\xinwei_work\web\maintain\trade" />
@@ -340,7 +340,14 @@
       <workItem from="1669997267354" duration="1951000" />
       <workItem from="1670044869067" duration="1567000" />
       <workItem from="1670051606606" duration="1539000" />
-      <workItem from="1670058734570" duration="10658000" />
+      <workItem from="1670058734570" duration="11496000" />
+      <workItem from="1670145480493" duration="2533000" />
+      <workItem from="1670219307693" duration="736000" />
+      <workItem from="1670239675714" duration="71000" />
+      <workItem from="1670242600872" duration="1047000" />
+      <workItem from="1670305684899" duration="5148000" />
+      <workItem from="1670344908268" duration="194000" />
+      <workItem from="1670391432704" duration="20927000" />
     </task>
     <task id="LOCAL-00001" summary="wgr">
       <created>1669388757438</created>

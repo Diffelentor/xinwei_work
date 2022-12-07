@@ -54,6 +54,12 @@
                                     <input type="text" class="form-control" placeholder="请填写最低价" id="price_low" name="price_low">
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">日期</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" placeholder="请填写日期" id="date" name="date">
+                                </div>
+                            </div>
                         </div>
 
                     </form>
