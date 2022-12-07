@@ -1,7 +1,7 @@
 # xinwei_work
 **每个人在web文件夹下建立自己的工作目录**
 
-新增功能：js使用$("#const_username")和$("#const_is_manager")即可获得登陆名和是否为管理员权限
+新增功能：js使用sessionstorage.getItem("",)即可获取用户信息和权限
 
 上传前删除out文件夹
 
