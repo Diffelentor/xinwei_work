@@ -61,12 +61,12 @@
                                                 <h3>持仓</h3>
                                             </li>
                                             <li>
-                                                <a href="../../maintain/control/position.js">
+                                                <a href="../../maintain/control/position.jsp">
                                                     <i class="icon-basket"></i>
                                                     我的持仓</a>
                                             </li>
                                             <li>
-                                                <a href="../../maintain/historyAdministrator/historyAd.jsp">
+                                                <a href="../../maintain/control/history.jsp">
                                                     <i class="icon-wallet"></i>
                                                     交易记录</a>
                                             </li>
