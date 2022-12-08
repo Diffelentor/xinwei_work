@@ -49,86 +49,25 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
 <!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
 <body class="page-header-fixed page-quick-sidebar-over-content page-full-width page-boxed">
-<%@include file="../../home/frame/frame_header.jsp"%>
 <div class="clearfix">
 </div>
 <!-- BEGIN CONTAINER -->
 <div class="page-container">
-    <%@include file="../../home/frame/frame_left_sidebar.jsp"%>
     <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
         <div class="page-content">
             <!-- BEGIN 主页面头 -->
-            <%@include file="../../home/frame/frame_page_header.jsp"%>
             <!-- END 主页面头 -->
             <h3 class="page-title">
                 用户投诉管理 <small>用户投诉表</small>
             </h3>
-            <div class="page-bar">
-                <ul class="page-breadcrumb">
-                    <li>
-                        <i class="fa fa-home"></i>
-                        <a href="../main/index.jsp">首页</a>
-                        <i class="fa fa-angle-right"></i>
-                    </li>
-                    <li>
-                        <a href="../../home/complain/complain_list.jsp">用户投诉</a>
-                    </li>
-                </ul>
 
-            </div>
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="portlet-body form" id="record_query_setup" name="record_query_setup">
-                            <form class="form-horizontal" role="form">
-                                <div class="form-body">
-                                    <div class="form-group">
-                                        <div id="username_div" name="username_div">
-                                        <label class="col-md-1 control-label">用户名</label>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control" placeholder="请输入用户名" id="username" name="username">
-                                        </div>
-                                        </div>
-                                        <label class="col-md-1  control-label">关键字</label>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control" placeholder="请输入投诉关键字" id="keyword" name="keyword">
-                                        </div>
-                                        <div class="col-md-1">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <button type="button"   class="btn blue" id="query_button" name="query_button">
-                                                <i class="fa fa-search"></i>搜索</button>
-                                            <button type="button"   class="btn default" id="remake_button" name="remake_button">
-                                                <i class="fa fa-refresh"></i>重置</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2 ">
-                    <%--                    如果不将type类型定义为buton的话会被默认为submit类型--%>
-                    <button type="button"  class="btn btn-circle btn-lg yellow-crusta" id="add_button" name="add_button">
-                        <i class="fa fa-plus"></i> 新增</button>
-                    <button type="button"  class="btn btn-circle btn-lg default" id="export_button" name="export_button">
-                        <i class="fa fa-cloud-download"></i> 导出</button>
-                    <button type="button" class="btn btn-circle btn-lg green" id="table_print_button" name="table_print_button">
-                        <i class="fa fa-print"></i> 打印</button>
-                    <button type="button" class="btn btn-circle btn-lg blue" id="statistic_button" name="statistic_button">
-                        <i class="icon-bar-chart"></i> 统计</button>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" style="float: right"  class="btn default" id="refresh_button" name="refresh_button">
-                        <i class="fa fa-refresh"></i></button>
-                </div>
-            </div>
+
             <br>
             <div class="clearfix">
-                <div class="row" id="complain_bar" name="complain_bar">
+                <div class="row" id="print_complain_bar" name="print_complain_bar">
                     <div class="col-md-6 col-md-offset-3">
                         <!-- BEGIN PORTLET-->
                         <div class="portlet light bg-inverse">
@@ -145,15 +84,6 @@ License: You must have a valid license purchased only from themeforest(the above
                                         </button>
                                     </div>
 
-                                    <a href="javascript:;" class="btn btn-circle blue-madison btn-sm">
-                                        <i class="fa fa-plus"></i> Modify </a>
-                                    <a href="javascript:;" class="btn btn-circle yellow-casablanca btn-sm">
-                                        <i class="fa fa-reply"></i> Reply </a>
-                                    <a href="javascript:;"class="btn btn-circle red-sunglo btn-sm">
-                                        <i class="fa fa-fa-minus"></i> Delete </a>
-                                    </button>
-                                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
-                                    </a>
                                 </div>
                             </div>
                             <div class="portlet-body">
@@ -175,7 +105,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- END CONTENT -->
 
 </div>
-<input type="hidden" id="page_id" name="page_id" value="complain_list">
+<input type="hidden" id="page_id" name="page_id" value="complain_list_print">
 <!-- END CONTAINER -->
 <!-- BEGIN FOOTER -->
 <%@include file="../../home/frame/frame_footer.jsp"%>
@@ -188,7 +118,3 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- END BODY -->
 
 </html>
-<%@include file="../../home/complain/complain_modify_div.jsp"%>
-<%@include file="../../home/complain/complain_add_div.jsp"%>
-<%@include file="../../home/complain/complain_download_div.jsp"%>
-<%@include file="../../home/complain/complain_reply_div.jsp"%>

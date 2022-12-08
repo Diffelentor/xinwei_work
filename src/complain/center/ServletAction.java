@@ -73,6 +73,16 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+            if (action.equals("update_reply_record")) {
+                actionOk=true;
+                try {
+                    updateReplyRecord(request, response, json);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             if (action.equals("delete_complain_record")) {
                 actionOk=true;
                 try {
@@ -81,6 +91,15 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+            if (action.equals("get_count_isreplied")) {
+                actionOk=true;
+                try {
+                    getcountisreplied(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
             if (action.equals("export_complain_record")) {
                 actionOk=true;
                 try {
@@ -163,6 +182,20 @@ public class ServletAction extends HttpServlet {
         Data data=getPageParameters(request,response,json);
         dao.addComplainRecord(data,json);
     }
+
+    private void updateReplyRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
+        ComplainDao dao=new ComplainDao();
+        Data data=getPageParameters(request,response,json);
+        dao.updateReplyRecord(data,json);
+    }
+
+
+    private void getcountisreplied(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException {
+        ComplainDao dao=new ComplainDao();
+        Data data=getPageParameters(request,response,json);
+        dao.getcountisreplied(data,json);
+    }
+
     /*========================================CRUD业务函数 结束========================================*/
     private void exportComplainRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
         ComplainDao dao=new ComplainDao();

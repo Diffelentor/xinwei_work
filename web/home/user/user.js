@@ -64,7 +64,7 @@ var Page = function() {
 	};
 	var initUserStatisticControlEvent=function () {
 		$('#return_button').click(function() {returnBack();});
-	}
+	};
 
 	var onRemake=function () {
 		window.location.reload();
