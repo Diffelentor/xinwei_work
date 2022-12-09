@@ -117,5 +117,13 @@
 		<servlet-name>todolist_file_servlet_action</servlet-name>
 		<url-pattern>/todolist_file_servlet_action</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>weather_file_servlet_action</servlet-name>
+		<servlet-class>weather.file.ServletAction</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>weather_file_servlet_action</servlet-name>
+		<url-pattern>/weather_file_servlet_action</url-pattern>
+	</servlet-mapping>
 
 </web-app>
