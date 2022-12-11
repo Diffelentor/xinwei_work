@@ -27,7 +27,7 @@ public class DeviceDao {
 		String forward=data.getParam().has("forward")?data.getParam().getString("forward"):null;
 		String price_sale=data.getParam().has("price_sale")?data.getParam().getString("price_sale"):null;
 		if(futures_id!=null && futures_name!=null && type!=null && amount!=null && user_name!=null){
-			String sql="insert into my_position(futures_id,futures_name,type,price_bought,amount,user_name,select_time,forward,price_sale)";
+			String sql="insert into xm06_my_position(futures_id,futures_name,type,price_bought,amount,user_name,select_time,forward,price_sale)";
 			sql=sql+" values('"+futures_id+"'";
 			sql=sql+",'"+futures_name+"'";
 			sql=sql+",'"+type+"'";
@@ -53,7 +53,7 @@ public class DeviceDao {
 		String select_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
 		String forward=data.getParam().has("forward")?data.getParam().getString("forward"):null;
 		if(futures_id!=null && futures_name!=null && type!=null && amount!=null && user_name!=null){
-			String sql="insert into my_position(futures_id,futures_name,type,price_bought,amount,user_name,select_time,forward)";
+			String sql="insert into xm06_my_position(futures_id,futures_name,type,price_bought,amount,user_name,select_time,forward)";
 			sql=sql+" values('"+futures_id+"'";
 			sql=sql+",'"+futures_name+"'";
 			sql=sql+",'"+type+"'";
@@ -72,7 +72,7 @@ public class DeviceDao {
 		//构造sql语句，根据传递过来的条件参数
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
 		if(id!=null){
-			String sql="delete from my_position where id="+data.getParam().getString("id");
+			String sql="delete from xm06_my_position where id="+data.getParam().getString("id");
 			data.getParam().put("sql",sql);
 			updateRecord(data,json);
 		}
@@ -81,7 +81,7 @@ public class DeviceDao {
 		//构造sql语句，根据传递过来的条件参数
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
 		if(id!=null){
-			String sql="delete from total where id="+data.getParam().getString("id");
+			String sql="delete from xm06_total where id="+data.getParam().getString("id");
 			data.getParam().put("sql",sql);
 			updateRecord(data,json);
 		}
@@ -96,7 +96,7 @@ public class DeviceDao {
 		String select_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
 
 		if(id!=null){
-			String sql="update my_position";
+			String sql="update xm06_my_position";
 			sql=sql+" set price_sale='"+price_sale+"'";
 			sql=sql+" ,forward='"+forward+"'";
 			sql=sql+" ,select_time='"+select_time+"'";
@@ -114,7 +114,7 @@ public class DeviceDao {
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
 		String amount=data.getParam().has("amount")?data.getParam().getString("amount"):null;
 		if(id!=null){
-			String sql="update my_position";
+			String sql="update xm06_my_position";
 			sql=sql+" set amount='"+amount+"'";
 			sql=sql+" where id="+id;
 			data.getParam().put("sql",sql);
@@ -136,7 +136,7 @@ public class DeviceDao {
 		String select_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
 
 		if(id!=null){
-			String sql="update my_position";
+			String sql="update xm06_my_position";
 			sql=sql+" set futures_id='"+futures_id+"'";
 			sql=sql+" ,futures_name='"+futures_name+"'";
 			sql=sql+" ,type='"+type+"'";
@@ -167,7 +167,7 @@ public class DeviceDao {
 		String select_time=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
 		String date = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
 		if(id!=null){
-			String sql="update total";
+			String sql="update xm06_total";
 			sql=sql+" set futures_id='"+futures_id+"'";
 			sql=sql+" ,futures_name='"+futures_name+"'";
 			sql=sql+" ,type='"+type+"'";
@@ -220,7 +220,7 @@ public class DeviceDao {
 		String resultMsg="ok";
 		/*--------------------获取变量 完毕--------------------*/
 		/*--------------------数据操作 开始--------------------*/
-		Db updateDb = new Db("test");
+		Db updateDb = new Db("yjykfsj2022");
 		String sql=data.getParam().getString("sql");
 		showDebug("[updateRecord]"+sql);
 		updateDb.executeUpdate(sql);
@@ -239,7 +239,7 @@ public class DeviceDao {
 		List jsonName=new ArrayList();
 		/*--------------------获取变量 完毕--------------------*/
 		/*--------------------数据操作 开始--------------------*/
-		Db queryDb = new Db("test");
+		Db queryDb = new Db("yjykfsj2022");
 		String sql=data.getParam().getString("sql");
 		showDebug("[queryRecord]构造的SQL语句是：" + sql);
 		try {
@@ -276,7 +276,7 @@ public class DeviceDao {
 	}
 
 	private String createHistoryAdministratorDownloadSql(Data data) throws JSONException {
-		String sql="select M.futures_id,M.futures_name,M.type,M.price_bought,T.price_right_now,M.amount,M.user_name,M.forward,M.select_time from my_position M,total T where M.futures_id=T.futures_id";
+		String sql="select M.futures_id,M.futures_name,M.type,M.price_bought,T.price_right_now,M.amount,M.user_name,M.forward,M.select_time from xm06_my_position M,xm06_total T where M.futures_id=T.futures_id";
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
 		if(id!=null && !id.isEmpty()){
 			sql=sql+" and id="+id;
@@ -313,7 +313,7 @@ public class DeviceDao {
 	}
 	//得到持仓下载的sql
 	private String createDownloadSql(Data data) throws JSONException {
-		String sql="select M.user_name,M.futures_id,M.futures_name,M.type,M.price_bought,T.price_right_now,M.amount,M.forward,M.select_time,(T.price_right_now-M.price_bought)*M.amount as earning from my_position M,total T where M.futures_id=T.futures_id and M.forward='开仓'";
+		String sql="select M.user_name,M.futures_id,M.futures_name,M.type,M.price_bought,T.price_right_now,M.amount,M.forward,M.select_time,(T.price_right_now-M.price_bought)*M.amount as earning from xm06_my_position M,xm06_total T where M.futures_id=T.futures_id and M.forward='开仓'";
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
 		if(id!=null && !id.isEmpty()){
 			sql=sql+" and id="+id;
@@ -350,7 +350,7 @@ public class DeviceDao {
 	}
 
 	private String createGetHistoryAdministratorRecordSql(Data data) throws JSONException {
-		String sql="select * from my_position M,total T where M.futures_id=T.futures_id";
+		String sql="select * from xm06_my_position M,xm06_total T where M.futures_id=T.futures_id";
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
 		if(id!=null && !id.isEmpty()){
 			sql=sql+" and M.id="+id;
@@ -395,7 +395,7 @@ public class DeviceDao {
 	}
 
 	private String createGetRecordSql(Data data) throws JSONException {
-		String sql="select * from my_position M,total T where M.futures_id=T.futures_id and forward='开仓'";
+		String sql="select * from xm06_my_position M,xm06_total T where M.futures_id=T.futures_id and forward='开仓'";
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
 		if(id!=null && !id.isEmpty()){
 			sql=sql+" and M.id="+id;
@@ -446,8 +446,8 @@ public class DeviceDao {
 //		String timeTo=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
 		/*--------------------获取变量 完毕--------------------*/
 		/*--------------------数据操作 开始--------------------*/
-		Db queryDb = new Db("test");
-		String sql="SELECT (T.price_right_now-M.price_bought)*M.amount as earning,M.futures_name FROM my_position M,total T";
+		Db queryDb = new Db("yjykfsj2022");
+		String sql="SELECT (T.price_right_now-M.price_bought)*M.amount as earning,M.futures_name FROM xm06_my_position M,xm06_total T";
 		sql+= " where M.futures_id=T.futures_id";
 		String user_name=data.getParam().has("user_name")?data.getParam().getString("user_name"):null;
 		if(user_name!=null && !user_name.isEmpty()){
@@ -501,8 +501,8 @@ public class DeviceDao {
 //		String timeTo=(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
 		/*--------------------获取变量 完毕--------------------*/
 		/*--------------------数据操作 开始--------------------*/
-		Db queryDb = new Db("test");
-		String sql="SELECT (T.price_right_now-M.price_bought)*M.amount as earning,M.futures_name FROM my_position M,total T";
+		Db queryDb = new Db("yjykfsj2022");
+		String sql="SELECT (T.price_right_now-M.price_bought)*M.amount as earning,M.futures_name FROM xm06_my_position M,xm06_total T";
 		sql+= " where M.futures_id=T.futures_id and M.forward='开仓' and M.user_name='"+user_name+"' and M.select_time BETWEEN '"+timeFrom+"' and '"+timeTo+"'";
 		showDebug("[queryRecord]构造的SQL语句是：" + sql);
 		try {
