@@ -19,7 +19,7 @@ public class ComplainDao {
         String username=data.getParam().has("username")?data.getParam().getString("username"):null;
         String question=data.getParam().has("question")?data.getParam().getString("question"):null;
         if(username!=null && question!=null){
-            String sql="insert into complain_file(username,question)";
+            String sql="insert into xm06_complain_file(username,question)";
             sql=sql+" values('"+username+"'";
             sql=sql+" ,'"+question+"')";
             data.getParam().put("sql",sql);
@@ -31,7 +31,7 @@ public class ComplainDao {
         //构造sql语句，根据传递过来的条件参数
         String complain_id=data.getParam().has("complain_id")?data.getParam().getString("complain_id"):null;
         if(complain_id!=null){
-            String sql="delete from complain_file where complain_id="+data.getParam().getString("complain_id");
+            String sql="delete from xm06_complain_file where complain_id="+data.getParam().getString("complain_id");
             data.getParam().put("sql",sql);
             updateRecord(data,json);
         }
@@ -43,7 +43,7 @@ public class ComplainDao {
         String question=data.getParam().has("question")?data.getParam().getString("question"):null;
 
         if(complain_id!=null){
-            String sql="update complain_file";
+            String sql="update xm06_complain_file";
             sql=sql+" set question='"+question+"'";
             sql=sql+" where complain_id="+complain_id;
             data.getParam().put("sql",sql);
@@ -57,7 +57,7 @@ public class ComplainDao {
         String answer=data.getParam().has("answer")?data.getParam().getString("answer"):null;
 
         if(complain_id!=null){
-            String sql="update complain_file";
+            String sql="update xm06_complain_file";
             sql=sql+" set answer='"+answer+"'";
             sql=sql+" where complain_id="+complain_id;
             data.getParam().put("sql",sql);
@@ -106,7 +106,7 @@ public class ComplainDao {
         /*--------------------获取变量 完毕--------------------*/
         /*--------------------数据操作 开始--------------------*/
         Db queryDb = new Db("test");
-        String sql="select count(question) as count_question,count(answer) as count_answer from complain_file";
+        String sql="select count(question) as count_question,count(answer) as count_answer from xm06_complain_file";
         showDebug("[queryRecord]构造的SQL语句是：" + sql);
         try {
             ResultSet rs = queryDb.executeQuery(sql);
@@ -176,7 +176,7 @@ public class ComplainDao {
     }
 
     private String createGetRecordSql(Data data) throws JSONException {
-        String sql="select * from complain_file";
+        String sql="select * from xm06_complain_file";
         String complain_id=data.getParam().has("complain_id")?data.getParam().getString("complain_id"):null;
         if(complain_id!=null && !complain_id.isEmpty()) {
             sql = sql + " where complain_id=" + complain_id;

@@ -1,7 +1,5 @@
 package user.dao;
 
-import user.dao.Data;
-import user.dao.Db;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,7 +21,7 @@ public class UserDao {
         String email=data.getParam().has("email")?data.getParam().getString("email"):null;
         String identity=data.getParam().has("identity")?data.getParam().getString("identity"):null;
         if(username!=null && password!=null && email!=null && identity!=null){
-            String sql="insert into user_file(username,password,email,identity)";
+            String sql="insert into xm06_xm06_user_file(username,password,email,identity)";
             sql=sql+" values('"+username+"'";
             sql=sql+" ,'"+password+"'";
             sql=sql+" ,'"+email+"'";
@@ -37,7 +35,7 @@ public class UserDao {
         //构造sql语句，根据传递过来的条件参数
         String id=data.getParam().has("id")?data.getParam().getString("id"):null;
         if(id!=null){
-            String sql="delete from user_file where id="+data.getParam().getString("id");
+            String sql="delete from xm06_user_file where id="+data.getParam().getString("id");
             data.getParam().put("sql",sql);
             updateRecord(data,json);
         }
@@ -52,7 +50,7 @@ public class UserDao {
         String identity=data.getParam().has("identity")?data.getParam().getString("identity"):"普通用户";
         String balance=data.getParam().has("balance")?data.getParam().getString("balance"):null;
         if(id!=null){
-            String sql="update user_file";
+            String sql="update xm06_user_file";
             sql=sql+" set username='"+username+"'";
             sql=sql+" ,password='"+password+"'";
             sql=sql+" ,email='"+email+"'";
@@ -135,7 +133,7 @@ public class UserDao {
     }
 
     private String createGetRecordSql(Data data) throws JSONException {
-        String sql="select * from user_file";
+        String sql="select * from xm06_user_file";
         String id=data.getParam().has("id")?data.getParam().getString("id"):null;
         if(id!=null && !id.isEmpty()) {
             sql = sql + " where id=" + id;
@@ -175,7 +173,7 @@ public class UserDao {
         String action=data.getParam().getString("action");
 
         Db queryDb=new Db("test");
-        String sql="select * from user_file where username='"+userName+"' and password='"+password+"'";
+        String sql="select * from xm06_user_file where username='"+userName+"' and password='"+password+"'";
         showDebug("[login]构造的SQL语句是："+sql);
         try{
             ResultSet rs=queryDb.executeQuery(sql);
@@ -218,7 +216,7 @@ public class UserDao {
         String action=data.getParam().getString("action");
 
         Db queryDb=new Db("test");
-        String sql="insert into user_file(username,password,email) values('"+userName+"','"+password+"','"+email+"')";
+        String sql="insert into xm06_user_file(username,password,email) values('"+userName+"','"+password+"','"+email+"')";
         showDebug("[login]构造的SQL语句是："+sql);
         data.getParam().put("sql",sql);
         try {
@@ -242,7 +240,7 @@ public class UserDao {
         List jsonList = new ArrayList();
         List jsonName=new ArrayList();
         Db queryDb = new Db("test");
-		String sql="select count(identity) as count,identity from user_file group by identity";
+		String sql="select count(identity) as count,identity from xm06_user_file group by identity";
 		showDebug("[queryRecord]构造的SQL语句是：" + sql);
         try {
             ResultSet rs = queryDb.executeQuery(sql);

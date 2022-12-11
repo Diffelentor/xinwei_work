@@ -309,9 +309,9 @@ public class ServletAction extends HttpServlet {
 	}
 	//需要四个jar包的引入
 	private void getExportUserRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
-		MyExcel me=new MyExcel("C:\\testUpload\\user_list.xls");
-		json.put("download_url","/upload/home/user/user_list.xls");
-		json.put("file_path","C:\\testUpload\\user_list.xls");
+		MyExcel me=new MyExcel("D:\\upload\\teach\\yjykfsj2022\\XM06\\user_list.xls");
+		json.put("download_url","/2022/XM06/upload/user_list.xls");
+		json.put("file_path","D:\\upload\\teach\\yjykfsj2022\\XM06\\user_list.xls");
 		me.exportData(data,json);
 	}
 }

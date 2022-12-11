@@ -201,6 +201,7 @@ public class ServletAction extends HttpServlet {
         ComplainDao dao=new ComplainDao();
         Data data=getPageParameters(request,response,json);
         dao.getComplainRecord(data,json);
+        System.out.println(json);
 //		getExportComplainRecordToFile(json, data);
 //		getExportComplainRecordToTxt(json, data);
         getExportComplainRecordToExcel(json, data);
@@ -234,9 +235,9 @@ public class ServletAction extends HttpServlet {
     }
     //需要四个jar包的引入
     private void getExportComplainRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
-        MyExcel me=new MyExcel("C:\\testUpload\\complain_list.xls");
-        json.put("download_url","/upload/home/complain/complain_list.xls");
-        json.put("file_path","C:\\testUpload\\complain_list.xls");
+        MyExcel me=new MyExcel("D:\\upload\\teach\\yjykfsj2022\\XM06\\complain_list.xls");
+        json.put("download_url","/2022/XM06/upload/complain_list.xls");
+        json.put("file_path","D:\\upload\\teach\\yjykfsj2022\\XM06\\complain_list.xls");
         me.exportData(data,json);
     }
 }
