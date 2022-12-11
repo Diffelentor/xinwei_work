@@ -56,19 +56,18 @@ public class WeatherDao {
 		List<String> xDataList = new ArrayList();
 		List<Integer> yDataList = new ArrayList();
 		JSONObject jsonObject = new JSONObject();
-		SimpleDateFormat minuteFOrmate = new SimpleDateFormat("HH:mm");
+		SimpleDateFormat minuteFOrmate = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date nowTime = new Date();
-		Date beforeTime = getBeforeTime(nowTime,60,false);
 		/*--------------------获取变量 完毕--------------------*/
 		/*--------------------数据操作 开始--------------------*/
 		Db queryDb = new Db("test");
 		try {
-			for(int i=0;i<10;i++){
-				Date startTime = getEndTime(beforeTime,i*6,true);
-				Date endTime = getEndTime(startTime,5,false);
+			for(int i=6;i>=0;i--){
+				Date startTime = getBeforeTime(nowTime,i,true);
+				Date endTime = getBeforeTime(nowTime,i,false);
 				int count = getWeatherCount(queryDb,format.format(startTime),format.format(endTime));
-				xDataList.add(minuteFOrmate.format(startTime)+"-"+minuteFOrmate.format(endTime));
+				xDataList.add(minuteFOrmate.format(startTime));
 				yDataList.add(count);
 			}
 			jsonObject.put("xData",xDataList);
@@ -103,11 +102,15 @@ public class WeatherDao {
 	public static Date getBeforeTime(Date date,int minute,boolean start){
 		Calendar beforeTime = Calendar.getInstance();
 		beforeTime.setTime(date);
-		beforeTime.add(Calendar.MINUTE, -minute);// minute分钟之前的时间
+		beforeTime.add(Calendar.DAY_OF_MONTH, -minute);// minute分钟之前的时间
 		// 秒
 		if(start){
+			beforeTime.set(Calendar.MINUTE,0);
+			beforeTime.set(Calendar.HOUR_OF_DAY,0);
 			beforeTime.set(Calendar.SECOND, 0);
 		} else {
+			beforeTime.set(Calendar.MINUTE,59);
+			beforeTime.set(Calendar.HOUR_OF_DAY,23);
 			beforeTime.set(Calendar.SECOND, 59);
 		}
 		Date beforeD = beforeTime.getTime();
