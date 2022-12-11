@@ -1,0 +1,154 @@
+body {
+    width: 100%;
+    height: 100%;
+
+    background-image: url("../../home/main/72934416.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+.card-top{
+    position: absolute;
+    top: 31%;
+    /*absolute下top才可生效*/
+
+    width:100%;
+    height: 30%;
+    /*用%则父级结构必须有对应属性赋值，%或px均可*/
+
+    text-align: center;
+    /*text-aign会一直继承下去*/
+}
+.card {
+    /*position: relative;*/
+    width: 20%;
+    /*用%则父级结构必须有对应属性赋值，%或px均可*/
+    height: 100%;
+
+    padding: 1.9rem 1.2rem;
+
+    /*relative下margin对分才会生效*/
+    margin-left: auto;
+    margin-right: auto;
+
+    /*背景*/
+    background: rgba(42, 43, 56, 0.9);
+
+    /*圆角*/
+    border-radius: 20px;
+}
+
+.card {
+    transition: all .2s;
+    box-shadow: 0 0 30px 1px rgba(255, 235, 167, 0.35);
+}
+
+.card:hover {
+    box-shadow: 0 0 30px 1px rgba(255, 235, 167, 0.70);
+}
+
+/*Inputs*/
+.field {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5em;
+    background-color: #1f2029;
+    border-radius: 4px;
+    padding: .5em 1em;
+}
+
+.input-icon {
+    height: 1em;
+    width: 1em;
+    fill: #ffeba7;
+}
+
+.input-field {
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    color: #d3d3d3;
+}
+
+/*Text*/
+.title {
+    margin-bottom: 1rem;
+    margin-top: 0rem;
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #f5f5f5;
+}
+
+/*Buttons*/
+.btn {
+    margin: 30px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: .8em;
+    text-transform: uppercase;
+    padding: 0.6em 1.2em;
+    background-color: #ffeba7;
+    color: #5e6681;
+    box-shadow: 0 8px 24px 0 rgba(255 235 167  0.2);
+    transition: all .3s ease-in-out;
+}
+
+.btn-link {
+    color: #f5f5f5;
+    display: inline-block;
+    font-size: .75em;
+    transition: color .3s ease-out;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/*Hover & focus*/
+.field input:focus::placeholder {
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.btn:hover {
+    background-color: #5e6681;
+    color: #ffeba7;
+    box-shadow: 0 8px 24px 0 rgba(16 39 112 0.2);
+}
+
+.btn-link:hover {
+    color: #ffeba7;
+}
+
+.HDU-ITMO {
+    margin-left: 5%;
+    margin-top: 5%;
+    position: absolute;
+    top: 0;
+
+}
+
+.bottom-information {
+    display: inline-block;
+    color: #F5F5F5;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.bottom-informations {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 1%;
+    margin-bottom: 1.5%;
+}
+.copyright{
+    position: absolute;
+    bottom: 0;
+    width:100%;
+    color: #F5F5F5;
+    text-align: center;
+    margin-bottom: 1%;
+}

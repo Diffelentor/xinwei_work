@@ -267,7 +267,7 @@ public class ServletAction extends HttpServlet {
 		showDebug("收到了数据:"+data.getParam().getString("password"));
 		dao.register(data,json);
 		if(json.getInt("result_code")==0){
-			json.put("redirect_url","home/main/index.jsp");
+			json.put("redirect_url","home/main/login.jsp");
 		}else{
 			json.put("redirect_url","home/main/register_error.jsp");
 		}

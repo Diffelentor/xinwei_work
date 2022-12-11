@@ -10,10 +10,12 @@
 <head>
     <title>财经新闻</title>
 
-    <%@include file="frame_style.jsp"%>
+    <%@include file="../../home/frame/frame_style.jsp"%>
 
 </head>
+<%--<body class="page-header-fixed page-quick-sidebar-over-content ">--%>
 <body class="page-header-fixed page-quick-sidebar-over-content page-full-width page-boxed">
+
 <%@include file="../../home/frame/frame_header.jsp"%>
 <div class="clearfix">
 </div>
@@ -27,17 +29,7 @@
         <h3 class="page-title">
             财经新闻
         </h3>
-<%--<%@include file="../../home/frame/frame_left_sidebar.jsp"%>--%>
 
-<!-- 这里插入广告开始 -->
-<%--<div class="note note-success">--%>
-<%--    <div>--%>
-<%--        <a><img src="../../assets/admin/layout7/img/07.jpg" alt="" style="height: 100px; width: 100%"></a>--%>
-<%--    </div>--%>
-<%--    <p>广告字段</p>--%>
-<%--</div>--%>
-<!-- 这里插入广告结束 -->
-<!--  返回首页  -->
 <div class="page-bar" >
     <ul class="page-breadcrumb">
         <li>
@@ -47,68 +39,95 @@
         </li>
         <li>
             <a href="news.jsp">返回</a>
-            <i class="fa fa-angle-right"></i>
+<%--            <i class="fa fa-angle-right"></i>--%>
         </li>
-        <li>
-            <a href="#">News View</a>
-        </li>
+
     </ul>
 </div>
 <!-- 返回首页结束 -->
-<!-- 搜索新闻内容 开始 -->
+
+        <button type="button" class="btn btn-circle default blue-stripe btn-lg" id="add_news_button" name="add_news_button">发表文章
+            <i class="fa fa-plus"></i>
+        </button>
+        <button type="button" class="btn btn-circle default red-stripe btn-lg" id="export_button" name="export_button">导出
+            <i class="fa fa-calendar"></i>
+        </button>
+        <button type="button" class="btn btn-circle default green-stripe btn-lg" id="news_print_button" name="news_print_button">打印
+            <i class="fa fa-file-o"></i>
+        </button>
+        <button type="button" class="btn btn-circle default yellow-stripe btn-lg" id="statistics_button" name="statistics_button">统计
+            <i class="fa fa-bar-chart-o"></i>
+        </button>
+
+        <button type="button" class="btn btn-circle default blue-stripe btn-lg" id="show_comments" name="show_comments" style="visibility: hidden;">评论管理
+            <i class="fa fa-envelope"></i>
+        </button>
+
+        <!-- 搜索新闻内容 开始 -->
 <div class="row">
-    <div class="col-md-6">
-        <div class="portlet-body form" id="record_query_setup" name="record_query_setup">
-            <form class="form-horizontal" role="form">
-                <div class="form-body">
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">关键字</label>
-                        <div class="col-md-9">
-                            <span style="margin-right: 10px">
-                                <input type="text" style="padding: 5px" id="key_word" name="key_word">
-                            </span>
-                            <span>
-                                <button type="button" class="btn btn-info" id="search_button" name="search_button">搜索</button>
-                            </span>
+    <div class="col-md-12" id="record_query_setup" name="record_query_setup">
+<%--        <div class="portlet-body form" >--%>
+<%--            <form class="form-horizontal" role="form">--%>
+<%--                <div class="form-body">--%>
+<%--                    <div class="form-group">--%>
+<%--                        <label class="col-md-3 control-label">关键字</label>--%>
+                        <div class="col-md-12" style="margin: 20px;">
+<%--                            <span style="margin-right: 10px">--%>
+                                <input type="text" style="padding: 5px;margin-top: 10px;width: 250px;box-shadow: 0px 0px 1px 1px dimgrey;" id="key_word" name="key_word"">
+<%--                            </span>--%>
+<%--                            <span>--%>
+                                <button type="button" class="btn btn-circle btn-primary grey-cascade" style="margin-left: 20px;" id="search_button" name="search_button">搜索
+                                <i class="fa fa-search"></i>
+                                </button>
+<%--                            </span>--%>
+                            <!-- 头部导航 开始-->
+<%--                            <div class="row">--%>
+                                <div style="float: right;">
+                                    <button type="button" class="btn btn-circle btn-info bg-red-flamingo" id="zxrd_button" name="datatable_button">最新热点
+                                        <i class="fa fa-link"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-circle btn-info bg-yellow-lemon" id="cjxw_button" name="table_button">财经新闻
+                                        <i class="fa fa-link"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-circle btn-info bg-blue-steel" id="gjxw_button" name="bar_button">国际新闻
+                                        <i class="fa fa-link"></i>
+                                    </button>
+                                </div>
+<%--                            </div>--%>
+                            <!-- 头部导航 结束-->
                         </div>
-                    </div>
-                </div>
-            </form>
-        </div>
+
+<%--                </div>--%>
+<%--            </form>--%>
+<%--        </div>--%>
     </div>
 </div>
 <!--搜索新闻内容 结束 -->
 
 <div id="body_div" name="body_div">
-    <!-- 头部导航 开始-->
-<!--
- <ul class="nav nav-tabs">
-        <li class="active" style="margin-left: 100px">
-            <a href="#tab_1_1" data-toggle="tab">最新热点</a>
-        </li>
-        <li style="margin-left: 100px">
-            <a href="#tab_1_2" data-toggle="tab">财经新闻</a>
-        </li>
-        <li style="margin-left: 100px">
-            <a href="#tab_1_3" data-toggle="tab">国际新闻</a>
-        </li>
-    </ul>
- -->
-    <div class="row">
-        <div class="col-md-6">
-            <button type="button" class="btn btn-info"  style="margin-left: 70px" id="zxrd_button" name="datatable_button">最新热点</button>
-            <button type="button" class="btn btn-info" style="margin-left: 70px" id="cjxw_button" name="table_button">财经新闻</button>
-            <button type="button" class="btn btn-info" style="margin-left: 70px" id="gjxw_button" name="bar_button">国际新闻</button>
-        </div>
-    </div>
-    <!-- 头部导航 结束-->
+<%--    <!-- 头部导航 开始-->--%>
+
+<%--    <div class="row">--%>
+<%--        <div class="col-md-6">--%>
+<%--            <button type="button" class="btn btn-circle btn-info default"  style="margin-left: 70px" id="zxrd_button" name="datatable_button">最新热点--%>
+<%--                <i class="fa fa-link"></i>--%>
+<%--            </button>--%>
+<%--            <button type="button" class="btn btn-circle btn-info default" style="margin-left: 70px" id="cjxw_button" name="table_button">财经新闻--%>
+<%--                <i class="fa fa-link"></i>--%>
+<%--            </button>--%>
+<%--            <button type="button" class="btn btn-circle btn-info default" style="margin-left: 70px" id="gjxw_button" name="bar_button">国际新闻--%>
+<%--                <i class="fa fa-link"></i>--%>
+<%--            </button>--%>
+<%--        </div>--%>
+<%--    </div>--%>
+<%--    <!-- 头部导航 结束-->--%>
 
     <!-- 最新热点显示开始 -->
     <div class="portlet-body" id="zxrd_tab">
         <div class="table-scrollable">
             <table class="table table-bordered table-hover">
                 <thead>
-                <tr >
+                <tr style="background-color: rgba(255,234,232,0.63)">
                     <th style="text-align: center; color: #664E74">
                         发布日期
                     </th>
@@ -144,7 +163,7 @@
         <div class="table-scrollable">
             <table class="table table-bordered table-hover">
                 <thead>
-                <tr >
+                <tr class="warning">
                     <th style="text-align: center; color: #664E74">
                         发布日期
                     </th>
@@ -180,7 +199,7 @@
         <div class="table-scrollable">
             <table class="table table-bordered table-hover">
                 <thead>
-                <tr >
+                <tr style="background-color: rgba(229,243,255,0.63);">
                     <th style="text-align: center; color: #664E74">
                         发布日期
                     </th>
@@ -223,3 +242,5 @@
 </body>
 <input type="hidden" id="page_id" name="page_id" value="news_list">
 </html>
+
+<%@include file="device_download_div.jsp"%>

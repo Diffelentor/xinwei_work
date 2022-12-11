@@ -25,6 +25,7 @@
                                 <label class="col-md-3 control-label">回复内容</label>
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" placeholder="Enter text" id="reply_content" name="reply_content">
+
                                     <span class="help-block">
 											请填写 </span>
                                 </div>

@@ -10,9 +10,12 @@
 <head>
     <title>News</title>
 
-    <%@include file="frame_style.jsp"%>
+    <%@include file="../../home/frame/frame_style.jsp"%>
+
 </head>
+<%--<body class="page-header-fixed page-quick-sidebar-over-content ">--%>
 <body class="page-header-fixed page-quick-sidebar-over-content page-full-width page-boxed">
+
 <%@include file="../../home/frame/frame_header.jsp"%>
 <div class="clearfix">
 </div>
@@ -35,11 +38,9 @@
         </li>
         <li>
             <a href="news.jsp">返回</a>
-            <i class="fa fa-angle-right"></i>
+<%--            <i class="fa fa-angle-right"></i>--%>
         </li>
-        <li>
-            <a href="#">News View</a>
-        </li>
+
     </ul>
 </div>
 <!-- END PAGE HEADER-->
@@ -115,37 +116,7 @@
                                 </form>
 
                             </div>
-                            <!--  导入打印导出开始 第一个div的 class="col-md-3 col-sm-4 blog-sidebar" -->
-                            <div style="float: right">
-                                <div class="top-news">
-                                    <%--                                        <a href="insert_news.jsp" class="btn blue">--%>
-                                    <%--								<span>--%>
-                                    <%--								发表文章</span>--%>
 
-                                    <%--                                            <em>--%>
-                                    <%--                                                <i class="fa fa-tags"></i>--%>
-                                    <%--                                            </em>--%>
-                                    <%--                                            <i class="fa fa-globe top-news-icon"></i>--%>
-                                    <%--                                        </a>--%>
-                                                                            <a href="javascript:;" class="btn yellow">
-                                    <span>
-                                导出</span>
-
-                                    <em>
-                                        <i class="fa fa-tags"></i>
-                                    </em>
-                                    <i class="fa fa-book top-news-icon"></i>
-                                    </a>
-                                    <a href="javascript:;" class="btn purple">
-								<span>
-								打印</span>
-                                        <em>
-                                            <i class="fa fa-tags"></i>
-                                        </em>
-                                        <i class="fa fa-bolt top-news-icon"></i>
-                                    </a>
-                                </div>
-                            </div>
                             <!--导入打印导出结束 -->
                         </div>
                     </div>

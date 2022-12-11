@@ -1,5 +1,6 @@
 package news.file;
 
+import news.dao.CommentDao;
 import news.dao.Data;
 import news.dao.newsDao;
 import org.json.JSONException;
@@ -10,8 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -71,6 +71,31 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+            if (action.equals("modify_news_content")){
+                actionOk = true;
+                try {
+                    modifyNewsContent(request,response,json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("modify_news_submit")){
+                actionOk = true;
+                try {
+                    modifyNewsSubmit(request,response,json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (action.equals("delete_news_record")){
+                actionOk = true;
+                try {
+                    deleteNewsRecord(request,response,json);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
             if (action.equals("get_news_comment")){
                 actionOk = true;
                 try {
@@ -104,6 +129,53 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+
+            if (action.equals("modify_news_comment"))
+            {
+                actionOk = true;
+                try {
+                    modifyNewsComment(request,response,json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("export_news_record"))
+            {
+                actionOk = true;
+                try {
+                    exportNewsRecord(request,response,json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("export_comment_record"))
+            {
+                actionOk = true;
+                try {
+                    exportCommentRecord(request,response,json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("get_news_count_by_hour"))
+            {
+                actionOk = true;
+                try {
+                    getNewsCountByHour(request,response,json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("get_comment_count_by_hour"))
+            {
+                actionOk = true;
+                try {
+                    getCommentCountByHour(request,response,json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
             try {
                 responseBack(request,response,json);
             } catch (JSONException e) {
@@ -111,6 +183,7 @@ public class ServletAction extends HttpServlet {
             }
         }
     }
+
 
     /*========================================公共函数 开始========================================*/
     private Data getPageParameters(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException{
@@ -185,6 +258,24 @@ public class ServletAction extends HttpServlet {
         dao.getNewsContent(data,json);
     }
 
+    private void modifyNewsContent(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException {
+        newsDao dao = new newsDao();
+        Data data = getPageParameters(request,response,json);
+        dao.modifyNewsContent(data,json);
+    }
+
+    private void modifyNewsSubmit(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        newsDao dao = new newsDao();
+        Data data = getPageParameters(request,response,json);
+        dao.modifyNewsSubmit(data,json);
+    }
+
+    private void deleteNewsRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        newsDao dao = new newsDao();
+        Data data = getPageParameters(request,response,json);
+        dao.deleteNewsRecord(data,json);
+    }
+
     private void getNewsComment(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException {
         newsDao dao = new newsDao();
         Data data = getPageParameters(request,response,json);
@@ -207,5 +298,74 @@ public class ServletAction extends HttpServlet {
         newsDao dao = new newsDao();
         Data data = getPageParameters(request,response,json);
         dao.deleteNewsComment(data,json);
+    }
+
+    private void modifyNewsComment(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        CommentDao dao = new CommentDao();
+        Data data = getPageParameters(request,response,json);
+        dao.modifyCommentRecord(data,json);
+    }
+
+    private void exportNewsRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
+        newsDao dao=new newsDao();
+        Data data=getPageParameters(request,response,json);
+        dao.getZXRDRecord(data,json);
+        //getExportDeviceRecordFile(data,json);
+        getExportDeviceRecordExcel(data,json);
+    }
+    //导出评论列表
+    //待完善
+    private void exportCommentRecord(HttpServletRequest request, HttpServletResponse response,JSONObject json) throws JSONException, SQLException, IOException {
+        newsDao dao = new newsDao();
+        Data data = getPageParameters(request,response,json);
+        dao.getNewsComment(data,json);
+        //getExportDeviceRecordFile(data,json);
+        getExportCommentRecordExcel(data,json);
+    }
+
+    private void getNewsCountByHour(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        newsDao dao = new newsDao();
+        Data data = getPageParameters(request,response,json);
+        dao.getNewsCountByHour(data,json);
+    }
+
+
+    private void getCommentCountByHour(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        CommentDao dao = new CommentDao();
+        Data data = getPageParameters(request,response,json);
+        dao.getCommentCountByHour(data,json);
+    }
+
+    private void getExportDeviceRecordFile(Data data, JSONObject json) throws JSONException {
+        System.out.println("开始执行getExportDeviceRecordFile===============================");
+        String jsonStr = json.toString();
+        File jsonFile = new File("C:\\upload\\maintain\\device\\export_News.txt");
+        json.put("download_url","/upload/maintain/device/export_News.txt");
+        try{
+            //文件不存在就创建文件
+            if(!jsonFile.exists()){
+                jsonFile.createNewFile();
+            }
+            FileWriter fileWriter = new FileWriter(jsonFile.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fileWriter);
+            bw.write(jsonStr);
+            bw.close();
+            System.out.println("执行getExportDeviceRecordFile结束===============================");
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void getExportDeviceRecordExcel(Data data, JSONObject json) throws JSONException, IOException {
+        MyExcel me = new MyExcel("C:\\upload\\maintain\\device\\export_News.xls");
+        json.put("download_url","/upload/maintain/device/export_News.xls");
+        json.put("file_path","C:\\upload\\maintain\\device\\export_News.xls");
+        me.exportData(data,json);
+    }
+    private void getExportCommentRecordExcel(Data data, JSONObject json) throws JSONException, IOException {
+        MyExcel me = new MyExcel("C:\\upload\\maintain\\device\\export_Comments.xls");
+        json.put("download_url","/upload/maintain/device/export_Comments.xls");
+        json.put("file_path","C:\\upload\\maintain\\device\\export_Comments.xls");
+        me.exportData(data,json);
     }
 }
