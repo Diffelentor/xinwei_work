@@ -20,7 +20,7 @@ public class TodolistDao {
 		String content=data.getParam().has("content")?data.getParam().getString("content"):null;
 		String deadLine=data.getParam().has("dead_line")?data.getParam().getString("dead_line"):"";
 		if(content!=null){
-			String sql="insert into todolist(content,dead_line,create_time)";
+			String sql="insert into xm06_todolist(content,dead_line,create_time)";
 			sql=sql+" values('"+content+"'";
 			sql=sql+" ,'"+deadLine+"',now())";
 			data.getParam().put("sql",sql);
@@ -32,7 +32,7 @@ public class TodolistDao {
 		//构造sql语句，根据传递过来的条件参数
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
 		if(id!=null){
-			String sql="delete from todolist where id in ("+id+")";
+			String sql="delete from xm06_todolist where id in ("+id+")";
 			data.getParam().put("sql",sql);
 			updateRecord(data,json);
 		}
@@ -44,7 +44,7 @@ public class TodolistDao {
 		String content=data.getParam().has("content")?data.getParam().getString("content"):null;
 		String deadLine=data.getParam().has("dead_line")?data.getParam().getString("dead_line"):null;
 		if(id!=null){
-			String sql="update todolist";
+			String sql="update xm06_todolist";
 			sql=sql+" set content='"+content+"'";
 			sql=sql+" ,dead_line='"+deadLine+"'";
 			sql=sql+" where id="+id;
@@ -125,7 +125,7 @@ public class TodolistDao {
 	}
 
 	private String createGetRecordSql(Data data) throws JSONException {
-		String sql="select * from todolist";
+		String sql="select * from xm06_todolist";
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
 		if(id!=null && !id.isEmpty()) {
 			sql = sql + " where id=" + id;
