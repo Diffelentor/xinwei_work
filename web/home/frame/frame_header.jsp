@@ -11,7 +11,7 @@
     <div class="page-header-inner">
         <!-- BEGIN LOGO -->
         <div class="page-logo">
-            <a href="index.html">
+            <a href="../../home/main/index.jsp">
                 <img src="../../assets/admin/layout/img/logo.png" alt="logo" class="logo-default"/>
             </a>
         </div>
