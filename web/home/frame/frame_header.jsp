@@ -99,7 +99,7 @@
                     </a>
                 </li>
                 <li class="classic-menu-dropdown ">
-                    <a href="../../home/main/index.jsp">
+                    <a href="../../weather/page/index.jsp">
                         <i class="icon-home"></i>
                         <span class="title">天气</span>
                     </a>
