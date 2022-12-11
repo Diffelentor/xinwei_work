@@ -27,11 +27,11 @@
 <div class="clearfix">
 </div>
 <!-- BEGIN CONTAINER -->
-<div class="page-container">
+<div class="page-container" id="page-container">
     <%@include file="../../home/frame/frame_left_sidebar.jsp"%>
     <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
-        <div class="page-content">
+        <div class="page-content" id="page-content">
             <%@include file="../../home/frame/frame_page_header.jsp"%>
             <h3 class="page-title">
                 期货数据

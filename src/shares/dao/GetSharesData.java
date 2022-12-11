@@ -118,7 +118,7 @@ public class GetSharesData implements ServletContextListener{
         //System.out.println("执行到这里");
         String sql = "";
         int count = 0;
-        String check_if_exist = "select count(*) as total from shares where shares_id = '" + share_id +"' and date = '" + date +"'";
+        String check_if_exist = "select count(*) as total from xm06_shares where shares_id = '" + share_id +"' and date = '" + date +"'";
         try{
             ResultSet rs = updateDb.executeQuery(check_if_exist);
             while(rs.next()){
@@ -130,7 +130,7 @@ public class GetSharesData implements ServletContextListener{
         }
 
         if (count == 0){
-            sql = "insert into shares(shares_id,shares_name,price_today_begin,price_pre,price_right_now,price_high,price_low,deal_count,deal_amount,select_time,date)";
+            sql = "insert into xm06_shares(shares_id,shares_name,price_today_begin,price_pre,price_right_now,price_high,price_low,deal_count,deal_amount,select_time,date)";
             sql += " values('" + share_id + "'" + " ,'" + name + "'" + " ,'" + price_today_begin + "'" + " ,'" + price_yesterday + "'" + " ,'" + price_right_now + "'" + " ,'" + price_high + "'" + " ,'" + price_low + "'" + " ,'" + deal_count + "'" + " ,'" + deal_amount + "'" + " ,'" + time + "'" +" ,'"+date+"')";
         }
         else{
@@ -150,7 +150,7 @@ public class GetSharesData implements ServletContextListener{
         /*写入total*/
         String sql_total = "";
         count = 0;
-        String check_if_exist_total = "select count(*) as total from total where futures_id = '" + share_id + "'";
+        String check_if_exist_total = "select count(*) as total from xm06_total where futures_id = '" + share_id + "'";
         try{
             ResultSet rs = updateDb.executeQuery(check_if_exist_total);
             while(rs.next()){
@@ -162,7 +162,7 @@ public class GetSharesData implements ServletContextListener{
         }
         /*第一次录入则插入记录*/
         if (count == 0){
-            sql_total = "insert into total(futures_id,futures_name,type,price_today_begin,price_yesterday,price_right_now,price_high,price_low,deal_count,deal_amount,select_time)";
+            sql_total = "insert into xm06_total(futures_id,futures_name,type,price_today_begin,price_yesterday,price_right_now,price_high,price_low,deal_count,deal_amount,select_time)";
             sql_total += " values('" + share_id + "'" + " ,'" + name + "'" + " ,'股票' ,'" + price_today_begin + "'" + " ,'" + price_yesterday + "'" + " ,'" + price_right_now + "'" + " ,'" + price_high + "'" + " ,'" + price_low + "' ,'" + deal_count + "'" + " ,'" + deal_amount + "'" + " ,'" + time + "')";
         }
         /*非第一次则修改记录*/

@@ -178,6 +178,8 @@ var Page = function () {
             modify_data.price_right_now=$("#exchanges_add_div #price_right_now").val();
             modify_data.price_high=$("#exchanges_add_div #price_high").val();
             modify_data.price_low=$("#exchanges_add_div #price_low").val();
+            modify_data.date=$("#exchanges_add_div #date").val();
+
             //测试输入的是否为数字形式
             if(isNaN(modify_data.price_today_begin) || isNaN(modify_data.price_yesterday) || isNaN(modify_data.price_right_now) || isNaN(modify_data.price_high) || isNaN(modify_data.price_low)){
                 alert("输入的数据不合规范！请输入数字！");
@@ -192,18 +194,19 @@ var Page = function () {
         }
     };
     //在修改界面确认修改后进行的事件
-    var onModifyDivSubmit=function () {
+    var onModifyDivSubmit=function (date) {
         $('#exchanges_modify_div #submit_button').click(function () {
-            submitModifyRecordDiv();
+            submitModifyRecordDiv(date);
         });
     };
-    var submitModifyRecordDiv=function () {
+    var submitModifyRecordDiv=function (date) {
         if(confirm("您确定要修改该记录吗？")){
             var url="../../"+module+"_"+sub+"_servlet_action";
             var modify_data={};
             modify_data.action="modify_exchanges_record";
             //获取填写在该页面的数据准备传向后端
             modify_data.exchanges_id=$("#exchanges_modify_div #exchanges_id").val();
+            modify_data.date = date;
             if(isNull(modify_data.exchanges_id)){
                 $("#exchanges_modify_div #reminder").modal("show");
                 alert("代号不能为空");
@@ -301,6 +304,7 @@ var Page = function () {
         var data = {};
         data.exchanges_id = $("#record_query_setup #exchanges_id").val();
         data.exchanges_name = $("#record_query_setup #exchanges_name").val();
+        data.date = $("#record_query_setup #date").val();
         $('.datatable').dataTable({
             "paging": true,
             "searching": false,
@@ -398,6 +402,13 @@ var Page = function () {
                     return sReturn;
                 }, "orderable": true
             }, {
+                "mRender": function (data, type, full) {
+                    time = full.select_time;
+                    time = time.slice(0,time.indexOf("."));
+                    sReturn = '<div>'+time+'</div>';
+                    return sReturn;
+                }, "orderable": false
+            },{
                 "mRender": function(data, type, full) {
                     let time = new Date()
                     let time1 = time.toLocaleString()  //打印结果为：YYMMDD time
@@ -424,7 +435,7 @@ var Page = function () {
                 $(".group-checkable").uniform();
             },
             //"sAjaxSource": "get_record.jsp"
-            "sAjaxSource": "../../" + module + "_" + sub + "_servlet_action?action=get_exchanges_record&exchanges_id=" + data.exchanges_id + "&exchanges_name=" + data.exchanges_name
+            "sAjaxSource": "../../" + module + "_" + sub + "_servlet_action?action=get_exchanges_record&exchanges_id=" + data.exchanges_id + "&exchanges_name=" + data.exchanges_name +"&date=" + $("#record_query_setup #date").val()
         });
         $('.datatable').find('.group-checkable').change(function () {
             var set = jQuery(this).attr("data-set");
@@ -810,6 +821,8 @@ var Page = function () {
         var data = {};
         data.exchanges_id = $("#record_query_setup_admin #exchanges_id").val();
         data.exchanges_name = $("#record_query_setup_admin #exchanges_name").val();
+        data.date = $("#record_query_setup_admin #date").val();
+
         $('.datatable').dataTable({
             "paging": true,
             "searching": false,
@@ -907,6 +920,11 @@ var Page = function () {
                 }, "orderable": true
             }, {
                 "mRender": function(data, type, full) {
+                    sReturn = '<div>'+full.date+'</div>';
+                    return sReturn;
+                },"orderable": false
+            }, {
+                "mRender": function(data, type, full) {
                     time = full.select_time;
                     time = time.slice(0,time.indexOf("."));
                     sReturn = '<div>'+time+'</div>';
@@ -914,8 +932,8 @@ var Page = function () {
                 },"orderable": false
             },{
                 "mRender": function(data, type, full) {
-                    sReturn = '<div><a href="javascript:Page.onModifyRecord(\'' + full.exchanges_id + '\')"><i class="fa fa-pencil"></i> 修改</a><a href="javascript:Page.onDeleteRecord(\'' + full.exchanges_id + '\')"><span class="glyphicon glyphicon-remove-sign">\n' +
-                        '</span> 删除</div>';
+                    sReturn = '<div><a href="javascript:Page.onModifyRecord(\'' + full.exchanges_id +'\',\''+ full.date+ '\')"><i class="fa fa-pencil"></i> 修改</a><a href="javascript:Page.onDeleteRecord(\'' + full.exchanges_id +'\',\''+ full.date+ '\')"><span class="glyphicon glyphicon-remove-sign"></span> 删除</a>' +
+                        '<a href="javascript:Page.InitHistoryRecord(\'' + full.exchanges_id + '\')"><i class="fa fa-pencil"></i> 历史数据</a></div>';
                     return sReturn;
                 },"orderable": false
             }],
@@ -925,7 +943,7 @@ var Page = function () {
                 $(".group-checkable").uniform();
             },
             //"sAjaxSource": "get_record.jsp"
-            "sAjaxSource": "../../" + module + "_" + sub + "_servlet_action?action=get_exchanges_record&exchanges_id=" + data.exchanges_id + "&exchanges_name=" + data.exchanges_name
+            "sAjaxSource": "../../" + module + "_" + sub + "_servlet_action?action=get_exchanges_admin&exchanges_id=" + data.exchanges_id + "&exchanges_name=" + data.exchanges_name +"&date=" + data.date
         });
         $('.datatable').find('.group-checkable').change(function () {
             var set = jQuery(this).attr("data-set");
@@ -1078,32 +1096,34 @@ var Page = function () {
         onShowKline: function (exchanges_id) {
             on_show_kline(exchanges_id);
         },
-        onModifyRecord: function (exchanges_id) {
+        onModifyRecord: function (exchanges_id,date) {
             var url="../../"+module+"_"+sub+"_servlet_action";
             var query_data = {};
             query_data.action="get_exchanges_record";
             query_data.exchanges_id=exchanges_id;
+            query_data.date=date;
             $.post(url,query_data,function(json){
                 if(json.result_code==0){
                     var data = json.aaData[0];
                     $('#exchanges_modify_div #exchanges_id').val(data.exchanges_id);
                     $('#exchanges_modify_div #exchanges_name').val(data.exchanges_name);
                     $('#exchanges_modify_div #price_today_begin').val(data.price_today_begin);
-                    $('#exchanges_modify_div #price_pre').val(data.price_pre);
+                    $('#exchanges_modify_div #price_yesterday').val(data.price_yesterday);
                     $('#exchanges_modify_div #price_right_now').val(data.price_right_now);
                     $('#exchanges_modify_div #price_high').val(data.price_high);
                     $('#exchanges_modify_div #price_low').val(data.price_low);
                 }
             });
             $("#exchanges_modify_div").modal("show");
-            onModifyDivSubmit();
+            onModifyDivSubmit(date);
         },
-        onDeleteRecord:function (exchanges_id) {
+        onDeleteRecord:function (exchanges_id,date) {
             if (confirm("您确定要删除该记录吗？")) {
                 var url = "../../" + module + "_" + sub + "_servlet_action";
                 var delete_data = {};
                 delete_data.action = "delete_exchanges_record";
                 delete_data.exchanges_id = exchanges_id;
+                delete_data.date = date;
                 $.post(url,delete_data,function(json){
                     if(json.result_code==0){
                         alert("已删除记录！")
@@ -1111,6 +1131,155 @@ var Page = function () {
                     }
                 });
             }
+        },
+        InitHistoryRecord:function (exchanges_id){
+            //将之前的表删除掉，这样再次获取的时候就不会有warning了
+            if ($.fn.dataTable.isDataTable('#record_list_admin')) {
+                console.log("=====================")
+                // 获取这个表
+                _table = $('#record_list_admin').DataTable();
+                // 把这个表销毁掉
+                _table.destroy();
+            }
+            $('.datatable').dataTable({
+                "paging": true,
+                "searching": false,
+                "oLanguage": {
+                    "aria": {
+                        "sortAscending": ": activate to sort column ascending",
+                        "sortDescending": ": activate to sort column descending"
+                    },
+                    "sProcessing": "处理中...",
+                    "sLengthMenu": "_MENU_ 记录/页",
+                    "sZeroRecords": "没有匹配的记录",
+                    "sInfo": "显示第 _START_ 至 _END_ 项记录，共 _TOTAL_ 项",
+                    "sInfoEmpty": "显示第 0 至 0 项记录，共 0 项",
+                    "sInfoFiltered": "(由 _MAX_ 项记录过滤)",
+                    "sInfoPostFix": "",
+                    "sSearch": "过滤:",
+                    "oPaginate": {
+                        "sFirst": "首页",
+                        "sPrevious": "上页",
+                        "sNext": "下页",
+                        "sLast": "末页"
+                    }
+                },
+                //注意事项：在html里定义了几列这里就几列，参数是full
+                "aoColumns": [{
+                    "mRender": function (data, type, full) {
+                        sReturn = '<input type="checkbox" class="checkboxes" value="' + full.exchanges_id + '"/>';
+                        return sReturn;
+                    }, "orderable": false
+                }, {
+                    "mRender": function (data, type, full) {
+                        sReturn = '<div>' + full.exchanges_id + '</div>';
+                        return sReturn;
+                    }, "orderable": true
+                }, {
+                    "mRender": function (data, type, full) {
+                        sReturn = '<div>' + full.exchanges_name + '</div>';
+                        return sReturn;
+                    }, "orderable": false
+                }, {
+                    "mRender": function (data, type, full) {
+                        sReturn = '<div>' + full.price_today_begin + '</div>';
+                        return sReturn;
+                    }, "orderable": false
+                }, {
+                    "mRender": function (data, type, full) {
+                        sReturn = '<div>' + full.price_yesterday + '</div>';
+                        return sReturn;
+                    }, "orderable": false
+                }, {
+                    "mRender": function (data, type, full) {
+                        sReturn = '<div>' + full.price_right_now + '</div>';
+                        return sReturn;
+                    }, "orderable": false
+                }, {
+                    "mRender": function (data, type, full) {
+                        sReturn = '<div>' + full.price_high + '</div>';
+                        return sReturn;
+                    }, "orderable": false
+                }, {
+                    "mRender": function (data, type, full) {
+                        sReturn = '<div>' + full.price_low + '</div>';
+                        return sReturn;
+                    }, "orderable": false
+                }, {
+                    "mRender": function (data, type, full) {
+                        if (full.price_right_now != "" && full.price_yesterday != "") {
+                            var change = (full.price_right_now - 0) - (full.price_yesterday - 0);
+                            change = Math.round(change * 100) / 100;
+                            if (change > 0) {
+                                sReturn = '<div class="font-red">' + change + '</div>';
+                            } else {
+                                sReturn = '<div class="font-green">' + change + '</div>';
+                            }
+                        } else {
+                            sReturn = '<div></div>'
+                        }
+
+                        return sReturn;
+                    }, "orderable": false
+                }, {
+                    "mRender": function (data, type, full) {
+                        if (full.price_right_now != "" && full.price_yesterday != "") {
+                            var amplitude = (full.price_right_now - full.price_yesterday) / full.price_yesterday;
+                            amplitude = Math.round(amplitude * 100000) / 1000;
+                            if (amplitude > 0) {
+                                sReturn = '<div class="font-red">' + amplitude + '%</div>';
+                            } else {
+                                sReturn = '<div class="font-green">' + amplitude + '%</div>';
+                            }
+                        } else {
+                            sReturn = '<div></div>'
+                        }
+                        return sReturn;
+                    }, "orderable": true
+                },{
+                    "mRender": function(data, type, full) {
+                        sReturn = '<div>'+full.date+'</div>';
+                        return sReturn;
+                    },"orderable": false
+                }, {
+                    "mRender": function(data, type, full) {
+                        time = full.select_time;
+                        time = time.slice(0,time.indexOf("."));
+                        sReturn = '<div>'+time+'</div>';
+                        return sReturn;
+                    },"orderable": false
+                },{
+                    "mRender": function(data, type, full) {
+                        sReturn = '<div><a href="javascript:Page.onModifyRecord(\'' + full.exchanges_id + '\',\''  + full.date + '\')"><i class="fa fa-pencil"></i> 修改</a><a href="javascript:Page.onDeleteRecord(\'' + full.exchanges_id + '\',\'' + full.date + '\')"><span class="glyphicon glyphicon-remove-sign">\n' +
+                            '</span> 删除 </div>';
+                        return sReturn;
+                    },"orderable": false
+                }],
+                "aLengthMenu": [[5, 10, 15, 20, 25, 40, 50, -1], [5, 10, 15, 20, 25, 40, 50, "所有记录"]],
+                "fnDrawCallback": function () {
+                    $(".checkboxes").uniform();
+                    $(".group-checkable").uniform();
+                },
+                //"sAjaxSource": "get_record.jsp"
+                "sAjaxSource": "../../" + module + "_" + sub + "_servlet_action?action=get_history_data&exchanges_id=" + exchanges_id
+            });
+            $('.datatable').find('.group-checkable').change(function () {
+                var set = jQuery(this).attr("data-set");
+                var checked = jQuery(this).is(":checked");
+                jQuery(set).each(function () {
+                    if (checked) {
+                        $(this).attr("checked", true);
+                        $(this).parents('tr').addClass("active");
+                    } else {
+                        $(this).attr("checked", false);
+                        $(this).parents('tr').removeClass("active");
+                    }
+                });
+                jQuery.uniform.update(set);
+            });
+            $('.datatable').on('change', 'tbody tr .checkboxes', function () {
+                $(this).parents('tr').toggleClass("active");
+            });
         }
     }
 }();//Page

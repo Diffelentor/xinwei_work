@@ -56,6 +56,22 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+            if (action.equals("get_history_data")) {
+                actionOk=true;
+                try {
+                    getFuturesHistory(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("get_futures_admin")) {
+                actionOk=true;
+                try {
+                    getFuturesAdmin(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             if (action.equals("export_futures_record")) {
                 actionOk=true;
                 try {
@@ -161,6 +177,16 @@ public class ServletAction extends HttpServlet {
         FuturesDao dao=new FuturesDao();
         Data data=getPageParameters(request,response,json);
         dao.getFuturesRecord(data,json);
+    }
+    private void getFuturesHistory(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        FuturesDao dao=new FuturesDao();
+        Data data=getPageParameters(request,response,json);
+        dao.getFuturesHistory(data,json);
+    }
+    private void getFuturesAdmin(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        FuturesDao dao=new FuturesDao();
+        Data data=getPageParameters(request,response,json);
+        dao.getFuturesAdmin(data,json);
     }
     private void addFuturesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
         FuturesDao dao=new FuturesDao();

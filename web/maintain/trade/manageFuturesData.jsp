@@ -17,7 +17,7 @@
     <meta content="" name="author"/>
 
     <%@include file="../../home/frame/frame_style.jsp"%>
-    <link rel="stylesheet" type="text/css" href="../dataTables/dataTables.bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="dataTables/dataTables.bootstrap.css"/>
     <!-- END THEME STYLES -->
 
     <link rel="shortcut icon" href="../device/favicon.ico"/>

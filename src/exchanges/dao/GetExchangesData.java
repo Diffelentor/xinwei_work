@@ -115,7 +115,7 @@ public class GetExchangesData implements ServletContextListener{
 
         String sql = "";
         int count = 0;
-        String check_if_exist = "select count(*) as total from exchanges where exchanges_id = '" + exchange_id +"' and date = '" + date +"'";
+        String check_if_exist = "select count(*) as total from xm06_exchanges where exchanges_id = '" + exchange_id +"' and date = '" + date +"'";
         try{
             ResultSet rs = updateDb.executeQuery(check_if_exist);
             while(rs.next()){
@@ -127,7 +127,7 @@ public class GetExchangesData implements ServletContextListener{
         }
         /*第一次录入则插入记录*/
         if (count == 0){
-            sql = "insert into exchanges(exchanges_id,exchanges_name,price_today_begin,price_yesterday,price_right_now,price_high,price_low,select_time,date)";
+            sql = "insert into xm06_exchanges(exchanges_id,exchanges_name,price_today_begin,price_yesterday,price_right_now,price_high,price_low,select_time,date)";
             sql += " values('" + exchange_id + "'" + " ,'" + name + "'" + " ,'" + price_today_begin + "'" + " ,'" + price_yesterday + "'" + " ,'" + price_right_now + "'" + " ,'" + price_high + "'" + " ,'" + price_low + "'" + " ,'" + time + "'" +" ,'" + date +"')";
         }
         /*非第一次则修改记录*/
@@ -145,7 +145,7 @@ public class GetExchangesData implements ServletContextListener{
         /*total表*/
         String sql_total = "";
         count = 0;
-        String check_if_exist_total = "select count(*) as total from total where futures_id = '" + exchange_id + "'";
+        String check_if_exist_total = "select count(*) as total from xm06_total where futures_id = '" + exchange_id + "'";
         try{
             ResultSet rs = updateDb.executeQuery(check_if_exist_total);
             while(rs.next()){
@@ -157,7 +157,7 @@ public class GetExchangesData implements ServletContextListener{
         }
         /*第一次录入则插入记录*/
         if (count == 0){
-            sql_total = "insert into total(futures_id,futures_name,type,price_today_begin,price_yesterday,price_right_now,price_high,price_low,select_time)";
+            sql_total = "insert into xm06_total(futures_id,futures_name,type,price_today_begin,price_yesterday,price_right_now,price_high,price_low,select_time)";
             sql_total += " values('" + exchange_id + "'" + " ,'" + name + "'" + " ,'外汇' ,'" + price_today_begin + "'" + " ,'" + price_yesterday + "'" + " ,'" + price_right_now + "'" + " ,'" + price_high + "'" + " ,'" + price_low + "'" + " ,'" + time + "')";
         }
         /*非第一次则修改记录*/

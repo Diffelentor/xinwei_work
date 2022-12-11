@@ -52,6 +52,14 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+            if (action.equals("get_exchanges_admin")) {
+                actionOk=true;
+                try {
+                    getExchangesAdmin(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             if (action.equals("add_exchanges_record")) {
                 actionOk=true;
                 try {
@@ -95,6 +103,14 @@ public class ServletAction extends HttpServlet {
                 actionOk=true;
                 try {
                     getExchangesKline(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("get_history_data")) {
+                actionOk=true;
+                try {
+                    getExchangesHistory(request, response, json);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -155,6 +171,16 @@ public class ServletAction extends HttpServlet {
         ExchangesDao dao=new ExchangesDao();
         Data data=getPageParameters(request,response,json);
         dao.getExchangesRecord(data,json);
+    }
+    private void getExchangesAdmin(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        ExchangesDao dao=new ExchangesDao();
+        Data data=getPageParameters(request,response,json);
+        dao.getExchangesAdmin(data,json);
+    }
+    private void getExchangesHistory(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        ExchangesDao dao=new ExchangesDao();
+        Data data=getPageParameters(request,response,json);
+        dao.getExchangesHistory(data,json);
     }
     private void addExchangesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
         ExchangesDao dao=new ExchangesDao();
