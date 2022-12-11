@@ -25,7 +25,7 @@
         <div class="page-content">
             <%@include file="../../home/frame/frame_page_header.jsp"%>
             <h3 class="page-title">
-                导入新闻
+                修改新闻内容
             </h3>
 
             <!--  返回首页  -->
@@ -54,9 +54,9 @@
 													* </span>
                         </label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" style="width: 600px" id="news_writer" name="news_writer">
+                            <input type="text" class="form-control" style="width: 600px" id="modify_news_writer" name="modify_news_writer">
                             <span class="help-block">
-														请输入作者名 </span>
+														请修改作者名 </span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -64,9 +64,9 @@
 													* </span>
                         </label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" style="width: 750px" id="news_title" name="news_title">
+                            <input type="text" class="form-control" style="width: 750px" id="modify_news_title" name="modify_news_title">
                             <span class="help-block">
-														请输入标题名 </span>
+														请修改标题名 </span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -75,18 +75,18 @@
                         </label>
                         <div class="col-md-4">
 <%--                            <input type="text" style="height: 300px; width: 800px">--%>
-                            <textarea class="col-md-10 form-control" style="width: 900px" rows="40" id="insert_news_content" name="insert_news_content"></textarea>
+                            <textarea class="col-md-10 form-control" style="width: 900px;font-size: medium" rows="40" id="modify_news_content" name="modify_news_content"></textarea>
 
                             <span class="help-block">
-														请编辑内容 </span>
+														请修改新闻内容 </span>
                         </div>
                     </div>
                 </div>
                 <div class="form-actions">
                     <div class="row">
                         <div class="col-md-offset-3 col-md-4">
-                            <button type="button" class="btn green" id="news_import" name="news_import">提交</button>
-                            <button type="button" class="btn default" id="cancel_button" name="cancel_button">取消并返回首页</button>
+                            <button type="button" class="btn green" id="modify_news_button" name="modify_news_button">提交</button>
+                            <button type="button" class="btn default" id="cancel_modify_button" name="cancel_modify_button">取消并返回首页</button>
                         </div>
                     </div>
                 </div>
@@ -105,6 +105,6 @@
 <script src="news_list.js" type="text/javascript"></script>
 </body>
 
-<input type="hidden" id="page_id" name="page_id" value="insert_news">
+<input type="hidden" id="page_id" name="page_id" value="modify_news">
 
 </html>

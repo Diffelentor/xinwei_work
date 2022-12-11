@@ -32,7 +32,7 @@ public class newsDao {
             System.out.println("id:"+id+"title:"+title+"url:"+url+"time:"+time+"content:"+content);
             if (id!=null && title!=null && url!=null && time!=null && content!=null)
             {
-                String sql = "insert into news_info(news_ID,title,content,time,news_url) ";
+                String sql = "insert into xm06_news_info(news_ID,title,content,time,news_url) ";
                 sql = sql+"values('"+id+"'";
                 sql = sql +" ,'"+title+"'";
                 sql = sql +" ,'"+content+"'";
@@ -45,7 +45,77 @@ public class newsDao {
         updateDb.close();
     }
 
-    //发表评论实现
+    //手动导入新闻（发表文章）
+    public void InsertNewsInfo(Data data, JSONObject json) throws JSONException {
+        String resultMsg = "发表新闻成功！";
+        int resultCode = 0;
+        Db updateDb = new Db("test");
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String Time = simpleDateFormat.format(new Date());
+
+        String Writer = data.getParam().has("writer")?data.getParam().getString("writer"):null;
+        String Title = data.getParam().has("title")?data.getParam().getString("title"):null;
+        String Content = data.getParam().has("news_content")?data.getParam().getString("news_content"):null;
+
+        if (Writer!=null && Title!=null && Content!=null && !Writer.isEmpty() && !Title.isEmpty() && !Content.isEmpty()) {
+            String sql = "insert into xm06_news_info(module,writer,title,content,time) values(";
+            sql = sql + "1 ,'"+Writer+"' ,'"+Title+"' ,'"+Content+"' ,'"+Time+"')";
+            showDebug("构造的sql语句:"+sql);
+            updateDb.executeUpdate(sql);
+        }else {
+            resultMsg = "发表新闻失败！";
+            resultCode = 10;
+        }
+        updateDb.close();
+
+        json.put("result_msg",resultMsg);
+        json.put("result_code",resultCode);
+    }
+
+
+    public void getNewsCountByHour(Data data, JSONObject json) throws JSONException {
+        String resultMsg = "获取计数成功！";
+        int resultCode = 0;
+
+        List jsonList = new ArrayList();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE,-1);
+        String timeFrom = (new SimpleDateFormat("yyyy-MM-dd 00:00:00")).format(cal.getTime());
+        String timeTo = (new SimpleDateFormat("yyyy-MM-dd 23:59:59")).format(cal.getTime());
+
+        Db queryDb = new Db("test");
+        String sql = "select DATE_FORMAT(time,\"%Y-%m-%d %H\") as time_interval,count(*) as total from xm06_news_info";
+        sql = sql +" where time between '2022-11-28 00:00:00' and '2022-11-28 23:59:59' ";
+        sql = sql + " group by DATE_FORMAT(time,\"%Y-%m-%d %H\") ";
+        showDebug("[getNewsCountByHour]构造的SQL语句是："+sql);
+
+        try {
+            ResultSet rs = queryDb.executeQuery(sql);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int fieldCount = rsmd.getColumnCount();
+            while (rs.next()){
+                HashMap map = new HashMap();
+                map.put("time_interval",rs.getString("time_interval"));
+                map.put("total",rs.getString("total"));
+                jsonList.add(map);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showDebug("[getNewsCountByHour]查询数据库出现错误："+sql);
+            resultCode = 10;
+            resultMsg = "查询数据库出现错误！" +e.getMessage();
+        }
+        queryDb.close();
+        /*--------------------返回数据 开始--------------------*/
+        json.put("aaData",jsonList);
+        json.put("result_msg",resultMsg);															//如果发生错误就设置成"error"等
+        json.put("result_code",resultCode);														//返回0表示正常，不等于0就表示有错误产生，错误代码
+        /*--------------------返回数据 结束--------------------*/
+    }
+
+        //发表评论实现
     public void addNewsComments(Data data, JSONObject json) throws JSONException {
         String resultMsg = "发表评论成功！";
         int resultCode = 0;
@@ -58,8 +128,8 @@ public class newsDao {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String Time = simpleDateFormat.format(new Date());
         System.out.println("News_ID:"+news_id+"Name:"+Name+"Comments:"+Comments);
-        if (news_id!=0 && Name!=null && Comments!=null){
-            String sql = "insert into news_comments(news_id,user_name,comment,submit_time)";
+        if (news_id!=0 && Name!=null && Comments!=null && !Comments.isEmpty()){
+            String sql = "insert into xm06_news_comments(news_id,user_name,comment,submit_time)";
             sql = sql+"values('"+news_id+"'";
             sql = sql +" ,'"+Name+"'";
             sql = sql +" ,'"+Comments+"'";
@@ -90,8 +160,8 @@ public class newsDao {
         String Time = simpleDateFormat.format(new Date());
         System.out.println("comment_id:"+comment_id+"user_name:"+user_name+"contents:"+reply_content);
 
-        if (comment_id!=0 && user_name!=null && reply_content!=null){
-            String sql = "insert into comment_reply(reply_id,name,reply,time)";
+        if (comment_id!=0 && user_name!=null && reply_content!=null && !reply_content.isEmpty()){
+            String sql = "insert into xm06_comment_reply(reply_id,name,reply,time)";
             sql = sql+"values('"+comment_id+"'";
             sql = sql +" ,'"+user_name+"'";
             sql = sql +" ,'"+reply_content+"'";
@@ -114,12 +184,12 @@ public class newsDao {
         if(id != 0){
             System.out.println("获取到的comment_id不为空！！！");
             //先删除评论的回复
-            String sql = "delete from comment_reply where reply_id="+id;
+            String sql = "delete from xm06_comment_reply where reply_id="+id;
             data.getParam().put("sql",sql);
             updateRecord(data,json);
 
             //再删除该条评论
-            String sql1 = "delete from news_comments where id="+id;
+            String sql1 = "delete from xm06_news_comments where id="+id;
             data.getParam().put("sql",sql1);
             updateRecord(data,json);
         }
@@ -148,13 +218,14 @@ public class newsDao {
     public void getNewsContent(Data data, JSONObject json) throws JSONException {
         String resultMsg = "ok";
         int resultCode = 0;
-        int id=data.getParam().has("id")?data.getParam().getInt("id"):null;
+        int id=data.getParam().has("id")?data.getParam().getInt("id"):0;
 
         String news_title = "";
         String news_time = "";
         String news_content = "";
+        String news_writer = "";
 
-        String sql = "select * from news_info where id="+id;
+        String sql = "select * from xm06_news_info where id="+id;
         showDebug("[queryRecord]构造的SQL语句是：" + sql);
         Db queryDb = new Db("test");
         try{
@@ -164,6 +235,7 @@ public class newsDao {
                 news_title=rs.getString("title");
                 news_time=rs.getString("time");
                 news_content=rs.getString("content");
+                news_writer=rs.getString("writer");
             }
             rs.close();
         } catch (SQLException e) {
@@ -182,8 +254,89 @@ public class newsDao {
         json.put("news_title",news_title);
         json.put("news_time",news_time);
         json.put("news_content",news_content);
+        json.put("news_writer",news_writer);
         json.put("result_msg",resultMsg);
         json.put("result_code",resultCode);
+    }
+
+    public void modifyNewsContent(Data data, JSONObject json) throws JSONException {
+        String resultMsg = "ok";
+        int resultCode = 0;
+        int id=data.getParam().has("id")?data.getParam().getInt("id"):0;
+
+        String news_title = "";
+        String news_content = "";
+        String news_writer = "";
+
+        String sql = "select * from xm06_news_info where id="+id;
+        showDebug("[queryRecord]构造的SQL语句是：" + sql);
+        Db queryDb = new Db("test");
+        try{
+            ResultSet rs = queryDb.executeQuery(sql);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            while(rs.next()){
+                news_title=rs.getString("title");
+                news_content=rs.getString("content");
+                news_writer=rs.getString("writer");
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showDebug("[queryRecord]查询数据库出现错误！" + sql);
+            resultCode = 10;
+            resultMsg = "查询数据库出现错误！" + e.getMessage();
+        }
+        queryDb.close();
+        int index=0;
+//        while((index=news_content.indexOf("\n"))!=-1)
+//            news_content=news_content.substring(0,index)+"<br>"+news_content.substring(index+1);
+        while((index=news_content.indexOf(" "))!=-1)
+            news_content=news_content.substring(0,index)+"&nbsp"+news_content.substring(index+1);
+//        System.out.println("显示获取的数据库信息："+news_title+news_content);
+        json.put("news_title",news_title);
+        json.put("news_content",news_content);
+        json.put("news_writer",news_writer);
+        json.put("result_msg",resultMsg);
+        json.put("result_code",resultCode);
+    }
+
+    public void modifyNewsSubmit(Data data, JSONObject json) throws JSONException, SQLException {
+        String resultMsg = "ok";
+        int resultCode = 0;
+        int id = data.getParam().has("id")?data.getParam().getInt("id"):0;
+        String title = data.getParam().has("title")?data.getParam().getString("title"):null;
+        String writer = data.getParam().has("writer")?data.getParam().getString("writer"):null;
+        String content = data.getParam().has("news_content")?data.getParam().getString("news_content"):null;
+
+        if (id!=0 && title!=null && writer!=null && content!=null && !title.isEmpty() && !content.isEmpty()) {
+            String sql="update xm06_news_info";
+            sql=sql+" set title='"+title+"'";
+            sql=sql+" ,writer='"+writer+"'";
+            sql=sql+" ,content='"+content+"'";
+            sql=sql+" where id="+id;
+            data.getParam().put("sql",sql);
+            updateRecord(data,json);
+        }else {
+            resultMsg = "前端传来的数据为空";
+            resultCode = 10;
+            json.put("result_msg",resultMsg);															//如果发生错误就设置成"error"等
+            json.put("result_code",resultCode);
+        }
+    }
+
+    public void deleteNewsRecord(Data data, JSONObject json) throws JSONException, SQLException {
+        int id=data.getParam().has("news_ID")?data.getParam().getInt("news_ID"):null;
+        if (id != 0){
+            String sql = "delete from xm06_news_info where id="+id;
+            data.getParam().put("sql",sql);
+            updateRecord(data,json);
+        } else {
+            int resultCode=10;
+            String resultMsg="error!";
+            json.put("result_msg",resultMsg);															//如果发生错误就设置成"error"等
+            json.put("result_code",resultCode);
+        }
+
     }
 
     public void getNewsComment(Data data, JSONObject json) throws JSONException {
@@ -203,6 +356,7 @@ public class newsDao {
         String resultMsg = "ok";
         int resultCode = 0;
         List jsonList = new ArrayList();
+        List jsonName = new ArrayList();
         /*--------------------获取变量 完毕--------------------*/
         /*--------------------数据操作 开始--------------------*/
         Db queryDb = new Db("test");
@@ -220,6 +374,13 @@ public class newsDao {
                 jsonList.add(map);
             }
             rs.close();
+
+            //加表头信息
+            for (int i = 0; i <rsmd.getColumnCount();i++){
+                String columnLabel=rsmd.getColumnLabel(i+1);
+                jsonName.add(columnLabel);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             showDebug("[queryRecord]查询数据库出现错误：" + sql);
@@ -227,9 +388,11 @@ public class newsDao {
             resultMsg = "查询数据库出现错误！" + e.getMessage();
         }
         queryDb.close();
+
         /*--------------------数据操作 结束--------------------*/
         /*--------------------返回数据 开始--------------------*/
         json.put("aaData",jsonList);
+        json.put("aaFieldName",jsonName);
         json.put("result_msg",resultMsg);															//如果发生错误就设置成"error"等
         json.put("result_code",resultCode);														//返回0表示正常，不等于0就表示有错误产生，错误代码
         /*--------------------返回数据 结束--------------------*/
@@ -293,7 +456,7 @@ public class newsDao {
     }
 
     private String createGetRecordSql(Data data, int module) throws JSONException {
-        String sql = "select id,news_ID,title,time,news_url from news_info where module="+module;
+        String sql = "select id,news_ID,title,time,news_url,writer from xm06_news_info where module="+module;
 
 //        String id = data.getParam().has("id")?data.getParam().getString("id"):null;
 //        if(id!=null && !id.isEmpty())
@@ -312,11 +475,21 @@ public class newsDao {
         return sql;
     }
 
+
     private String createGetCommentSql(Data data) throws JSONException {
-        String sql = "select * from news_comments";
+        String sql = "select * from xm06_news_comments";
         String id = data.getParam().has("id")?data.getParam().getString("id"):null;
         if(id!=null && !id.isEmpty())
             sql = sql + " where news_id="+id;
+
+        String KeyWords=data.getParam().has("keywords")?data.getParam().getString("keywords"):null;
+        if(KeyWords!=null && !KeyWords.isEmpty()){
+            if(sql.indexOf("where")>-1){
+                sql=sql+" and comment like '%"+KeyWords+"%'";
+            }else{
+                sql=sql+" where comment like '%"+KeyWords+"%'";
+            }
+        }
 
         return sql;
     }
@@ -325,8 +498,8 @@ public class newsDao {
         String sql = "";
         int id = data.getParam().has("id")?data.getParam().getInt("id"):0;
         if(id!=0) {
-            sql  =sql+"select * from comment_reply where reply_id in (";
-            sql = sql+" select id from news_comments where news_id="+id+" )";
+            sql  =sql+"select * from xm06_comment_reply where reply_id in (";
+            sql = sql+" select id from xm06_news_comments where news_id="+id+" )";
         }
 
         return sql;
