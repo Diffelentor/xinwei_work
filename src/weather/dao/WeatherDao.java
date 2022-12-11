@@ -18,7 +18,7 @@ public class WeatherDao {
 		//构造sql语句，根据传递过来的条件参数
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
 		if(id!=null){
-			String sql="delete from weather where id in ("+id+")";
+			String sql="delete from xm06_weather where id in ("+id+")";
 			data.getParam().put("sql",sql);
 			updateRecord(data,json);
 		}
@@ -32,7 +32,7 @@ public class WeatherDao {
 		String humidity=data.getParam().has("humidity")?data.getParam().getString("humidity"):null;
 		String wind=data.getParam().has("wind")?data.getParam().getString("wind"):null;
 		if(id!=null){
-			String sql="update weather";
+			String sql="update xm06_weather";
 			sql=sql+" set city='"+city+"'";
 			sql=sql+" ,temperature='"+temperature+"'";
 			sql=sql+" ,humidity='"+humidity+"'";
@@ -85,7 +85,7 @@ public class WeatherDao {
 	public int getWeatherCount(Db db,String startTime,String endTime){
 		int count = 0;
 		try {
-			String sql = "select count(id) from weather where create_time between '"+startTime+"' and '"+endTime+"'";
+			String sql = "select count(id) from xm06_weather where create_time between '"+startTime+"' and '"+endTime+"'";
 			ResultSet rs = db.executeQuery(sql);
 			while (rs.next()) {
 				count = rs.getInt(1);
@@ -209,7 +209,7 @@ public class WeatherDao {
 	}
 
 	private String createGetRecordSql(Data data) throws JSONException {
-		String sql="select * from weather";
+		String sql="select * from xm06_weather";
 		String id=data.getParam().has("id")?data.getParam().getString("id"):null;
 		if(id!=null && !id.isEmpty()) {
 			sql = sql + " where id=" + id;
