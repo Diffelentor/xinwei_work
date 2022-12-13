@@ -71,21 +71,53 @@ License: You must have a valid license purchased only from themeforest(the above
             <%@include file="../../home/frame/frame_page_header.jsp"%>
             <!-- END 主页面头 -->
             <h3 class="page-title">
-                首页
+                首页 <small>数据概况</small>
             </h3>
             <div class="page-bar">
                 <ul class="page-breadcrumb">
                     <li>
                         <i class="fa fa-home"></i>
-                        <a href="index.jsp">首页</a>
+                        <a href="index.html">Home</a>
                         <i class="fa fa-angle-right"></i>
                     </li>
+                    <li>
+                        <a href="#">Data Tables</a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a href="#">Basic Datatables</a>
+                    </li>
                 </ul>
-
+                <div class="page-toolbar">
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true" aria-expanded="false">
+                            Actions <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li>
+                                <a href="#">Action</a>
+                            </li>
+                            <li>
+                                <a href="#">Another action</a>
+                            </li>
+                            <li>
+                                <a href="#">Something else here</a>
+                            </li>
+                            <li class="divider">
+                            </li>
+                            <li>
+                                <a href="#">Separated link</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <!-- END PAGE HEADER-->
             <input type="hidden" id="page_id" name="page_id" value="dash_board">
             <!-- BEGIN PAGE CONTENT-->
+            <h3 class="page-title">
+                Dashboard <small>reports & statistics</small>
+            </h3>
             <div class="tiles">
                 <div class="tile double-down bg-blue-hoki">
                     <div class="tile-body">
@@ -302,51 +334,386 @@ License: You must have a valid license purchased only from themeforest(the above
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <!-- BEGIN ALERTS PORTLET-->
-                    <div class="portlet purple box">
+                    <!-- Begin: left datas -->
+                    <div class="portlet box blue-steel">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-cogs"></i>Alerts
+                                <i class="fa fa-thumb-tack"></i>主要金融数据通览
                             </div>
                             <div class="tools">
                                 <a href="javascript:;" class="collapse">
                                 </a>
-                                <a href="#portlet-config" data-toggle="modal" class="config">
-                                </a>
                                 <a href="javascript:;" class="reload">
-                                </a>
-                                <a href="javascript:;" class="remove">
                                 </a>
                             </div>
                         </div>
                         <div class="portlet-body">
-                            <h4 class="block">Default Alerts</h4>
-                            <div class="alert alert-success">
-                                <strong>Success!</strong> The page has been added.
-                            </div>
-                            <div class="alert alert-info">
-                                <strong>Info!</strong> You have 198 unread messages.
-                            </div>
-                            <div class="alert alert-warning">
-                                <strong>Warning!</strong> Your monthly traffic is reaching limit.
-                            </div>
-                            <div class="alert alert-danger">
-                                <strong>Error!</strong> The daily cronjob has failed.
-                            </div>
-                            <h4 class="block">Dismissable Alerts</h4>
-                            <div class="alert alert-warning alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-                                <strong>Warning!</strong> Something went wrong. Please check.
-                            </div>
-                            <h4 class="block">Links in alerts</h4>
-                            <div class="alert alert-success alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-                                <strong>WOW!</strong> Well done and everything looks OK. <a href="" class="alert-link">
-                                Please check this one as well </a>
+                            <div class="tabbable-line">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#overview_1" data-toggle="tab">
+                                            期货数据</a>
+                                    </li>
+                                    <li>
+                                        <a href="#overview_2" data-toggle="tab">
+                                            股票数据</a>
+                                    </li>
+                                    <li>
+                                        <a href="#overview_3" data-toggle="tab">
+                                            外汇数据 </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="overview_1">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>
+                                                        期货名称
+                                                    </th>
+                                                    <th>
+                                                        期货代号
+                                                    </th>
+                                                    <th>
+                                                        现价
+                                                    </th>
+                                                    <th>
+                                                        今日涨跌幅
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="futures">
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKlineFutures('AU0')">
+                                                            黄金连续 </a>
+                                                    </td>
+                                                    <td>
+                                                        AU0
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKlineFutures('AG0')">
+                                                            白银连续</a>
+                                                    </td>
+                                                    <td>
+                                                        AG0
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKlineFutures('AL2301')">
+                                                            沪铝2301 </a>
+                                                    </td>
+                                                    <td>
+                                                        AL2301
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKlineFutures('CU2301')">
+                                                            沪铜2301 </a>
+                                                    </td>
+                                                    <td>
+                                                        CU2301
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKlineFutures('FU2301')">
+                                                            燃油2301</a>
+                                                    </td>
+                                                    <td>
+                                                        FU2301
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKlineFutures('I2301')">
+                                                            铁矿石2301</a>
+                                                    </td>
+                                                    <td>
+                                                        I2301
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKlineFutures('P2301')">
+                                                            棕榈2301 </a>
+                                                    </td>
+                                                    <td>
+                                                        P2301
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="overview_2">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>
+                                                        股票名称
+                                                    </th>
+                                                    <th>
+                                                        股票代号
+                                                    </th>
+                                                    <th>
+                                                        现价
+                                                    </th>
+                                                    <th>
+                                                        今日涨跌幅
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="shares">
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKline('sh000001')">
+                                                            上证指数 </a>
+                                                    </td>
+                                                    <td>
+                                                        sh000001
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKline('sh000300')">
+                                                            沪深300 </a>
+                                                    </td>
+                                                    <td>
+                                                        sh000300
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKline('sz399001')">
+                                                            深证成指 </a>
+                                                    </td>
+                                                    <td>
+                                                        sz399001
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKline('sz399006')">
+                                                            创业板指 </a>
+                                                    </td>
+                                                    <td>
+                                                        sz399006
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKline('sh60028')">
+                                                            中国石化 </a>
+                                                    </td>
+                                                    <td>
+                                                        sh600028
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKline('sh601857')">
+                                                            中国石油</a>
+                                                    </td>
+                                                    <td>
+                                                        sh601857
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKline('sz000858')">
+                                                            五 粮 液 </a>
+                                                    </td>
+                                                    <td>
+                                                        sz000858
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKline('sh600519')">
+                                                            贵州茅台 </a>
+                                                    </td>
+                                                    <td>
+                                                        sh600519
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="overview_3">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>
+                                                       外汇名称
+                                                    </th>
+                                                    <th>
+                                                        外汇代号
+                                                    </th>
+                                                    <th>
+                                                        现价
+                                                    </th>
+                                                    <th>
+                                                        今日涨跌幅
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="exchanges">
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKlineExchanges('DINIW')">
+                                                            美元指数 </a>
+                                                    </td>
+                                                    <td>
+                                                        DINIW
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKlineExchanges('USDCNY')">
+                                                            美元人民币 </a>
+                                                    </td>
+                                                    <td>
+                                                        USDCNY
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKlineExchanges('CNYJPY')">
+                                                            人民币日元 </a>
+                                                    </td>
+                                                    <td>
+                                                        CNYJPY
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKlineExchanges('EURCNY')">
+                                                            欧元人民币 </a>
+                                                    </td>
+                                                    <td>
+                                                        EURCNY
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKlineExchanges('GBPCNY')">
+                                                            英镑人民币 </a>
+                                                    </td>
+                                                    <td>
+                                                        GBPCNY
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" onclick="Page.onShowKlineExchanges('HKDCNY')">
+                                                            港元人民币 </a>
+                                                    </td>
+                                                    <td>
+                                                        HKDCNY
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- END ALERTS PORTLET-->
+                    <!-- End: left data -->
                 </div>
                 <div class="col-md-4">
                     <!-- Begin: life time stats -->
@@ -358,11 +725,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             <div class="tools">
                                 <a href="javascript:;" class="collapse">
                                 </a>
-                                <a href="#portlet-config" data-toggle="modal" class="config">
-                                </a>
                                 <a href="javascript:;" class="reload">
-                                </a>
-                                <a href="javascript:;" class="remove">
                                 </a>
                             </div>
                         </div>
@@ -535,9 +898,65 @@ License: You must have a valid license purchased only from themeforest(the above
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <!-- Begin: life time stats -->
-                    <div>
-                        <iframe scrolling="no" src="https://tianqiapi.com/api.php?style=tw&skin=pitaya&city=成都" frameborder="0" width="300" height="500" allowtransparency="true"></iframe>
+                    <!-- Begin: data_graphs -->
+                    <div class="portlet box red-sunglo">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-bar-chart-o"></i>金融交易量
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                                <a href="javascript:;" class="reload">
+                                </a>
+                            </div>
+                            <ul class="nav nav-tabs" style="margin-right: 10px">
+                                <li class="active">
+                                    <a href="#portlet_tab1" data-toggle="tab" id="statistics_amounts_tab">
+                                        期货 </a>
+                                </li>
+                                <li>
+                                    <a href="#portlet_tab2" data-toggle="tab">
+                                        股票 </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="portlet_tab1">
+                                    <div id="statistics_futures" class="chart">
+                                    </div>
+                                </div>
+                                <div class="tab-pane active" id="portlet_tab2">
+                                    <div id="statistics_shares" class="chart">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="well no-margin no-border">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 col-xs-6 text-stat">
+										<span class="label label-success">
+										上证指数: </span>
+                                        <h3>3176.33</h3>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-6 text-stat">
+										<span class="label label-info">
+										道琼斯指数: </span>
+                                        <h3>34005.04</h3>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-6 text-stat">
+										<span class="label label-danger">
+										纳斯达克指数: </span>
+                                        <h3>11143.74</h3>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-6 text-stat">
+										<span class="label label-warning">
+										香港恒生指数: </span>
+                                        <h3>19596.20</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- End: life time stats -->
                 </div>
@@ -557,8 +976,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <%@include file="../../home/frame/frame_javascript.jsp"%>
 <script type="text/javascript" src="jquery.dataTables.min.js"></script>
 <script src="index.js" type="text/javascript"></script>
-
-<%--<script src="news_part.js" type="text/javascript"></script>--%>
+<script type="text/javascript" src="../../resource/js/echarts.min.js"></script>
 </body>
 <!-- END BODY -->
 </html>

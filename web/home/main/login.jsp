@@ -49,7 +49,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- END SIDEBAR TOGGLER BUTTON -->
 <!-- BEGIN LOGO -->
 <div class="logo">
-    <div align="center" style="FONT-FAMILY: 华文行楷;color:#ffffff;font-size: 38px;">金融数据管理及模拟交易平台</div>
+    <div align="center" style="FONT-FAMILY: 华文行楷;color:#ffffff;font-size: 38px;">期货交易系统</div>
 </div>
 <!-- END LOGO -->
 <!-- BEGIN LOGIN -->
