@@ -27,7 +27,6 @@
 </div>
 <!-- BEGIN CONTAINER -->
 <div class="page-container">
-    <%@include file="../../home/frame/frame_left_sidebar.jsp"%>
     <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
         <div class="page-content">
@@ -65,6 +64,10 @@
                     <label class="control-label col-sm-1" style="font-size: 18px">股票名称</label>
                     <div class="col-md-2">
                         <input id="shares_name" type="text" class="form-control" value="" placeholder="请输入股票名称"/>
+                    </div>
+                    <label class="control-label col-sm-1" style="font-size: 18px">日期</label>
+                    <div class="col-md-2">
+                        <input id="date" type="text" class="form-control" value="" placeholder="请输入日期"/>
                     </div>
                     <div class="col-md-2">
                         <button type="button"   class="btn blue" id="query_button" name="query_button">
@@ -132,7 +135,10 @@
                                 涨跌幅
                             </th>
                             <th>
-                                交易额（/100股）
+                                交易额
+                            </th>
+                            <th>
+                                更新时间
                             </th>
                             <th>
                                 状态

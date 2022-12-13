@@ -122,7 +122,7 @@ public class GetFuturesData implements ServletContextListener{
 
         String sql = "";
         int count = 0;
-        String check_if_exist = "select count(*) as total from futures where futures_id = '" + future_id +"' and date = '" + date +"'";
+        String check_if_exist = "select count(*) as total from xm06_futures where futures_id = '" + future_id +"' and date = '" + date +"'";
         try{
             ResultSet rs = updateDb.executeQuery(check_if_exist);
             while(rs.next()){
@@ -134,7 +134,7 @@ public class GetFuturesData implements ServletContextListener{
         }
 
         if (count == 0){
-            sql = "insert into futures(futures_id,futures_name,price_today_begin,price_yesterday,price_right_now,price_high,price_low,deal_price,deal_price_yesterday,buy_amount,sell_amount,select_time,date)";
+            sql = "insert into xm06_futures(futures_id,futures_name,price_today_begin,price_yesterday,price_right_now,price_high,price_low,deal_price,deal_price_yesterday,buy_amount,sell_amount,select_time,date)";
             sql += " values('" + future_id + "'" + " ,'" + name + "'" + " ,'" + price_today_begin + "'" + " ,'" + price_yesterday + "'" + " ,'" + price_right_now + "'" + " ,'" + price_high + "'" + " ,'" + price_low + "'" + " ,'" + deal_price + "'" + " ,'" + deal_price_yesterday + "'"+ " ,'" + buy_amount + "'"+ " ,'" + sell_amount + "'" + " ,'" + time + "'"+" ,'" +date+"')";
         }
         else{
@@ -157,7 +157,7 @@ public class GetFuturesData implements ServletContextListener{
 
         String sql_total = "";
         count = 0;
-        String check_if_exist_total = "select count(*) as total from total where futures_id = '" + future_id + "'";
+        String check_if_exist_total = "select count(*) as total from xm06_total where futures_id = '" + future_id + "'";
         try{
             ResultSet rs = updateDb.executeQuery(check_if_exist_total);
             while(rs.next()){
@@ -169,7 +169,7 @@ public class GetFuturesData implements ServletContextListener{
         }
         /*第一次录入则插入记录*/
         if (count == 0){
-            sql_total = "insert into total(futures_id,futures_name,type,price_today_begin,price_yesterday,price_right_now,price_high,price_low,select_time)";
+            sql_total = "insert into xm06_total(futures_id,futures_name,type,price_today_begin,price_yesterday,price_right_now,price_high,price_low,select_time)";
             sql_total += " values('" + future_id + "'" + " ,'" + name + "'" + " ,'期货' ,'" + price_today_begin + "'" + " ,'" + price_yesterday + "'" + " ,'" + price_right_now + "'" + " ,'" + price_high + "'" + " ,'" + price_low + "'" + " ,'" + time + "')";
         }
         /*非第一次则修改记录*/

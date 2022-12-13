@@ -94,6 +94,7 @@ var Page = function() {
 			data.price_right_now=$("#futures_add_div #price_right_now").val();
 			data.price_high=$("#futures_add_div #price_high").val();
 			data.price_low=$("#futures_add_div #price_low").val();
+			data.date=$("#futures_add_div #date").val();
 			//测试输入的是否为数字形式
 			if(isNaN(data.price_today_begin) || isNaN(data.price_yesterday) || isNaN(data.price_right_now) || isNaN(data.price_high) || isNaN(data.price_low)){
 				alert("输入的数据不合规范！请输入数字！");
@@ -111,18 +112,20 @@ var Page = function() {
 		window.location.href="futures_statistic.jsp";
 	}
 	//在修改界面确认修改后进行的事件
-	var onModifyDivSubmit=function () {
+	var onModifyDivSubmit=function (date) {
 		$('#futures_modify_div #submit_button').click(function () {
-			submitModifyRecordDiv();
+			submitModifyRecordDiv(date);
 		});
 	};
-	var submitModifyRecordDiv=function () {
+	var submitModifyRecordDiv=function (date) {
 		if(confirm("您确定要修改该记录吗？")){
 			var url="../../"+module+"_"+sub+"_servlet_action";
 			var modify_data={};
 			modify_data.action="modify_futures_record";
 			//获取填写在该页面的数据准备传向后端
 			modify_data.futures_id=$("#futures_modify_div #futures_id").val();
+			modify_data.date=date;
+
 			if(isNull(modify_data.futures_id)){
 				$("#futures_modify_div #reminder").modal("show");
 				alert("代号不能为空");
@@ -268,6 +271,11 @@ var Page = function() {
 				},"orderable": true
 			},{
 				"mRender": function(data, type, full) {
+					sReturn = '<div>'+full.date+'</div>';
+					return sReturn;
+				},"orderable": false
+			},{
+				"mRender": function(data, type, full) {
 					time = full.select_time;
 					time = time.slice(0,time.indexOf("."));
 					sReturn = '<div>'+time+'</div>';
@@ -275,16 +283,15 @@ var Page = function() {
 				},"orderable": false
 			},{
 				"mRender": function(data, type, full) {
-					//注意事项：这里比较奇怪，要想跳转则里面的数据必须都是int（现在的发现是只要有string就不会执行函数）
-					sReturn = '<div><a href="javascript:Page.onModifyRecord(\'' + full.futures_id + '\')"><i class="fa fa-pencil"></i> 修改</a><a href="javascript:Page.onDeleteRecord(\'' + full.futures_id + '\')"><span class="glyphicon glyphicon-remove-sign">\n' +
-						'</span> 删除</div>';
+					sReturn = '<div><a href="javascript:Page.onModifyRecord(\'' + full.futures_id +'\',\''+ full.date+ '\')"><i class="fa fa-pencil"></i> 修改</a><br><a href="javascript:Page.onDeleteRecord(\'' + full.futures_id +'\',\''+ full.date+ '\')"><span class="glyphicon glyphicon-remove-sign">\n' +
+						'</span> 删除</a><br><a href="javascript:Page.InitHistoryRecord(\'' + full.futures_id + '\')"><i class="fa fa-pencil"></i> 历史数据</a></div>';
 					return sReturn;
 				},"orderable": false
 			}],
 			"aLengthMenu": [[5,10,15,20,25,40,50,-1],[5,10,15,20,25,40,50,"所有记录"]],
 			"fnDrawCallback": function(){$(".checkboxes").uniform();$(".group-checkable").uniform();},
 			//像后端发送请求，附带的数据是为查询时候用的，起初这俩数据都是空值，不造成影响
-			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_futures_record&futures_id="+data.futures_id+"&futures_name="+data.futures_name
+			"sAjaxSource": "../../"+module+"_"+sub+"_servlet_action?action=get_futures_admin&futures_id="+data.futures_id+"&futures_name="+data.futures_name +"&date=" + $("#record_query_setup #date").val()
 		});
 		$('.datatable').find('.group-checkable').change(function () {
 			var set = jQuery(this).attr("data-set");
@@ -492,32 +499,34 @@ var Page = function() {
 		init: function() {
 			initPageControl();
 		},
-		onModifyRecord: function (futures_id) {
+		onModifyRecord: function (futures_id,date) {
 			var url="../../"+module+"_"+sub+"_servlet_action";
 			var query_data = {};
 			query_data.action="get_futures_record";
 			query_data.futures_id=futures_id;
+			query_data.date=date;
 			$.post(url,query_data,function(json){
 				if(json.result_code==0){
 					var data = json.aaData[0];
 					$('#futures_modify_div #futures_id').val(data.futures_id);
 					$('#futures_modify_div #futures_name').val(data.futures_name);
 					$('#futures_modify_div #price_today_begin').val(data.price_today_begin);
-					$('#futures_modify_div #price_yesterday').val(data.price_pre);
+					$('#futures_modify_div #price_yesterday').val(data.price_yesterday);
 					$('#futures_modify_div #price_right_now').val(data.price_right_now);
 					$('#futures_modify_div #price_high').val(data.price_high);
 					$('#futures_modify_div #price_low').val(data.price_low);
 				}
 			});
 			$("#futures_modify_div").modal("show");
-			onModifyDivSubmit();
+			onModifyDivSubmit(date);
 		},
-		onDeleteRecord:function (futures_id) {
+		onDeleteRecord:function (futures_id,date) {
 			if (confirm("您确定要删除该记录吗？")) {
 				var url = "../../" + module + "_" + sub + "_servlet_action";
 				var delete_data = {};
 				delete_data.action = "delete_futures_record";
 				delete_data.futures_id = futures_id;
+				delete_data.date=date;
 				$.post(url,delete_data,function(json){
 					if(json.result_code==0){
 						alert("已删除记录！")
@@ -525,6 +534,152 @@ var Page = function() {
 					}
 				});
 			}
+		},
+		InitHistoryRecord:function (futures_id){
+			//将之前的表删除掉，这样再次获取的时候就不会有warning了
+			if ($.fn.dataTable.isDataTable('#record_list'))
+			{
+				console.log("=====================")
+				// 获取这个表
+				_table = $('#record_list').DataTable();
+				// 把这个表销毁掉
+				_table.destroy();
+			}
+			//查询操作要用到的，获取填写在查询框的数据
+			var data={};
+			data.futures_id=$("#record_query_setup #futures_id").val();
+			data.futures_name=$("#record_query_setup #futures_name").val();
+			$('.datatable').dataTable( {
+				"paging":true,
+				"searching":false,
+				"oLanguage": {
+					"aria": {
+						"sortAscending": ": activate to sort column ascending",
+						"sortDescending": ": activate to sort column descending"
+					},
+					"sProcessing":   "处理中...",
+					"sLengthMenu":   "_MENU_ 记录/页",
+					"sZeroRecords":  "没有匹配的记录",
+					"sInfo":         "显示第 _START_ 至 _END_ 项记录，共 _TOTAL_ 项",
+					"sInfoEmpty":    "显示第 0 至 0 项记录，共 0 项",
+					"sInfoFiltered": "(由 _MAX_ 项记录过滤)",
+					"sInfoPostFix":  "",
+					"sSearch":       "过滤:",
+					"oPaginate": {
+						"sFirst":    "首页",
+						"sPrevious": "上页",
+						"sNext":     "下页",
+						"sLast":     "末页"
+					}
+				},
+				//注意事项：在html里定义了几列这里就几列，参数是full
+				"aoColumns": [{"mRender": function(data, type, full) {
+						sReturn = '<input type="checkbox" class="checkboxes" value="'+full.id+'"/>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.futures_id+'</div>';
+						return sReturn;
+					},"orderable": true
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.futures_name+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.price_today_begin+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.price_yesterday+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.price_right_now+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.price_high+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.price_low+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						if(full.price_right_now!="" && full.price_yesterday!=""){
+							var change=(full.price_right_now-0)-(full.price_yesterday-0);
+							change=Math.round(change*100)/100;
+							if(change>0){
+								sReturn = '<div class="font-red">'+change+'</div>';
+							}else {
+								sReturn = '<div class="font-green">'+change+'</div>';
+							}
+						}
+
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						if(full.price_right_now!="" && full.price_yesterday!=""){
+							var amplitude=(full.price_right_now-full.price_yesterday)/full.price_yesterday;
+							amplitude=Math.round(amplitude*100000)/1000;
+							if(amplitude>0){
+								sReturn = '<div class="font-red">'+amplitude+'%</div>';
+							}else {
+								sReturn = '<div class="font-green">'+amplitude+'%</div>';
+							}
+						}
+
+						return sReturn;
+					},"orderable": true
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.date+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						time = full.select_time;
+						time = time.slice(0,time.indexOf("."));
+						sReturn = '<div>'+time+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div><a href="javascript:Page.onModifyRecord(\'' + full.futures_id + '\',\''  + full.date + '\')"><i class="fa fa-pencil"></i> 修改</a><a href="javascript:Page.onDeleteRecord(\'' + full.futures_id + '\',\'' + full.date + '\')"><span class="glyphicon glyphicon-remove-sign">\n' +
+							'</span> 删除 </div>';
+						return sReturn;
+					},"orderable": false
+				}],
+				"aLengthMenu": [[5,10,15,20,25,40,50,-1],[5,10,15,20,25,40,50,"所有记录"]],
+				"fnDrawCallback": function(){$(".checkboxes").uniform();$(".group-checkable").uniform();},
+				"sAjaxSource": "../../" + module + "_" + sub + "_servlet_action?action=get_history_data&futures_id=" + futures_id
+			});
+			$('.datatable').find('.group-checkable').change(function () {
+				var set = jQuery(this).attr("data-set");
+				var checked = jQuery(this).is(":checked");
+				jQuery(set).each(function () {
+					if (checked) {
+						$(this).attr("checked", true);
+						$(this).parents('tr').addClass("active");
+					} else {
+						$(this).attr("checked", false);
+						$(this).parents('tr').removeClass("active");
+					}
+				});
+				jQuery.uniform.update(set);
+			});
+			$('.datatable').on('change', 'tbody tr .checkboxes', function () {
+				$(this).parents('tr').toggleClass("active");
+			});
 		}
 	}
 }();//Page

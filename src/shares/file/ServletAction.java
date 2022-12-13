@@ -52,6 +52,22 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
+            if (action.equals("get_shares_admin")) {
+                actionOk=true;
+                try {
+                    getSharesAdmin(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("get_history_data")) {
+                actionOk=true;
+                try {
+                    getSharesHistory(request, response, json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             if (action.equals("export_shares_record")) {
                 actionOk=true;
                 try {
@@ -156,6 +172,16 @@ public class ServletAction extends HttpServlet {
         SharesDao dao=new SharesDao();
         Data data=getPageParameters(request,response,json);
         dao.getSharesRecord(data,json);
+    }
+    private void getSharesAdmin(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        SharesDao dao=new SharesDao();
+        Data data=getPageParameters(request,response,json);
+        dao.getSharesAdmin(data,json);
+    }
+    private void getSharesHistory(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        SharesDao dao=new SharesDao();
+        Data data=getPageParameters(request,response,json);
+        dao.getSharesHistory(data,json);
     }
     private void addSharesRecord(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
         SharesDao dao=new SharesDao();

@@ -126,4 +126,15 @@
 		<url-pattern>/weather_file_servlet_action</url-pattern>
 	</servlet-mapping>
 
+<!--    建议-->
+    <servlet>
+        <servlet-name>advice_center_servlet_action</servlet-name>
+        <servlet-class>advice.center.ServletAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>advice_center_servlet_action</servlet-name>
+        <url-pattern>/advice_center_servlet_action</url-pattern>
+    </servlet-mapping>
+<!--    建议-->
+
 </web-app>

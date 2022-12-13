@@ -2,6 +2,7 @@ package news.file;
 
 import news.dao.CommentDao;
 import news.dao.Data;
+import news.dao.NewsBoardDao;
 import news.dao.newsDao;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,7 +88,6 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
-
             if (action.equals("delete_news_record")){
                 actionOk = true;
                 try {
@@ -175,7 +175,30 @@ public class ServletAction extends HttpServlet {
                     e.printStackTrace();
                 }
             }
-
+            if (action.equals("get_index_zxrd")){
+                actionOk = true;
+                try {
+                    getIndexZXRDNews(request,response,json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("get_index_cjxw")){
+                actionOk = true;
+                try {
+                    getIndexCJXWNews(request,response,json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (action.equals("get_index_gjxw")){
+                actionOk = true;
+                try {
+                    getIndexGJXWNews(request,response,json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             try {
                 responseBack(request,response,json);
             } catch (JSONException e) {
@@ -334,6 +357,24 @@ public class ServletAction extends HttpServlet {
         CommentDao dao = new CommentDao();
         Data data = getPageParameters(request,response,json);
         dao.getCommentCountByHour(data,json);
+    }
+
+    private void getIndexZXRDNews(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        NewsBoardDao dao = new NewsBoardDao();
+        Data data = getPageParameters(request,response,json);
+        dao.getZXRDRecord(data,json);
+    }
+
+    private void getIndexCJXWNews(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        NewsBoardDao dao = new NewsBoardDao();
+        Data data = getPageParameters(request,response,json);
+        dao.getCJXWRecord(data,json);
+    }
+
+    private void getIndexGJXWNews(HttpServletRequest request, HttpServletResponse response, JSONObject json) throws JSONException, SQLException {
+        NewsBoardDao dao = new NewsBoardDao();
+        Data data = getPageParameters(request,response,json);
+        dao.getGJXWRecord(data,json);
     }
 
     private void getExportDeviceRecordFile(Data data, JSONObject json) throws JSONException {

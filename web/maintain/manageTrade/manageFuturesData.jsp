@@ -28,7 +28,6 @@
 </div>
 <!-- BEGIN CONTAINER -->
 <div class="page-container">
-    <%@include file="../../home/frame/frame_left_sidebar.jsp"%>
     <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
         <div class="page-content">
@@ -66,6 +65,10 @@
                     <label class="control-label col-sm-1" style="font-size: 18px">期货名称</label>
                     <div class="col-md-2">
                         <input id="futures_name" type="text" class="form-control" value="" placeholder="请输入期货名称"/>
+                    </div>
+                    <label class="control-label col-sm-1" style="font-size: 18px">日期</label>
+                    <div class="col-md-2">
+                        <input id="date" type="text" class="form-control" value="" placeholder="请输入日期"/>
                     </div>
                     <div class="col-md-2">
                         <button type="button"   class="btn blue" id="query_button" name="query_button">
@@ -133,6 +136,9 @@
                             </th>
                             <th>
                                 涨跌幅
+                            </th>
+                            <th>
+                                日期
                             </th>
                             <th>
                                 更新时间
