@@ -77,7 +77,7 @@ License: You must have a valid license purchased only from themeforest(the above
                 <ul class="page-breadcrumb">
                     <li>
                         <i class="fa fa-home"></i>
-                        <a href="index.jsp">Home</a>
+                        <a href="index.jsp">首页</a>
                         <i class="fa fa-angle-right"></i>
                     </li>
                 </ul>
@@ -536,64 +536,8 @@ License: You must have a valid license purchased only from themeforest(the above
                 </div>
                 <div class="col-md-4">
                     <!-- Begin: life time stats -->
-                    <div class="portlet box red-sunglo">
-                        <div class="portlet-title">
-                            <div class="caption">
-                                <i class="fa fa-bar-chart-o"></i>Revenue
-                            </div>
-                            <div class="tools">
-                                <a href="#portlet-config" data-toggle="modal" class="config">
-                                </a>
-                                <a href="javascript:;" class="reload">
-                                </a>
-                            </div>
-                            <ul class="nav nav-tabs" style="margin-right: 10px">
-                                <li>
-                                    <a href="#portlet_tab2" data-toggle="tab" id="statistics_amounts_tab">
-                                        Amounts </a>
-                                </li>
-                                <li class="active">
-                                    <a href="#portlet_tab1" data-toggle="tab">
-                                        Orders </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="portlet-body">
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="portlet_tab1">
-                                    <div id="statistics_1" class="chart">
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="portlet_tab2">
-                                    <div id="statistics_2" class="chart">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="well no-margin no-border">
-                                <div class="row">
-                                    <div class="col-md-3 col-sm-3 col-xs-6 text-stat">
-										<span class="label label-success">
-										Revenue: </span>
-                                        <h3>$1,234,112.20</h3>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3 col-xs-6 text-stat">
-										<span class="label label-info">
-										Tax: </span>
-                                        <h3>$134,90.10</h3>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3 col-xs-6 text-stat">
-										<span class="label label-danger">
-										Shipment: </span>
-                                        <h3>$1,134,90.10</h3>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3 col-xs-6 text-stat">
-										<span class="label label-warning">
-										Orders: </span>
-                                        <h3>235090</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div>
+                        <iframe scrolling="no" src="https://tianqiapi.com/api.php?style=tw&skin=pitaya&city=成都" frameborder="0" width="300" height="500" allowtransparency="true"></iframe>
                     </div>
                     <!-- End: life time stats -->
                 </div>

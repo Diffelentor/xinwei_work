@@ -475,7 +475,7 @@ var Page = function () {
                 },{
                 "mRender": function (data, type, full) {
                     var shares_id = full.shares_id;
-                    sReturn = '<div><a href="#" onclick="Page.buyShares(\'' + shares_id + '\')">【买入】<br></a><a href="#" onclick="Page.onShowKline(\'' + shares_id + '\')">【k线图】</div>';
+                    sReturn = '<div><a href="#" onclick="Page.buyShares(\'' + shares_id + '\')">【买入】<br></a><a href="#" onclick="Page.onShowKline(\'' + shares_id + '\')">【k线图】</a><a href="#" onclick="Page.InitHistoryRecord(\'' + shares_id + '\')">【历史数据】</a></div>';
                     return sReturn;
                 }, "orderable": false
             }],

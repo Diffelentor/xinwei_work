@@ -31,6 +31,7 @@
                 </li>
                 <li class="classic-menu-dropdown">
                     <a data-toggle="dropdown" href="javascript:;" data-hover="megamenu-dropdown" data-close-others="true">
+                        <i class="icon-users"></i>
                         用户信息 <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu pull-left">
@@ -49,6 +50,7 @@
                 </li>
                 <li class="mega-menu-dropdown">
                     <a data-toggle="dropdown" href="javascript:;" class="dropdown-toggle" data-hover="megamenu-dropdown" data-close-others="true">
+                        <i class="icon-basket"></i>
                         金融数据 <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu" style="min-width: 400px;">
@@ -65,7 +67,7 @@
                                                 <a href="../../maintain/trade/futuresData.jsp">
                                                     <i class="fa fa-bookmark-o"></i> 数据一览 </a>
                                             </li>
-                                            <li id="managerTrade" name="managerTrade">
+                                            <li id="managerTrade" name="managerTrade" style="display:none;">
                                                 <a href="../../maintain/manageTrade/manageFuturesData.jsp">
                                                     <i class="fa fa-bookmark-o"></i> 数据管理 </a>
                                             </li>
@@ -96,19 +98,19 @@
 
                 <li class="classic-menu-dropdown ">
                     <a href="../../news/page/news.jsp">
-                        <i class="icon-home"></i>
+                        <i class="icon-book-open"></i>
                         <span class="title">新闻</span>
                     </a>
                 </li>
                 <li class="classic-menu-dropdown ">
                     <a href="../../weather/page/index.jsp">
-                        <i class="icon-home"></i>
+                        <i class="glyphicon glyphicon-cloud"></i>
                         <span class="title">天气</span>
                     </a>
                 </li>
                 <li class="classic-menu-dropdown ">
                     <a href="../../record/page/index.jsp">
-                        <i class="icon-home"></i>
+                        <i class="icon-notebook"></i>
                         <span class="title">待办事项</span>
                     </a>
                 </li>
@@ -119,71 +121,11 @@
                     <ul class="dropdown-menu pull-left">
                         <li>
                             <a href="../../home/complain/complain_list.jsp">
-                                <i class="fa fa-bookmark-o"></i>投诉</a>
+                                <i class="icon-dislike"></i>投诉</a>
                         </li>
                         <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-user"></i> Section 2 </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-puzzle-piece"></i> Section 3 </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-gift"></i> Section 4 </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-table"></i> Section 5 </a>
-                        </li>
-                        <li class="dropdown-submenu">
-                            <a href="javascript:;">
-                                <i class="fa fa-envelope-o"></i> More options </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="javascript:;">
-                                        Second level link </a>
-                                </li>
-                                <li class="dropdown-submenu">
-                                    <a href="javascript:;">
-                                        More options </a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="index.html">
-                                                Third level link </a>
-                                        </li>
-                                        <li>
-                                            <a href="index.html">
-                                                Third level link </a>
-                                        </li>
-                                        <li>
-                                            <a href="index.html">
-                                                Third level link </a>
-                                        </li>
-                                        <li>
-                                            <a href="index.html">
-                                                Third level link </a>
-                                        </li>
-                                        <li>
-                                            <a href="index.html">
-                                                Third level link </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="index.html">
-                                        Second level link </a>
-                                </li>
-                                <li>
-                                    <a href="index.html">
-                                        Second level link </a>
-                                </li>
-                                <li>
-                                    <a href="index.html">
-                                        Second level link </a>
-                                </li>
-                            </ul>
+                            <a href="../../home/advice/advice_list.jsp">
+                                <i class="icon-action-redo"></i>建议</a>
                         </li>
                     </ul>
                 </li>

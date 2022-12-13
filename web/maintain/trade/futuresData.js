@@ -241,7 +241,7 @@ var Page = function() {
 			},{
 				"mRender": function(data, type, full) {
 					futures_id = full.futures_id;
-					sReturn = '<div><a href="#" onclick="Page.buyFutures(\'' + futures_id + '\')">【买入】</a><a href="#" onclick="Page.onShowKline(\'' + futures_id + '\')">【k线图】</div>';
+					sReturn = '<div><a href="#" onclick="Page.buyFutures(\'' + futures_id + '\')">【买入】</a><a href="#" onclick="Page.onShowKline(\'' + futures_id + '\')">【k线图】</a><a href="#" onclick="Page.InitHistoryRecord(\'' + futures_id + '\')">【历史数据】</a></div>';
 					return sReturn;
 				},"orderable": false
 			}],
@@ -802,6 +802,151 @@ var Page = function() {
 					}
 				})
 			}
+		},InitHistoryRecord:function (futures_id){
+			//将之前的表删除掉，这样再次获取的时候就不会有warning了
+			if ($.fn.dataTable.isDataTable('#record_list'))
+			{
+				console.log("=====================")
+				// 获取这个表
+				_table = $('#record_list').DataTable();
+				// 把这个表销毁掉
+				_table.destroy();
+			}
+			//查询操作要用到的，获取填写在查询框的数据
+			var data={};
+			data.futures_id=$("#record_query_setup #futures_id").val();
+			data.futures_name=$("#record_query_setup #futures_name").val();
+			$('.datatable').dataTable( {
+				"paging":true,
+				"searching":false,
+				"oLanguage": {
+					"aria": {
+						"sortAscending": ": activate to sort column ascending",
+						"sortDescending": ": activate to sort column descending"
+					},
+					"sProcessing":   "处理中...",
+					"sLengthMenu":   "_MENU_ 记录/页",
+					"sZeroRecords":  "没有匹配的记录",
+					"sInfo":         "显示第 _START_ 至 _END_ 项记录，共 _TOTAL_ 项",
+					"sInfoEmpty":    "显示第 0 至 0 项记录，共 0 项",
+					"sInfoFiltered": "(由 _MAX_ 项记录过滤)",
+					"sInfoPostFix":  "",
+					"sSearch":       "过滤:",
+					"oPaginate": {
+						"sFirst":    "首页",
+						"sPrevious": "上页",
+						"sNext":     "下页",
+						"sLast":     "末页"
+					}
+				},
+				//注意事项：在html里定义了几列这里就几列，参数是full
+				"aoColumns": [{"mRender": function(data, type, full) {
+						sReturn = '<input type="checkbox" class="checkboxes" value="'+full.id+'"/>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.futures_id+'</div>';
+						return sReturn;
+					},"orderable": true
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.futures_name+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.price_today_begin+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.price_yesterday+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.price_right_now+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.price_high+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.price_low+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						if(full.price_right_now!="" && full.price_yesterday!=""){
+							var change=(full.price_right_now-0)-(full.price_yesterday-0);
+							change=Math.round(change*100)/100;
+							if(change>0){
+								sReturn = '<div class="font-red">'+change+'</div>';
+							}else {
+								sReturn = '<div class="font-green">'+change+'</div>';
+							}
+						}
+
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						if(full.price_right_now!="" && full.price_yesterday!=""){
+							var amplitude=(full.price_right_now-full.price_yesterday)/full.price_yesterday;
+							amplitude=Math.round(amplitude*100000)/1000;
+							if(amplitude>0){
+								sReturn = '<div class="font-red">'+amplitude+'%</div>';
+							}else {
+								sReturn = '<div class="font-green">'+amplitude+'%</div>';
+							}
+						}
+
+						return sReturn;
+					},"orderable": true
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div>'+full.date+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						time = full.select_time;
+						time = time.slice(0,time.indexOf("."));
+						sReturn = '<div>'+time+'</div>';
+						return sReturn;
+					},"orderable": false
+				},{
+					"mRender": function(data, type, full) {
+						sReturn = '<div><a href="javascript:Page.onModifyRecord(\'' + full.futures_id + '\',\''  + full.date + '\')"><i class="fa fa-pencil"></i> 修改</a><a href="javascript:Page.onDeleteRecord(\'' + full.futures_id + '\',\'' + full.date + '\')"><span class="glyphicon glyphicon-remove-sign">\n' +
+							'</span> 删除 </div>';
+						return sReturn;
+					},"orderable": false
+				}],
+				"aLengthMenu": [[5,10,15,20,25,40,50,-1],[5,10,15,20,25,40,50,"所有记录"]],
+				"fnDrawCallback": function(){$(".checkboxes").uniform();$(".group-checkable").uniform();},
+				"sAjaxSource": "../../" + module + "_" + sub + "_servlet_action?action=get_history_data&futures_id=" + futures_id
+			});
+			$('.datatable').find('.group-checkable').change(function () {
+				var set = jQuery(this).attr("data-set");
+				var checked = jQuery(this).is(":checked");
+				jQuery(set).each(function () {
+					if (checked) {
+						$(this).attr("checked", true);
+						$(this).parents('tr').addClass("active");
+					} else {
+						$(this).attr("checked", false);
+						$(this).parents('tr').removeClass("active");
+					}
+				});
+				jQuery.uniform.update(set);
+			});
+			$('.datatable').on('change', 'tbody tr .checkboxes', function () {
+				$(this).parents('tr').toggleClass("active");
+			});
 		}
 	}
 }();//Page

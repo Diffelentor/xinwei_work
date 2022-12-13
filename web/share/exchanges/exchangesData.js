@@ -425,7 +425,7 @@ var Page = function () {
             },{
                 "mRender": function (data, type, full) {
                     exchanges_id = full.exchanges_id;
-                    sReturn = '<div><a href="#" onclick="Page.buyExchanges(\'' + exchanges_id + '\')">【买入】</a><a href="#" onclick="Page.onShowKline(\'' + exchanges_id + '\')">【k线图】</a></div>';
+                    sReturn = '<div><a href="#" onclick="Page.buyExchanges(\'' + exchanges_id + '\')">【买入】</a><a href="#" onclick="Page.onShowKline(\'' + exchanges_id + '\')">【k线图】</a> <a href="#" onclick="Page.InitHistoryRecord(\'' + exchanges_id + '\')">【历史数据】</a></div>';
                     return sReturn;
                 }, "orderable": false
             }],
