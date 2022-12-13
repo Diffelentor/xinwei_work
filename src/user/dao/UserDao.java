@@ -21,7 +21,7 @@ public class UserDao {
         String email=data.getParam().has("email")?data.getParam().getString("email"):null;
         String identity=data.getParam().has("identity")?data.getParam().getString("identity"):null;
         if(username!=null && password!=null && email!=null && identity!=null){
-            String sql="insert into xm06_xm06_user_file(username,password,email,identity)";
+            String sql="insert into xm06_user_file(username,password,email,identity)";
             sql=sql+" values('"+username+"'";
             sql=sql+" ,'"+password+"'";
             sql=sql+" ,'"+email+"'";

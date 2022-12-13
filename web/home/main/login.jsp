@@ -27,7 +27,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- BEGIN HEAD -->
 <head>
     <meta charset="utf-8"/>
-    <title>Metronic | Login Options - Login Form 1</title>
+    <title>金融数据分析及模拟交易平台</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -49,7 +49,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- END SIDEBAR TOGGLER BUTTON -->
 <!-- BEGIN LOGO -->
 <div class="logo">
-    <div align="center" style="FONT-FAMILY: 华文行楷;color:#ffffff;font-size: 38px;">期货交易系统</div>
+    <div align="center" style="FONT-FAMILY: 华文行楷;color:#ffffff;font-size: 38px;">金融数据分析及模拟交易平台</div>
 </div>
 <!-- END LOGO -->
 <!-- BEGIN LOGIN -->

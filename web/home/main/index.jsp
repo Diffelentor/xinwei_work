@@ -26,7 +26,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- BEGIN HEAD -->
 <head>
     <meta charset="utf-8"/>
-    <title>管理系统</title>
+    <title>金融数据分析及模拟交易平台</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -71,265 +71,240 @@ License: You must have a valid license purchased only from themeforest(the above
             <%@include file="../../home/frame/frame_page_header.jsp"%>
             <!-- END 主页面头 -->
             <h3 class="page-title">
-                首页 <small>数据概况</small>
+                首页
             </h3>
             <div class="page-bar">
                 <ul class="page-breadcrumb">
                     <li>
                         <i class="fa fa-home"></i>
-                        <a href="index.html">Home</a>
+                        <a href="index.html">首页</a>
                         <i class="fa fa-angle-right"></i>
-                    </li>
-                    <li>
-                        <a href="#">Data Tables</a>
-                        <i class="fa fa-angle-right"></i>
-                    </li>
-                    <li>
-                        <a href="#">Basic Datatables</a>
                     </li>
                 </ul>
-                <div class="page-toolbar">
-                    <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true" aria-expanded="false">
-                            Actions <i class="fa fa-angle-down"></i>
-                        </button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                            <li>
-                                <a href="#">Action</a>
-                            </li>
-                            <li>
-                                <a href="#">Another action</a>
-                            </li>
-                            <li>
-                                <a href="#">Something else here</a>
-                            </li>
-                            <li class="divider">
-                            </li>
-                            <li>
-                                <a href="#">Separated link</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </div>
             <!-- END PAGE HEADER-->
             <input type="hidden" id="page_id" name="page_id" value="dash_board">
             <!-- BEGIN PAGE CONTENT-->
-            <h3 class="page-title">
-                Dashboard <small>reports & statistics</small>
-            </h3>
-            <div class="tiles">
-                <div class="tile double-down bg-blue-hoki">
-                    <div class="tile-body">
-                        <i class="fa fa-bell-o"></i>
-                    </div>
-                    <div class="tile-object">
-                        <div class="name">
-                            Notifications
+            <div class="row">
+                <div class="col-md-7 col-md-offset-1">
+                    <div class="tiles">
+                        <div class="tile double-down bg-blue-hoki">
+                            <div class="tile-body">
+                                <i class="fa fa-bell-o"></i>
+                            </div>
+                            <div class="tile-object">
+                                <div class="name">
+                                    Notifications
+                                </div>
+                                <div class="number">
+                                    6
+                                </div>
+                            </div>
                         </div>
-                        <div class="number">
-                            6
+                        <div class="tile bg-red-sunglo">
+                            <div class="tile-body">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <div class="tile-object">
+                                <div class="name">
+                                    Meetings
+                                </div>
+                                <div class="number">
+                                    12
+                                </div>
+                            </div>
                         </div>
+                        <div class="tile double selected bg-green-turquoise">
+                            <div class="corner">
+                            </div>
+                            <div class="check">
+                            </div>
+                            <div class="tile-body">
+                                <h4>support@metronic.com</h4>
+                                <p>
+                                    Re: Metronic v1.2 - Project Update!
+                                </p>
+                                <p>
+                                    24 March 2013 12.30PM confirmed for the project plan update meeting...
+                                </p>
+                            </div>
+                            <div class="tile-object">
+                                <div class="name">
+                                    <i class="fa fa-envelope"></i>
+                                </div>
+                                <div class="number">
+                                    14
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tile selected bg-yellow-saffron">
+                            <div class="corner">
+                            </div>
+                            <div class="tile-body">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div class="tile-object">
+                                <div class="name">
+                                    Members
+                                </div>
+                                <div class="number">
+                                    452
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tile double bg-blue-madison">
+                            <div class="tile-body">
+                                <img src="../../assets/admin/pages/media/profile/photo1.jpg" alt="">
+                                <h4>Announcements</h4>
+                                <p>
+                                    Easily style icon color, size, shadow, and anything that's possible with CSS.
+                                </p>
+                            </div>
+                            <div class="tile-object">
+                                <div class="name">
+                                    Bob Nilson
+                                </div>
+                                <div class="number">
+                                    24 Jan 2013
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tile bg-purple-studio">
+                            <div class="tile-body">
+                                <i class="fa fa-shopping-cart"></i>
+                            </div>
+                            <div class="tile-object">
+                                <div class="name">
+                                    Orders
+                                </div>
+                                <div class="number">
+                                    121
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tile image selected">
+                            <div class="tile-body">
+                                <img src="../../assets/admin/pages/media/gallery/image2.jpg" alt="">
+                            </div>
+                            <div class="tile-object">
+                                <div class="name">
+                                    Media
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tile bg-green-meadow">
+                            <div class="tile-body">
+                                <i class="fa fa-comments"></i>
+                            </div>
+                            <div class="tile-object">
+                                <div class="name">
+                                    Feedback
+                                </div>
+                                <div class="number">
+                                    12
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tile double bg-grey-cascade">
+                            <div class="tile-body">
+                                <img src="../../assets/admin/pages/media/profile/photo2.jpg" alt="" class="pull-right">
+                                <h3>@lisa_wong</h3>
+                                <p>
+                                    I really love this theme. I look forward to check the next release!
+                                </p>
+                            </div>
+                            <div class="tile-object">
+                                <div class="name">
+                                    <i class="fa fa-twitter"></i>
+                                </div>
+                                <div class="number">
+                                    10:45PM, 23 Jan
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tile bg-red-intense">
+                            <div class="tile-body">
+                                <i class="fa fa-coffee"></i>
+                            </div>
+                            <div class="tile-object">
+                                <div class="name">
+                                    Meetups
+                                </div>
+                                <div class="number">
+                                    12 Jan
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tile image double selected">
+                            <div class="tile-body">
+                                <img src="../../assets/admin/pages/media/gallery/image4.jpg" alt="">
+                            </div>
+                            <div class="tile-object">
+                                <div class="name">
+                                    Gallery
+                                </div>
+                                <div class="number">
+                                    124
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tile bg-green">
+                            <div class="tile-body">
+                                <i class="fa fa-bar-chart-o"></i>
+                            </div>
+                            <div class="tile-object">
+                                <div class="name">
+                                    Reports
+                                </div>
+                                <div class="number">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tile bg-blue-steel">
+                            <div class="tile-body">
+                                <i class="fa fa-briefcase"></i>
+                            </div>
+                            <div class="tile-object">
+                                <div class="name">
+                                    Documents
+                                </div>
+                                <div class="number">
+                                    124
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tile bg-yellow-lemon selected">
+                            <div class="corner">
+                            </div>
+                            <div class="check">
+                            </div>
+                            <div class="tile-body">
+                                <i class="fa fa-cogs"></i>
+                            </div>
+                            <div class="tile-object">
+                                <div class="name">
+                                    Settings
+                                </div>
+                            </div>
+                        </div>
+<%--                        <div class="tile bg-red-sunglo">--%>
+<%--                            <div class="tile-body">--%>
+<%--                                <i class="fa fa-plane"></i>--%>
+<%--                            </div>--%>
+<%--                            <div class="tile-object">--%>
+<%--                                <div class="name">--%>
+<%--                                    Projects--%>
+<%--                                </div>--%>
+<%--                                <div class="number">--%>
+<%--                                    34--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
                     </div>
                 </div>
-                <div class="tile bg-red-sunglo">
-                    <div class="tile-body">
-                        <i class="fa fa-calendar"></i>
-                    </div>
-                    <div class="tile-object">
-                        <div class="name">
-                            Meetings
-                        </div>
-                        <div class="number">
-                            12
-                        </div>
-                    </div>
-                </div>
-                <div class="tile double selected bg-green-turquoise">
-                    <div class="corner">
-                    </div>
-                    <div class="check">
-                    </div>
-                    <div class="tile-body">
-                        <h4>support@metronic.com</h4>
-                        <p>
-                            Re: Metronic v1.2 - Project Update!
-                        </p>
-                        <p>
-                            24 March 2013 12.30PM confirmed for the project plan update meeting...
-                        </p>
-                    </div>
-                    <div class="tile-object">
-                        <div class="name">
-                            <i class="fa fa-envelope"></i>
-                        </div>
-                        <div class="number">
-                            14
-                        </div>
-                    </div>
-                </div>
-                <div class="tile selected bg-yellow-saffron">
-                    <div class="corner">
-                    </div>
-                    <div class="tile-body">
-                        <i class="fa fa-user"></i>
-                    </div>
-                    <div class="tile-object">
-                        <div class="name">
-                            Members
-                        </div>
-                        <div class="number">
-                            452
-                        </div>
-                    </div>
-                </div>
-                <div class="tile double bg-blue-madison">
-                    <div class="tile-body">
-                        <img src="../../assets/admin/pages/media/profile/photo1.jpg" alt="">
-                        <h4>Announcements</h4>
-                        <p>
-                            Easily style icon color, size, shadow, and anything that's possible with CSS.
-                        </p>
-                    </div>
-                    <div class="tile-object">
-                        <div class="name">
-                            Bob Nilson
-                        </div>
-                        <div class="number">
-                            24 Jan 2013
-                        </div>
-                    </div>
-                </div>
-                <div class="tile bg-purple-studio">
-                    <div class="tile-body">
-                        <i class="fa fa-shopping-cart"></i>
-                    </div>
-                    <div class="tile-object">
-                        <div class="name">
-                            Orders
-                        </div>
-                        <div class="number">
-                            121
-                        </div>
-                    </div>
-                </div>
-                <div class="tile image selected">
-                    <div class="tile-body">
-                        <img src="../../assets/admin/pages/media/gallery/image2.jpg" alt="">
-                    </div>
-                    <div class="tile-object">
-                        <div class="name">
-                            Media
-                        </div>
-                    </div>
-                </div>
-                <div class="tile bg-green-meadow">
-                    <div class="tile-body">
-                        <i class="fa fa-comments"></i>
-                    </div>
-                    <div class="tile-object">
-                        <div class="name">
-                            Feedback
-                        </div>
-                        <div class="number">
-                            12
-                        </div>
-                    </div>
-                </div>
-                <div class="tile double bg-grey-cascade">
-                    <div class="tile-body">
-                        <img src="../../assets/admin/pages/media/profile/photo2.jpg" alt="" class="pull-right">
-                        <h3>@lisa_wong</h3>
-                        <p>
-                            I really love this theme. I look forward to check the next release!
-                        </p>
-                    </div>
-                    <div class="tile-object">
-                        <div class="name">
-                            <i class="fa fa-twitter"></i>
-                        </div>
-                        <div class="number">
-                            10:45PM, 23 Jan
-                        </div>
-                    </div>
-                </div>
-                <div class="tile bg-red-intense">
-                    <div class="tile-body">
-                        <i class="fa fa-coffee"></i>
-                    </div>
-                    <div class="tile-object">
-                        <div class="name">
-                            Meetups
-                        </div>
-                        <div class="number">
-                            12 Jan
-                        </div>
-                    </div>
-                </div>
-                <div class="tile bg-green">
-                    <div class="tile-body">
-                        <i class="fa fa-bar-chart-o"></i>
-                    </div>
-                    <div class="tile-object">
-                        <div class="name">
-                            Reports
-                        </div>
-                        <div class="number">
-                        </div>
-                    </div>
-                </div>
-                <div class="tile bg-blue-steel">
-                    <div class="tile-body">
-                        <i class="fa fa-briefcase"></i>
-                    </div>
-                    <div class="tile-object">
-                        <div class="name">
-                            Documents
-                        </div>
-                        <div class="number">
-                            124
-                        </div>
-                    </div>
-                </div>
-                <div class="tile image double selected">
-                    <div class="tile-body">
-                        <img src="../../assets/admin/pages/media/gallery/image4.jpg" alt="">
-                    </div>
-                    <div class="tile-object">
-                        <div class="name">
-                            Gallery
-                        </div>
-                        <div class="number">
-                            124
-                        </div>
-                    </div>
-                </div>
-                <div class="tile bg-yellow-lemon selected">
-                    <div class="corner">
-                    </div>
-                    <div class="check">
-                    </div>
-                    <div class="tile-body">
-                        <i class="fa fa-cogs"></i>
-                    </div>
-                    <div class="tile-object">
-                        <div class="name">
-                            Settings
-                        </div>
-                    </div>
-                </div>
-                <div class="tile bg-red-sunglo">
-                    <div class="tile-body">
-                        <i class="fa fa-plane"></i>
-                    </div>
-                    <div class="tile-object">
-                        <div class="name">
-                            Projects
-                        </div>
-                        <div class="number">
-                            34
-                        </div>
-                    </div>
+                <div class="col-md-4">
+                    <iframe scrolling="no" src="https://tianqiapi.com/api.php?style=tw&skin=pitaya&city=成都" frameborder="0" width="300" height="500" allowtransparency="true"></iframe>
                 </div>
             </div>
             <div class="row">

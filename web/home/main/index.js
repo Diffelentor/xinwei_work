@@ -12,11 +12,39 @@ var Page = function() {
         initdataBar_left();
         initdataGraph_right();
     };
-    var getdate = function (){
-        const date  = new Date()
+    /*时间范围确定*/
+    function checkAuditTime(startTime, endTime) {
+        // 获取当前时间
+        const date = new Date()
         // 获取当前时间的年月日
-        return  dataStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} `
-    }
+        const dataStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} `
+
+        // 获取开始时间、结束时间、现在时间的时间戳
+        let startDate = new Date(dataStr + startTime).getTime()
+        let endDate = new Date(dataStr + endTime).getTime()
+        let nowDate = date.getTime()
+
+        const s = startDate > endDate // 判断开始时间否大于结束时间
+
+        if (s) [startDate, endDate] = [endDate, startDate] // 若开始时间否大于结束时间则交换值
+
+        // 判断现在的时间是否在开始时间和结束时间之间，若s为true则结果取反
+        if (nowDate > startDate && nowDate < endDate) {
+            return s ? false : true
+        } else {
+            return s ? true : false
+        }
+    };
+    var getdate = function () {
+        const date = new Date()
+        // 获取当前时间的年月日
+        if (checkAuditTime('00:00','09:30')){
+            return dataStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()-1} `
+        }
+        else
+            return dataStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} `
+
+    };
 
     var initNewsPart=function () {
         getZXRDRecordList();
