@@ -266,9 +266,9 @@
 <script src="../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
 <script src="../../assets/global/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
 <%@include file="../../home/frame/frame_javascript.jsp"%>
-<script src="IdeaProjects/xinwei_work/web/home/complain/user_profile.js" type="text/javascript"></script>
+<script src="../..//home/user/user_profile.js" type="text/javascript"></script>
 
 </body>
 <!-- END BODY -->
 </html>
-<%@include file="IdeaProjects/xinwei_work/web/home/complain/user_pay_div.jsp"%>
+<%@include file="../../home/user/user_pay_div.jsp"%>

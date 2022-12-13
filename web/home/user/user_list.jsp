@@ -91,11 +91,11 @@ License: You must have a valid license purchased only from themeforest(the above
                                         </div>
                                         <label class="col-md-1 control-label">用户身份</label>
                                         <div class="col-md-2">
-                                            <input type="text" class="form-control" placeholder="请输入用户身份 text" id="identity" name="identity">
+                                            <input type="text" class="form-control" placeholder="请输入用户身份" id="identity" name="identity">
                                         </div>
                                         <label class="col-md-1 control-label">用户邮箱</label>
                                         <div class="col-md-2">
-                                            <input type="text" class="form-control" placeholder="请输入用户邮箱 text" id="email" name="email">
+                                            <input type="text" class="form-control" placeholder="请输入用户邮箱" id="email" name="email">
                                         </div>
                                         <div class="col-md-1">
                                         </div>

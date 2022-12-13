@@ -27,6 +27,8 @@ var Page = function() {
                 $("#username").attr("readonly", "true")
                 $("#password").attr("readonly", "true")
                 $("#email").attr("readonly", "true")
+                $("#submit_button").attr("disabled","true");
+                $("#pay_button").attr("disabled","true");
             }
             if(getUrlParam("id") ==null){
                 id=sessionStorage.getItem("id");

@@ -138,7 +138,7 @@ public class GetFuturesData implements ServletContextListener{
             sql += " values('" + future_id + "'" + " ,'" + name + "'" + " ,'" + price_today_begin + "'" + " ,'" + price_yesterday + "'" + " ,'" + price_right_now + "'" + " ,'" + price_high + "'" + " ,'" + price_low + "'" + " ,'" + deal_price + "'" + " ,'" + deal_price_yesterday + "'"+ " ,'" + buy_amount + "'"+ " ,'" + sell_amount + "'" + " ,'" + time + "'"+" ,'" +date+"')";
         }
         else{
-            sql = "update futures set price_today_begin='"+price_today_begin+"'";
+            sql = "update xm06_futures set price_today_begin='"+price_today_begin+"'";
             sql += " ,price_yesterday='"+price_yesterday+"'";
             sql += " ,price_right_now='"+price_right_now+"'";
             sql += " ,price_high='"+price_high+"'";
@@ -174,7 +174,7 @@ public class GetFuturesData implements ServletContextListener{
         }
         /*非第一次则修改记录*/
         else{
-            sql_total = "update total set price_today_begin='"+price_today_begin+"'";
+            sql_total = "update xm06_total set price_today_begin='"+price_today_begin+"'";
             sql_total += " ,price_yesterday='"+price_yesterday+"'";
             sql_total += " ,price_right_now='"+price_right_now+"'";
             sql_total += " ,price_high='"+price_high+"'";

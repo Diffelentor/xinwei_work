@@ -134,7 +134,7 @@ public class GetSharesData implements ServletContextListener{
             sql += " values('" + share_id + "'" + " ,'" + name + "'" + " ,'" + price_today_begin + "'" + " ,'" + price_yesterday + "'" + " ,'" + price_right_now + "'" + " ,'" + price_high + "'" + " ,'" + price_low + "'" + " ,'" + deal_count + "'" + " ,'" + deal_amount + "'" + " ,'" + time + "'" +" ,'"+date+"')";
         }
         else{
-            sql = "update shares set price_today_begin='"+price_today_begin+"'";
+            sql = "update xm06_shares set price_today_begin='"+price_today_begin+"'";
             sql += " ,price_pre='"+price_yesterday+"'";
             sql += " ,price_right_now='"+price_right_now+"'";
             sql += " ,price_high='"+price_high+"'";
@@ -167,7 +167,7 @@ public class GetSharesData implements ServletContextListener{
         }
         /*非第一次则修改记录*/
         else{
-            sql_total = "update total set price_today_begin='"+price_today_begin+"'";
+            sql_total = "update xm06_total set price_today_begin='"+price_today_begin+"'";
             sql_total += " ,price_yesterday='"+price_yesterday+"'";
             sql_total += " ,price_right_now='"+price_right_now+"'";
             sql_total += " ,price_high='"+price_high+"'";

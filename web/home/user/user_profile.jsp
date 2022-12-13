@@ -59,16 +59,14 @@
                 <ul class="page-breadcrumb">
                     <li>
                         <i class="fa fa-home"></i>
-                        <a href="index.html">Home</a>
+                        <a href="../../home/main/index.jsp">首页</a>
                         <i class="fa fa-angle-right"></i>
                     </li>
                     <li>
-                        <a href="#">Pages</a>
+                        <a href="../../home/main/user_profile.jsp">个人空间</a>
                         <i class="fa fa-angle-right"></i>
                     </li>
-                    <li>
-                        <a href="#">New User Profile</a>
-                    </li>
+
                 </ul>
 
             </div>

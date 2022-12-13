@@ -152,7 +152,7 @@ var Page = function () {
         }
     }
     /*判断是否为周末*/
-    let weekArrayList = [ true,   '星期一',   '星期二',   '星期三',   '星期四',   '星期五',   true,  ]
+    let weekArrayList = [true,false,false,false,false,false,true]
     let flag
     var onAddRecord = function () {
         $("#exchanges_add_div").modal("show");

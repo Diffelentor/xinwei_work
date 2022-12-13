@@ -24,9 +24,11 @@ var Page = function() {
                 console.log("普通用户自己");
             } else {
                 console.log("仅查看");
-                $("#username").attr("readonly", "true")
-                $("#password").attr("readonly", "true")
-                $("#email").attr("readonly", "true")
+                $("#username").attr("readonly", "true");
+                $("#password").attr("readonly", "true");
+                $("#email").attr("readonly", "true");
+                $("#submit_button").attr("disabled","true");
+                $("#pay_button").attr("disabled","true");
             }
             if(getUrlParam("id") ==null){
                 id=sessionStorage.getItem("id");

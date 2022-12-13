@@ -3,6 +3,10 @@ jQuery(document).ready(function() {
 });
 var Get_Session = function() {
     var initSession=function(){
+        if(sessionStorage.getItem("identity")!="管理员"){
+            $("#managerTrade").hide();
+            console.log("不可管理");
+        }
         var data={};
         data.action="get_session";
         $.post("../../user_center_servlet_action",data,function(json){
@@ -29,7 +33,8 @@ var Get_Session = function() {
         console.log("退出登陆");
         sessionStorage.clear();
         window.location.href="../../home/main/login.jsp";
-    }
+    };
+
     return {
         init: function() {
             initSession();

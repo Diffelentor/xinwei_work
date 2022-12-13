@@ -12,7 +12,6 @@ jQuery(document).ready(function() {
 /* ================================================================================ */
 //关于页面的控件生成等操作都放在Page里
 var Page = function() {
-
 	/*----------------------------------------入口函数  开始----------------------------------------*/
 	var initPageControl=function(){
 		if($("#page_id").val()=="user_list_print"){
@@ -51,6 +50,9 @@ var Page = function() {
 		if (r != null) return decodeURI(r[2]); return null; //返回参数值，如果是中文传递，就用decodeURI解决乱码，否则用unescape
 	};
 	var initUserListControlEvent=function(){
+		if(sessionStorage.getItem("identity")!="管理员") {
+			$('#add_button').hide();
+		}
 		$("#help_button").click(function() {help();});
 		$('#add_button').click(function() {onAddRecord();});
 		$('#record_modify_div #submit_button').click(function() {onModifyDivSubmit();});
@@ -156,7 +158,14 @@ var Page = function() {
 					sReturn = '<div> '+full.username+'</div>';
 					return sReturn;
 				},"orderable": false},{"mRender": function(data, type, full) {
-					sReturn = '<div> '+full.password+'</div>';
+					if(sessionStorage.getItem("identity")!="管理员") {
+						sReturn = '<input type=\"password\" readonly=\"readonly\" value=\"'+full.password+'\"</input>';
+
+					}
+					else{
+						sReturn = '<div> '+full.password+'</div>';
+					}
+
 					return sReturn;
 				},"orderable": false},{"mRender": function(data, type, full) {
 					sReturn = '<div> '+full.email+'</div>';
@@ -168,7 +177,13 @@ var Page = function() {
 					sReturn = '<div> '+full.balance+'</div>';
 					return sReturn;
 				},"orderable": true},{"mRender": function(data, type, full) {
-					sReturn = '<div><a href=\"javascript:Page.onModifyRecord('+full.id+')\"><i class="fa fa-edit"></i>修改</a>&nbsp&nbsp&nbsp<a href=\"javascript:Page.onDeleteRecord('+full.id+')\"><i class="fa fa-times"></i>删除</a>&nbsp&nbsp&nbsp<a href=\"javascript:Page.onViewRecord('+full.id+')\"><i class="fa fa-user"></i>个人信息</a></div>';
+					if(sessionStorage.getItem("identity")!="管理员") {
+						sReturn = '<div><a href=\"javascript:Page.onViewRecord('+full.id+')\"><i class="fa fa-user"></i>个人信息</a></div>';
+
+					}
+					else{
+						sReturn = '<div><a href=\"javascript:Page.onModifyRecord('+full.id+')\"><i class="fa fa-edit"></i>修改</a>&nbsp&nbsp&nbsp<a href=\"javascript:Page.onDeleteRecord('+full.id+')\"><i class="fa fa-times"></i>删除</a>&nbsp&nbsp&nbsp<a href=\"javascript:Page.onViewRecord('+full.id+')\"><i class="fa fa-user"></i>个人信息</a></div>';
+					}
 					return sReturn;
 				},"orderable": false}],
 			"aLengthMenu": [[5,10,15,20,25,40,50,-1],[5,10,15,20,25,40,50,"所有记录"]],

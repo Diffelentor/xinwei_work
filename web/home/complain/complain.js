@@ -191,7 +191,7 @@ var Page = function() {
 						html+="                                <div class=\"actions\">";
 						html+="                                    <div class=\"btn-group\">";
 						html+="                                        <button class=\"btn btn-circle btn-default btn-sm\">";
-						html+="                                            <i class=\"fa fa-user\"></i>"+record.username;
+						html+="                                            <i class=\"fa fa-user\"></i>"+sessionStorage.getItem("username");
 						html+="                                        </button>";
 						html+="                                    </div>";
 						html+="";

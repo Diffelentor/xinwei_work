@@ -71,53 +71,21 @@ License: You must have a valid license purchased only from themeforest(the above
             <%@include file="../../home/frame/frame_page_header.jsp"%>
             <!-- END 主页面头 -->
             <h3 class="page-title">
-                首页 <small>数据概况</small>
+                首页
             </h3>
             <div class="page-bar">
                 <ul class="page-breadcrumb">
                     <li>
                         <i class="fa fa-home"></i>
-                        <a href="index.html">Home</a>
+                        <a href="index.jsp">Home</a>
                         <i class="fa fa-angle-right"></i>
-                    </li>
-                    <li>
-                        <a href="#">Data Tables</a>
-                        <i class="fa fa-angle-right"></i>
-                    </li>
-                    <li>
-                        <a href="#">Basic Datatables</a>
                     </li>
                 </ul>
-                <div class="page-toolbar">
-                    <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true" aria-expanded="false">
-                            Actions <i class="fa fa-angle-down"></i>
-                        </button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                            <li>
-                                <a href="#">Action</a>
-                            </li>
-                            <li>
-                                <a href="#">Another action</a>
-                            </li>
-                            <li>
-                                <a href="#">Something else here</a>
-                            </li>
-                            <li class="divider">
-                            </li>
-                            <li>
-                                <a href="#">Separated link</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+
             </div>
             <!-- END PAGE HEADER-->
             <input type="hidden" id="page_id" name="page_id" value="dash_board">
             <!-- BEGIN PAGE CONTENT-->
-            <h3 class="page-title">
-                Dashboard <small>reports & statistics</small>
-            </h3>
             <div class="tiles">
                 <div class="tile double-down bg-blue-hoki">
                     <div class="tile-body">
@@ -646,7 +614,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <script type="text/javascript" src="jquery.dataTables.min.js"></script>
 <script src="index.js" type="text/javascript"></script>
 
-<script src="news_part.js" type="text/javascript"></script>
+<%--<script src="news_part.js" type="text/javascript"></script>--%>
 </body>
 <!-- END BODY -->
 </html>
