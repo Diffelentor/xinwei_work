@@ -320,8 +320,8 @@ var Page = function () {
             var data={};
             data.action="add_position_record";
             //获取填写在该页面的数据准备传向后端
-            data.shares_id=$("#buy_div #shares_id").val();
-            data.shares_name=$("#buy_div #shares_name").val();
+            data.futures_id=$("#buy_div #shares_id").val();
+            data.futures_name=$("#buy_div #shares_name").val();
             data.type=$("#buy_div #type").val();
             data.price_bought=$("#buy_div #price_right_now").val();
             data.amount=$("#buy_div #amount").val();
@@ -1104,7 +1104,8 @@ var Page = function () {
                     //console.log(JSON.stringify(json));
                     if(json.result_code==0) {
                         var record = json.aaData;
-                        record=record[0];
+                        var len = record.length - 1;
+                        record=record[len];
                         $("#buy_div #shares_id").val(record.shares_id);
                         $("#buy_div #shares_name").val(record.shares_name);
                         $("#buy_div #type").val("股票");

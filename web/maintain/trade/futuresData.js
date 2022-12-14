@@ -793,7 +793,8 @@ var Page = function() {
 					//console.log(JSON.stringify(json));
 					if(json.result_code==0) {
 						var record = json.aaData;
-						record=record[0];
+						var len = record.length - 1;
+						record=record[len];
 						$("#buy_div #futures_id").val(record.futures_id);
 						$("#buy_div #futures_name").val(record.futures_name);
 						$("#buy_div #type").val("期货");
