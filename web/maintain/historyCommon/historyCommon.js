@@ -121,7 +121,7 @@ var Page = function() {
 		data.device_name=$("#device_name").val();
 		$.post(url,data,function(json){
 			if(json.result_code==0){
-				alert("已经完成设备添加。");
+				alert("已经完成记录添加。");
 				window.location.href="user_list.jsp";
 			}
 		});
@@ -137,7 +137,7 @@ var Page = function() {
 			data.device_name=$("#device_name").val();
 			$.post(url,data,function(json){
 				if(json.result_code==0){
-					alert("已经完成设备修改。");
+					alert("已经完成记录修改。");
 					window.location.href="user_list.jsp";
 				}
 			});
@@ -161,8 +161,8 @@ var Page = function() {
 					for(var i=0;i<list.length;i++){
 						var record=list[i];
 						html=html+"<div>序号："+i+"<div>";
-						html=html+"<div>设备ID："+record.device_id+"<div>";
-						html=html+"<div>设备名称："+record.device_name+"<div>";
+						html=html+"<div>记录ID："+record.device_id+"<div>";
+						html=html+"<div>记录名称："+record.device_name+"<div>";
 						html=html+"<div><a href=\"javascript:Page.onModifyRecord("+record.id+")\">【修改记录】</a><a href=\"javascript:Page.onDeleteRecord("+record.id+")\">【删除记录】</a><div>";
 						html=html+"<p>";
 					}
@@ -407,7 +407,7 @@ var Page = function() {
 			}
 			$.post(url,data,function(json){
 				if(json.result_code==0){
-					alert("已经完成设备添加。");
+					alert("已经完成记录添加。");
 					$("#history_ad_add_div").modal("hide");
 					initHistoryAdDataRecordDatatable();
 				}
@@ -456,7 +456,7 @@ var Page = function() {
 			}
 			$.post(url,data,function(json){
 				if(json.result_code==0){
-					alert("已经完成设备修改。");
+					alert("已经完成记录修改。");
 					$("#history_ad_modify_div").modal("hide");
 					initHistoryAdDataRecordDatatable();
 				}
