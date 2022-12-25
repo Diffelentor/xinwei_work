@@ -373,8 +373,8 @@ public class ServletAction extends HttpServlet {
     }
     private void getExportHistoryAdRecordToFile(JSONObject json, Data data) throws JSONException {
         String jsonStr=json.toString();
-        File jsonFile = new File("D:\\upload\\teach\\yjykfsj2022\\XM06\\HistoryData.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
-        json.put("download_url1","/2022/XM06/upload/HistoryData.rar");
+        File jsonFile = new File("C:\\testUpload\\historyData.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
+        json.put("download_url1","/upload/maintain/device/historyData.rar");
         showDebug("准备下载");
         try{
             if(!jsonFile.exists()){
@@ -391,8 +391,8 @@ public class ServletAction extends HttpServlet {
     }
     private void getExportDeviceRecordToFile(JSONObject json, Data data) throws JSONException {
         String jsonStr=json.toString();
-        File jsonFile = new File("D:\\upload\\teach\\yjykfsj2022\\XM06\\PositionData.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
-        json.put("download_url1","/2022/XM06/upload/PositionData.rar");
+        File jsonFile = new File("C:\\testUpload\\PositionData.rar");		//是txt的时候浏览器会自动的显示出来，不会执行下载功能
+        json.put("download_url1","/upload/maintain/device/PositionData.rar");
         showDebug("准备下载");
         try{
             if(!jsonFile.exists()){
@@ -409,15 +409,15 @@ public class ServletAction extends HttpServlet {
     }
     //需要四个jar包的引入
     private void getExportHistoryAdRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
-        MyExcel me=new MyExcel("D:\\upload\\teach\\yjykfsj2022\\XM06\\HistoryData.xls");
-        json.put("download_url2","/2022/XM06/upload/HistoryData.xls");
-        json.put("file_path","D:\\upload\\teach\\yjykfsj2022\\XM06\\HistoryData.xls");
+        MyExcel me=new MyExcel("C:\\testUpload\\historyData.xls");
+        json.put("download_url2","/upload/maintain/device/historyData.xls");
+        json.put("file_path","C:\\testUpload\\historyData.xls");
         me.exportData(data,json);
     }
     private void getExportDeviceRecordToExcel(JSONObject json, Data data) throws JSONException, IOException {
-        MyExcel me=new MyExcel("D:\\upload\\teach\\yjykfsj2022\\XM06\\PositionData.xls");
-        json.put("download_url2","/2022/XM06/upload/PositionData.xls");
-        json.put("file_path","D:\\upload\\teach\\yjykfsj2022\\XM06\\PositionData.xls");
+        MyExcel me=new MyExcel("C:\\testUpload\\PositionData.xls");
+        json.put("download_url2","/upload/maintain/device/PositionData.xls");
+        json.put("file_path","C:\\testUpload\\PositionData.xls");
         me.exportData(data,json);
     }
 }
